@@ -3,6 +3,7 @@ using Systems.RunTime;
 using Db;
 using Helpers;
 using Infrastructure.Impl;
+using Services;
 using Signals;
 using UnityEngine;
 using Views;
@@ -23,19 +24,19 @@ namespace Installers
             Container.Bind<Camera>().FromInstance(mainCamera).AsSingle();
             Container.Bind<SceneHandler>().FromInstance(sceneHandler).AsSingle();
 
-            InstallSystems();
+            InstallGameSystems();
 
             BindAndCreateTowerView();
 
             Container.BindInterfacesAndSelfTo<EntityFactory>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<EnemySpawnSystem>().AsSingle().NonLazy();
+            Container.BindInterfacesAndSelfTo<EnemyService>().AsSingle().NonLazy();
+            Container.BindInterfacesAndSelfTo<EnemyMovingSystem>().AsSingle().NonLazy();
         }
 
-        private void InstallSystems()
+        private void InstallGameSystems()
         {
             Container.BindInterfacesAndSelfTo<GameInitializeSystem>().AsSingle().NonLazy();
-
-            Container.BindInterfacesAndSelfTo<TowerChangeRadiusSystem>().AsSingle().NonLazy();
         }
 
         private void InitializeSignals()
@@ -54,6 +55,9 @@ namespace Installers
             );
             
             Container.BindInterfacesAndSelfTo<TowerView>().FromInstance(towerView).AsSingle().NonLazy();
+            Container.BindInterfacesAndSelfTo<TowerAttackSystem>().AsSingle().NonLazy();
+            Container.BindInterfacesAndSelfTo<TowerInitializeSystem>().AsSingle().NonLazy();
+            Container.BindInterfacesAndSelfTo<TowerChangeRadiusSystem>().AsSingle().NonLazy();
         }
     }
 }

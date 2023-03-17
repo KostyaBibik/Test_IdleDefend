@@ -11,8 +11,10 @@ namespace Db
 
         [Space, Header("Start values")] 
         [SerializeField] private float rangeAttack;
+        [SerializeField] private float attackSpeed = .5f;
         
         public TowerView PrefabViewTower => prefabViewTower;
         public float RangeAttack => rangeAttack;
+        public float AttackSpeed => attackSpeed;
     }
 }

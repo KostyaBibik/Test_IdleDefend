@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e66fc4abdc68456e9b2855b077273dd1, type: 3}
   m_Name: EnemyPrefabsConfig
   m_EditorClassIdentifier: 
-  enemyView: {fileID: 0}
+  enemyView: {fileID: 4383343043573379246, guid: 7b7a7371503809c4db5c2a936634b7ad, type: 3}

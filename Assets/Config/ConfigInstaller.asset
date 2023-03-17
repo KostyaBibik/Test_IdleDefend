@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: ConfigInstaller
   m_EditorClassIdentifier: 
   towerConfigSettings: {fileID: 11400000, guid: 72a1ded048f1a464bbc7391fe8da9251, type: 2}
+  enemyPrefabsConfig: {fileID: 11400000, guid: 076ea9f0b71d03545ac8cdd03d3babe3, type: 2}
