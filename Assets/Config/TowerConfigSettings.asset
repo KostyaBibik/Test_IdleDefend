@@ -12,4 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e2ee9fd7f954c318207123807380c4b, type: 3}
   m_Name: TowerConfigSettings
   m_EditorClassIdentifier: 
-  prefabTower: {fileID: 408305403690095803, guid: aaeb844ec8c4f3b4e99fe35983456288, type: 3}
+  prefabViewTower: {fileID: 3483922683829673187, guid: aaeb844ec8c4f3b4e99fe35983456288, type: 3}
+  rangeAttack: 2

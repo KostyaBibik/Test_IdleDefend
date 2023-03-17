@@ -2,7 +2,6 @@
 using Db;
 using Helpers;
 using Signals;
-using Unity.Mathematics;
 using UnityEngine;
 using Zenject;
 using Object = UnityEngine.Object;
@@ -29,7 +28,7 @@ namespace Systems.Initializable
         private void InitializeTower(InitializeTowerSignal initializeTowerSignal)
         {
             Debug.Log("_sceneHandler.pos" + _sceneHandler.TowerPos.position);
-            Object.Instantiate(_towerConfigSettings.PrefabTower, _sceneHandler.TowerPos.position, Quaternion.identity);
+            Object.Instantiate(_towerConfigSettings.PrefabViewTower, _sceneHandler.TowerPos.position, Quaternion.identity);
         }
         
         public void Initialize()
