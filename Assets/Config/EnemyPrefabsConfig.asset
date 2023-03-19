@@ -13,3 +13,7 @@ MonoBehaviour:
   m_Name: EnemyPrefabsConfig
   m_EditorClassIdentifier: 
   enemyView: {fileID: 4383343043573379246, guid: 7b7a7371503809c4db5c2a936634b7ad, type: 3}
+  speedMoving: 0.3
+  spawnDelay: 1.5
+  rewardKillCoins: 50
+  killEnemyParticles: {fileID: 2028876363438471919, guid: 0d29b47327caa6646bcd79fa5efae742, type: 3}

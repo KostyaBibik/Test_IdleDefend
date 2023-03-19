@@ -1,12 +1,17 @@
-﻿using Systems.Initializable;
+﻿using Systems.Actions;
+using Systems.Initializable;
 using Systems.RunTime;
+using Systems.RunTime.Bullets;
+using Systems.RunTime.Enemies;
+using Systems.RunTime.Tower;
 using Db;
 using Helpers;
 using Infrastructure.Impl;
 using Services;
+using Services.Impl;
 using Signals;
 using UnityEngine;
-using Views;
+using Views.Impl;
 using Zenject;
 
 namespace Installers
@@ -29,20 +34,25 @@ namespace Installers
             BindAndCreateTowerView();
 
             Container.BindInterfacesAndSelfTo<EntityFactory>().AsSingle().NonLazy();
-            Container.BindInterfacesAndSelfTo<EnemySpawnSystem>().AsSingle().NonLazy();
-            Container.BindInterfacesAndSelfTo<EnemyService>().AsSingle().NonLazy();
-            Container.BindInterfacesAndSelfTo<EnemyMovingSystem>().AsSingle().NonLazy();
-        }
 
-        private void InstallGameSystems()
-        {
-            Container.BindInterfacesAndSelfTo<GameInitializeSystem>().AsSingle().NonLazy();
+            BindEnemyComponents();
+
+            BindBulletComponents();
+
+            BindServices();
         }
 
         private void InitializeSignals()
         {
             SignalBusInstaller.Install(Container);
             Container.DeclareSignal<InitializeTowerSignal>();
+            Container.DeclareSignal<GameLoseSignal>();
+        }
+        
+        private void InstallGameSystems()
+        {
+            Container.BindInterfacesAndSelfTo<GameInitializeSystem>().AsSingle().NonLazy();
+            Container.BindInterfacesAndSelfTo<LoseActionSystem>().AsSingle().NonLazy();
         }
 
         private void BindAndCreateTowerView()
@@ -58,6 +68,27 @@ namespace Installers
             Container.BindInterfacesAndSelfTo<TowerAttackSystem>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<TowerInitializeSystem>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<TowerChangeRadiusSystem>().AsSingle().NonLazy();
+        }
+        
+        private void BindEnemyComponents()
+        {
+            Container.BindInterfacesAndSelfTo<EnemySpawnInitializeSystem>().AsSingle().NonLazy();
+            Container.BindInterfacesAndSelfTo<EnemyService>().AsSingle().NonLazy();
+            Container.BindInterfacesAndSelfTo<EnemyMovingSystem>().AsSingle().NonLazy();
+            Container.BindInterfacesAndSelfTo<EnemyCheckToLoseSystem>().AsSingle().NonLazy();
+        }
+        
+        private void BindBulletComponents()
+        {
+            Container.BindInterfacesAndSelfTo<BulletService>().AsSingle().NonLazy();
+            Container.BindInterfacesAndSelfTo<BulletMovingSystem>().AsSingle().NonLazy();
+            Container.BindInterfacesAndSelfTo<BulletHitSystem>().AsSingle().NonLazy();
+        }
+        
+        private void BindServices()
+        {
+            Container.BindInterfacesAndSelfTo<UpgradeService>().AsSingle();
+            Container.BindInterfacesAndSelfTo<CoinService>().AsSingle();
         }
     }
 }

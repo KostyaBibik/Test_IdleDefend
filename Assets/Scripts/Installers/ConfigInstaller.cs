@@ -10,11 +10,15 @@ namespace Installers
     {
         [SerializeField] private TowerConfigSettings towerConfigSettings;
         [SerializeField] private EnemyPrefabsConfig enemyPrefabsConfig;
-
+        [SerializeField] private BulletConfigSettings bulletConfigSettings;
+        [SerializeField] private UpgradeTowerConfigSettings upgradeTowerConfigSettings;
+        
         public override void InstallBindings()
         {
             Container.BindInstance(towerConfigSettings);
             Container.BindInstance(enemyPrefabsConfig);
+            Container.BindInstance(bulletConfigSettings);
+            Container.BindInstance(upgradeTowerConfigSettings);
         }
     }
 }

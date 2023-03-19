@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using Views;
+using Views.Impl;
 
 namespace Db
 {
@@ -12,9 +13,11 @@ namespace Db
         [Space, Header("Start values")] 
         [SerializeField] private float rangeAttack;
         [SerializeField] private float attackSpeed = .5f;
+        [SerializeField] private int attackValue = 50;
         
         public TowerView PrefabViewTower => prefabViewTower;
         public float RangeAttack => rangeAttack;
         public float AttackSpeed => attackSpeed;
+        public int AttackValue => attackValue;
     }
 }

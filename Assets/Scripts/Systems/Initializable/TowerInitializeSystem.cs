@@ -1,5 +1,6 @@
 ﻿using Db;
 using Views;
+using Views.Impl;
 using Zenject;
 
 namespace Systems.Initializable
@@ -22,6 +23,7 @@ namespace Systems.Initializable
         {
             _towerView.attackDistance = _towerConfigSettings.RangeAttack;
             _towerView.attackSpeed = _towerConfigSettings.AttackSpeed;
+            _towerView.attackValue = _towerConfigSettings.AttackValue;
         }
     }
 }

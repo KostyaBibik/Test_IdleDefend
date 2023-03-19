@@ -1,21 +1,33 @@
 ﻿using UI.Systems;
+using UI.Views;
+using UI.Views.Upgradable;
 using UnityEngine;
-using UnityEngine.UI;
 using Zenject;
 
 namespace Installers
 {
     public class UiInstaller : MonoInstaller
     {
-        [SerializeField] private Button upRadiusBtn;
-        [SerializeField] private Button downRadiusBtn;
+        [SerializeField] private UpgradeViewsHandler upgradeViewsHandler;
+        [SerializeField] private CoinsUiView coinsUiView;
         
         public override void InstallBindings()
         {
             Container
-                .BindInterfacesAndSelfTo<ChangeRadiusInputSystem>()
+                .BindInterfacesAndSelfTo<UpgradeViewsHandler>()
+                .FromInstance(upgradeViewsHandler)
                 .AsSingle()
-                .WithArguments(upRadiusBtn, downRadiusBtn)
+                .NonLazy();
+            
+            Container
+                .BindInterfacesAndSelfTo<UpgradeInputSystem>()
+                .AsSingle()
+                .NonLazy();
+            
+            Container
+                .BindInterfacesAndSelfTo<CoinsUiView>()
+                .FromInstance(coinsUiView)
+                .AsSingle()
                 .NonLazy();
         }
     }
