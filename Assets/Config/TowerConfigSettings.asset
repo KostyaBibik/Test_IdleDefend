@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefabViewTower: {fileID: 3483922683829673187, guid: aaeb844ec8c4f3b4e99fe35983456288, type: 3}
   rangeAttack: 2
-  attackSpeed: 0.8
-  attackValue: 50
+  attackSpeed: 1.2
+  attackValue: 70

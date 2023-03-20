@@ -1,18 +1,16 @@
 ﻿using System;
-using UnityEngine;
 using Zenject;
 
 namespace Services
 {
     public class CoinService : IInitializable
     {
-        private int countCoins;
+        private int countCoins = 400;
 
         public Action<int> onUpdateCountCoins;
 
         public void AddCoins(int count)
         {
-            Debug.Log($"Add coins {count}");
             countCoins += count;
             onUpdateCountCoins?.Invoke(countCoins);
         }

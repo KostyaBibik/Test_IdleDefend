@@ -71,7 +71,7 @@ namespace Systems.RunTime.Tower
         private bool CheckOnDistanceAttack(Vector3 enemyPos)
         {
             var distance = Vector3.Distance(enemyPos, _towerView.transform.position);
-            return distance <= _towerView.attackDistance;
+            return distance <= _towerView.attackDistance * _towerView.ratioRange;
         }
 
         private IEnumerator Reload()

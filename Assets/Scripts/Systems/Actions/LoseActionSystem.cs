@@ -1,6 +1,5 @@
 ﻿using System;
 using Signals;
-using UnityEngine;
 using Zenject;
 
 namespace Systems.Actions
@@ -10,9 +9,7 @@ namespace Systems.Actions
         private readonly SignalBus _signalBus;
         private bool _lose;
         
-        public LoseActionSystem(
-            SignalBus signalBus
-            )
+        public LoseActionSystem(SignalBus signalBus)
         {
             _signalBus = signalBus;
         }

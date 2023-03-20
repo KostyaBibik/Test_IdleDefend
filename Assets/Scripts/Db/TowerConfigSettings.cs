@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using Views;
 using Views.Impl;
 
 namespace Db
