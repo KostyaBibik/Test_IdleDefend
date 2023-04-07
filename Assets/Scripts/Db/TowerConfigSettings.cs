@@ -13,10 +13,12 @@ namespace Db
         [SerializeField] private float rangeAttack;
         [SerializeField] private float attackSpeed = .5f;
         [SerializeField] private int attackValue = 50;
+        [SerializeField] private int startHealthCount = 1;
         
         public TowerView PrefabViewTower => prefabViewTower;
         public float RangeAttack => rangeAttack;
         public float AttackSpeed => attackSpeed;
         public int AttackValue => attackValue;
+        public int StartHealthCount => startHealthCount;
     }
 }

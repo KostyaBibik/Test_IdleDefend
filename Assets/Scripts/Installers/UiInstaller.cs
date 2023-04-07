@@ -10,6 +10,7 @@ namespace Installers
     {
         [SerializeField] private UpgradeViewsHandler upgradeViewsHandler;
         [SerializeField] private CoinsUiView coinsUiView;
+        [SerializeField] private TowerHealthView towerHealthView;
         
         public override void InstallBindings()
         {
@@ -27,6 +28,12 @@ namespace Installers
             Container
                 .BindInterfacesAndSelfTo<CoinsUiView>()
                 .FromInstance(coinsUiView)
+                .AsSingle()
+                .NonLazy();
+            
+            Container
+                .BindInterfacesAndSelfTo<TowerHealthView>()
+                .FromInstance(towerHealthView)
                 .AsSingle()
                 .NonLazy();
         }

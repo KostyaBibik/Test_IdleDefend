@@ -4,6 +4,7 @@ using Systems.RunTime;
 using Systems.RunTime.Bullets;
 using Systems.RunTime.Enemies;
 using Systems.RunTime.Tower;
+using Components.Tower;
 using Db;
 using Helpers;
 using Infrastructure.Impl;
@@ -47,12 +48,17 @@ namespace Installers
             SignalBusInstaller.Install(Container);
             Container.DeclareSignal<InitializeTowerSignal>();
             Container.DeclareSignal<GameLoseSignal>();
+            Container.DeclareSignal<TowerLostHealthSignal>();
+            Container.DeclareSignal<TowerAddHealthSignal>();
+            Container.DeclareSignal<DestroyEntitySignal>();
+            Container.DeclareSignal<ShowRewardOnFieldSignal>();
         }
         
         private void InstallGameSystems()
         {
             Container.BindInterfacesAndSelfTo<GameInitializeSystem>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<LoseActionSystem>().AsSingle().NonLazy();
+            Container.BindInterfacesAndSelfTo<ShowRewardSystem>().AsSingle().NonLazy();
         }
 
         private void BindAndCreateTowerView()
@@ -68,6 +74,9 @@ namespace Installers
             Container.BindInterfacesAndSelfTo<TowerAttackSystem>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<TowerInitializeSystem>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<TowerChangeRadiusSystem>().AsSingle().NonLazy();
+            Container.BindInterfacesAndSelfTo<TowerChangeHealthSystem>().AsSingle().NonLazy();
+            var healthComponent = Container.InstantiateComponent<TowerHealthComponent>(towerView.gameObject);
+            Container.BindInterfacesAndSelfTo<TowerHealthComponent>().FromInstance(healthComponent).AsSingle().NonLazy();
         }
         
         private void BindEnemyComponents()

@@ -12,12 +12,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d2e312b13544e2fa298dff2f11a1c38, type: 3}
   m_Name: UpgradeTowerConfigSettings
   m_EditorClassIdentifier: 
-  upgradeRangeAttack: 0.15
-  upgradeAttackSpeed: 0.1
-  upgradeAttackDamage: 10
-  startCostRadiusUpgrade: 50
-  startCostAttackSpeedUpgrade: 50
-  startCostAttackValueUpgrade: 50
-  costRangeUpgrade: 10
-  costAttackSpeedUpgrade: 10
-  costAttackValueUpgrade: 10
+  containers:
+  - upgradeType: 1
+    upgradeValue: 0.15
+    startCost: 15
+    costUpgrade: 10
+  - upgradeType: 2
+    upgradeValue: 0.1
+    startCost: 15
+    costUpgrade: 10
+  - upgradeType: 3
+    upgradeValue: 10
+    startCost: 15
+    costUpgrade: 10
+  - upgradeType: 4
+    upgradeValue: 1
+    startCost: 15
+    costUpgrade: 0

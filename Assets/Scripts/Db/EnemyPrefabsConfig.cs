@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
+using Enums;
+using UnityEngine;
 using Views.Impl;
 
 namespace Db
@@ -7,16 +9,32 @@ namespace Db
         fileName = nameof(EnemyPrefabsConfig))]
     public class EnemyPrefabsConfig : ScriptableObject
     {
-        [SerializeField] private EnemyView enemyView;
-        [SerializeField] private float speedMoving;
         [SerializeField] private float spawnDelay;
-        [SerializeField] private int rewardKillCoins = 50;
-        [SerializeField] private ParticleSystem killEnemyParticles;
-        
-        public EnemyView EnemyView => enemyView;
-        public float SpeedMoving => speedMoving;
+        [Space]
+        [SerializeField] private EnemyPrefab[] prefabs;
+
         public float SpawnDelay => spawnDelay;
-        public int RewardKillCoins => rewardKillCoins;
-        public ParticleSystem KillEnemyParticles => killEnemyParticles;
+        public int CountPrefabs => prefabs.Length;
+        
+        public EnemyPrefab GetPrefab(EEnemyType type)
+        {
+            foreach (var prefab in prefabs)
+            {
+                if (prefab.type == type)
+                    return prefab;
+            }
+
+            throw new Exception($"[EnemyPrefabsConfig] Can't find prefab with type: {type}");
+        }
+        
+        [Serializable]
+        public class EnemyPrefab
+        {
+            public EEnemyType type;
+            public EnemyView view;
+            public float speedMoving;
+            public int rewardKillCoins;
+            public ParticleSystem killEnemyParticles;
+        }
     }
 }

@@ -1,7 +1,7 @@
-﻿using Components.Impl;
+﻿using Components.Enemy;
 using Db;
+using Enums;
 using Installers;
-using Services;
 using Services.Impl;
 using UnityEngine;
 using Views;
@@ -29,9 +29,10 @@ namespace Infrastructure.Impl
             _bulletService = bulletService;
         }
         
-        public void CreateEnemy(Vector3 posSpawn)
+        public void CreateEnemy(Vector3 posSpawn, EEnemyType type)
         {
-            var enemyView = DiContainerRef.Container.InstantiatePrefabForComponent<EnemyView>(_enemyPrefabsConfig.EnemyView);
+            var enemyPrefab = _enemyPrefabsConfig.GetPrefab(type);
+            var enemyView = DiContainerRef.Container.InstantiatePrefabForComponent<EnemyView>(enemyPrefab.view);
             var enemyTransform = enemyView.transform;
             enemyTransform.position = posSpawn;
             enemyTransform.rotation = Quaternion.identity;
@@ -39,6 +40,7 @@ namespace Infrastructure.Impl
                 DiContainerRef.Container.InstantiateComponent<EnemyHealthComponent>(enemyView.gameObject);
             healthComponent.Initialize(100, 100, enemyView.HealthSlider, enemyView);
             enemyView.healthComponent = healthComponent;
+            enemyView.type = type;
             _enemyService.AddEntityOnService(enemyView);
         }
 

@@ -6,5 +6,6 @@ namespace Views.Impl
     {
         [HideInInspector] public EnemyView target;
         [HideInInspector] public int damage;
+        public bool isDestroyed { get; set; }
     }
 }

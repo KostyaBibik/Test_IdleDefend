@@ -1,27 +1,35 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Db;
+using Enums;
+using Signals;
 using UnityEngine;
 using Views;
 using Views.Impl;
+using Zenject;
+using Object = UnityEngine.Object;
 
 namespace Services.Impl
 {
-    public class EnemyService : IEntityService
+    public class EnemyService : IEntityService, IInitializable, IDisposable
     {
         private const float delayBeforeClearParticle = 1.5f;
         
         private readonly List<EnemyView> enemies = new List<EnemyView>();
         private readonly CoinService _coinService;
         private readonly EnemyPrefabsConfig _enemyPrefabsConfig;
-
+        private readonly SignalBus _signalBus;
+        
         public EnemyService(
             CoinService coinService,
-            EnemyPrefabsConfig enemyPrefabsConfig
+            EnemyPrefabsConfig enemyPrefabsConfig,
+            SignalBus signalBus
             )
         {
             _coinService = coinService;
             _enemyPrefabsConfig = enemyPrefabsConfig;
+            _signalBus = signalBus;
         }
         
         public List<EnemyView> Enemies => enemies;
@@ -36,18 +44,29 @@ namespace Services.Impl
             enemies.Add((EnemyView)entityView);
         }
 
-        public void RemoveEntityFromService(IEntityView entityView)
+        public void RemoveEntityFromService(DestroyEntitySignal signal)
         {
-            var view = (EnemyView) entityView;
+            var view = (EnemyView)signal.view;
             if (enemies.Contains(view))
             {
-                _coinService.AddCoins(_enemyPrefabsConfig.RewardKillCoins);
+                var enemyPrefab = _enemyPrefabsConfig.GetPrefab(view.type);
+                _coinService.AddCoins(enemyPrefab.rewardKillCoins);
                 enemies.Remove(view);
-                var particles = Object.Instantiate(_enemyPrefabsConfig.KillEnemyParticles.gameObject,
+                var particles = Object.Instantiate(enemyPrefab.killEnemyParticles,
                     view.transform.position, Quaternion.identity);
                 Object.Destroy(particles, delayBeforeClearParticle);
                 Object.Destroy(view.gameObject);
             }
+        }
+
+        public void Initialize()
+        {
+            _signalBus.Subscribe<DestroyEntitySignal>(RemoveEntityFromService);
+        }
+
+        public void Dispose()
+        {
+            _signalBus.Unsubscribe<DestroyEntitySignal>(RemoveEntityFromService);
         }
     }
 }

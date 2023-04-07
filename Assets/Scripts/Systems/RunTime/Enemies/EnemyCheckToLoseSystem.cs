@@ -28,16 +28,29 @@ namespace Systems.RunTime.Enemies
         {
             foreach (var enemy in _enemyService.Enemies)
             {
-                CheckDistanceToTower(enemy.transform.position);
+                if(enemy.isDestroyed)
+                    continue;
+                
+                if (CheckOnAttackRange(enemy))
+                    break;
             }
         }
 
-        private void CheckDistanceToTower(Vector3 enemyPos)
+        private bool CheckOnAttackRange(EnemyView enemyView)
         {
+            var enemyPos = enemyView.transform.position;
             if(Vector3.Distance(_towerView.transform.position, enemyPos) < checkDistance)
             {
-                _signalBus.Fire<GameLoseSignal>();
+               _signalBus.Fire(new TowerLostHealthSignal
+               {
+                   damageCount = 1
+               });
+               
+               enemyView.healthComponent.ForcedDestroy();
+               return true;
             }
+
+            return false;
         }
     }
 }

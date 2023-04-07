@@ -1,4 +1,7 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections.Generic;
+using Enums;
+using UnityEngine;
 
 namespace Db
 {
@@ -6,31 +9,27 @@ namespace Db
         fileName = nameof(UpgradeTowerConfigSettings))]
     public class UpgradeTowerConfigSettings : ScriptableObject
     {
-        [Header("Upgrade values")] 
-        [SerializeField] private float upgradeRangeAttack = .15f;
-        [SerializeField] private float upgradeAttackSpeed = .1f;
-        [SerializeField] private int upgradeAttackDamage = 10;
+        [SerializeField] private List<UpgradeContainer> containers;
         
-        [Space, Header("Start cost upgrade")]
-        [SerializeField] private int startCostRadiusUpgrade = 50;
-        [SerializeField] private int startCostAttackSpeedUpgrade = 50;
-        [SerializeField] private int startCostAttackDamageUpgrade = 50;
         
-        [Space, Header("Cost upgrade")]
-        [SerializeField] private int costRangeUpgrade = 10;
-        [SerializeField] private int costAttackSpeedUpgrade = 10;
-        [SerializeField] private int costAttackDamageUpgrade = 10;
+        public UpgradeContainer GetContainer(EUpgradeType upgradeType)
+        {
+            foreach (var container in containers)
+            {
+                if (container.upgradeType == upgradeType)
+                    return container;
+            }
+
+            throw new Exception($"[UpgradeTowerConfigSettings] Can't find UpgradeContainer with type: {upgradeType}");
+        }
         
-        public float UpgradeRangeAttack => upgradeRangeAttack;
-        public float UpgradeAttackSpeed => upgradeAttackSpeed;
-        public int UpgradeAttackDamage => upgradeAttackDamage;
-        
-        public int CostRangeUpgrade => costRangeUpgrade;
-        public int CostAttackSpeedUpgrade => costAttackSpeedUpgrade;
-        public int CostAttackDamageUpgrade => costAttackDamageUpgrade;
-        
-        public int StartCostRadiusUpgrade => startCostRadiusUpgrade;
-        public int StartCostAttackSpeedUpgrade => startCostAttackSpeedUpgrade;
-        public int StartCostAttackDamageUpgrade => startCostAttackDamageUpgrade;
+        [Serializable]
+        public struct UpgradeContainer
+        {
+            public EUpgradeType upgradeType;
+            public float upgradeValue;
+            public int startCost;
+            public int costUpgrade;
+        }
     }
 }

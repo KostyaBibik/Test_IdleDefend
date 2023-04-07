@@ -3,8 +3,9 @@
     public enum EUpgradeType
     {
         None, 
-        Radius,
+        RangeAttack,
         AttackSpeed,
-        AttackDamage
+        AttackDamage,
+        UpHealth
     }
 }

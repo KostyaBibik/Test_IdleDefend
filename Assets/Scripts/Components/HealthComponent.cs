@@ -43,6 +43,11 @@ namespace Components
             }
         }
 
+        public void ForcedDestroy()
+        {
+            Die();
+        }
+
         public void ReduceAssumedHealth(int amount)
         {
             _assumedHealthValue -= amount;
@@ -53,7 +58,10 @@ namespace Components
             return _assumedHealthValue > 0;
         }
         
-        protected virtual void Die() { }
+        protected virtual void Die()
+        {
+            _entityView.isDestroyed = true;
+        }
         
         public int GetHealth()
         {

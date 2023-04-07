@@ -1,10 +1,13 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using Db;
+using Enums;
 using Helpers;
 using Infrastructure.Impl;
 using UniRx;
 using UnityEngine;
 using Zenject;
+using Random = UnityEngine.Random;
 
 namespace Systems.Initializable
 {
@@ -35,8 +38,11 @@ namespace Systems.Initializable
 
                 var distanceFromCenter = Random.Range(3f, 5f);
                 var randomPoint = _sceneHandler.TowerPos.position + new Vector3(Random.value - 0.5f, Random.value - 0.5f, 0f).normalized * distanceFromCenter;
+
+                var randomTypeCounter = Random.Range(0, _enemyPrefabsConfig.CountPrefabs);
+                var randomType = (EEnemyType)Enum.GetValues(typeof(EEnemyType)).GetValue(randomTypeCounter);
                 
-                _entityFactory.CreateEnemy(randomPoint);
+                _entityFactory.CreateEnemy(randomPoint, randomType);
             } while (true);
         }
 

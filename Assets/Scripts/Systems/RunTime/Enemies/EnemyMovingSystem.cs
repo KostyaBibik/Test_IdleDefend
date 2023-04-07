@@ -1,4 +1,5 @@
 ﻿using Db;
+using Enums;
 using Services.Impl;
 using UnityEngine;
 using Views.Impl;
@@ -37,7 +38,8 @@ namespace Systems.RunTime
         {
             var enemyPos = enemy.transform.position;
             var towerPos = _towerView.transform.position;
-            var speedMoving = _enemyPrefabsConfig.SpeedMoving;
+            var enemyPrefab = _enemyPrefabsConfig.GetPrefab(enemy.type);
+            var speedMoving = enemyPrefab.speedMoving;
             
             enemy.transform.position = Vector3.MoveTowards(
                 enemyPos, 

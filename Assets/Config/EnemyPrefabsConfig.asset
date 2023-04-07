@@ -12,8 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e66fc4abdc68456e9b2855b077273dd1, type: 3}
   m_Name: EnemyPrefabsConfig
   m_EditorClassIdentifier: 
-  enemyView: {fileID: 4383343043573379246, guid: 7b7a7371503809c4db5c2a936634b7ad, type: 3}
-  speedMoving: 0.3
-  spawnDelay: 1.5
-  rewardKillCoins: 50
-  killEnemyParticles: {fileID: 2028876363438471919, guid: 0d29b47327caa6646bcd79fa5efae742, type: 3}
+  spawnDelay: 3
+  prefabs:
+  - type: 0
+    view: {fileID: 8633028733757129972, guid: b19248811d8f90349a3f8632ec28fecb, type: 3}
+    speedMoving: 0.3
+    rewardKillCoins: 50
+    killEnemyParticles: {fileID: 2028876363438471919, guid: 0d29b47327caa6646bcd79fa5efae742, type: 3}
+  - type: 1
+    view: {fileID: 1230293138181742960, guid: 8f1cbe05f094798438f0e61269f1580f, type: 3}
+    speedMoving: 0.65
+    rewardKillCoins: 100
+    killEnemyParticles: {fileID: 2028876363438471919, guid: 0d29b47327caa6646bcd79fa5efae742, type: 3}

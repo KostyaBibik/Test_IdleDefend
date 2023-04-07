@@ -12,5 +12,6 @@ namespace Views.Impl
         [HideInInspector] public int attackValue;
         
         public Transform Sphere => sphere;
+        public bool isDestroyed { get; set; }
     }
 }
