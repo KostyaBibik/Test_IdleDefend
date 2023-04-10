@@ -51,7 +51,7 @@ namespace Installers
             Container.DeclareSignal<TowerLostHealthSignal>();
             Container.DeclareSignal<TowerAddHealthSignal>();
             Container.DeclareSignal<DestroyEntitySignal>();
-            Container.DeclareSignal<ShowRewardOnFieldSignal>();
+            Container.DeclareSignal<ShowRewardSignal>();
         }
         
         private void InstallGameSystems()
@@ -59,6 +59,7 @@ namespace Installers
             Container.BindInterfacesAndSelfTo<GameInitializeSystem>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<LoseActionSystem>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<ShowRewardSystem>().AsSingle().NonLazy();
+            Container.BindInterfacesAndSelfTo<ShakeCamOnDamageSystem>().AsSingle().NonLazy();
         }
 
         private void BindAndCreateTowerView()
@@ -84,7 +85,7 @@ namespace Installers
             Container.BindInterfacesAndSelfTo<EnemySpawnInitializeSystem>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<EnemyService>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<EnemyMovingSystem>().AsSingle().NonLazy();
-            Container.BindInterfacesAndSelfTo<EnemyCheckToLoseSystem>().AsSingle().NonLazy();
+            Container.BindInterfacesAndSelfTo<EnemyCheckToHitSystem>().AsSingle().NonLazy();
         }
         
         private void BindBulletComponents()

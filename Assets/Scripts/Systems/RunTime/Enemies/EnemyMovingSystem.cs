@@ -49,7 +49,6 @@ namespace Systems.RunTime
             var angle = Mathf.Atan2(towerPos.y - enemyPos.y, towerPos.x - enemyPos.x ) * Mathf.Rad2Deg;
             var targetRotation = Quaternion.Euler(new Vector3(0, 0, angle));
             enemy.Mesh.rotation = Quaternion.RotateTowards(enemy.Mesh.rotation, targetRotation, speedRotating * Time.deltaTime);
-           
         }
     }
 }

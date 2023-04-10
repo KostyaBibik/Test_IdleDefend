@@ -7,6 +7,7 @@ namespace Components
     public abstract class HealthComponent : MonoBehaviour, IHealable
     {
         protected IEntityView _entityView;
+        protected bool _hasReward = true;
         
         private Slider _healthSlider;
         private int _maxHealthValue;
@@ -43,8 +44,9 @@ namespace Components
             }
         }
 
-        public void ForcedDestroy()
+        public void DestroyOnAttackTower()
         {
+            _hasReward = false;
             Die();
         }
 

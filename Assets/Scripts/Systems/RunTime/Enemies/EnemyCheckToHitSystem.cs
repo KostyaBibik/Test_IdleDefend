@@ -6,14 +6,14 @@ using Zenject;
 
 namespace Systems.RunTime.Enemies
 {
-    public class EnemyCheckToLoseSystem : ITickable
+    public class EnemyCheckToHitSystem : ITickable
     {
         private readonly EnemyService _enemyService;
         private readonly TowerView _towerView;
         private readonly SignalBus _signalBus;
         private const float checkDistance = 0.01f;
 
-        public EnemyCheckToLoseSystem(
+        public EnemyCheckToHitSystem(
             EnemyService enemyService,
             TowerView towerView,
             SignalBus signalBus
@@ -46,7 +46,7 @@ namespace Systems.RunTime.Enemies
                    damageCount = 1
                });
                
-               enemyView.healthComponent.ForcedDestroy();
+               enemyView.healthComponent.DestroyOnAttackTower();
                return true;
             }
 

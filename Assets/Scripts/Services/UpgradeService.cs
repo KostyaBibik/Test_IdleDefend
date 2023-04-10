@@ -1,7 +1,12 @@
-﻿using Systems.Actions;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Systems.Actions;
+using Components;
 using Db;
 using Enums;
 using Signals;
+using UI.Views;
 using UI.Views.Upgradable;
 using Views.Impl;
 using Zenject;
@@ -16,11 +21,14 @@ namespace Services
         private readonly SignalBus _signalBus;
         private readonly CoinService _coinService;
         private readonly TowerView _towerView;
-
+        private readonly TowerHealthHandler _towerHealthHandler;
+        
         private int costUpgradeRangeAttack;
         private int costUpgradeAttackSpeed;
         private int costUpgradeAttackDamage;
         private int costUpHealth;
+
+        private List<DateContainer> _dateContainers = new List<DateContainer>();
         
         public UpgradeService(
             TowerChangeRadiusSystem towerChangeRadiusSystem,
@@ -28,7 +36,8 @@ namespace Services
             UpgradeTowerConfigSettings upgradeTowerConfigSettings,
             SignalBus signalBus,
             CoinService coinService,
-            TowerView towerView
+            TowerView towerView,
+            TowerHealthHandler towerHealthHandler
             )
         {
             _towerChangeRadiusSystem = towerChangeRadiusSystem;
@@ -37,11 +46,23 @@ namespace Services
             _signalBus = signalBus;
             _coinService = coinService;
             _towerView = towerView;
+            _towerHealthHandler = towerHealthHandler;
         }
 
         public void InvokeUpgrade(EUpgradeType upgradeType)
         {
             var typeContainer = _upgradeTowerConfigSettings.GetContainer(upgradeType);
+
+            var date = new DateContainer();
+            foreach (var dateContainer in _dateContainers)
+            {
+                if (dateContainer.upgradeContainer.upgradeType == typeContainer.upgradeType)
+                {
+                    date = dateContainer;
+                    break;
+                }
+            }
+
             switch (upgradeType)
             {
                 case EUpgradeType.None:
@@ -49,47 +70,50 @@ namespace Services
                 
                 case EUpgradeType.RangeAttack:
                 {
-                    if(!_coinService.TryBought(costUpgradeRangeAttack))
+                    if(!_coinService.TryBought(date.currentCostUp))
                         break;
                     
-                    _towerChangeRadiusSystem.UpRadius(typeContainer.upgradeValue);
-                    costUpgradeRangeAttack += typeContainer.costUpgrade;
-                    _upgradeViewsHandler.GetViewByType(EUpgradeType.RangeAttack).SetCost(costUpgradeRangeAttack);
+                    _towerChangeRadiusSystem.UpRadius(date.upgradeContainer.upgradeValue);
+                    date.currentCostUp += date.upgradeContainer.costUpgrade;
+                    _upgradeViewsHandler.GetViewByType(date.upgradeContainer.upgradeType).SetCost(date.currentCostUp);
                     
                     break;
                 }
                 case EUpgradeType.AttackSpeed:
                 {
-                    if(!_coinService.TryBought(costUpgradeAttackSpeed))
+                    if(!_coinService.TryBought(date.currentCostUp))
                         break;
                     
-                    costUpgradeAttackSpeed += typeContainer.costUpgrade;
-                    _towerView.attackSpeed += typeContainer.upgradeValue;
-                    _upgradeViewsHandler.GetViewByType(EUpgradeType.AttackSpeed).SetCost(costUpgradeAttackSpeed);
+                    date.currentCostUp += date.upgradeContainer.costUpgrade;
+                    _towerView.attackSpeed += date.upgradeContainer.upgradeValue;
+                    _upgradeViewsHandler.GetViewByType(date.upgradeContainer.upgradeType).SetCost(date.currentCostUp);
                     break;
                 }
                 case EUpgradeType.AttackDamage:
                 {
-                    if(!_coinService.TryBought(costUpgradeAttackDamage))
+                    if(!_coinService.TryBought(date.currentCostUp))
                         break;
                     
-                    costUpgradeAttackDamage += typeContainer.costUpgrade;
-                    _towerView.attackValue += (int)typeContainer.upgradeValue;
-                    _upgradeViewsHandler.GetViewByType(EUpgradeType.AttackDamage).SetCost(costUpgradeAttackDamage);
+                    date.currentCostUp += date.upgradeContainer.costUpgrade;
+                    _towerView.attackValue += (int)date.upgradeContainer.upgradeValue;
+                    _upgradeViewsHandler.GetViewByType(date.upgradeContainer.upgradeType).SetCost(date.currentCostUp);
                     break;
                 }
                 case EUpgradeType.UpHealth:
                 {
-                    if(!_coinService.TryBought(costUpHealth))
+                    if(!_towerHealthHandler.CanUpHealth())
                         break;
                     
-                    _signalBus.Fire(new TowerAddHealthSignal()
+                    if(!_coinService.TryBought(date.currentCostUp))
+                        break;
+                    
+                    _signalBus.Fire(new TowerAddHealthSignal
                     {
                         additiveCount = 1
                     });
                     
-                    costUpHealth += typeContainer.costUpgrade;
-                    _upgradeViewsHandler.GetViewByType(EUpgradeType.UpHealth).SetCost(costUpHealth);
+                    date.currentCostUp += date.upgradeContainer.costUpgrade;
+                    _upgradeViewsHandler.GetViewByType(date.upgradeContainer.upgradeType).SetCost(date.currentCostUp);
                     break;
                 }
             }
@@ -97,22 +121,27 @@ namespace Services
 
         public void Initialize()
         {
-            var startRangeAttackCost = _upgradeTowerConfigSettings.GetContainer(EUpgradeType.RangeAttack).startCost;
-            var startAttackDamageCost = _upgradeTowerConfigSettings.GetContainer(EUpgradeType.AttackDamage).startCost;
-            var startAttackSpeedCost = _upgradeTowerConfigSettings.GetContainer(EUpgradeType.AttackSpeed).startCost;
-            var startUpHealthCost = _upgradeTowerConfigSettings.GetContainer(EUpgradeType.UpHealth).startCost;
-            
-            costUpgradeRangeAttack = startRangeAttackCost;
-            _upgradeViewsHandler.GetViewByType(EUpgradeType.RangeAttack).SetCost(costUpgradeRangeAttack);
+            foreach (var enumType in Enum.GetValues(typeof(EUpgradeType)).Cast<EUpgradeType>().ToList())
+            {
+                if(enumType == EUpgradeType.None)
+                    continue;
+                
+                var container = _upgradeTowerConfigSettings.GetContainer(enumType);
+                var dateContainer = new DateContainer
+                {
+                    upgradeContainer = container,
+                    currentCostUp = container.startCost
+                };
+                
+                _dateContainers.Add(dateContainer);
+                _upgradeViewsHandler.GetViewByType(enumType).SetCost(container.startCost);
+            }
+        }
 
-            costUpgradeAttackSpeed = startAttackSpeedCost;
-            _upgradeViewsHandler.GetViewByType(EUpgradeType.AttackSpeed).SetCost(costUpgradeAttackSpeed);
-            
-            costUpgradeAttackDamage = startAttackDamageCost;
-            _upgradeViewsHandler.GetViewByType(EUpgradeType.AttackDamage).SetCost(costUpgradeAttackDamage);
-            
-            costUpHealth = startUpHealthCost;
-            _upgradeViewsHandler.GetViewByType(EUpgradeType.UpHealth).SetCost(costUpHealth);
+        private class DateContainer
+        {
+            public UpgradeContainer upgradeContainer;
+            public int currentCostUp;
         }
     }
 }

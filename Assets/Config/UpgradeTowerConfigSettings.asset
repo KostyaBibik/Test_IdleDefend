@@ -27,5 +27,5 @@ MonoBehaviour:
     costUpgrade: 10
   - upgradeType: 4
     upgradeValue: 1
-    startCost: 15
-    costUpgrade: 0
+    startCost: 150
+    costUpgrade: 50

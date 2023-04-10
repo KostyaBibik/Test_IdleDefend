@@ -16,3 +16,5 @@ MonoBehaviour:
   enemyPrefabsConfig: {fileID: 11400000, guid: 076ea9f0b71d03545ac8cdd03d3babe3, type: 2}
   bulletConfigSettings: {fileID: 11400000, guid: b20eb1d1afd4d714eaf9f63851e7da09, type: 2}
   upgradeTowerConfigSettings: {fileID: 11400000, guid: 2332d46939cbb554c880ab58ea429c24, type: 2}
+  levelConfigSettings: {fileID: 0}
+  visualEffectsSettings: {fileID: 11400000, guid: 8ab4d57cd34e30b459eb924c5b6ac7dc, type: 2}

@@ -13,7 +13,9 @@ MonoBehaviour:
   m_Name: TowerConfigSettings
   m_EditorClassIdentifier: 
   prefabViewTower: {fileID: 3483922683829673187, guid: aaeb844ec8c4f3b4e99fe35983456288, type: 3}
+  towerHealthView: {fileID: -1616105500782642185, guid: cec45c8496692cd49832ba244c757b8d, type: 3}
   rangeAttack: 2
   attackSpeed: 1.2
   attackValue: 0
-  startHealthCount: 3
+  startHealthCount: 1
+  maxHealthCounts: 3

@@ -17,7 +17,8 @@ namespace Components.Enemy
         {
             _signalBus.Fire(new DestroyEntitySignal
             {
-                view = _entityView
+                view = _entityView,
+                hashReward = _hasReward
             });
             
             base.Die();

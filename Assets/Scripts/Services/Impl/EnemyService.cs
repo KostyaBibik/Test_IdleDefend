@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Db;
-using Enums;
 using Signals;
 using UnityEngine;
 using Views;
@@ -50,10 +49,22 @@ namespace Services.Impl
             if (enemies.Contains(view))
             {
                 var enemyPrefab = _enemyPrefabsConfig.GetPrefab(view.type);
-                _coinService.AddCoins(enemyPrefab.rewardKillCoins);
+                var rewardCount = enemyPrefab.rewardKillCoins;
+                
                 enemies.Remove(view);
                 var particles = Object.Instantiate(enemyPrefab.killEnemyParticles,
                     view.transform.position, Quaternion.identity);
+                if (signal.hashReward)
+                {
+                    _coinService.AddCoins(rewardCount);
+                    
+                    _signalBus.Fire(new ShowRewardSignal
+                    {
+                        worldPos = view.transform.position,
+                        count = rewardCount
+                    });
+                }
+                
                 Object.Destroy(particles, delayBeforeClearParticle);
                 Object.Destroy(view.gameObject);
             }

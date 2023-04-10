@@ -10,19 +10,19 @@ namespace Systems.Actions
     public class TowerChangeHealthSystem : IInitializable, IDisposable
     {
         private readonly SignalBus _signalBus;
-        private readonly TowerHealthView _healthView;
+        private readonly TowerHealthHandler _healthHandler;
         private readonly TowerConfigSettings _towerConfigSettings;
         private readonly TowerHealthComponent _towerHealthComponent;
         
         public TowerChangeHealthSystem(
             SignalBus signalBus,
-            TowerHealthView healthView,
+            TowerHealthHandler healthHandler,
             TowerConfigSettings towerConfigSettings,
             TowerHealthComponent towerHealthComponent
             )
         {
             _signalBus = signalBus;
-            _healthView = healthView;
+            _healthHandler = healthHandler;
             _towerConfigSettings = towerConfigSettings;
             _towerHealthComponent = towerHealthComponent;
         }
@@ -30,19 +30,22 @@ namespace Systems.Actions
         private void TowerLostHealth(TowerLostHealthSignal signal)
         {
             _towerHealthComponent.ReduceHealth(signal.damageCount);
-            _healthView.LoseHealth();
+            _healthHandler.LoseHealth();
         }
         
         private void AddTowerHealth(TowerAddHealthSignal signal)
         {
             _towerHealthComponent.AddHealth(signal.additiveCount);
-            _healthView.AddHealth();
+            _healthHandler.AddHealth();
         }
         
         public void Initialize()
         {
             var startHealth = _towerConfigSettings.StartHealthCount;
-            _healthView.ResetHealth(startHealth);
+            var maxHealth = _towerConfigSettings.MaxHealthCounts;
+            var healthPrefab = _towerConfigSettings.TowerHealthView;
+
+            _healthHandler.InitializeHealths(startHealth, maxHealth, healthPrefab);
             _towerHealthComponent.AddHealth(startHealth);
             
             _signalBus.Subscribe<TowerLostHealthSignal>(TowerLostHealth);

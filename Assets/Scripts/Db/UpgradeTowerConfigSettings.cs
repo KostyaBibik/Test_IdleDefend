@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Components;
 using Enums;
 using UnityEngine;
 
@@ -23,13 +24,13 @@ namespace Db
             throw new Exception($"[UpgradeTowerConfigSettings] Can't find UpgradeContainer with type: {upgradeType}");
         }
         
-        [Serializable]
+        /*[Serializable]
         public struct UpgradeContainer
         {
             public EUpgradeType upgradeType;
             public float upgradeValue;
             public int startCost;
             public int costUpgrade;
-        }
+        }*/
     }
 }
