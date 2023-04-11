@@ -28,7 +28,8 @@ namespace Installers
             InitializeSignals();
             
             Container.Bind<Camera>().FromInstance(mainCamera).AsSingle();
-            Container.Bind<SceneHandler>().FromInstance(sceneHandler).AsSingle();
+            
+            Container.Rebind<SceneHandler>().FromInstance(sceneHandler).AsTransient();
 
             InstallGameSystems();
 
@@ -41,6 +42,8 @@ namespace Installers
             BindBulletComponents();
 
             BindServices();
+
+            Container.Bind<GameInstaller>().FromInstance(this).AsSingle();
         }
 
         private void InitializeSignals()
@@ -60,6 +63,7 @@ namespace Installers
             Container.BindInterfacesAndSelfTo<LoseActionSystem>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<ShowRewardSystem>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<ShakeCamOnDamageSystem>().AsSingle().NonLazy();
+            Container.BindInterfacesAndSelfTo<IncreasingEnemyParametersSystem>().AsSingle().NonLazy();
         }
 
         private void BindAndCreateTowerView()
@@ -71,11 +75,13 @@ namespace Installers
                 null
             );
             
-            Container.BindInterfacesAndSelfTo<TowerView>().FromInstance(towerView).AsSingle().NonLazy();
+            Container.BindInterfacesAndSelfTo<TowerView>().FromInstance(towerView).AsCached().NonLazy();
             Container.BindInterfacesAndSelfTo<TowerAttackSystem>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<TowerInitializeSystem>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<TowerChangeRadiusSystem>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<TowerChangeHealthSystem>().AsSingle().NonLazy();
+            Container.BindInterfacesAndSelfTo<TowerChangeAttackSpeedSystem>().AsSingle().NonLazy();
+            Container.BindInterfacesAndSelfTo<TowerChangeAttackDamageSystem>().AsSingle().NonLazy();
             var healthComponent = Container.InstantiateComponent<TowerHealthComponent>(towerView.gameObject);
             Container.BindInterfacesAndSelfTo<TowerHealthComponent>().FromInstance(healthComponent).AsSingle().NonLazy();
         }

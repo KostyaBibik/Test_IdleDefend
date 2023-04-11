@@ -1,6 +1,8 @@
-﻿using UnityEngine;
+﻿using Installers;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Zenject;
 
 namespace UI.Views.Panels
 {
@@ -12,7 +14,10 @@ namespace UI.Views.Panels
         {
             restartBtn.onClick.AddListener(delegate
             {
-                SceneManager.LoadScene(0);
+                DiContainerRef.Container.UnbindAll();
+                var loader = SceneManager.LoadSceneAsync("GameScene");
+
+                loader.allowSceneActivation = true;
             });
         }
     }

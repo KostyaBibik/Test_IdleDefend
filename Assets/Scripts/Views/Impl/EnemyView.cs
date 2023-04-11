@@ -11,6 +11,7 @@ namespace Views.Impl
         [SerializeField] private Slider healthSlider;
 
         [HideInInspector] public HealthComponent healthComponent;
+        [HideInInspector] public float speedMoving;
         [HideInInspector] public EEnemyType type;
         
         public Transform Mesh => mesh;

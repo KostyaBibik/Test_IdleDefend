@@ -16,13 +16,12 @@ namespace Components
 
         public void Initialize(
             int healthValue,
-            int maxHealthValue,
             Slider healthSlider,
             IEntityView entityView
         )
         {
             _healthValue = healthValue;
-            _maxHealthValue = maxHealthValue;
+            _maxHealthValue = healthValue;
             _healthSlider = healthSlider;
             _entityView = entityView;
             _assumedHealthValue = healthValue;

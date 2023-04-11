@@ -8,5 +8,10 @@ namespace Helpers
         [SerializeField] private RectTransform parentForUiEffects;
         public Transform TowerPos => towerPos;
         public RectTransform ParentForUiEffects => parentForUiEffects;
+
+        private void OnDestroy()
+        {
+            Destroy(gameObject);
+        }
     }
 }

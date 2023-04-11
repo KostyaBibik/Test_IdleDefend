@@ -18,3 +18,4 @@ MonoBehaviour:
   upgradeTowerConfigSettings: {fileID: 11400000, guid: 2332d46939cbb554c880ab58ea429c24, type: 2}
   levelConfigSettings: {fileID: 0}
   visualEffectsSettings: {fileID: 11400000, guid: 8ab4d57cd34e30b459eb924c5b6ac7dc, type: 2}
+  increaseEnemiesSettings: {fileID: 11400000, guid: 702416b8c4e1ba5488ede3fd0f3e738e, type: 2}

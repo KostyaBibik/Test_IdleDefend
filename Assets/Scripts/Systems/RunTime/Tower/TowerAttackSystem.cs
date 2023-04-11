@@ -43,7 +43,7 @@ namespace Systems.RunTime.Tower
 
             var bullet = (BulletView) _entityFactory.CreateBullet(_towerView.transform.position);
             bullet.target = nearestEnemy;
-            bullet.damage = _towerView.attackValue;
+            bullet.damage = _towerView.attackDamage;
             nearestEnemy.healthComponent.ReduceAssumedHealth(bullet.damage);
 
             Observable.FromCoroutine(Reload).Subscribe();

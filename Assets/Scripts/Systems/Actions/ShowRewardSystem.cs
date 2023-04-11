@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using Db;
 using Helpers;
 using Signals;
@@ -17,7 +18,8 @@ namespace Systems.Actions
         private readonly Camera _camera;
         private readonly VisualEffectsSettings _visualEffects;
         private readonly SceneHandler _sceneHandler;
-        
+        private readonly Queue<IDisposable> _observers = new Queue<IDisposable>();
+
         public ShowRewardSystem(
             SignalBus signalBus,
             Camera gameCamera,
@@ -47,8 +49,9 @@ namespace Systems.Actions
             screenPoint.y -= 1520;
             rewardView.RectTransform.anchoredPosition = screenPoint;
 
-            Observable.FromCoroutine(() => AnimateEffectWithDestroy(rewardView, speedAnimating, timeAnimating))
+            var observer = Observable.FromCoroutine(() => AnimateEffectWithDestroy(rewardView, speedAnimating, timeAnimating))
                 .Subscribe();
+            _observers.Enqueue(observer);
         }
 
         private IEnumerator AnimateEffectWithDestroy(RewardView rewardView, float speedAnimating, float timeShow)
@@ -72,6 +75,7 @@ namespace Systems.Actions
             } while (time < timeShow);
             
             Object.Destroy(rectEffect.gameObject);
+            _observers?.Dequeue();
         }
         
         public void Initialize()
@@ -79,8 +83,18 @@ namespace Systems.Actions
             _signalBus.Subscribe<ShowRewardSignal>(SpawnRewardEffect);
         }
 
+        private void DisposeAllObservers()
+        {
+            foreach (var observer in _observers)
+            {
+                observer?.Dispose();
+            }
+        }
+        
         public void Dispose()
         {
+            DisposeAllObservers();
+            
             _signalBus.Unsubscribe<ShowRewardSignal>(SpawnRewardEffect);
         }
     }

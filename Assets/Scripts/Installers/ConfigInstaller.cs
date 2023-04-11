@@ -14,6 +14,7 @@ namespace Installers
         [SerializeField] private UpgradeTowerConfigSettings upgradeTowerConfigSettings;
         [SerializeField] private LevelConfigSettings levelConfigSettings;
         [SerializeField] private VisualEffectsSettings visualEffectsSettings;
+        [SerializeField] private IncreaseEnemiesSettings increaseEnemiesSettings;
         
         public override void InstallBindings()
         {
@@ -22,6 +23,7 @@ namespace Installers
             Container.BindInstance(bulletConfigSettings);
             Container.BindInstance(upgradeTowerConfigSettings);
             Container.BindInstance(visualEffectsSettings);
+            Container.BindInstance(increaseEnemiesSettings);
         }
     }
 }

@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using Signals;
 using Views;
 using Views.Impl;
-using Zenject;
 using Object = UnityEngine.Object;
 
 namespace Services.Impl
 {
-    public class BulletService : IEntityService, IInitializable, IDisposable
+    public class BulletService : IEntityService, IDisposable
     {
         private readonly List<BulletView> _bullets = new List<BulletView>();
 
@@ -31,15 +30,20 @@ namespace Services.Impl
                 Object.Destroy(view.gameObject);
             }
         }
-
-        public void Initialize()
+        
+        private void RemoveAllEnemies()
         {
-           
+            foreach (var bulletView in _bullets)
+            {
+                Object.Destroy(bulletView.gameObject);
+            }
+            
+            _bullets.Clear(); 
         }
-
+        
         public void Dispose()
         {
-           
+            RemoveAllEnemies();
         }
     }
 }

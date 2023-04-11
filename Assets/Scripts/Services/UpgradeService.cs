@@ -8,7 +8,6 @@ using Enums;
 using Signals;
 using UI.Views;
 using UI.Views.Upgradable;
-using Views.Impl;
 using Zenject;
 
 namespace Services
@@ -20,8 +19,9 @@ namespace Services
         private readonly UpgradeTowerConfigSettings _upgradeTowerConfigSettings;
         private readonly SignalBus _signalBus;
         private readonly CoinService _coinService;
-        private readonly TowerView _towerView;
         private readonly TowerHealthHandler _towerHealthHandler;
+        private readonly TowerChangeAttackSpeedSystem _changeAttackSpeedSystem;
+        private readonly TowerChangeAttackDamageSystem _changeAttackDamageSystem;
         
         private int costUpgradeRangeAttack;
         private int costUpgradeAttackSpeed;
@@ -34,18 +34,20 @@ namespace Services
             TowerChangeRadiusSystem towerChangeRadiusSystem,
             UpgradeViewsHandler upgradeViewsHandler,
             UpgradeTowerConfigSettings upgradeTowerConfigSettings,
+            TowerChangeAttackSpeedSystem changeAttackSpeedSystem,
+            TowerChangeAttackDamageSystem changeAttackDamageSystem,
             SignalBus signalBus,
             CoinService coinService,
-            TowerView towerView,
             TowerHealthHandler towerHealthHandler
             )
         {
             _towerChangeRadiusSystem = towerChangeRadiusSystem;
             _upgradeViewsHandler = upgradeViewsHandler;
             _upgradeTowerConfigSettings = upgradeTowerConfigSettings;
+            _changeAttackSpeedSystem = changeAttackSpeedSystem;
+            _changeAttackDamageSystem = changeAttackDamageSystem;
             _signalBus = signalBus;
             _coinService = coinService;
-            _towerView = towerView;
             _towerHealthHandler = towerHealthHandler;
         }
 
@@ -70,9 +72,12 @@ namespace Services
                 
                 case EUpgradeType.RangeAttack:
                 {
-                    if(!_coinService.TryBought(date.currentCostUp))
+                    if(!_towerChangeRadiusSystem.CanUpRange())
                         break;
                     
+                    if(!_coinService.TryBought(date.currentCostUp))
+                        break;
+
                     _towerChangeRadiusSystem.UpRadius(date.upgradeContainer.upgradeValue);
                     date.currentCostUp += date.upgradeContainer.costUpgrade;
                     _upgradeViewsHandler.GetViewByType(date.upgradeContainer.upgradeType).SetCost(date.currentCostUp);
@@ -81,21 +86,27 @@ namespace Services
                 }
                 case EUpgradeType.AttackSpeed:
                 {
+                    if(!_changeAttackSpeedSystem.CanUpAttackSpeed())
+                        break;
+                    
                     if(!_coinService.TryBought(date.currentCostUp))
                         break;
                     
                     date.currentCostUp += date.upgradeContainer.costUpgrade;
-                    _towerView.attackSpeed += date.upgradeContainer.upgradeValue;
+                    _changeAttackSpeedSystem.UpAttackSpeed(date.upgradeContainer.upgradeValue);
                     _upgradeViewsHandler.GetViewByType(date.upgradeContainer.upgradeType).SetCost(date.currentCostUp);
                     break;
                 }
                 case EUpgradeType.AttackDamage:
                 {
+                    if(!_changeAttackDamageSystem.CanUpAttackDamage())
+                        break;
+                    
                     if(!_coinService.TryBought(date.currentCostUp))
                         break;
                     
                     date.currentCostUp += date.upgradeContainer.costUpgrade;
-                    _towerView.attackValue += (int)date.upgradeContainer.upgradeValue;
+                    _changeAttackDamageSystem.UpAttackDamage((int)date.upgradeContainer.upgradeValue);
                     _upgradeViewsHandler.GetViewByType(date.upgradeContainer.upgradeType).SetCost(date.currentCostUp);
                     break;
                 }

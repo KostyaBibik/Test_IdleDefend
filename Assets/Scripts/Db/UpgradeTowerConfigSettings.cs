@@ -12,7 +12,6 @@ namespace Db
     {
         [SerializeField] private List<UpgradeContainer> containers;
         
-        
         public UpgradeContainer GetContainer(EUpgradeType upgradeType)
         {
             foreach (var container in containers)
@@ -23,14 +22,5 @@ namespace Db
 
             throw new Exception($"[UpgradeTowerConfigSettings] Can't find UpgradeContainer with type: {upgradeType}");
         }
-        
-        /*[Serializable]
-        public struct UpgradeContainer
-        {
-            public EUpgradeType upgradeType;
-            public float upgradeValue;
-            public int startCost;
-            public int costUpgrade;
-        }*/
     }
 }

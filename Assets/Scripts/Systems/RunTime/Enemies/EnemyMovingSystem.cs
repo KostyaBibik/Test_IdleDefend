@@ -11,19 +11,16 @@ namespace Systems.RunTime
     {
         private readonly EnemyService _enemyService;
         private readonly TowerView _towerView;
-        private readonly EnemyPrefabsConfig _enemyPrefabsConfig;
 
         private const float speedRotating = 2f;
         
         public EnemyMovingSystem(
             EnemyService enemyService,
-            TowerView towerView,
-            EnemyPrefabsConfig prefabsConfig
+            TowerView towerView
         )
         {
             _enemyService = enemyService;
             _towerView = towerView;
-            _enemyPrefabsConfig = prefabsConfig;
         }
 
         public void Tick()
@@ -38,8 +35,7 @@ namespace Systems.RunTime
         {
             var enemyPos = enemy.transform.position;
             var towerPos = _towerView.transform.position;
-            var enemyPrefab = _enemyPrefabsConfig.GetPrefab(enemy.type);
-            var speedMoving = enemyPrefab.speedMoving;
+            var speedMoving = enemy.speedMoving;
             
             enemy.transform.position = Vector3.MoveTowards(
                 enemyPos, 

@@ -12,15 +12,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e66fc4abdc68456e9b2855b077273dd1, type: 3}
   m_Name: EnemyPrefabsConfig
   m_EditorClassIdentifier: 
-  spawnDelay: 3
+  spawnDelay: 2
   prefabs:
   - type: 0
     view: {fileID: 8633028733757129972, guid: b19248811d8f90349a3f8632ec28fecb, type: 3}
     speedMoving: 0.3
+    startHealth: 200
     rewardKillCoins: 50
-    killEnemyParticles: {fileID: 2028876363438471919, guid: 0d29b47327caa6646bcd79fa5efae742, type: 3}
+    killEnemyParticles:
+    - {fileID: 2028876363438471919, guid: 0d29b47327caa6646bcd79fa5efae742, type: 3}
+    - {fileID: 4569684781166218482, guid: de6dee9cc18d9b54d8868d37e6f81dd6, type: 3}
+    - {fileID: 7488074429550447023, guid: 6bdc90ec8b98aa14f8734df5d7d66e2f, type: 3}
   - type: 1
     view: {fileID: 1230293138181742960, guid: 8f1cbe05f094798438f0e61269f1580f, type: 3}
     speedMoving: 0.65
+    startHealth: 70
     rewardKillCoins: 100
-    killEnemyParticles: {fileID: 2028876363438471919, guid: 0d29b47327caa6646bcd79fa5efae742, type: 3}
+    killEnemyParticles:
+    - {fileID: 2028876363438471919, guid: 0d29b47327caa6646bcd79fa5efae742, type: 3}
+    - {fileID: 4569684781166218482, guid: de6dee9cc18d9b54d8868d37e6f81dd6, type: 3}
+    - {fileID: 7488074429550447023, guid: 6bdc90ec8b98aa14f8734df5d7d66e2f, type: 3}

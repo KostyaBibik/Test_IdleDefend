@@ -6,6 +6,7 @@ using Services.Impl;
 using UnityEngine;
 using Views;
 using Views.Impl;
+using Zenject;
 
 namespace Infrastructure.Impl
 {
@@ -15,6 +16,7 @@ namespace Infrastructure.Impl
         private readonly EnemyService _enemyService;
         private readonly BulletConfigSettings _bulletConfigSettings;
         private readonly BulletService _bulletService;
+        [Inject] private SignalBus _signalBus;
         
         public EntityFactory(
             EnemyPrefabsConfig enemyPrefabsConfig,
@@ -29,7 +31,12 @@ namespace Infrastructure.Impl
             _bulletService = bulletService;
         }
         
-        public void CreateEnemy(Vector3 posSpawn, EEnemyType type)
+        public void CreateEnemy(
+            Vector3 posSpawn,
+            EEnemyType type,
+            int additiveHealth,
+            float additiveSpeed
+        )
         {
             var enemyPrefab = _enemyPrefabsConfig.GetPrefab(type);
             var enemyView = DiContainerRef.Container.InstantiatePrefabForComponent<EnemyView>(enemyPrefab.view);
@@ -38,9 +45,16 @@ namespace Infrastructure.Impl
             enemyTransform.rotation = Quaternion.identity;
             var healthComponent =
                 DiContainerRef.Container.InstantiateComponent<EnemyHealthComponent>(enemyView.gameObject);
-            healthComponent.Initialize(100, 100, enemyView.HealthSlider, enemyView);
+
+            var hp = enemyPrefab.startHealth + additiveHealth;
+            var speed = enemyPrefab.speedMoving + additiveSpeed;
+
+            healthComponent.Initialize(hp, enemyView.HealthSlider, enemyView);
+            healthComponent.signalBus = _signalBus;
             enemyView.healthComponent = healthComponent;
             enemyView.type = type;
+            enemyView.speedMoving = speed;
+            
             _enemyService.AddEntityOnService(enemyView);
         }
 
@@ -48,10 +62,12 @@ namespace Infrastructure.Impl
         {
             var bulletView = DiContainerRef.Container.InstantiatePrefabForComponent<BulletView>(_bulletConfigSettings.PrefabViewBullet);
             var bulletTransform = bulletView.transform;
+            
             bulletTransform.position = posSpawn;
             bulletTransform.rotation = Quaternion.identity;
-
+            
             _bulletService.AddEntityOnService(bulletView);
+            
             return bulletView;
         }
     }

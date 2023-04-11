@@ -15,7 +15,10 @@ MonoBehaviour:
   prefabViewTower: {fileID: 3483922683829673187, guid: aaeb844ec8c4f3b4e99fe35983456288, type: 3}
   towerHealthView: {fileID: -1616105500782642185, guid: cec45c8496692cd49832ba244c757b8d, type: 3}
   rangeAttack: 2
-  attackSpeed: 1.2
-  attackValue: 0
+  attackSpeed: 0.8
+  attackDamage: 0
   startHealthCount: 1
   maxHealthCounts: 3
+  maxAttackDamage: 200
+  maxAttackSpeed: 2.5
+  maxRangeAttack: 3

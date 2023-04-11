@@ -32,7 +32,7 @@ namespace Systems.Actions
         private void ShakeCam(TowerLostHealthSignal signal)
         {
             if (_isShaking)
-                _shakingObserver.Dispose();
+                _shakingObserver?.Dispose();
 
             _shakingObserver = Observable.FromCoroutine(DoShake)
                 .Subscribe();

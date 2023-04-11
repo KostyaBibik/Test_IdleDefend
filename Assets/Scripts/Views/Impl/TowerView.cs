@@ -9,7 +9,7 @@ namespace Views.Impl
         [HideInInspector] public float ratioRange = 0.5f;
         [HideInInspector] public float attackDistance;
         [HideInInspector] public float attackSpeed;
-        [HideInInspector] public int attackValue;
+        [HideInInspector] public int attackDamage;
         
         public Transform Sphere => sphere;
         public bool isDestroyed { get; set; }
