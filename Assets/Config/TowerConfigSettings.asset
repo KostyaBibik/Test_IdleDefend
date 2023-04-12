@@ -16,7 +16,7 @@ MonoBehaviour:
   towerHealthView: {fileID: -1616105500782642185, guid: cec45c8496692cd49832ba244c757b8d, type: 3}
   rangeAttack: 2
   attackSpeed: 0.8
-  attackDamage: 0
+  attackDamage: 40
   startHealthCount: 1
   maxHealthCounts: 3
   maxAttackDamage: 200

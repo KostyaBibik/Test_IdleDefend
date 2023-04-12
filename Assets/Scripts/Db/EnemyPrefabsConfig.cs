@@ -11,10 +11,12 @@ namespace Db
         fileName = nameof(EnemyPrefabsConfig))]
     public class EnemyPrefabsConfig : ScriptableObject
     {
-        [SerializeField] private float spawnDelay;
+        [SerializeField] private float minSpawnDelay = 2;
+        [SerializeField] private float maxSpawnDelay = 4;
         [Space] [SerializeField] private EnemyPrefab[] prefabs;
 
-        public float SpawnDelay => spawnDelay;
+        public float MinSpawnDelay => minSpawnDelay;
+        public float MaxSpawnDelay => maxSpawnDelay;
         public int CountPrefabs => prefabs.Length;
 
         public EnemyPrefab GetPrefab(EEnemyType type)

@@ -9,7 +9,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4751581577662948643, guid: eb0bd34c952fb0742945db07e0bf9e44, type: 3}
       propertyPath: m_Name
-      value: UpAttackSpeedView
+      value: UpAttackSpeedView Variant
       objectReference: {fileID: 0}
     - target: {fileID: 4751581577662948664, guid: eb0bd34c952fb0742945db07e0bf9e44, type: 3}
       propertyPath: upgradeType
@@ -98,6 +98,26 @@ PrefabInstance:
     - target: {fileID: 4751581577662948668, guid: eb0bd34c952fb0742945db07e0bf9e44, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4751581577882585825, guid: eb0bd34c952fb0742945db07e0bf9e44, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4751581577882585825, guid: eb0bd34c952fb0742945db07e0bf9e44, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4751581577882585825, guid: eb0bd34c952fb0742945db07e0bf9e44, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4751581577882585826, guid: eb0bd34c952fb0742945db07e0bf9e44, type: 3}
+      propertyPath: m_fontSize
+      value: 101.94
+      objectReference: {fileID: 0}
+    - target: {fileID: 4751581577882585826, guid: eb0bd34c952fb0742945db07e0bf9e44, type: 3}
+      propertyPath: m_margin.z
+      value: 20
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eb0bd34c952fb0742945db07e0bf9e44, type: 3}

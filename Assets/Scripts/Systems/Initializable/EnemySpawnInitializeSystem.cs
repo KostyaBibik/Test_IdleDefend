@@ -36,10 +36,10 @@ namespace Systems.Initializable
 
         private IEnumerator SpawnEnemyWithDelay()
         {
-            var delay = new WaitForSeconds(_enemyPrefabsConfig.SpawnDelay);
-            
             do
             {
+                var delay = new WaitForSeconds(Random.Range(_enemyPrefabsConfig.MinSpawnDelay, _enemyPrefabsConfig.MaxSpawnDelay));
+                
                 yield return delay;
 
                 var distanceFromCenter = Random.Range(3f, 5f);
