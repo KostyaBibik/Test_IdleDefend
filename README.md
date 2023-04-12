@@ -13,5 +13,9 @@ this is a test project with the basic mechanics of idle tower defense game.
  
 The emphasis is mainly on building the architecture of the project and writing clean code)
 
-https://user-images.githubusercontent.com/77735628/226348825-cb873545-20bc-4e77-9119-463364c78ec4.mp4
+
+
+
+
+https://user-images.githubusercontent.com/77735628/231442698-aba1f7cc-ddd3-459d-bac5-77512b40ae93.mp4
 
