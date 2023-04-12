@@ -12,13 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e66fc4abdc68456e9b2855b077273dd1, type: 3}
   m_Name: EnemyPrefabsConfig
   m_EditorClassIdentifier: 
-  spawnDelay: 2
+  minSpawnDelay: 2
+  maxSpawnDelay: 4
   prefabs:
   - type: 0
     view: {fileID: 8633028733757129972, guid: b19248811d8f90349a3f8632ec28fecb, type: 3}
     speedMoving: 0.18
-    startHealth: 200
-    rewardKillCoins: 100
+    startHealth: 160
+    rewardKillCoins: 150
     killEnemyParticles:
     - {fileID: 2028876363438471919, guid: 0d29b47327caa6646bcd79fa5efae742, type: 3}
     - {fileID: 4569684781166218482, guid: de6dee9cc18d9b54d8868d37e6f81dd6, type: 3}
@@ -35,7 +36,7 @@ MonoBehaviour:
   - type: 2
     view: {fileID: 4804892218997116115, guid: 8a29c59dd02275a4cb3d8187e7e647b5, type: 3}
     speedMoving: 0.4
-    startHealth: 100
+    startHealth: 125
     rewardKillCoins: 75
     killEnemyParticles:
     - {fileID: 2028876363438471919, guid: 0d29b47327caa6646bcd79fa5efae742, type: 3}
@@ -44,8 +45,8 @@ MonoBehaviour:
   - type: 3
     view: {fileID: 8981180178125238036, guid: 7b56deddf2fe56f4da617df699be95f2, type: 3}
     speedMoving: 0.5
-    startHealth: 125
-    rewardKillCoins: 100
+    startHealth: 100
+    rewardKillCoins: 90
     killEnemyParticles:
     - {fileID: 2028876363438471919, guid: 0d29b47327caa6646bcd79fa5efae742, type: 3}
     - {fileID: 4569684781166218482, guid: de6dee9cc18d9b54d8868d37e6f81dd6, type: 3}

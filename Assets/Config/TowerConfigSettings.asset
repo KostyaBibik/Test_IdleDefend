@@ -20,5 +20,5 @@ MonoBehaviour:
   startHealthCount: 1
   maxHealthCounts: 3
   maxAttackDamage: 200
-  maxAttackSpeed: 2.5
-  maxRangeAttack: 3
+  maxAttackSpeed: 3
+  maxRangeAttack: 4
