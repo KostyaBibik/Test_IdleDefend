@@ -1,6 +1,6 @@
 ## Description
 
-this is a test project with the basic mechanics of idle tower defense game.
+Idle Game with the basic mechanics of idle tower defense game.
 
 - Plugins used in the project:
 ```bash
