@@ -63,6 +63,7 @@ namespace Installers
             Container.BindInterfacesAndSelfTo<LoseActionSystem>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<ShowRewardSystem>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<ShakeCamOnDamageSystem>().AsSingle().NonLazy();
+            Container.BindInterfacesAndSelfTo<SurvivalTimeSystem>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<IncreasingEnemyParametersSystem>().AsSingle().NonLazy();
         }
 

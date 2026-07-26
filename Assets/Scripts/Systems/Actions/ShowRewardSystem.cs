@@ -45,9 +45,10 @@ namespace Systems.Actions
             var text = rewardView.Text;
 
             text.text = $"+{signal.count.ToString()}";
-            screenPoint.x -= 720;
-            screenPoint.y -= 1520;
-            rewardView.RectTransform.anchoredPosition = screenPoint;
+            // Было: screenPoint -= (720, 1520) — хардкод под экран 1440x3040. В браузере разрешение любое,
+            // поэтому переводим точку экрана в локальные координаты родителя штатным API.
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(parent, screenPoint, null, out var localPoint);
+            rewardView.RectTransform.anchoredPosition = localPoint;
 
             var observer = Observable.FromCoroutine(() => AnimateEffectWithDestroy(rewardView, speedAnimating, timeAnimating))
                 .Subscribe();

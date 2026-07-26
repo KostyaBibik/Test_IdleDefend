@@ -1,0 +1,22 @@
+{
+  "productName": "Tower Idle Defense",
+  "unityVersion": "2022.3.62f3",
+  "orientation": "portrait",
+  "canvasWidth": 9,
+  "canvasHeight": 16,
+  "lockAspectRatioPC": true,
+  "uiTextType": "TMP",
+  "hasPayments": false,
+  "saveFields": ["Money", "NoAds", "ProgressInitialized", "BestSurvivalTime"],
+  "gamePush": {
+    "projectId": "",
+    "token": ""
+  },
+  "build": {
+    "compression": "Brotli",
+    "dataCaching": true,
+    "decompressionFallback": true,
+    "runInBackground": true,
+    "template": "AT2.1.1"
+  }
+}

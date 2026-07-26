@@ -59,7 +59,7 @@ MonoBehaviour:
   _components:
   - {fileID: 11426760}
   _identifier: 
-  _useSceneContext: 0
+  _useSceneContext: 1
   _context: {fileID: 0}
   _bindType: 0
 --- !u!1 &162920
@@ -141,6 +141,6 @@ MonoBehaviour:
   _components:
   - {fileID: 3872105960934196701}
   _identifier: 
-  _useSceneContext: 0
+  _useSceneContext: 1
   _context: {fileID: 0}
   _bindType: 0
