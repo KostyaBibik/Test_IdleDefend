@@ -1,5 +1,6 @@
 {
     "dependencies":  {
+    "com.ivanmurzak.unity.mcp": "0.81.0",
                          "com.unity.collab-proxy":  "2.7.1",
                          "com.unity.feature.2d":  "2.0.1",
                          "com.unity.ide.rider":  "3.0.36",
@@ -45,5 +46,19 @@
                          "com.unity.localization":  "1.5.7",
                          "com.blackbox.kimicuyandexgames":  "https://github.com/21Vladimir21/KimicuYandexGames.git",
                          "com.unity.nuget.newtonsoft-json":  "3.2.1"
-                     }
+                       },
+  "scopedRegistries": [
+    {
+      "name": "package.openupm.com",
+      "url": "https://package.openupm.com",
+      "scopes": [
+        "com.ivanmurzak",
+        "extensions.unity",
+        "org.nuget.com.ivanmurzak",
+        "org.nuget.microsoft",
+        "org.nuget.system",
+        "org.nuget.r3"
+      ]
+    }
+  ]
 }
