@@ -1,5 +1,6 @@
 ﻿using Signals;
 using UnityEngine;
+using UnityEngine.UI;
 using Zenject;
 
 namespace UI.Views.Panels
@@ -9,8 +10,15 @@ namespace UI.Views.Panels
         public GameObject gamePanel;
         public GameObject losePanel;
         public GameObject winPanel;
+        public PausePanelView pausePanel;
+        public Button pauseButton;
 
         private SignalBus _signalBus;
+
+        private void Start()
+        {
+            pauseButton.onClick.AddListener(pausePanel.Open);
+        }
 
         private void ActivateLosePanel()
         {
