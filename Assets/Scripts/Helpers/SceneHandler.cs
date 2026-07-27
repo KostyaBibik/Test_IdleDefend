@@ -1,3 +1,4 @@
+using UI.Views.Game;
 using UI.Views.Panels;
 using UnityEngine;
 
@@ -9,10 +10,12 @@ namespace Helpers
         [SerializeField] private RectTransform parentForUiEffects;
         [SerializeField] private Transform[] sideTowerSlotMarkers;
         [SerializeField] private SideTowerPickerView sideTowerPickerView;
+        [SerializeField] private LevelTimeProgressBarView levelTimeProgressBarView;
         public Transform TowerPos => towerPos;
         public RectTransform ParentForUiEffects => parentForUiEffects;
         public Transform[] SideTowerSlotMarkers => sideTowerSlotMarkers;
         public SideTowerPickerView SideTowerPickerView => sideTowerPickerView;
+        public LevelTimeProgressBarView LevelTimeProgressBarView => levelTimeProgressBarView;
 
         private void OnDestroy()
         {

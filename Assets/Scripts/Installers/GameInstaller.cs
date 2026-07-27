@@ -5,6 +5,7 @@ using Systems.RunTime.Bullets;
 using Systems.RunTime.Enemies;
 using Systems.RunTime.SideTower;
 using Systems.RunTime.Tower;
+using Systems.RunTime.UI;
 using Components.Tower;
 using Db;
 using Helpers;
@@ -45,6 +46,8 @@ namespace Installers
             BindBulletComponents();
 
             BindSideTowerComponents();
+
+            Container.BindInterfacesAndSelfTo<LevelTimeProgressBarSystem>().AsSingle().NonLazy();
 
             BindServices();
 
