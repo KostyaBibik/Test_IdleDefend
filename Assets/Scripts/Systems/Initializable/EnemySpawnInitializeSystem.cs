@@ -4,6 +4,7 @@ using Db;
 using Helpers;
 using Infrastructure.Impl;
 using Services;
+using Systems.RunTime.Camera;
 using UniRx;
 using UnityEngine;
 using Zenject;
@@ -16,6 +17,7 @@ namespace Systems.Initializable
         private readonly EntityFactory _entityFactory;
         private readonly LevelService _levelService;
         private readonly SceneHandler _sceneHandler;
+        private readonly CameraZoomSystem _cameraZoomSystem;
 
         private CompositeDisposable _disposables = new();
         private int _wavesInProgress;
@@ -23,12 +25,14 @@ namespace Systems.Initializable
         public EnemySpawnInitializeSystem(
             EntityFactory entityFactory,
             LevelService levelService,
-            SceneHandler sceneHandler
+            SceneHandler sceneHandler,
+            CameraZoomSystem cameraZoomSystem
         )
         {
             _entityFactory = entityFactory;
             _levelService = levelService;
             _sceneHandler = sceneHandler;
+            _cameraZoomSystem = cameraZoomSystem;
         }
 
         private IEnumerator SpawnWave(WaveDefinition wave)
@@ -46,7 +50,8 @@ namespace Systems.Initializable
                     if (_levelService.IsSpawnCapped)
                         break;
 
-                    var distanceFromCenter = Random.Range(3f, 5f);
+                    var safeRadius = _cameraZoomSystem.GetSafeSpawnRadius();
+                    var distanceFromCenter = Random.Range(safeRadius, safeRadius + 1.5f);
                     var randomPoint = _sceneHandler.TowerPos.position +
                                        new Vector3(Random.value - 0.5f, Random.value - 0.5f, 0f).normalized *
                                        distanceFromCenter;

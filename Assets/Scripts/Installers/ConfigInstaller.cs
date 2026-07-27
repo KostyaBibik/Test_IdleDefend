@@ -15,6 +15,7 @@ namespace Installers
         [SerializeField] private LevelsConfig levelsConfig;
         [SerializeField] private VisualEffectsSettings visualEffectsSettings;
         [SerializeField] private SideTowerCatalogConfig sideTowerCatalogConfig;
+        [SerializeField] private CameraZoomSettings cameraZoomSettings;
 
         public override void InstallBindings()
         {
@@ -25,6 +26,7 @@ namespace Installers
             Container.BindInstance(levelsConfig);
             Container.BindInstance(visualEffectsSettings);
             Container.BindInstance(sideTowerCatalogConfig);
+            Container.BindInstance(cameraZoomSettings);
         }
     }
 }

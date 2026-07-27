@@ -19,3 +19,4 @@ MonoBehaviour:
   levelsConfig: {fileID: 11400000, guid: 43dda6d026bbbe9488c3fddd19448766, type: 2}
   visualEffectsSettings: {fileID: 11400000, guid: 8ab4d57cd34e30b459eb924c5b6ac7dc, type: 2}
   sideTowerCatalogConfig: {fileID: 11400000, guid: 2962574eb80033843a3647ffd019c5c7, type: 2}
+  cameraZoomSettings: {fileID: 11400000, guid: f3e8f65dad61c2847881d3dfaad90eeb, type: 2}

@@ -2,6 +2,7 @@
 using Systems.Initializable;
 using Systems.RunTime;
 using Systems.RunTime.Bullets;
+using Systems.RunTime.Camera;
 using Systems.RunTime.Enemies;
 using Systems.RunTime.SideTower;
 using Systems.RunTime.Tower;
@@ -46,6 +47,8 @@ namespace Installers
             BindBulletComponents();
 
             BindSideTowerComponents();
+
+            Container.BindInterfacesAndSelfTo<CameraZoomSystem>().AsSingle().NonLazy();
 
             Container.BindInterfacesAndSelfTo<LevelTimeProgressBarSystem>().AsSingle().NonLazy();
 
