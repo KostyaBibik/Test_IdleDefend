@@ -2775,8 +2775,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 155.78946}
-  m_SizeDelta: {x: 0, y: 311.5769}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &557901527
 MonoBehaviour:
@@ -6901,14 +6901,6 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3214334490902019460, guid: ab9e79d0334ecad49ae298c98c64171a, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 1136.7358
-      objectReference: {fileID: 0}
-    - target: {fileID: 3214334490902019460, guid: ab9e79d0334ecad49ae298c98c64171a, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 210
-      objectReference: {fileID: 0}
-    - target: {fileID: 3214334490902019460, guid: ab9e79d0334ecad49ae298c98c64171a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -7081,10 +7073,6 @@ PrefabInstance:
       propertyPath: m_text
       value: Up damage
       objectReference: {fileID: 0}
-    - target: {fileID: 6883322805622983843, guid: 3614e0b6224c59142940b0a27bbe20ec, type: 3}
-      propertyPath: m_fontSize
-      value: 81.75
-      objectReference: {fileID: 0}
     - target: {fileID: 6883322806178177890, guid: 3614e0b6224c59142940b0a27bbe20ec, type: 3}
       propertyPath: m_Name
       value: UpAttackDamageView
@@ -7116,14 +7104,6 @@ PrefabInstance:
     - target: {fileID: 6883322806178177917, guid: 3614e0b6224c59142940b0a27bbe20ec, type: 3}
       propertyPath: m_AnchorMin.y
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6883322806178177917, guid: 3614e0b6224c59142940b0a27bbe20ec, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 1136.7358
-      objectReference: {fileID: 0}
-    - target: {fileID: 6883322806178177917, guid: 3614e0b6224c59142940b0a27bbe20ec, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 210
       objectReference: {fileID: 0}
     - target: {fileID: 6883322806178177917, guid: 3614e0b6224c59142940b0a27bbe20ec, type: 3}
       propertyPath: m_LocalPosition.x
@@ -7578,14 +7558,6 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8977209158214587596, guid: 3bcd959a91989f647aa38ef4a5ad3a44, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 1136.7358
-      objectReference: {fileID: 0}
-    - target: {fileID: 8977209158214587596, guid: 3bcd959a91989f647aa38ef4a5ad3a44, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 210
-      objectReference: {fileID: 0}
-    - target: {fileID: 8977209158214587596, guid: 3bcd959a91989f647aa38ef4a5ad3a44, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -7664,10 +7636,6 @@ PrefabInstance:
     - target: {fileID: 8977209159105329938, guid: 3bcd959a91989f647aa38ef4a5ad3a44, type: 3}
       propertyPath: m_text
       value: Up Attack speed
-      objectReference: {fileID: 0}
-    - target: {fileID: 8977209159105329938, guid: 3bcd959a91989f647aa38ef4a5ad3a44, type: 3}
-      propertyPath: m_fontSize
-      value: 57.85
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -7819,14 +7787,6 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1513604555289063958, guid: 01b7ceba97899e04aa1b7a716a26cabb, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 1136.7358
-      objectReference: {fileID: 0}
-    - target: {fileID: 1513604555289063958, guid: 01b7ceba97899e04aa1b7a716a26cabb, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 210
-      objectReference: {fileID: 0}
-    - target: {fileID: 1513604555289063958, guid: 01b7ceba97899e04aa1b7a716a26cabb, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -7877,10 +7837,6 @@ PrefabInstance:
     - target: {fileID: 1513604555541208520, guid: 01b7ceba97899e04aa1b7a716a26cabb, type: 3}
       propertyPath: m_text
       value: Buy Health
-      objectReference: {fileID: 0}
-    - target: {fileID: 1513604555541208520, guid: 01b7ceba97899e04aa1b7a716a26cabb, type: 3}
-      propertyPath: m_fontSize
-      value: 87.4
       objectReference: {fileID: 0}
     - target: {fileID: 8654564264576572556, guid: 01b7ceba97899e04aa1b7a716a26cabb, type: 3}
       propertyPath: m_AnchoredPosition.y

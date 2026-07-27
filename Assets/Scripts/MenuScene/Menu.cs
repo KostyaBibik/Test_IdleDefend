@@ -12,17 +12,68 @@ namespace MenuScene
         [SerializeField] private Button exitBtn;
         [SerializeField] private LevelsConfig levelsConfig;
         [SerializeField] private LevelPathBuilder levelPathBuilder;
+        [Header("Windows")]
+        [SerializeField] private GameObject mainWindow;
+        [SerializeField] private GameObject stageWindow;
+        [SerializeField] private GameObject shopWindow;
+        [Header("Navigation")]
+        [SerializeField] private Button shopButton;
+        [SerializeField] private Button stageButton;
 
         private void Start()
         {
+            InitializeNavigationButtons();
             levelPathBuilder.Build(levelsConfig, PlayLevel);
             InitializeExitBtn();
+            HideWindows();
         }
 
         private void PlayLevel(int levelIndex)
         {
             SelectedLevelHolder.SelectedLevelIndex = levelIndex;
             SceneManager.LoadScene("GameScene");
+        }
+
+        private void InitializeNavigationButtons()
+        {
+            if (shopButton != null)
+                shopButton.onClick.AddListener(ShowShop);
+
+            if (stageButton != null)
+                stageButton.onClick.AddListener(ShowStage);
+        }
+
+        private void ShowShop()
+        {
+            if (mainWindow != null)
+                mainWindow.SetActive(false);
+
+            if (stageWindow != null)
+                stageWindow.SetActive(false);
+
+            if (shopWindow != null)
+                shopWindow.SetActive(true);
+        }
+
+        private void ShowStage()
+        {
+            if (mainWindow != null)
+                mainWindow.SetActive(false);
+
+            if (shopWindow != null)
+                shopWindow.SetActive(false);
+
+            if (stageWindow != null)
+                stageWindow.SetActive(true);
+        }
+
+        private void HideWindows()
+        {
+            if (stageWindow != null)
+                stageWindow.SetActive(false);
+
+            if (shopWindow != null)
+                shopWindow.SetActive(false);
         }
 
         private void InitializeExitBtn()
@@ -40,6 +91,15 @@ namespace MenuScene
 #endif
             });
 #endif
+        }
+
+        private void OnDestroy()
+        {
+            if (shopButton != null)
+                shopButton.onClick.RemoveListener(ShowShop);
+
+            if (stageButton != null)
+                stageButton.onClick.RemoveListener(ShowStage);
         }
     }
 }
