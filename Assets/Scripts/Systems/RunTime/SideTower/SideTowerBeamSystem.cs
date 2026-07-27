@@ -44,8 +44,8 @@ namespace Systems.RunTime.SideTower
 
             if (tower.beamCurrentTarget == null)
             {
-                if (tower.BeamEffectConnector != null)
-                    tower.BeamEffectConnector.gameObject.SetActive(false);
+                if (tower.BeamLine != null)
+                    tower.BeamLine.enabled = false;
                 return;
             }
 
@@ -60,10 +60,11 @@ namespace Systems.RunTime.SideTower
                 tower.beamCurrentTarget.healthComponent.ReduceAssumedHealth(toApply);
             }
 
-            if (tower.BeamEffectConnector != null)
+            if (tower.BeamLine != null)
             {
-                tower.BeamEffectConnector.gameObject.SetActive(true);
-                tower.BeamEffectConnector.Connect(tower.beamCurrentTarget.transform);
+                tower.BeamLine.enabled = true;
+                tower.BeamLine.SetPosition(0, towerPos);
+                tower.BeamLine.SetPosition(1, tower.beamCurrentTarget.transform.position);
             }
         }
 

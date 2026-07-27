@@ -15,8 +15,8 @@ namespace Views.Impl
         [HideInInspector] public float beamPercentMaxHealthPerSecond;
         [HideInInspector] public float beamDamageAccumulator;
         [HideInInspector] public EnemyView beamCurrentTarget;
-        [SerializeField] private EffectConnector beamEffectConnector;
-        public EffectConnector BeamEffectConnector => beamEffectConnector;
+        [SerializeField] private LineRenderer beamLine;
+        public LineRenderer BeamLine => beamLine;
 
         [HideInInspector] public int chainJumpCount;
         [HideInInspector] public float chainJumpRadius;
