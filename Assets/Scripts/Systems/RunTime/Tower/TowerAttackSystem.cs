@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Infrastructure.Impl;
 using Services.Impl;
+using Systems.RunTime;
 using UniRx;
 using UnityEngine;
 using Views.Impl;
@@ -37,7 +38,7 @@ namespace Systems.RunTime.Tower
             if(enemies.Count <= 0)
                 return;
             
-            var nearestEnemy = GetNearestEnemy(enemies.ToArray());
+            var nearestEnemy = AttackTargeting.FindNearestEnemy(_towerView.transform.position, enemies);
             if (!CheckOnDistanceAttack(nearestEnemy.transform.position))
                 return;
 
@@ -47,25 +48,6 @@ namespace Systems.RunTime.Tower
             nearestEnemy.healthComponent.ReduceAssumedHealth(bullet.damage);
 
             Observable.FromCoroutine(Reload).Subscribe();
-        }
-
-        private EnemyView GetNearestEnemy(IList<EnemyView> enemies)
-        {
-            for (var i = 0; i < enemies.Count; i++)
-            {
-                for (var j = i + 1; j < enemies.Count; j++)
-                {
-                    if (Vector3.Distance(enemies[i].transform.position, _towerView.transform.position)
-                        > Vector3.Distance(enemies[j].transform.position, _towerView.transform.position))
-                    {
-                        var tempEnemy = enemies[i];
-                        enemies[i] = enemies[j];
-                        enemies[j] = tempEnemy;
-                    }
-                }
-            }
-
-            return enemies[0];
         }
 
         private bool CheckOnDistanceAttack(Vector3 enemyPos)

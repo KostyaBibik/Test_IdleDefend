@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29b2f2a94e73a384096ec8fd370cf982, type: 3}
+  m_Name: SideTowerCatalogConfig
+  m_EditorClassIdentifier: 
+  definitions:
+  - {fileID: 11400000, guid: dfd84428628406d48bdec4bdad3c1c3a, type: 2}
+  - {fileID: 11400000, guid: 6aca5f3f9f51c5c459dced5fc8353545, type: 2}
+  slotMarkerPrefab: {fileID: 2498189765756723529, guid: fc1b788395e8dd94ba8b8355d1fd9c3a, type: 3}

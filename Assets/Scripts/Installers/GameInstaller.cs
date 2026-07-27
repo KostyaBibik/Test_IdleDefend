@@ -3,6 +3,7 @@ using Systems.Initializable;
 using Systems.RunTime;
 using Systems.RunTime.Bullets;
 using Systems.RunTime.Enemies;
+using Systems.RunTime.SideTower;
 using Systems.RunTime.Tower;
 using Components.Tower;
 using Db;
@@ -42,6 +43,8 @@ namespace Installers
             BindEnemyComponents();
 
             BindBulletComponents();
+
+            BindSideTowerComponents();
 
             BindServices();
 
@@ -106,6 +109,13 @@ namespace Installers
             Container.BindInterfacesAndSelfTo<BulletHitSystem>().AsSingle().NonLazy();
         }
         
+        private void BindSideTowerComponents()
+        {
+            Container.BindInterfacesAndSelfTo<SideTowerService>().AsSingle().NonLazy();
+            Container.BindInterfacesAndSelfTo<SideTowerAttackSystem>().AsSingle().NonLazy();
+            Container.BindInterfacesAndSelfTo<SideTowerSlotService>().AsSingle().NonLazy();
+        }
+
         private void BindServices()
         {
             Container.BindInterfacesAndSelfTo<UpgradeService>().AsSingle();

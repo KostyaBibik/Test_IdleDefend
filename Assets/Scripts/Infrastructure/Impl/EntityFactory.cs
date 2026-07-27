@@ -16,19 +16,22 @@ namespace Infrastructure.Impl
         private readonly EnemyService _enemyService;
         private readonly BulletConfigSettings _bulletConfigSettings;
         private readonly BulletService _bulletService;
+        private readonly SideTowerService _sideTowerService;
         [Inject] private SignalBus _signalBus;
-        
+
         public EntityFactory(
             EnemyPrefabsConfig enemyPrefabsConfig,
             EnemyService enemyService,
             BulletConfigSettings bulletConfigSettings,
-            BulletService bulletService
+            BulletService bulletService,
+            SideTowerService sideTowerService
         )
         {
             _enemyPrefabsConfig = enemyPrefabsConfig;
             _enemyService = enemyService;
             _bulletConfigSettings = bulletConfigSettings;
             _bulletService = bulletService;
+            _sideTowerService = sideTowerService;
         }
         
         public void CreateEnemy(
@@ -58,6 +61,21 @@ namespace Infrastructure.Impl
             enemyView.definition = enemyDefinition;
 
             _enemyService.AddEntityOnService(enemyView);
+        }
+
+        public void CreateSideTower(Vector3 posSpawn, SideTowerDefinition definition)
+        {
+            var sideTowerView =
+                DiContainerRef.Container.InstantiatePrefabForComponent<SideTowerView>(definition.ViewPrefab);
+            var towerTransform = sideTowerView.transform;
+            towerTransform.position = posSpawn;
+            towerTransform.rotation = Quaternion.identity;
+
+            sideTowerView.attackDamage = definition.AttackDamage;
+            sideTowerView.attackSpeed = definition.AttackSpeed;
+            sideTowerView.attackDistance = definition.AttackDistance;
+
+            _sideTowerService.AddEntityOnService(sideTowerView);
         }
 
         public IEntityView CreateBullet(Vector3 posSpawn)

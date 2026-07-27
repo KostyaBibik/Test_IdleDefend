@@ -12,6 +12,9 @@ namespace Db
         [SerializeField] private int levelId;
         [SerializeField] private List<WaveDefinition> waves;
 
+        [Header("Доп-башни: индексы слотов сцены, доступных для покупки на этом уровне")]
+        [SerializeField] private List<int> unlockedSideTowerSlotIndices;
+
         [Space]
         [Header("Звёзды: сколько секунд нужно продержаться")]
         [Tooltip("Продержался хотя бы столько секунд — 1 звезда")]
@@ -23,6 +26,7 @@ namespace Db
 
         public int LevelId => levelId;
         public List<WaveDefinition> Waves => waves;
+        public List<int> UnlockedSideTowerSlotIndices => unlockedSideTowerSlotIndices;
         public float Star1Seconds => star1Seconds;
         public float Star2Seconds => star2Seconds;
         public float Star3Seconds => star3Seconds;

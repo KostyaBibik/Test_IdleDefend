@@ -32,6 +32,7 @@ MonoBehaviour:
     extraHealth: 20
     extraSpeed: 0.3
     startTrigger: 2
+  unlockedSideTowerSlotIndices: 0000000001000000
   star1Seconds: 30
   star2Seconds: 60
   star3Seconds: 90

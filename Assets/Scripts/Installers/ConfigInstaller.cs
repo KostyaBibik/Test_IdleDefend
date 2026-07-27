@@ -14,6 +14,7 @@ namespace Installers
         [SerializeField] private UpgradeTowerConfigSettings upgradeTowerConfigSettings;
         [SerializeField] private LevelsConfig levelsConfig;
         [SerializeField] private VisualEffectsSettings visualEffectsSettings;
+        [SerializeField] private SideTowerCatalogConfig sideTowerCatalogConfig;
 
         public override void InstallBindings()
         {
@@ -23,6 +24,7 @@ namespace Installers
             Container.BindInstance(upgradeTowerConfigSettings);
             Container.BindInstance(levelsConfig);
             Container.BindInstance(visualEffectsSettings);
+            Container.BindInstance(sideTowerCatalogConfig);
         }
     }
 }
