@@ -23,6 +23,31 @@ public class SaveSystem : Singleton<SaveSystem>
 
     private const int SavingPeriod = 4;
 
+    public static int GetUnlockedLevelIndex()
+    {
+        return SaveData.UnlockedLevelIndex;
+    }
+
+    public static int GetLevelStars(int levelId)
+    {
+        EnsureRuntimeCollections();
+        return cachedSaveData.LevelStars.TryGetValue(levelId, out var stars) ? stars : 0;
+    }
+
+    public static void SaveLevelProgress(int levelId, int stars, int unlockedLevelIndex)
+    {
+        EnsureRuntimeCollections();
+
+        var bestStars = cachedSaveData.LevelStars.TryGetValue(levelId, out var existing) ? existing : 0;
+        if (stars > bestStars)
+            cachedSaveData.LevelStars[levelId] = stars;
+
+        if (unlockedLevelIndex > cachedSaveData.UnlockedLevelIndex)
+            cachedSaveData.UnlockedLevelIndex = unlockedLevelIndex;
+
+        Instance.SaveToStorage();
+    }
+
     public override void Init()
     {
         if (Instance != this)
@@ -55,11 +80,23 @@ public class SaveSystem : Singleton<SaveSystem>
 
         // It is very imporant to add null-checks for any collections you add in future updates
         // Since NewtonsoftJson is creating nulls when reading jsons with no info about collections
-        if (saveData.LevelStars == null)
-            saveData.LevelStars = new System.Collections.Generic.Dictionary<int, int>();
+        EnsureRuntimeCollections(ref saveData);
 
         IsDataLoaded = true;
         return saveData;
+    }
+
+    private static void EnsureRuntimeCollections()
+    {
+        var saveData = SaveData;
+        EnsureRuntimeCollections(ref saveData);
+        cachedSaveData = saveData;
+    }
+
+    private static void EnsureRuntimeCollections(ref PlayerSaveData saveData)
+    {
+        if (saveData.LevelStars == null)
+            saveData.LevelStars = new System.Collections.Generic.Dictionary<int, int>();
     }
 
     public void SaveToStorage()

@@ -113,11 +113,15 @@ namespace Systems.RunTime.SideTower
 
             if (tower.ChainLine != null)
             {
-                tower.ChainLine.positionCount = hit.Count;
+                if (tower.ChainLineMaterials != null && tower.ChainLineMaterials.Length > 0)
+                    tower.ChainLine.material = tower.ChainLineMaterials[Random.Range(0, tower.ChainLineMaterials.Length)];
+
+                tower.ChainLine.positionCount = hit.Count + 1;
+                tower.ChainLine.SetPosition(0, towerPos);
                 for (var i = 0; i < hit.Count; i++)
-                    tower.ChainLine.SetPosition(i, hit[i].transform.position);
+                    tower.ChainLine.SetPosition(i + 1, hit[i].transform.position);
             }
-            tower.chainVisualRemaining = 0.15f;
+            tower.chainVisualRemaining = tower.chainVisualDuration;
 
             tower.reloadRemaining = 1f / tower.attackSpeed;
         }

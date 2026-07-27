@@ -46,16 +46,8 @@ namespace Systems.Actions
         private void SaveProgress(int stars)
         {
             var levelId = _levelService.CurrentLevel.LevelId;
-
-            var bestStars = SaveSystem.SaveData.LevelStars.TryGetValue(levelId, out var existing) ? existing : 0;
-            if (stars > bestStars)
-                SaveSystem.SaveData.LevelStars[levelId] = stars;
-
             var nextIndex = Math.Min(_levelService.CurrentLevelIndex + 1, _levelsConfig.Count - 1);
-            if (nextIndex > SaveSystem.SaveData.UnlockedLevelIndex)
-                SaveSystem.SaveData.UnlockedLevelIndex = nextIndex;
-
-            SaveSystem.Instance.SaveToStorage();
+            SaveSystem.SaveLevelProgress(levelId, stars, nextIndex);
         }
 
         public void Initialize()

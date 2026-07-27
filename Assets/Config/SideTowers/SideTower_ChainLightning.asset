@@ -14,14 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   displayName: "\u041C\u043E\u043B\u043D\u0438\u044F"
   icon: {fileID: 21300000, guid: f05ffdff22a41408e9d58882eb432c43, type: 3}
-  viewPrefab: {fileID: 6349731466762690265, guid: ce2e8849a5f8f5c46895c0137454d66f, type: 3}
+  viewPrefab: {fileID: 1867682807579398450, guid: aeda6a7f1e2efb74eb00673f9524dd91, type: 3}
   cost: 180
   attackDamage: 20
   attackSpeed: 1
   attackDistance: 3
   attackType: 2
   beamPercentMaxHealthPerSecond: 0.1
-  chainJumpCount: 2
+  chainJumpCount: 7
   chainJumpRadius: 2.5
   chainFalloffFactor: 0.6
+  chainVisualDuration: 0.2
   slowPercent: 0.4

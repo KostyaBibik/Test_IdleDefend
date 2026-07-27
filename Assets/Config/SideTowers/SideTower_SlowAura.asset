@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   displayName: "\u0417\u0430\u043C\u0435\u0434\u043B\u0435\u043D\u0438\u0435"
   icon: {fileID: 21300000, guid: f05ffdff22a41408e9d58882eb432c43, type: 3}
-  viewPrefab: {fileID: 6349731466762690265, guid: ce2e8849a5f8f5c46895c0137454d66f, type: 3}
+  viewPrefab: {fileID: 6969411513607102559, guid: d4be9c49b30010445b3cead547a057a5, type: 3}
   cost: 120
   attackDamage: 0
   attackSpeed: 1

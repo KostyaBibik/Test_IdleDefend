@@ -30,6 +30,8 @@ namespace Db
         [SerializeField] private float chainJumpRadius = 2f;
         [Tooltip("Множитель урона за каждый следующий прыжок (0.7 = 70% от предыдущего)")]
         [SerializeField, Range(0f, 1f)] private float chainFalloffFactor = 0.7f;
+        [Tooltip("Сколько секунд виден визуал молнии после удара")]
+        [SerializeField] private float chainVisualDuration = 0.15f;
 
         [Header("Slow Aura")]
         [Tooltip("Замедление скорости врагов в радиусе (0.4 = -40%)")]
@@ -51,6 +53,7 @@ namespace Db
         public int ChainJumpCount => chainJumpCount;
         public float ChainJumpRadius => chainJumpRadius;
         public float ChainFalloffFactor => chainFalloffFactor;
+        public float ChainVisualDuration => chainVisualDuration;
 
         public float SlowPercent => slowPercent;
     }

@@ -9,7 +9,9 @@ namespace UI.Views
         [SerializeField] private Button button;
         [SerializeField] private TMP_Text levelNumberLabel;
         [SerializeField] private GameObject lockedOverlay;
-        [SerializeField] private GameObject[] starIcons;
+        [SerializeField] private Image[] starIcons;
+        [SerializeField] private Sprite filledStarSprite;
+        [SerializeField] private Sprite emptyStarSprite;
 
         public Button Button => button;
 
@@ -24,7 +26,13 @@ namespace UI.Views
             button.interactable = unlocked;
 
             for (var i = 0; i < starIcons.Length; i++)
-                starIcons[i].SetActive(unlocked && i < stars);
+            {
+                if (starIcons[i] == null)
+                    continue;
+
+                starIcons[i].gameObject.SetActive(true);
+                starIcons[i].sprite = unlocked && i < stars ? filledStarSprite : emptyStarSprite;
+            }
         }
     }
 }

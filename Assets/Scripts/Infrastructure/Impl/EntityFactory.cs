@@ -80,6 +80,7 @@ namespace Infrastructure.Impl
             sideTowerView.chainJumpCount = definition.ChainJumpCount;
             sideTowerView.chainJumpRadius = definition.ChainJumpRadius;
             sideTowerView.chainFalloffFactor = definition.ChainFalloffFactor;
+            sideTowerView.chainVisualDuration = definition.ChainVisualDuration;
             sideTowerView.slowPercent = definition.SlowPercent;
 
             _sideTowerService.AddEntityOnService(sideTowerView);

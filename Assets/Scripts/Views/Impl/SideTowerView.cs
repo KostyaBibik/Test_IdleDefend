@@ -21,9 +21,13 @@ namespace Views.Impl
         [HideInInspector] public int chainJumpCount;
         [HideInInspector] public float chainJumpRadius;
         [HideInInspector] public float chainFalloffFactor;
+        [HideInInspector] public float chainVisualDuration;
         [HideInInspector] public float chainVisualRemaining;
         [SerializeField] private LineRenderer chainLine;
         public LineRenderer ChainLine => chainLine;
+        [Tooltip("Материалы молнии для случайного выбора при каждом ударе. Можно оставить пустым — тогда используется материал, назначенный на LineRenderer.")]
+        [SerializeField] private Material[] chainLineMaterials;
+        public Material[] ChainLineMaterials => chainLineMaterials;
 
         [HideInInspector] public float slowPercent;
 

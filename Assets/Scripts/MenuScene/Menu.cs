@@ -22,7 +22,7 @@ namespace MenuScene
 
         private void BuildLevelButtons()
         {
-            var unlockedIndex = SaveSystem.SaveData.UnlockedLevelIndex;
+            var unlockedIndex = SaveSystem.GetUnlockedLevelIndex();
 
             for (var i = 0; i < levelsConfig.Count; i++)
             {
@@ -30,7 +30,7 @@ namespace MenuScene
                 var button = Instantiate(levelButtonPrefab, levelsContainer);
 
                 var unlocked = i <= unlockedIndex;
-                var stars = SaveSystem.SaveData.LevelStars.TryGetValue(level.LevelId, out var s) ? s : 0;
+                var stars = SaveSystem.GetLevelStars(level.LevelId);
 
                 button.Setup(i + 1, unlocked, stars);
 
