@@ -1,4 +1,5 @@
-﻿using Db;
+using Db;
+using Services;
 using Services.Impl;
 using UnityEngine;
 using Zenject;
@@ -9,14 +10,17 @@ namespace Systems.RunTime.Bullets
     {
         private readonly BulletConfigSettings _bulletConfigSettings;
         private readonly BulletService _bulletService;
+        private readonly IGameTimeProvider _gameTimeProvider;
 
         public BulletMovingSystem(
             BulletConfigSettings bulletConfigSettings,
-            BulletService bulletService
+            BulletService bulletService,
+            IGameTimeProvider gameTimeProvider
             )
         {
             _bulletConfigSettings = bulletConfigSettings;
             _bulletService = bulletService;
+            _gameTimeProvider = gameTimeProvider;
         }
 
         public void Tick()
@@ -29,22 +33,22 @@ namespace Systems.RunTime.Bullets
                     Debug.Log("RemoveEntityFromService");
                     return;
                 }
-                
-                MoveToTarget(bulletView.transform, bulletView.target.transform);    
+
+                MoveToTarget(bulletView.transform, bulletView.target.transform);
             }
         }
-        
+
         private void MoveToTarget(Transform bullet, Transform target)
         {
              var targetPos = target.position;
              var bulletPos = bullet.position;
              var direction = targetPos - bulletPos;
              var speedMoving = _bulletConfigSettings.SpeedMoving;
-                        
+
              bullet.transform.position = Vector3.MoveTowards(
-                 bulletPos, 
+                 bulletPos,
                  targetPos,
-                 Time.deltaTime * speedMoving);
+                 _gameTimeProvider.DeltaTime * speedMoving);
              bullet.transform.LookAt(direction);
         }
     }

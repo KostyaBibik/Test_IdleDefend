@@ -1,4 +1,5 @@
 using Enums;
+using Services;
 using Services.Impl;
 using UnityEngine;
 using Views.Impl;
@@ -10,14 +11,17 @@ namespace Systems.RunTime.SideTower
     {
         private readonly SideTowerService _sideTowerService;
         private readonly EnemyService _enemyService;
+        private readonly IGameTimeProvider _gameTimeProvider;
 
         public SideTowerBeamSystem(
             SideTowerService sideTowerService,
-            EnemyService enemyService
+            EnemyService enemyService,
+            IGameTimeProvider gameTimeProvider
         )
         {
             _sideTowerService = sideTowerService;
             _enemyService = enemyService;
+            _gameTimeProvider = gameTimeProvider;
         }
 
         public void Tick()
@@ -50,7 +54,7 @@ namespace Systems.RunTime.SideTower
             }
 
             var maxHealth = tower.beamCurrentTarget.healthComponent.GetMaxHealth();
-            tower.beamDamageAccumulator += maxHealth * tower.beamPercentMaxHealthPerSecond * Time.deltaTime;
+            tower.beamDamageAccumulator += maxHealth * tower.beamPercentMaxHealthPerSecond * _gameTimeProvider.DeltaTime;
 
             if (tower.beamDamageAccumulator >= 1f)
             {

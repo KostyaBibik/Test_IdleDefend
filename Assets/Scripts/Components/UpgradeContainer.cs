@@ -10,5 +10,6 @@ namespace Components
         public float upgradeValue;
         public int startCost;
         public int costUpgrade;
+        public int maxLevel;
     }
 }

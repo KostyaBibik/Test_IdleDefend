@@ -14,18 +14,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   containers:
   - upgradeType: 1
-    upgradeValue: 0.15
+    upgradeValue: 0.2
     startCost: 15
     costUpgrade: 10
+    maxLevel: 10
   - upgradeType: 2
-    upgradeValue: 0.1
+    upgradeValue: 0.22
     startCost: 15
     costUpgrade: 10
+    maxLevel: 10
   - upgradeType: 3
-    upgradeValue: 10
+    upgradeValue: 16
     startCost: 15
     costUpgrade: 10
+    maxLevel: 10
   - upgradeType: 4
     upgradeValue: 1
     startCost: 100
     costUpgrade: 100
+    maxLevel: 2

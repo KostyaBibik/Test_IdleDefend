@@ -18,6 +18,7 @@ namespace Systems.Initializable
         private readonly LevelService _levelService;
         private readonly SceneHandler _sceneHandler;
         private readonly CameraZoomSystem _cameraZoomSystem;
+        private readonly IGameTimeProvider _gameTimeProvider;
 
         private CompositeDisposable _disposables = new();
         private int _wavesInProgress;
@@ -26,13 +27,15 @@ namespace Systems.Initializable
             EntityFactory entityFactory,
             LevelService levelService,
             SceneHandler sceneHandler,
-            CameraZoomSystem cameraZoomSystem
+            CameraZoomSystem cameraZoomSystem,
+            IGameTimeProvider gameTimeProvider
         )
         {
             _entityFactory = entityFactory;
             _levelService = levelService;
             _sceneHandler = sceneHandler;
             _cameraZoomSystem = cameraZoomSystem;
+            _gameTimeProvider = gameTimeProvider;
         }
 
         private IEnumerator SpawnWave(WaveDefinition wave)
@@ -45,7 +48,7 @@ namespace Systems.Initializable
 
                 for (var i = 0; i < wave.count && !_levelService.IsSpawnCapped; i++)
                 {
-                    yield return new WaitForSeconds(wave.spawnDelay);
+                    yield return _gameTimeProvider.WaitForSeconds(wave.spawnDelay);
 
                     if (_levelService.IsSpawnCapped)
                         break;

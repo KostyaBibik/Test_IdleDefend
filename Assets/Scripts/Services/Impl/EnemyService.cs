@@ -21,18 +21,21 @@ namespace Services.Impl
         private readonly CoinService _coinService;
         private readonly EnemyPrefabsConfig _enemyPrefabsConfig;
         private readonly SignalBus _signalBus;
+        private readonly IGameTimeProvider _gameTimeProvider;
 
         [Inject] private EntityFactory _entityFactory;
 
         public EnemyService(
             CoinService coinService,
             EnemyPrefabsConfig enemyPrefabsConfig,
-            SignalBus signalBus
+            SignalBus signalBus,
+            IGameTimeProvider gameTimeProvider
         )
         {
             _coinService = coinService;
             _enemyPrefabsConfig = enemyPrefabsConfig;
             _signalBus = signalBus;
+            _gameTimeProvider = gameTimeProvider;
         }
 
         public List<EnemyView> Enemies { get; } = new();
@@ -83,7 +86,7 @@ namespace Services.Impl
         {
             var deathPos = view.transform.position;
 
-            yield return new WaitForSeconds(enemyDefinition.DeathDelay);
+            yield return _gameTimeProvider.WaitForSeconds(enemyDefinition.DeathDelay);
 
             for (var i = 0; i < enemyDefinition.SplitChildCount; i++)
             {

@@ -72,9 +72,7 @@ public class SaveSystem : Singleton<SaveSystem>
         else
             saveData = new PlayerSaveData
             {
-                Money = 0,
                 NoAds = false,
-                ProgressInitialized = false,
                 BestSurvivalTime = 0f,
             };
 
@@ -118,17 +116,20 @@ public class SaveSystem : Singleton<SaveSystem>
 public struct PlayerSaveData
 {
     // Fill content of your SaveData, it can be anything that Newtonsoft can serialize
-    // Example of reactive data:
-    private int _cachedMoney;
-    public static event Action OnMoneyChanged;
 
-    public int Money
+    // --- Test_IdleDefend ---
+    // Мета-валюта: персистентна между уровнями и сценами (в отличие от внутриуровневых монет,
+    // которые живут только в рамках одного забега и не сохраняются — см. CoinService).
+    private int _cachedEmeralds;
+    public static event Action OnEmeraldsChanged;
+
+    public int Emeralds
     {
-        get => _cachedMoney;
+        get => _cachedEmeralds;
         set
         {
-            _cachedMoney = value;
-            OnMoneyChanged?.Invoke();
+            _cachedEmeralds = value;
+            OnEmeraldsChanged?.Invoke();
         }
     }
 
@@ -143,17 +144,6 @@ public struct PlayerSaveData
             _noAds = value;
             OnBuyNoAds?.Invoke();
         }
-    }
-
-    // --- Test_IdleDefend ---
-    // Выставляется один раз при самом первом запуске, чтобы отличить «новый игрок»
-    // от «игрок потратил все монеты» (в обоих случаях Money == 0).
-    private bool _progressInitialized;
-
-    public bool ProgressInitialized
-    {
-        get => _progressInitialized;
-        set => _progressInitialized = value;
     }
 
     // Лучшее время выживания за забег, в секундах.

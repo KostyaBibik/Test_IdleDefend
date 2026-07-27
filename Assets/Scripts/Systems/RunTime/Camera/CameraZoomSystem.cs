@@ -22,6 +22,7 @@ namespace Systems.RunTime.Camera
         private readonly LevelService _levelService;
         private readonly CameraZoomSettings _settings;
         private readonly TowerConfigSettings _towerConfigSettings;
+        private readonly IGameTimeProvider _gameTimeProvider;
 
         private float _minOrthographicSize;
         private float _currentVerticalOffset;
@@ -36,7 +37,8 @@ namespace Systems.RunTime.Camera
             SideTowerService sideTowerService,
             LevelService levelService,
             CameraZoomSettings settings,
-            TowerConfigSettings towerConfigSettings
+            TowerConfigSettings towerConfigSettings,
+            IGameTimeProvider gameTimeProvider
         )
         {
             _camera = camera;
@@ -46,6 +48,7 @@ namespace Systems.RunTime.Camera
             _levelService = levelService;
             _settings = settings;
             _towerConfigSettings = towerConfigSettings;
+            _gameTimeProvider = gameTimeProvider;
         }
 
         public void Initialize()
@@ -64,12 +67,13 @@ namespace Systems.RunTime.Camera
                 Mathf.Max(sizeFromWidth, sizeFromHeight, sizeFromMainTowerRange, _minOrthographicSize) * Mathf.Max(1f, ManualZoomMultiplier),
                 _minOrthographicSize, _settings.MaxOrthographicSize);
 
-            _camera.orthographicSize = Mathf.Lerp(_camera.orthographicSize, targetSize, Time.deltaTime * _settings.ZoomLerpSpeed);
+            var deltaTime = _gameTimeProvider.DeltaTime;
+            _camera.orthographicSize = Mathf.Lerp(_camera.orthographicSize, targetSize, deltaTime * _settings.ZoomLerpSpeed);
             _currentVerticalOffset = _camera.orthographicSize * _settings.BottomUiHeightRatio;
 
             var pos = _camera.transform.position;
             var targetY = _towerView.transform.position.y - _currentVerticalOffset;
-            pos.y = Mathf.Lerp(pos.y, targetY, Time.deltaTime * _settings.ZoomLerpSpeed);
+            pos.y = Mathf.Lerp(pos.y, targetY, deltaTime * _settings.ZoomLerpSpeed);
             _camera.transform.position = pos;
         }
 

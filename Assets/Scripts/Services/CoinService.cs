@@ -3,6 +3,11 @@ using Zenject;
 
 namespace Services
 {
+    /// <summary>
+    /// Монеты внутри игровой сессии. Живут только в рамках одного уровня — не сохраняются
+    /// в SaveSystem и не переносятся ни в меню, ни на следующий уровень. Персистентная
+    /// мета-валюта между сессиями — см. EmeraldWallet.
+    /// </summary>
     public class CoinService : IInitializable
     {
         private const int StartCoins = 400;
@@ -14,7 +19,6 @@ namespace Services
         public void AddCoins(int count)
         {
             countCoins += count;
-            SaveSystem.SaveData.Money = countCoins;
             onUpdateCountCoins?.Invoke(countCoins);
         }
 
@@ -23,27 +27,16 @@ namespace Services
             if (countCoins >= count)
             {
                 countCoins -= count;
-                SaveSystem.SaveData.Money = countCoins;
-                SaveSystem.Instance.SaveToStorage();
                 onUpdateCountCoins?.Invoke(countCoins);
                 return true;
             }
-            else
-            {
-                return false;
-            }
+
+            return false;
         }
 
         public void Initialize()
         {
-            if (!SaveSystem.SaveData.ProgressInitialized)
-            {
-                SaveSystem.SaveData.ProgressInitialized = true;
-                SaveSystem.SaveData.Money = StartCoins;
-                SaveSystem.Instance.SaveToStorage();
-            }
-
-            countCoins = SaveSystem.SaveData.Money;
+            countCoins = StartCoins;
             onUpdateCountCoins?.Invoke(countCoins);
         }
     }

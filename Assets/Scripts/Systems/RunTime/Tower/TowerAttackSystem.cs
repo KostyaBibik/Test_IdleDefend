@@ -1,9 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
 using Infrastructure.Impl;
+using Services;
 using Services.Impl;
 using Systems.RunTime;
-using UniRx;
 using UnityEngine;
 using Views.Impl;
 using Zenject;
@@ -15,29 +13,35 @@ namespace Systems.RunTime.Tower
         private readonly EnemyService _enemyService;
         private readonly EntityFactory _entityFactory;
         private readonly TowerView _towerView;
+        private readonly IGameTimeProvider _gameTimeProvider;
 
-        private bool _reload;
+        private float _reloadRemaining;
 
         public TowerAttackSystem(
             TowerView towerView,
             EnemyService enemyService,
-            EntityFactory entityFactory
+            EntityFactory entityFactory,
+            IGameTimeProvider gameTimeProvider
         )
         {
             _towerView = towerView;
             _enemyService = enemyService;
             _entityFactory = entityFactory;
+            _gameTimeProvider = gameTimeProvider;
         }
 
         public void Tick()
         {
-            if (_reload)
+            if (_reloadRemaining > 0f)
+            {
+                _reloadRemaining -= _gameTimeProvider.DeltaTime;
                 return;
+            }
 
             var enemies = _enemyService.GetAssumedActiveEnemies();
             if(enemies.Count <= 0)
                 return;
-            
+
             var nearestEnemy = AttackTargeting.FindNearestEnemy(_towerView.transform.position, enemies);
             if (!CheckOnDistanceAttack(nearestEnemy.transform.position))
                 return;
@@ -47,22 +51,13 @@ namespace Systems.RunTime.Tower
             bullet.damage = _towerView.attackDamage;
             nearestEnemy.healthComponent.ReduceAssumedHealth(bullet.damage);
 
-            Observable.FromCoroutine(Reload).Subscribe();
+            _reloadRemaining = 1f / _towerView.attackSpeed;
         }
 
         private bool CheckOnDistanceAttack(Vector3 enemyPos)
         {
             var distance = Vector3.Distance(enemyPos, _towerView.transform.position);
             return distance <= _towerView.attackDistance * _towerView.ratioRange;
-        }
-
-        private IEnumerator Reload()
-        {
-            _reload = true;
-
-            yield return new WaitForSeconds(1f / _towerView.attackSpeed);
-
-            _reload = false;
         }
     }
 }

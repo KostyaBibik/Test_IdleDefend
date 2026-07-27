@@ -1,7 +1,6 @@
 using Db;
 using Services.Impl;
 using Signals;
-using UnityEngine;
 using Zenject;
 
 namespace Services
@@ -11,6 +10,7 @@ namespace Services
         private readonly LevelsConfig _levelsConfig;
         private readonly EnemyService _enemyService;
         private readonly SignalBus _signalBus;
+        private readonly IGameTimeProvider _gameTimeProvider;
 
         private bool _allWavesSpawned;
         private bool _finished;
@@ -24,12 +24,14 @@ namespace Services
         public LevelService(
             LevelsConfig levelsConfig,
             EnemyService enemyService,
-            SignalBus signalBus
+            SignalBus signalBus,
+            IGameTimeProvider gameTimeProvider
         )
         {
             _levelsConfig = levelsConfig;
             _enemyService = enemyService;
             _signalBus = signalBus;
+            _gameTimeProvider = gameTimeProvider;
         }
 
         public void Initialize()
@@ -51,7 +53,7 @@ namespace Services
             if (_finished)
                 return;
 
-            _elapsed += Time.deltaTime;
+            _elapsed += _gameTimeProvider.DeltaTime;
 
             if (!_allWavesSpawned)
                 return;

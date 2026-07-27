@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Enums;
 using Infrastructure.Impl;
+using Services;
 using Services.Impl;
 using UnityEngine;
 using Views.Impl;
@@ -13,40 +14,45 @@ namespace Systems.RunTime.SideTower
         private readonly SideTowerService _sideTowerService;
         private readonly EnemyService _enemyService;
         private readonly EntityFactory _entityFactory;
+        private readonly IGameTimeProvider _gameTimeProvider;
 
         public SideTowerAttackSystem(
             SideTowerService sideTowerService,
             EnemyService enemyService,
-            EntityFactory entityFactory
+            EntityFactory entityFactory,
+            IGameTimeProvider gameTimeProvider
         )
         {
             _sideTowerService = sideTowerService;
             _enemyService = enemyService;
             _entityFactory = entityFactory;
+            _gameTimeProvider = gameTimeProvider;
         }
 
         public void Tick()
         {
+            var deltaTime = _gameTimeProvider.DeltaTime;
+
             foreach (var tower in _sideTowerService.Towers)
             {
                 switch (tower.attackType)
                 {
                     case ESideTowerAttackType.Projectile:
-                        Attack(tower);
+                        Attack(tower, deltaTime);
                         break;
                     case ESideTowerAttackType.ChainLightning:
-                        AttackChainLightning(tower);
+                        AttackChainLightning(tower, deltaTime);
                         break;
-                    // Beam и SlowAura обслуживаются отдельными системами (SideTowerBeamSystem, SideTowerSlowAuraSystem).
+                    // Beam and SlowAura are handled by separate systems.
                 }
             }
         }
 
-        private void Attack(SideTowerView tower)
+        private void Attack(SideTowerView tower, float deltaTime)
         {
             if (tower.reloadRemaining > 0f)
             {
-                tower.reloadRemaining -= Time.deltaTime;
+                tower.reloadRemaining -= deltaTime;
                 return;
             }
 
@@ -68,15 +74,15 @@ namespace Systems.RunTime.SideTower
             tower.reloadRemaining = 1f / tower.attackSpeed;
         }
 
-        private void AttackChainLightning(SideTowerView tower)
+        private void AttackChainLightning(SideTowerView tower, float deltaTime)
         {
             if (tower.reloadRemaining > 0f)
             {
-                tower.reloadRemaining -= Time.deltaTime;
+                tower.reloadRemaining -= deltaTime;
 
                 if (tower.chainVisualRemaining > 0f)
                 {
-                    tower.chainVisualRemaining -= Time.deltaTime;
+                    tower.chainVisualRemaining -= deltaTime;
                     if (tower.chainVisualRemaining <= 0f && tower.ChainLine != null)
                         tower.ChainLine.positionCount = 0;
                 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using Db;
+using Services;
 using Signals;
 using UniRx;
 using UnityEngine;
@@ -14,6 +15,7 @@ namespace Systems.Actions
         private readonly SignalBus _signalBus;
         private readonly Camera _camera;
         private readonly VisualEffectsSettings _visualEffectsSettings;
+        private readonly IGameTimeProvider _gameTimeProvider;
         
         private IDisposable _shakingObserver;
         private bool _isShaking;
@@ -21,12 +23,14 @@ namespace Systems.Actions
         public ShakeCamOnDamageSystem(
             SignalBus signalBus,
             Camera mainCam,
-            VisualEffectsSettings visualEffectsSettings
+            VisualEffectsSettings visualEffectsSettings,
+            IGameTimeProvider gameTimeProvider
         )
         {
             _signalBus = signalBus;
             _camera = mainCam;
             _visualEffectsSettings = visualEffectsSettings;
+            _gameTimeProvider = gameTimeProvider;
         }
 
         private void ShakeCam(TowerLostHealthSignal signal)
@@ -55,7 +59,7 @@ namespace Systems.Actions
 
                 camTransform.localPosition = new Vector3(originalPos.x + x, originalPos.y + y, originalPos.z);
 
-                elapsedTime += Time.deltaTime;
+                elapsedTime += _gameTimeProvider.DeltaTime;
 
                 yield return null;
             }

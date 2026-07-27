@@ -34,6 +34,8 @@ namespace Installers
 
             Container.Rebind<SceneHandler>().FromInstance(sceneHandler).AsTransient();
 
+            Container.Bind<IGameTimeProvider>().To<GameTimeProvider>().AsSingle().NonLazy();
+
             Container.BindInterfacesAndSelfTo<LevelService>().AsSingle().NonLazy();
 
             InstallGameSystems();

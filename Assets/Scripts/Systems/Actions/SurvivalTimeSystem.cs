@@ -12,13 +12,15 @@ namespace Systems.Actions
     public class SurvivalTimeSystem : IInitializable, ITickable, IDisposable
     {
         private readonly SignalBus _signalBus;
+        private readonly IGameTimeProvider _gameTimeProvider;
 
         private float _elapsed;
         private bool _finished;
 
-        public SurvivalTimeSystem(SignalBus signalBus)
+        public SurvivalTimeSystem(SignalBus signalBus, IGameTimeProvider gameTimeProvider)
         {
             _signalBus = signalBus;
+            _gameTimeProvider = gameTimeProvider;
         }
 
         public void Initialize()
@@ -34,7 +36,7 @@ namespace Systems.Actions
             if (_finished)
                 return;
 
-            _elapsed += Time.deltaTime;
+            _elapsed += _gameTimeProvider.DeltaTime;
             SurvivalRecord.LastRunSeconds = _elapsed;
         }
 

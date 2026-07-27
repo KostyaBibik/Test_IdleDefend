@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Db;
 using Helpers;
+using Services;
 using Signals;
 using UI.Views.Game;
 using UniRx;
@@ -18,19 +19,22 @@ namespace Systems.Actions
         private readonly Camera _camera;
         private readonly VisualEffectsSettings _visualEffects;
         private readonly SceneHandler _sceneHandler;
+        private readonly IGameTimeProvider _gameTimeProvider;
         private readonly Queue<IDisposable> _observers = new Queue<IDisposable>();
 
         public ShowRewardSystem(
             SignalBus signalBus,
             Camera gameCamera,
             VisualEffectsSettings visualEffects,
-            SceneHandler sceneHandler
+            SceneHandler sceneHandler,
+            IGameTimeProvider gameTimeProvider
             )
         {
             _signalBus = signalBus;
             _camera = gameCamera;
             _visualEffects = visualEffects;
             _sceneHandler = sceneHandler;
+            _gameTimeProvider = gameTimeProvider;
         }
 
         private void SpawnRewardEffect(ShowRewardSignal signal)
@@ -66,7 +70,7 @@ namespace Systems.Actions
             
             do
             {
-                var deltaTime = Time.deltaTime;
+                var deltaTime = _gameTimeProvider.DeltaTime;
                 time += deltaTime;
                 rectEffect.anchoredPosition += Vector2.up * speedAnimating * deltaTime;
                 textEffect.color = Color.Lerp(startColorText, targetColorText, time / timeShow);
