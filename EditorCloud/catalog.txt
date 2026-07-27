@@ -1,0 +1,22 @@
+[
+  {
+    "description": "Валюта для покупки предметов в магазине.",
+    "id": "coins_1000_example",
+    "imageURI": "//yastatic.net/s3/games-static/static-data/images/payments/sdk/currency-icon-s@2x.png",
+    "price": "9 YAN",
+    "priceCurrencyCode": "YAN",
+    "priceValue": "9",
+    "priceCurrencyPicture": "//yastatic.net/s3/games-static/static-data/images/payments/sdk/currency-icon-s@2x.png",
+    "title": "1000 монет"
+  },
+  {
+    "description": "Валюта для покупки предметов в магазине.",
+    "id": "coins_100_example",
+    "imageURI": "//yastatic.net/s3/games-static/static-data/images/payments/sdk/currency-icon-s@2x.png",
+    "price": "1 YAN",
+    "priceCurrencyCode": "YAN",
+    "priceValue": "1",
+    "priceCurrencyPicture": "//yastatic.net/s3/games-static/static-data/images/payments/sdk/currency-icon-s@2x.png",
+    "title": "100 монет"
+  }
+]
