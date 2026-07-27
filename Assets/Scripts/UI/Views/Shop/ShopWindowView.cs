@@ -1,0 +1,162 @@
+using System.Collections.Generic;
+using System.Linq;
+using Db;
+using Enums;
+using Services;
+using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
+
+namespace UI.Views.Shop
+{
+    public class ShopWindowView : MonoBehaviour
+    {
+        [SerializeField] private ShopCatalogConfig catalog;
+        [SerializeField] private EShopTab defaultTab = EShopTab.Tower;
+        [SerializeField] private ShopTabButtonView[] tabButtons;
+        [SerializeField] private ShopItemButtonView[] itemViews;
+        [SerializeField] private Button closeButton;
+        [SerializeField] private GameObject windowToShowOnClose;
+        [SerializeField] private TMP_Text selectedItemNameLabel;
+        [SerializeField] private TMP_Text selectedItemDescriptionLabel;
+
+        private EShopTab _currentTab;
+        private readonly List<ShopItemButtonView> _visibleItemViews = new();
+
+        private void Awake()
+        {
+            _currentTab = defaultTab;
+            BindTabs();
+
+            if (closeButton != null)
+                closeButton.onClick.AddListener(Hide);
+        }
+
+        private void OnEnable()
+        {
+            PlayerSaveData.OnEmeraldsChanged += RefreshCurrentTab;
+            ShopInventoryService.OnChanged += RefreshCurrentTab;
+            ShowTab(_currentTab);
+        }
+
+        private void OnDisable()
+        {
+            PlayerSaveData.OnEmeraldsChanged -= RefreshCurrentTab;
+            ShopInventoryService.OnChanged -= RefreshCurrentTab;
+        }
+
+        public void Show()
+        {
+            gameObject.SetActive(true);
+            ShowTab(_currentTab);
+        }
+
+        public void Hide()
+        {
+            gameObject.SetActive(false);
+
+            if (windowToShowOnClose != null)
+                windowToShowOnClose.SetActive(true);
+        }
+
+        public void ShowTab(EShopTab tab)
+        {
+            _currentTab = tab;
+            ShopInventoryService.EnsureDefaultEquipped(catalog, tab);
+            RefreshTabs();
+            RenderItems(catalog != null ? catalog.GetItems(tab).ToList() : new List<ShopItemDefinition>());
+        }
+
+        private void RefreshCurrentTab()
+        {
+            ShowTab(_currentTab);
+        }
+
+        private void BindTabs()
+        {
+            if (tabButtons == null)
+                return;
+
+            foreach (var tabButton in tabButtons)
+            {
+                if (tabButton != null)
+                    tabButton.Setup(ShowTab);
+            }
+        }
+
+        private void RefreshTabs()
+        {
+            if (tabButtons == null)
+                return;
+
+            foreach (var tabButton in tabButtons)
+            {
+                if (tabButton != null)
+                    tabButton.SetSelected(tabButton.Tab == _currentTab);
+            }
+        }
+
+        private void RenderItems(IReadOnlyList<ShopItemDefinition> items)
+        {
+            _visibleItemViews.Clear();
+
+            if (itemViews == null)
+                return;
+
+            for (var i = 0; i < itemViews.Length; i++)
+            {
+                var itemView = itemViews[i];
+                if (itemView == null)
+                    continue;
+
+                if (i >= items.Count)
+                {
+                    itemView.Setup(null, null, null, null);
+                    continue;
+                }
+
+                itemView.Setup(items[i], SelectItem, BuyItem, EquipItem);
+                _visibleItemViews.Add(itemView);
+            }
+
+            SelectItem(items.Count > 0 ? items[0] : null);
+        }
+
+        private void SelectItem(ShopItemDefinition item)
+        {
+            if (selectedItemNameLabel != null)
+                selectedItemNameLabel.text = item != null ? item.DisplayName : string.Empty;
+
+            if (selectedItemDescriptionLabel != null)
+                selectedItemDescriptionLabel.text = item != null ? item.Description : string.Empty;
+        }
+
+        private void BuyItem(ShopItemDefinition item)
+        {
+            var result = ShopInventoryService.TryPurchase(item);
+
+            if (result.Success && item != null && item.Equippable)
+                ShopInventoryService.TryEquip(item);
+
+            RefreshItemViews();
+        }
+
+        private void EquipItem(ShopItemDefinition item)
+        {
+            ShopInventoryService.TryEquip(item);
+            RefreshItemViews();
+        }
+
+        private void RefreshItemViews()
+        {
+            foreach (var itemView in _visibleItemViews)
+                itemView.RefreshState();
+        }
+
+        private void OnDestroy()
+        {
+            if (closeButton != null)
+                closeButton.onClick.RemoveListener(Hide);
+        }
+    }
+}

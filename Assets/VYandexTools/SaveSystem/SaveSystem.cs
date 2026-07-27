@@ -84,7 +84,7 @@ public class SaveSystem : Singleton<SaveSystem>
         return saveData;
     }
 
-    private static void EnsureRuntimeCollections()
+    public static void EnsureRuntimeCollections()
     {
         var saveData = SaveData;
         EnsureRuntimeCollections(ref saveData);
@@ -95,6 +95,12 @@ public class SaveSystem : Singleton<SaveSystem>
     {
         if (saveData.LevelStars == null)
             saveData.LevelStars = new System.Collections.Generic.Dictionary<int, int>();
+
+        if (saveData.PurchasedShopItemIds == null)
+            saveData.PurchasedShopItemIds = new System.Collections.Generic.List<string>();
+
+        if (saveData.EquippedShopItemIds == null)
+            saveData.EquippedShopItemIds = new System.Collections.Generic.Dictionary<string, string>();
     }
 
     public void SaveToStorage()
@@ -171,4 +177,14 @@ public struct PlayerSaveData
 
     // Лучший результат по звёздам (1-3) на каждом пройденном уровне, по LevelDefinition.LevelId.
     public System.Collections.Generic.Dictionary<int, int> LevelStars;
+
+    public static event Action OnShopInventoryChanged;
+
+    public static void NotifyShopInventoryChanged()
+    {
+        OnShopInventoryChanged?.Invoke();
+    }
+
+    public System.Collections.Generic.List<string> PurchasedShopItemIds;
+    public System.Collections.Generic.Dictionary<string, string> EquippedShopItemIds;
 }
