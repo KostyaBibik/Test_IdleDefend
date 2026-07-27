@@ -16,3 +16,4 @@ MonoBehaviour:
   bottomUiHeightRatio: 0.114
   zoomLerpSpeed: 2.5
   maxOrthographicSize: 14
+  mainTowerRangeZoomSizePerUnit: 1

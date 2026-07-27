@@ -21,6 +21,7 @@ namespace Systems.RunTime.Camera
         private readonly SideTowerService _sideTowerService;
         private readonly LevelService _levelService;
         private readonly CameraZoomSettings _settings;
+        private readonly TowerConfigSettings _towerConfigSettings;
 
         private float _minOrthographicSize;
         private float _currentVerticalOffset;
@@ -34,7 +35,8 @@ namespace Systems.RunTime.Camera
             SceneHandler sceneHandler,
             SideTowerService sideTowerService,
             LevelService levelService,
-            CameraZoomSettings settings
+            CameraZoomSettings settings,
+            TowerConfigSettings towerConfigSettings
         )
         {
             _camera = camera;
@@ -43,6 +45,7 @@ namespace Systems.RunTime.Camera
             _sideTowerService = sideTowerService;
             _levelService = levelService;
             _settings = settings;
+            _towerConfigSettings = towerConfigSettings;
         }
 
         public void Initialize()
@@ -56,8 +59,9 @@ namespace Systems.RunTime.Camera
 
             var sizeFromWidth = requiredRadius / _camera.aspect;
             var sizeFromHeight = requiredRadius / (1f - _settings.BottomUiHeightRatio);
+            var sizeFromMainTowerRange = ComputeMainTowerRangeZoomSize();
             var targetSize = Mathf.Clamp(
-                Mathf.Max(sizeFromWidth, sizeFromHeight, _minOrthographicSize) * Mathf.Max(1f, ManualZoomMultiplier),
+                Mathf.Max(sizeFromWidth, sizeFromHeight, sizeFromMainTowerRange, _minOrthographicSize) * Mathf.Max(1f, ManualZoomMultiplier),
                 _minOrthographicSize, _settings.MaxOrthographicSize);
 
             _camera.orthographicSize = Mathf.Lerp(_camera.orthographicSize, targetSize, Time.deltaTime * _settings.ZoomLerpSpeed);
@@ -95,6 +99,12 @@ namespace Systems.RunTime.Camera
             }
 
             return required;
+        }
+
+        private float ComputeMainTowerRangeZoomSize()
+        {
+            var rangeDelta = Mathf.Max(0f, _towerView.attackDistance - _towerConfigSettings.RangeAttack);
+            return _minOrthographicSize + rangeDelta * _settings.MainTowerRangeZoomSizePerUnit;
         }
 
         /// <summary>

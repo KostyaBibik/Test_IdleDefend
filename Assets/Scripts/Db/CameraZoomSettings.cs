@@ -17,9 +17,13 @@ namespace Db
         [Tooltip("Защитный потолок отдаления (orthographicSize), чтобы не улететь в пустоту")]
         [SerializeField] private float maxOrthographicSize = 14f;
 
+        [Tooltip("Extra camera orthographicSize per 1 unit of main tower attack range upgrade. 0 disables this zoom source.")]
+        [SerializeField] private float mainTowerRangeZoomSizePerUnit = 1f;
+
         public float RadiusMargin => radiusMargin;
         public float BottomUiHeightRatio => bottomUiHeightRatio;
         public float ZoomLerpSpeed => zoomLerpSpeed;
         public float MaxOrthographicSize => maxOrthographicSize;
+        public float MainTowerRangeZoomSizePerUnit => mainTowerRangeZoomSizePerUnit;
     }
 }
