@@ -7,21 +7,31 @@ namespace UI.Views
     public class LevelButtonView : MonoBehaviour
     {
         [SerializeField] private Button button;
+        [SerializeField] private Image nodeBackground;
         [SerializeField] private TMP_Text levelNumberLabel;
         [SerializeField] private GameObject lockedOverlay;
+        [SerializeField] private GameObject currentHighlight;
         [SerializeField] private Image[] starIcons;
         [SerializeField] private Sprite filledStarSprite;
         [SerializeField] private Sprite emptyStarSprite;
+        [SerializeField] private Color lockedColor = new Color(0.55f, 0.55f, 0.55f, 1f);
+        [SerializeField] private Color unlockedColor = Color.white;
 
         public Button Button => button;
 
-        public void Setup(int levelNumber, bool unlocked, int stars)
+        public void Setup(int levelNumber, bool unlocked, bool isNext, int stars)
         {
             if (levelNumberLabel != null)
                 levelNumberLabel.text = levelNumber.ToString();
 
             if (lockedOverlay != null)
                 lockedOverlay.SetActive(!unlocked);
+
+            if (currentHighlight != null)
+                currentHighlight.SetActive(unlocked && isNext);
+
+            if (nodeBackground != null)
+                nodeBackground.color = unlocked ? unlockedColor : lockedColor;
 
             button.interactable = unlocked;
 

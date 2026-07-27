@@ -1,6 +1,6 @@
 using Db;
 using Services;
-using UI.Views;
+using UI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -11,32 +11,12 @@ namespace MenuScene
     {
         [SerializeField] private Button exitBtn;
         [SerializeField] private LevelsConfig levelsConfig;
-        [SerializeField] private Transform levelsContainer;
-        [SerializeField] private LevelButtonView levelButtonPrefab;
+        [SerializeField] private LevelPathBuilder levelPathBuilder;
 
         private void Start()
         {
-            BuildLevelButtons();
+            levelPathBuilder.Build(levelsConfig, PlayLevel);
             InitializeExitBtn();
-        }
-
-        private void BuildLevelButtons()
-        {
-            var unlockedIndex = SaveSystem.GetUnlockedLevelIndex();
-
-            for (var i = 0; i < levelsConfig.Count; i++)
-            {
-                var level = levelsConfig.GetByIndex(i);
-                var button = Instantiate(levelButtonPrefab, levelsContainer);
-
-                var unlocked = i <= unlockedIndex;
-                var stars = SaveSystem.GetLevelStars(level.LevelId);
-
-                button.Setup(i + 1, unlocked, stars);
-
-                var levelIndex = i;
-                button.Button.onClick.AddListener(delegate { PlayLevel(levelIndex); });
-            }
         }
 
         private void PlayLevel(int levelIndex)
