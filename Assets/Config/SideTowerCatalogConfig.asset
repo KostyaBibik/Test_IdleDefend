@@ -14,5 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   definitions:
   - {fileID: 11400000, guid: dfd84428628406d48bdec4bdad3c1c3a, type: 2}
-  - {fileID: 11400000, guid: 6aca5f3f9f51c5c459dced5fc8353545, type: 2}
+  - {fileID: 11400000, guid: 332343fcac3dc2540b2fb74ee8350fdf, type: 2}
+  - {fileID: 11400000, guid: a95a3f22a26435343a537cf1a5c5e53b, type: 2}
+  - {fileID: 11400000, guid: c557f0c9a512d5c41a9a6cd04a558fc3, type: 2}
   slotMarkerPrefab: {fileID: 2498189765756723529, guid: fc1b788395e8dd94ba8b8355d1fd9c3a, type: 3}

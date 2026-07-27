@@ -119,6 +119,8 @@ namespace Installers
         {
             Container.BindInterfacesAndSelfTo<SideTowerService>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<SideTowerAttackSystem>().AsSingle().NonLazy();
+            Container.BindInterfacesAndSelfTo<SideTowerBeamSystem>().AsSingle().NonLazy();
+            Container.BindInterfacesAndSelfTo<SideTowerSlowAuraSystem>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<SideTowerSlotService>().AsSingle().NonLazy();
         }
 

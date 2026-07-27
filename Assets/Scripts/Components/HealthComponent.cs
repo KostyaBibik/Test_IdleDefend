@@ -68,5 +68,10 @@ namespace Components
         {
             return _healthValue;
         }
+
+        public int GetMaxHealth()
+        {
+            return _maxHealthValue;
+        }
     }
 }

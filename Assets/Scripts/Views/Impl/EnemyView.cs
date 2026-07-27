@@ -20,6 +20,8 @@ namespace Views.Impl
         [HideInInspector] public float orbitAngleDeg = float.NaN;
         [HideInInspector] public float orbitRadius = -1f;
 
+        [HideInInspector] public float speedMultiplier = 1f;
+
         public Transform Mesh => mesh;
         public Slider HealthSlider => healthSlider;
         public bool isDestroyed { get; set; }

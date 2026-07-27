@@ -51,7 +51,7 @@ namespace Systems.RunTime
             return Vector3.MoveTowards(
                 enemy.transform.position,
                 towerPos,
-                Time.deltaTime * enemy.speedMoving);
+                Time.deltaTime * enemy.speedMoving * enemy.speedMultiplier);
         }
 
         private static Vector3 MoveOrbit(EnemyView enemy, Vector3 towerPos)
@@ -65,7 +65,7 @@ namespace Systems.RunTime
                 enemy.orbitRadius = offset.magnitude;
             }
 
-            enemy.orbitAngleDeg += definition.OrbitAngularSpeedDegPerSec * Time.deltaTime;
+            enemy.orbitAngleDeg += definition.OrbitAngularSpeedDegPerSec * Time.deltaTime * enemy.speedMultiplier;
             enemy.orbitRadius = Mathf.Max(0f, enemy.orbitRadius - definition.OrbitRadiusShrinkSpeed * Time.deltaTime);
 
             var rad = enemy.orbitAngleDeg * Mathf.Deg2Rad;

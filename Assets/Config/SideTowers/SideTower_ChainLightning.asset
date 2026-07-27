@@ -10,12 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7b70561492058e24685eb9d4e73cdf4e, type: 3}
-  m_Name: SideTower_Strong
+  m_Name: SideTower_ChainLightning
   m_EditorClassIdentifier: 
-  displayName: "\u041C\u043E\u0449\u043D\u0430\u044F"
-  icon: {fileID: 21300000, guid: 9762cfe9796d54299a537d68c91c8df6, type: 3}
+  displayName: "\u041C\u043E\u043B\u043D\u0438\u044F"
+  icon: {fileID: 21300000, guid: f05ffdff22a41408e9d58882eb432c43, type: 3}
   viewPrefab: {fileID: 6349731466762690265, guid: ce2e8849a5f8f5c46895c0137454d66f, type: 3}
-  cost: 250
-  attackDamage: 45
-  attackSpeed: 0.8
-  attackDistance: 3.5
+  cost: 180
+  attackDamage: 20
+  attackSpeed: 1
+  attackDistance: 3
+  attackType: 2
+  beamPercentMaxHealthPerSecond: 0.1
+  chainJumpCount: 2
+  chainJumpRadius: 2.5
+  chainFalloffFactor: 0.6
+  slowPercent: 0.4

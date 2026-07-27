@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7b70561492058e24685eb9d4e73cdf4e, type: 3}
-  m_Name: SideTower_Cheap
+  m_Name: SideTower_SlowAura
   m_EditorClassIdentifier: 
-  displayName: "\u0421\u043D\u0430\u0440\u044F\u0434\u044B"
+  displayName: "\u0417\u0430\u043C\u0435\u0434\u043B\u0435\u043D\u0438\u0435"
   icon: {fileID: 21300000, guid: f05ffdff22a41408e9d58882eb432c43, type: 3}
   viewPrefab: {fileID: 6349731466762690265, guid: ce2e8849a5f8f5c46895c0137454d66f, type: 3}
-  cost: 80
-  attackDamage: 15
+  cost: 120
+  attackDamage: 0
   attackSpeed: 1
-  attackDistance: 2.5
-  attackType: 0
+  attackDistance: 3
+  attackType: 3
   beamPercentMaxHealthPerSecond: 0.1
   chainJumpCount: 2
   chainJumpRadius: 2

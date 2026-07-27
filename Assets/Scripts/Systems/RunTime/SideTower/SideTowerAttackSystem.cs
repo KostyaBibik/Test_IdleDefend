@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using Enums;
 using Infrastructure.Impl;
 using Services.Impl;
 using UnityEngine;
@@ -27,7 +29,16 @@ namespace Systems.RunTime.SideTower
         {
             foreach (var tower in _sideTowerService.Towers)
             {
-                Attack(tower);
+                switch (tower.attackType)
+                {
+                    case ESideTowerAttackType.Projectile:
+                        Attack(tower);
+                        break;
+                    case ESideTowerAttackType.ChainLightning:
+                        AttackChainLightning(tower);
+                        break;
+                    // Beam и SlowAura обслуживаются отдельными системами (SideTowerBeamSystem, SideTowerSlowAuraSystem).
+                }
             }
         }
 
@@ -55,6 +66,91 @@ namespace Systems.RunTime.SideTower
             nearestEnemy.healthComponent.ReduceAssumedHealth(bullet.damage);
 
             tower.reloadRemaining = 1f / tower.attackSpeed;
+        }
+
+        private void AttackChainLightning(SideTowerView tower)
+        {
+            if (tower.reloadRemaining > 0f)
+            {
+                tower.reloadRemaining -= Time.deltaTime;
+
+                if (tower.chainVisualRemaining > 0f)
+                {
+                    tower.chainVisualRemaining -= Time.deltaTime;
+                    if (tower.chainVisualRemaining <= 0f && tower.ChainLine != null)
+                        tower.ChainLine.positionCount = 0;
+                }
+
+                return;
+            }
+
+            var enemies = _enemyService.GetAssumedActiveEnemies();
+            if (enemies.Count <= 0)
+                return;
+
+            var towerPos = tower.transform.position;
+            var firstTarget = AttackTargeting.FindNearestEnemy(towerPos, enemies);
+
+            if (Vector3.Distance(towerPos, firstTarget.transform.position) > tower.attackDistance)
+                return;
+
+            var hit = new List<EnemyView> { firstTarget };
+            var damage = (float) tower.attackDamage;
+            ApplyChainDamage(firstTarget, damage);
+
+            var previous = firstTarget;
+            for (var i = 0; i < tower.chainJumpCount; i++)
+            {
+                damage *= tower.chainFalloffFactor;
+                var next = FindNearestUnhit(previous.transform.position, enemies, hit, tower.chainJumpRadius);
+                if (next == null)
+                    break;
+
+                ApplyChainDamage(next, damage);
+                hit.Add(next);
+                previous = next;
+            }
+
+            if (tower.ChainLine != null)
+            {
+                tower.ChainLine.positionCount = hit.Count;
+                for (var i = 0; i < hit.Count; i++)
+                    tower.ChainLine.SetPosition(i, hit[i].transform.position);
+            }
+            tower.chainVisualRemaining = 0.15f;
+
+            tower.reloadRemaining = 1f / tower.attackSpeed;
+        }
+
+        private static void ApplyChainDamage(EnemyView target, float damage)
+        {
+            var damageInt = Mathf.RoundToInt(damage);
+            target.healthComponent.ReduceHealth(damageInt);
+            target.healthComponent.ReduceAssumedHealth(damageInt);
+        }
+
+        private static EnemyView FindNearestUnhit(Vector3 fromPosition, IList<EnemyView> allEnemies, List<EnemyView> alreadyHit, float radius)
+        {
+            EnemyView nearest = null;
+            var nearestDistance = float.MaxValue;
+
+            foreach (var candidate in allEnemies)
+            {
+                if (alreadyHit.Contains(candidate))
+                    continue;
+
+                var distance = Vector3.Distance(fromPosition, candidate.transform.position);
+                if (distance > radius)
+                    continue;
+
+                if (distance < nearestDistance)
+                {
+                    nearestDistance = distance;
+                    nearest = candidate;
+                }
+            }
+
+            return nearest;
         }
     }
 }

@@ -14,19 +14,22 @@ namespace UI.Views.Panels
     public class SideTowerPickerView : MonoBehaviour
     {
         [SerializeField] private RectTransform canvasRect;
-        [SerializeField] private Button outsideClickCatcher;
+        [SerializeField] private ClickThroughOverlay outsideClickCatcher;
         [SerializeField] private RectTransform popupPanel;
-        [SerializeField] private Transform optionsContainer;
+        [SerializeField] private RectTransform optionsContainer;
+        [SerializeField] private GridLayoutGroup optionsGridLayout;
         [SerializeField] private SideTowerOptionButtonView optionButtonPrefab;
         [SerializeField] private Vector2 offsetFromPoint = new(0f, 120f);
         [SerializeField] private float screenEdgeMargin = 40f;
+        [SerializeField] private int maxColumns = 3;
+        [SerializeField] private Vector2 panelPadding = new(40f, 40f);
 
         private readonly List<GameObject> _spawnedOptions = new();
         private Action<SideTowerDefinition> _onPicked;
 
         private void Awake()
         {
-            outsideClickCatcher.onClick.AddListener(Hide);
+            outsideClickCatcher.Closed += Hide;
             gameObject.SetActive(false);
         }
 
@@ -43,8 +46,30 @@ namespace UI.Views.Panels
                 _spawnedOptions.Add(option.gameObject);
             }
 
+            ResizeForOptionCount(definitions.Count);
+
             gameObject.SetActive(true);
             PositionAt(worldPosition, worldCamera);
+        }
+
+        /// <summary>
+        /// Подгоняет размер сетки и попапа под текущее число вариантов, чтобы ряд не растягивался
+        /// шире экрана — с ростом каталога башен опции переносятся на новую строку, а попап растёт
+        /// вниз, а не вширь.
+        /// </summary>
+        private void ResizeForOptionCount(int count)
+        {
+            var columns = Mathf.Clamp(count, 1, maxColumns);
+            var rows = Mathf.Max(1, Mathf.CeilToInt(count / (float) maxColumns));
+
+            var cellSize = optionsGridLayout.cellSize;
+            var spacing = optionsGridLayout.spacing;
+
+            var width = columns * cellSize.x + (columns - 1) * spacing.x;
+            var height = rows * cellSize.y + (rows - 1) * spacing.y;
+
+            optionsContainer.sizeDelta = new Vector2(width, height);
+            popupPanel.sizeDelta = new Vector2(width + panelPadding.x, height + panelPadding.y);
         }
 
         public void Hide()

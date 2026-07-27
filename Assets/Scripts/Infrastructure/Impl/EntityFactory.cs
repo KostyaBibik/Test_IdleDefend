@@ -75,6 +75,13 @@ namespace Infrastructure.Impl
             sideTowerView.attackSpeed = definition.AttackSpeed;
             sideTowerView.attackDistance = definition.AttackDistance;
 
+            sideTowerView.attackType = definition.AttackType;
+            sideTowerView.beamPercentMaxHealthPerSecond = definition.BeamPercentMaxHealthPerSecond;
+            sideTowerView.chainJumpCount = definition.ChainJumpCount;
+            sideTowerView.chainJumpRadius = definition.ChainJumpRadius;
+            sideTowerView.chainFalloffFactor = definition.ChainFalloffFactor;
+            sideTowerView.slowPercent = definition.SlowPercent;
+
             _sideTowerService.AddEntityOnService(sideTowerView);
         }
 
