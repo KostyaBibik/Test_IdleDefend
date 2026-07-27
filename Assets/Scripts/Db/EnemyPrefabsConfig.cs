@@ -1,9 +1,8 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using Enums;
 using UnityEngine;
-using Views.Impl;
-using Random = UnityEngine.Random;
 
 namespace Db
 {
@@ -13,37 +12,19 @@ namespace Db
     {
         [SerializeField] private float minSpawnDelay = 2;
         [SerializeField] private float maxSpawnDelay = 4;
-        [Space] [SerializeField] private EnemyPrefab[] prefabs;
+        [Space] [SerializeField] private List<EnemyDefinition> definitions;
 
         public float MinSpawnDelay => minSpawnDelay;
         public float MaxSpawnDelay => maxSpawnDelay;
-        public int CountPrefabs => prefabs.Length;
+        public int CountPrefabs => definitions.Count;
 
-        public EnemyPrefab GetPrefab(EEnemyType type)
+        public EnemyDefinition GetPrefab(EEnemyType type)
         {
-            foreach (var prefab in prefabs)
-            {
-                if (prefab.type == type)
-                    return prefab;
-            }
+            var definition = definitions.FirstOrDefault(d => d.Type == type);
+            if (definition == null)
+                throw new Exception($"[EnemyPrefabsConfig] Can't find prefab with type: {type}");
 
-            throw new Exception($"[EnemyPrefabsConfig] Can't find prefab with type: {type}");
-        }
-
-        [Serializable]
-        public class EnemyPrefab
-        {
-            public EEnemyType type;
-            public EnemyView view;
-            public float speedMoving;
-            public int startHealth;
-            public int rewardKillCoins;
-            public List<ParticleSystem> killEnemyParticles;
-
-            public ParticleSystem GetRandomParticle()
-            {
-                return killEnemyParticles[Random.Range(0, killEnemyParticles.Count)];
-            }
+            return definition;
         }
     }
 }

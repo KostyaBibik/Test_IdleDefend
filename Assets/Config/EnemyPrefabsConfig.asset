@@ -14,40 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minSpawnDelay: 2
   maxSpawnDelay: 4
-  prefabs:
-  - type: 0
-    view: {fileID: 8633028733757129972, guid: b19248811d8f90349a3f8632ec28fecb, type: 3}
-    speedMoving: 0.18
-    startHealth: 160
-    rewardKillCoins: 150
-    killEnemyParticles:
-    - {fileID: 2028876363438471919, guid: 0d29b47327caa6646bcd79fa5efae742, type: 3}
-    - {fileID: 4569684781166218482, guid: de6dee9cc18d9b54d8868d37e6f81dd6, type: 3}
-    - {fileID: 7488074429550447023, guid: 6bdc90ec8b98aa14f8734df5d7d66e2f, type: 3}
-  - type: 1
-    view: {fileID: 1230293138181742960, guid: 8f1cbe05f094798438f0e61269f1580f, type: 3}
-    speedMoving: 0.65
-    startHealth: 70
-    rewardKillCoins: 50
-    killEnemyParticles:
-    - {fileID: 2028876363438471919, guid: 0d29b47327caa6646bcd79fa5efae742, type: 3}
-    - {fileID: 4569684781166218482, guid: de6dee9cc18d9b54d8868d37e6f81dd6, type: 3}
-    - {fileID: 7488074429550447023, guid: 6bdc90ec8b98aa14f8734df5d7d66e2f, type: 3}
-  - type: 2
-    view: {fileID: 4804892218997116115, guid: 8a29c59dd02275a4cb3d8187e7e647b5, type: 3}
-    speedMoving: 0.4
-    startHealth: 125
-    rewardKillCoins: 75
-    killEnemyParticles:
-    - {fileID: 2028876363438471919, guid: 0d29b47327caa6646bcd79fa5efae742, type: 3}
-    - {fileID: 4569684781166218482, guid: de6dee9cc18d9b54d8868d37e6f81dd6, type: 3}
-    - {fileID: 7488074429550447023, guid: 6bdc90ec8b98aa14f8734df5d7d66e2f, type: 3}
-  - type: 3
-    view: {fileID: 8981180178125238036, guid: 7b56deddf2fe56f4da617df699be95f2, type: 3}
-    speedMoving: 0.5
-    startHealth: 100
-    rewardKillCoins: 90
-    killEnemyParticles:
-    - {fileID: 2028876363438471919, guid: 0d29b47327caa6646bcd79fa5efae742, type: 3}
-    - {fileID: 4569684781166218482, guid: de6dee9cc18d9b54d8868d37e6f81dd6, type: 3}
-    - {fileID: 7488074429550447023, guid: 6bdc90ec8b98aa14f8734df5d7d66e2f, type: 3}
+  definitions:
+  - {fileID: 11400000, guid: 4ec069d88ca95624088a92cbc68ac495, type: 2}
+  - {fileID: 11400000, guid: d7868889f0eb95b44ae0499a6d5bac97, type: 2}
+  - {fileID: 11400000, guid: 3ed74d9d98257784db20d7242eb8ad86, type: 2}
+  - {fileID: 11400000, guid: e85d13d7588a57845881291564adb851, type: 2}
+  - {fileID: 11400000, guid: 48e1287129e6e004b9173012ea9a1f06, type: 2}
+  - {fileID: 11400000, guid: 583f574e9e2445645800fdb32050cb6b, type: 2}
+  - {fileID: 11400000, guid: b81b5e35d1de4564a81607fe8717cc5c, type: 2}

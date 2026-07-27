@@ -1,10 +1,13 @@
-﻿namespace Enums
+namespace Enums
 {
     public enum EEnemyType
     {
-        EnemyType_1,
-        EnemyType_2,
-        EnemyType_3,
-        EnemyType_4,
+        Grunt,
+        Tank,
+        Runner,
+        Armored,
+        Orbiter,
+        Splitter,
+        SplitterChild,
     }
 }

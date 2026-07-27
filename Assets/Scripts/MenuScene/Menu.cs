@@ -1,4 +1,6 @@
-﻿using System;
+using Db;
+using Services;
+using UI.Views;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -7,21 +9,44 @@ namespace MenuScene
 {
     public class Menu : MonoBehaviour
     {
-        [SerializeField] private Button playBtn;
         [SerializeField] private Button exitBtn;
+        [SerializeField] private LevelsConfig levelsConfig;
+        [SerializeField] private Transform levelsContainer;
+        [SerializeField] private LevelButtonView levelButtonPrefab;
 
         private void Start()
         {
-            InitializeBtns();
+            BuildLevelButtons();
+            InitializeExitBtn();
         }
 
-        private void InitializeBtns()
+        private void BuildLevelButtons()
         {
-            playBtn.onClick.AddListener(delegate
+            var unlockedIndex = SaveSystem.SaveData.UnlockedLevelIndex;
+
+            for (var i = 0; i < levelsConfig.Count; i++)
             {
-                SceneManager.LoadScene("GameScene");
-            });
-            
+                var level = levelsConfig.GetByIndex(i);
+                var button = Instantiate(levelButtonPrefab, levelsContainer);
+
+                var unlocked = i <= unlockedIndex;
+                var stars = SaveSystem.SaveData.LevelStars.TryGetValue(level.LevelId, out var s) ? s : 0;
+
+                button.Setup(i + 1, unlocked, stars);
+
+                var levelIndex = i;
+                button.Button.onClick.AddListener(delegate { PlayLevel(levelIndex); });
+            }
+        }
+
+        private void PlayLevel(int levelIndex)
+        {
+            SelectedLevelHolder.SelectedLevelIndex = levelIndex;
+            SceneManager.LoadScene("GameScene");
+        }
+
+        private void InitializeExitBtn()
+        {
 #if UNITY_WEBGL && !UNITY_EDITOR
             // В WebGL Application.Quit() ничего не делает — мёртвая кнопка, модерация Яндекса такое режет.
             exitBtn.gameObject.SetActive(false);

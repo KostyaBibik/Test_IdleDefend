@@ -1,8 +1,12 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Db;
+using Enums;
+using Infrastructure.Impl;
 using Signals;
+using UniRx;
 using UnityEngine;
 using Views;
 using Views.Impl;
@@ -17,6 +21,8 @@ namespace Services.Impl
         private readonly CoinService _coinService;
         private readonly EnemyPrefabsConfig _enemyPrefabsConfig;
         private readonly SignalBus _signalBus;
+
+        [Inject] private EntityFactory _entityFactory;
 
         public EnemyService(
             CoinService coinService,
@@ -41,11 +47,11 @@ namespace Services.Impl
             var view = (EnemyView) signal.view;
             if (Enemies.Contains(view))
             {
-                var enemyPrefab = _enemyPrefabsConfig.GetPrefab(view.type);
-                var rewardCount = enemyPrefab.rewardKillCoins;
+                var enemyDefinition = _enemyPrefabsConfig.GetPrefab(view.type);
+                var rewardCount = enemyDefinition.RewardCoins;
 
                 Enemies.Remove(view);
-                var particlePrefab = enemyPrefab.GetRandomParticle();
+                var particlePrefab = enemyDefinition.GetRandomParticle();
                 var particles = Object.Instantiate(particlePrefab,
                     view.transform.position, Quaternion.identity);
                 if (signal.hashReward)
@@ -60,8 +66,31 @@ namespace Services.Impl
                 }
 
                 Object.Destroy(particles.gameObject, delayBeforeClearParticle);
-                Object.Destroy(view.gameObject);
+
+                if (enemyDefinition.OnDeath == EEnemyDeathBehavior.SplitIntoChildren)
+                {
+                    view.PlayDeathAnimation();
+                    Observable.FromCoroutine(() => SplitAndDestroy(view, enemyDefinition)).Subscribe();
+                }
+                else
+                {
+                    Object.Destroy(view.gameObject);
+                }
             }
+        }
+
+        private IEnumerator SplitAndDestroy(EnemyView view, EnemyDefinition enemyDefinition)
+        {
+            var deathPos = view.transform.position;
+
+            yield return new WaitForSeconds(enemyDefinition.DeathDelay);
+
+            for (var i = 0; i < enemyDefinition.SplitChildCount; i++)
+            {
+                _entityFactory.CreateEnemy(deathPos, enemyDefinition.SplitChildType.Type, 0, 0);
+            }
+
+            Object.Destroy(view.gameObject);
         }
 
         public List<EnemyView> GetAssumedActiveEnemies()

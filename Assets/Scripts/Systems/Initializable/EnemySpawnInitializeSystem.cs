@@ -1,10 +1,9 @@
-﻿using System;
+using System;
 using System.Collections;
-using Systems.RunTime.Enemies;
 using Db;
-using Enums;
 using Helpers;
 using Infrastructure.Impl;
+using Services;
 using UniRx;
 using UnityEngine;
 using Zenject;
@@ -15,64 +14,72 @@ namespace Systems.Initializable
     public class EnemySpawnInitializeSystem : IInitializable, IDisposable
     {
         private readonly EntityFactory _entityFactory;
-        private readonly EnemyPrefabsConfig _enemyPrefabsConfig;
-        private SceneHandler _sceneHandler;
-        private readonly IncreasingEnemyParametersSystem _increasingEnemyParameters;
+        private readonly LevelService _levelService;
+        private readonly SceneHandler _sceneHandler;
 
-        private IDisposable _observer;
-        
+        private CompositeDisposable _disposables = new();
+        private int _wavesInProgress;
+
         public EnemySpawnInitializeSystem(
             EntityFactory entityFactory,
-            EnemyPrefabsConfig prefabsConfig,
-            SceneHandler sceneHandler,
-            IncreasingEnemyParametersSystem increasingEnemyParametersSystem
+            LevelService levelService,
+            SceneHandler sceneHandler
         )
         {
             _entityFactory = entityFactory;
-            _enemyPrefabsConfig = prefabsConfig;
+            _levelService = levelService;
             _sceneHandler = sceneHandler;
-            _increasingEnemyParameters = increasingEnemyParametersSystem;
         }
 
-        private IEnumerator SpawnEnemyWithDelay()
+        private IEnumerator SpawnWave(WaveDefinition wave)
         {
-            do
+            try
             {
-                var delay = new WaitForSeconds(Random.Range(_enemyPrefabsConfig.MinSpawnDelay, _enemyPrefabsConfig.MaxSpawnDelay));
-                
-                yield return delay;
+                var triggerSeconds = _levelService.CurrentLevel.GetTriggerSeconds(wave.startTrigger);
+                yield return new WaitUntil(() =>
+                    _levelService.ElapsedSeconds >= triggerSeconds || _levelService.IsSpawnCapped);
 
-                var distanceFromCenter = Random.Range(3f, 5f);
-                
-                var randomPoint = _sceneHandler.TowerPos.position + new Vector3(Random.value - 0.5f, Random.value - 0.5f, 0f).normalized * distanceFromCenter;
+                for (var i = 0; i < wave.count && !_levelService.IsSpawnCapped; i++)
+                {
+                    yield return new WaitForSeconds(wave.spawnDelay);
 
-                var randomTypeCounter = Random.Range(0, _enemyPrefabsConfig.CountPrefabs);
-                var randomType = (EEnemyType)Enum.GetValues(typeof(EEnemyType)).GetValue(randomTypeCounter);
+                    if (_levelService.IsSpawnCapped)
+                        break;
 
-                var additiveHealth = _increasingEnemyParameters.additiveHealth;
-                var additiveSpeed = _increasingEnemyParameters.additiveSpeed;
+                    var distanceFromCenter = Random.Range(3f, 5f);
+                    var randomPoint = _sceneHandler.TowerPos.position +
+                                       new Vector3(Random.value - 0.5f, Random.value - 0.5f, 0f).normalized *
+                                       distanceFromCenter;
 
-                _entityFactory.CreateEnemy(randomPoint, randomType, additiveHealth, additiveSpeed);
-            } while (true);
+                    _entityFactory.CreateEnemy(randomPoint, wave.enemyType, wave.extraHealth, wave.extraSpeed);
+                }
+            }
+            finally
+            {
+                _wavesInProgress--;
+                if (_wavesInProgress <= 0)
+                    _levelService.NotifyAllWavesSpawned();
+            }
         }
 
-        [Inject]
-        public void Construct(SceneHandler sceneHandler)
-        {
-            _sceneHandler = sceneHandler;
-        }
-        
         public void Initialize()
         {
-            _observer?.Dispose();
-            
-            _observer = Observable.FromCoroutine(SpawnEnemyWithDelay)
-                .Subscribe();
+            _disposables.Dispose();
+            _disposables = new CompositeDisposable();
+
+            var waves = _levelService.CurrentLevel.Waves;
+            _wavesInProgress = waves.Count;
+
+            foreach (var wave in waves)
+            {
+                var capturedWave = wave;
+                _disposables.Add(Observable.FromCoroutine(() => SpawnWave(capturedWave)).Subscribe());
+            }
         }
 
         public void Dispose()
         {
-            _observer?.Dispose();
+            _disposables.Dispose();
         }
     }
 }

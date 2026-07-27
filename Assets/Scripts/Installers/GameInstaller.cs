@@ -28,8 +28,10 @@ namespace Installers
             InitializeSignals();
             
             Container.Bind<Camera>().FromInstance(mainCamera).AsSingle();
-            
+
             Container.Rebind<SceneHandler>().FromInstance(sceneHandler).AsTransient();
+
+            Container.BindInterfacesAndSelfTo<LevelService>().AsSingle().NonLazy();
 
             InstallGameSystems();
 
@@ -55,16 +57,18 @@ namespace Installers
             Container.DeclareSignal<TowerAddHealthSignal>();
             Container.DeclareSignal<DestroyEntitySignal>();
             Container.DeclareSignal<ShowRewardSignal>();
+            Container.DeclareSignal<LevelWavesFinishedSignal>();
+            Container.DeclareSignal<GameWinSignal>();
         }
         
         private void InstallGameSystems()
         {
             Container.BindInterfacesAndSelfTo<GameInitializeSystem>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<LoseActionSystem>().AsSingle().NonLazy();
+            Container.BindInterfacesAndSelfTo<WinActionSystem>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<ShowRewardSystem>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<ShakeCamOnDamageSystem>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<SurvivalTimeSystem>().AsSingle().NonLazy();
-            Container.BindInterfacesAndSelfTo<IncreasingEnemyParametersSystem>().AsSingle().NonLazy();
         }
 
         private void BindAndCreateTowerView()

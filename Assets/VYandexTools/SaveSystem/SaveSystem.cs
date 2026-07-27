@@ -55,6 +55,8 @@ public class SaveSystem : Singleton<SaveSystem>
 
         // It is very imporant to add null-checks for any collections you add in future updates
         // Since NewtonsoftJson is creating nulls when reading jsons with no info about collections
+        if (saveData.LevelStars == null)
+            saveData.LevelStars = new System.Collections.Generic.Dictionary<int, int>();
 
         IsDataLoaded = true;
         return saveData;
@@ -130,4 +132,16 @@ public struct PlayerSaveData
             OnBestSurvivalTimeChanged?.Invoke();
         }
     }
+
+    // Индекс уровня (по позиции в LevelsConfig), следующий за последним пройденным. 0 — открыт только первый уровень.
+    private int _unlockedLevelIndex;
+
+    public int UnlockedLevelIndex
+    {
+        get => _unlockedLevelIndex;
+        set => _unlockedLevelIndex = value;
+    }
+
+    // Лучший результат по звёздам (1-3) на каждом пройденном уровне, по LevelDefinition.LevelId.
+    public System.Collections.Generic.Dictionary<int, int> LevelStars;
 }

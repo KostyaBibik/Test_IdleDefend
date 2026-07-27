@@ -43,7 +43,7 @@ namespace Systems.RunTime.Enemies
             {
                _signalBus.Fire(new TowerLostHealthSignal
                {
-                   damageCount = 1
+                   damageCount = enemyView.definition.DamageToTower
                });
                
                enemyView.healthComponent.DestroyOnAttackTower();

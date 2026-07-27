@@ -1,4 +1,4 @@
-﻿using Db;
+using Db;
 using Enums;
 using Services.Impl;
 using UnityEngine;
@@ -13,7 +13,7 @@ namespace Systems.RunTime
         private readonly TowerView _towerView;
 
         private const float speedRotating = 2f;
-        
+
         public EnemyMovingSystem(
             EnemyService enemyService,
             TowerView towerView
@@ -33,18 +33,45 @@ namespace Systems.RunTime
 
         private void MoveToTower(EnemyView enemy)
         {
-            var enemyPos = enemy.transform.position;
             var towerPos = _towerView.transform.position;
-            var speedMoving = enemy.speedMoving;
-            
-            enemy.transform.position = Vector3.MoveTowards(
-                enemyPos, 
-                towerPos,
-                Time.deltaTime * speedMoving);
-            
+            var newPos = enemy.definition != null && enemy.definition.MovementType == EEnemyMovementType.Orbit
+                ? MoveOrbit(enemy, towerPos)
+                : MoveLinear(enemy, towerPos);
+
+            var enemyPos = enemy.transform.position;
+            enemy.transform.position = newPos;
+
             var angle = Mathf.Atan2(towerPos.y - enemyPos.y, towerPos.x - enemyPos.x ) * Mathf.Rad2Deg;
             var targetRotation = Quaternion.Euler(new Vector3(0, 0, angle));
             enemy.Mesh.rotation = Quaternion.RotateTowards(enemy.Mesh.rotation, targetRotation, speedRotating * Time.deltaTime);
+        }
+
+        private static Vector3 MoveLinear(EnemyView enemy, Vector3 towerPos)
+        {
+            return Vector3.MoveTowards(
+                enemy.transform.position,
+                towerPos,
+                Time.deltaTime * enemy.speedMoving);
+        }
+
+        private static Vector3 MoveOrbit(EnemyView enemy, Vector3 towerPos)
+        {
+            var definition = enemy.definition;
+
+            if (float.IsNaN(enemy.orbitAngleDeg))
+            {
+                var offset = enemy.transform.position - towerPos;
+                enemy.orbitAngleDeg = Mathf.Atan2(offset.y, offset.x) * Mathf.Rad2Deg;
+                enemy.orbitRadius = offset.magnitude;
+            }
+
+            enemy.orbitAngleDeg += definition.OrbitAngularSpeedDegPerSec * Time.deltaTime;
+            enemy.orbitRadius = Mathf.Max(0f, enemy.orbitRadius - definition.OrbitRadiusShrinkSpeed * Time.deltaTime);
+
+            var rad = enemy.orbitAngleDeg * Mathf.Deg2Rad;
+            var offsetFromTower = new Vector3(Mathf.Cos(rad), Mathf.Sin(rad), 0f) * enemy.orbitRadius;
+
+            return towerPos + offsetFromTower;
         }
     }
 }

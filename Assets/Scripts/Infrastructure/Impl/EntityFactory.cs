@@ -38,23 +38,25 @@ namespace Infrastructure.Impl
             float additiveSpeed
         )
         {
-            var enemyPrefab = _enemyPrefabsConfig.GetPrefab(type);
-            var enemyView = DiContainerRef.Container.InstantiatePrefabForComponent<EnemyView>(enemyPrefab.view);
+            var enemyDefinition = _enemyPrefabsConfig.GetPrefab(type);
+            var enemyView = DiContainerRef.Container.InstantiatePrefabForComponent<EnemyView>(enemyDefinition.ViewPrefab);
             var enemyTransform = enemyView.transform;
             enemyTransform.position = posSpawn;
             enemyTransform.rotation = Quaternion.identity;
             var healthComponent =
                 DiContainerRef.Container.InstantiateComponent<EnemyHealthComponent>(enemyView.gameObject);
 
-            var hp = enemyPrefab.startHealth + additiveHealth;
-            var speed = enemyPrefab.speedMoving + additiveSpeed;
+            var hp = enemyDefinition.Health + additiveHealth;
+            var speed = enemyDefinition.Speed + additiveSpeed;
 
             healthComponent.Initialize(hp, enemyView.HealthSlider, enemyView);
             healthComponent.signalBus = _signalBus;
+            healthComponent.definition = enemyDefinition;
             enemyView.healthComponent = healthComponent;
             enemyView.type = type;
             enemyView.speedMoving = speed;
-            
+            enemyView.definition = enemyDefinition;
+
             _enemyService.AddEntityOnService(enemyView);
         }
 

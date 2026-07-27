@@ -33,7 +33,7 @@ namespace Components
             _healthSlider.value = (float)_healthValue / _maxHealthValue;
         }
 
-        public void ReduceHealth(int amount)
+        public virtual void ReduceHealth(int amount)
         {
             _healthValue = Mathf.Clamp(_healthValue - amount, 0, _maxHealthValue);
             _healthSlider.value = (float)_healthValue / _maxHealthValue;

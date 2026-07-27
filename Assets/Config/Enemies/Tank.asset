@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97d7af1e7c8a923499e1a349525da421, type: 3}
+  m_Name: Tank
+  m_EditorClassIdentifier: 
+  type: 1
+  viewPrefab: {fileID: 8633028733757129972, guid: b19248811d8f90349a3f8632ec28fecb, type: 3}
+  killParticles:
+  - {fileID: 2028876363438471919, guid: 0d29b47327caa6646bcd79fa5efae742, type: 3}
+  - {fileID: 4569684781166218482, guid: de6dee9cc18d9b54d8868d37e6f81dd6, type: 3}
+  - {fileID: 7488074429550447023, guid: 6bdc90ec8b98aa14f8734df5d7d66e2f, type: 3}
+  health: 160
+  speed: 0.18
+  rewardCoins: 150
+  damageToTower: 1
+  damageReduction: 0
+  movementType: 0
+  orbitAngularSpeedDegPerSec: 60
+  orbitRadiusShrinkSpeed: 0.3
+  onDeath: 0
+  splitChildType: {fileID: 0}
+  splitChildCount: 3
+  deathDelay: 0.6

@@ -12,18 +12,17 @@ namespace Installers
         [SerializeField] private EnemyPrefabsConfig enemyPrefabsConfig;
         [SerializeField] private BulletConfigSettings bulletConfigSettings;
         [SerializeField] private UpgradeTowerConfigSettings upgradeTowerConfigSettings;
-        [SerializeField] private LevelConfigSettings levelConfigSettings;
+        [SerializeField] private LevelsConfig levelsConfig;
         [SerializeField] private VisualEffectsSettings visualEffectsSettings;
-        [SerializeField] private IncreaseEnemiesSettings increaseEnemiesSettings;
-        
+
         public override void InstallBindings()
         {
             Container.BindInstance(towerConfigSettings);
             Container.BindInstance(enemyPrefabsConfig);
             Container.BindInstance(bulletConfigSettings);
             Container.BindInstance(upgradeTowerConfigSettings);
+            Container.BindInstance(levelsConfig);
             Container.BindInstance(visualEffectsSettings);
-            Container.BindInstance(increaseEnemiesSettings);
         }
     }
 }
