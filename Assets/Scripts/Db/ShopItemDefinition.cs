@@ -24,6 +24,15 @@ namespace Db
         [Header("Механика (только Tab == Tower)")]
         [SerializeField] private TowerBodyDefinition towerBody;
 
+        [Header("Механика (только Tab == Projectiles)")]
+        [SerializeField] private ProjectileDefinition projectile;
+
+        [Header("Бусты-расходники (только Tab == Boosts)")]
+        [Tooltip("Тип эффекта, который будет применен на следующий бой после выбора буста на предбоевом экране.")]
+        [SerializeField] private EBoostEffectType boostEffectType = EBoostEffectType.None;
+        [Tooltip("Для процентов указывать долю: 0.10 = +10%. Для ShieldHits указывать количество блокируемых ударов.")]
+        [SerializeField] private float boostValue;
+
         public string Id => id;
         public EShopTab Tab => tab;
         public EShopPurchaseType PurchaseType => purchaseType;
@@ -38,5 +47,8 @@ namespace Db
         public bool Equippable => equippable;
         public int SortOrder => sortOrder;
         public TowerBodyDefinition TowerBody => towerBody;
+        public ProjectileDefinition Projectile => projectile;
+        public EBoostEffectType BoostEffectType => boostEffectType;
+        public float BoostValue => boostValue;
     }
 }

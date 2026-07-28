@@ -1,0 +1,115 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8d08ff4f2c04c81962e698db4682e67, type: 3}
+  m_Name: TowerExperienceConfig
+  m_EditorClassIdentifier: 
+  defaultExperiencePerEnemy: 5
+  enemyExperienceMultiplier: 1
+  levelRequirements:
+  - targetLevel: 2
+    experience: 100
+  - targetLevel: 3
+    experience: 140
+  - targetLevel: 4
+    experience: 200
+  - targetLevel: 5
+    experience: 280
+  - targetLevel: 6
+    experience: 380
+  - targetLevel: 7
+    experience: 500
+  - targetLevel: 8
+    experience: 640
+  - targetLevel: 9
+    experience: 800
+  - targetLevel: 10
+    experience: 980
+  - targetLevel: 11
+    experience: 1180
+  - targetLevel: 12
+    experience: 1400
+  - targetLevel: 13
+    experience: 1640
+  - targetLevel: 14
+    experience: 1900
+  - targetLevel: 15
+    experience: 2180
+  - targetLevel: 16
+    experience: 2480
+  - targetLevel: 17
+    experience: 2800
+  - targetLevel: 18
+    experience: 3140
+  - targetLevel: 19
+    experience: 3500
+  - targetLevel: 20
+    experience: 3880
+  - targetLevel: 21
+    experience: 4280
+  - targetLevel: 22
+    experience: 4700
+  - targetLevel: 23
+    experience: 5140
+  - targetLevel: 24
+    experience: 5600
+  - targetLevel: 25
+    experience: 6080
+  - targetLevel: 26
+    experience: 6580
+  - targetLevel: 27
+    experience: 7100
+  - targetLevel: 28
+    experience: 7640
+  - targetLevel: 29
+    experience: 8200
+  - targetLevel: 30
+    experience: 8780
+  - targetLevel: 31
+    experience: 9380
+  - targetLevel: 32
+    experience: 10000
+  - targetLevel: 33
+    experience: 10640
+  - targetLevel: 34
+    experience: 11300
+  - targetLevel: 35
+    experience: 11980
+  - targetLevel: 36
+    experience: 12680
+  - targetLevel: 37
+    experience: 13400
+  - targetLevel: 38
+    experience: 14140
+  - targetLevel: 39
+    experience: 14900
+  - targetLevel: 40
+    experience: 15680
+  - targetLevel: 41
+    experience: 16480
+  - targetLevel: 42
+    experience: 17300
+  - targetLevel: 43
+    experience: 18140
+  - targetLevel: 44
+    experience: 19000
+  - targetLevel: 45
+    experience: 19880
+  - targetLevel: 46
+    experience: 20780
+  - targetLevel: 47
+    experience: 21700
+  - targetLevel: 48
+    experience: 22640
+  - targetLevel: 49
+    experience: 23600
+  - targetLevel: 50
+    experience: 24580

@@ -32,6 +32,21 @@ namespace Views.Impl
         [HideInInspector] public GameObject splashImpactEffectPrefab;
         [HideInInspector] public float splashImpactEffectReferenceRadius = 1f;
 
+        [Header("Снаряд (заполняется TowerInitializeSystem из экипированного товара магазина)")]
+        [Tooltip("Prefab-вариант BulletView экипированного снаряда. Null означает базовый снаряд из BulletConfigSettings.")]
+        [HideInInspector] public BulletView projectilePrefabVariant;
+        [HideInInspector] public float projectileSpeedMultiplier = 1f;
+
+        [Tooltip("Спец-эффекты снаряда - независимы от attackType тела башни, применяются BulletHitSystem дополнительно.")]
+        [HideInInspector] public bool projectileAppliesFrost;
+        [HideInInspector] public float projectileFrostSlowPercent;
+        [HideInInspector] public float projectileFrostSlowDuration;
+        [HideInInspector] public bool projectileAppliesPoison;
+        [HideInInspector] public float projectilePoisonDamagePercentPerTick;
+        [HideInInspector] public float projectilePoisonTickInterval;
+        [HideInInspector] public float projectilePoisonDuration;
+        [HideInInspector] public GameObject projectilePoisonVfxPrefab;
+
         [Header("Ультимативная способность")]
         [HideInInspector] public string ultimateName;
         [HideInInspector] public Sprite ultimateIcon;

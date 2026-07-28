@@ -22,6 +22,9 @@ namespace UI.Views.Shop
         [Tooltip("Попап с живой витриной: открывается по клику игрока на карточку. " +
                  "Не обязателен - без него магазин работает как раньше.")]
         [SerializeField] private TowerPreviewPopupView previewPopup;
+        [Tooltip("Попап покупки буста-расходника пачкой: открывается вместо живой витрины " +
+                 "для вкладки Boosts.")]
+        [SerializeField] private BoostPurchasePopupView boostPurchasePopup;
 
         private EShopTab _currentTab;
         private readonly List<ShopItemButtonView> _visibleItemViews = new();
@@ -39,6 +42,7 @@ namespace UI.Views.Shop
         {
             PlayerSaveData.OnEmeraldsChanged += RefreshCurrentTab;
             ShopInventoryService.OnChanged += RefreshCurrentTab;
+            BoostInventoryService.OnChanged += RefreshCurrentTab;
             ShowTab(_currentTab);
         }
 
@@ -46,6 +50,7 @@ namespace UI.Views.Shop
         {
             PlayerSaveData.OnEmeraldsChanged -= RefreshCurrentTab;
             ShopInventoryService.OnChanged -= RefreshCurrentTab;
+            BoostInventoryService.OnChanged -= RefreshCurrentTab;
         }
 
         public void Show()
@@ -61,6 +66,9 @@ namespace UI.Views.Shop
             if (previewPopup != null)
                 previewPopup.Close();
 
+            if (boostPurchasePopup != null)
+                boostPurchasePopup.Close();
+
             gameObject.SetActive(false);
 
             if (windowToShowOnClose != null)
@@ -71,6 +79,9 @@ namespace UI.Views.Shop
         {
             if (previewPopup != null && tab != _currentTab)
                 previewPopup.Close();
+
+            if (boostPurchasePopup != null && tab != _currentTab)
+                boostPurchasePopup.Close();
 
             _currentTab = tab;
             ShopInventoryService.EnsureDefaultEquipped(catalog, tab);
@@ -142,8 +153,31 @@ namespace UI.Views.Shop
         {
             SelectItem(item);
 
-            if (previewPopup != null && item != null)
-                previewPopup.Open(item, BuyItem, EquipItem);
+            if (item == null)
+                return;
+
+            if (item.Tab == EShopTab.Boosts)
+            {
+                previewPopup?.Close();
+                boostPurchasePopup?.Open(item);
+                return;
+            }
+
+            if (previewPopup == null)
+                return;
+
+            if (!CanShowPreview(item))
+            {
+                previewPopup.Close();
+                return;
+            }
+
+            previewPopup.Open(item, BuyItem, EquipItem);
+        }
+
+        private static bool CanShowPreview(ShopItemDefinition item)
+        {
+            return item.Tab != EShopTab.Boosts && item.Tab != EShopTab.GemPack;
         }
 
         private void SelectItem(ShopItemDefinition item)

@@ -23,6 +23,10 @@ namespace Services.Impl
         private readonly LevelsConfig _levelsConfig;
         private readonly SignalBus _signalBus;
         private readonly IGameTimeProvider _gameTimeProvider;
+        private readonly ActiveBoostService _activeBoostService;
+        private readonly TowerBuffRuntimeService _towerBuffRuntimeService;
+        private readonly TowerExperienceService _towerExperienceService;
+        private readonly TowerExperienceConfig _towerExperienceConfig;
         private LevelDefinition _currentLevel;
         private float _elapsedSeconds;
 
@@ -33,7 +37,11 @@ namespace Services.Impl
             EnemyPrefabsConfig enemyPrefabsConfig,
             LevelsConfig levelsConfig,
             SignalBus signalBus,
-            IGameTimeProvider gameTimeProvider
+            IGameTimeProvider gameTimeProvider,
+            ActiveBoostService activeBoostService,
+            TowerBuffRuntimeService towerBuffRuntimeService,
+            TowerExperienceService towerExperienceService,
+            TowerExperienceConfig towerExperienceConfig
         )
         {
             _coinService = coinService;
@@ -41,6 +49,10 @@ namespace Services.Impl
             _levelsConfig = levelsConfig;
             _signalBus = signalBus;
             _gameTimeProvider = gameTimeProvider;
+            _activeBoostService = activeBoostService;
+            _towerBuffRuntimeService = towerBuffRuntimeService;
+            _towerExperienceService = towerExperienceService;
+            _towerExperienceConfig = towerExperienceConfig;
         }
 
         public List<EnemyView> Enemies { get; } = new();
@@ -65,6 +77,7 @@ namespace Services.Impl
                 if (signal.hashReward)
                 {
                     _coinService.AddCoins(rewardCount);
+                    _towerExperienceService.AddExperience(_towerExperienceConfig.GetEnemyExperience(enemyDefinition));
 
                     _signalBus.Fire(new ShowRewardSignal
                     {
@@ -144,9 +157,15 @@ namespace Services.Impl
 
         private int CalculateReward(EnemyDefinition enemyDefinition)
         {
-            return _currentLevel != null
+            _activeBoostService.EnsureLoaded();
+
+            var baseReward = _currentLevel != null
                 ? _currentLevel.CalculateEnemyReward(enemyDefinition.RewardCoins, _elapsedSeconds)
                 : enemyDefinition.RewardCoins;
+
+            return Mathf.CeilToInt(baseReward
+                                   * _activeBoostService.CoinRewardMultiplier
+                                   * _towerBuffRuntimeService.Stats.CoinRewardMultiplier);
         }
         
         public void Dispose()

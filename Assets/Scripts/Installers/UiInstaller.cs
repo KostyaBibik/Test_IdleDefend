@@ -1,5 +1,6 @@
 ﻿using UI.Systems;
 using UI.Views;
+using UI.Views.Buffs;
 using UI.Views.Game;
 using UI.Views.Upgradable;
 using UnityEngine;
@@ -13,6 +14,8 @@ namespace Installers
         [SerializeField] private CoinsUiView coinsUiView;
         [SerializeField] private TowerHealthHandler towerHealthHandler;
         [SerializeField] private UltimateButtonView ultimateButtonView;
+        [SerializeField] private TowerExperienceBarView towerExperienceBarView;
+        [SerializeField] private TowerLevelUpPopupView towerLevelUpPopupView;
 
         public override void InstallBindings()
         {
@@ -42,6 +45,18 @@ namespace Installers
             Container
                 .BindInterfacesAndSelfTo<UltimateButtonView>()
                 .FromInstance(ultimateButtonView)
+                .AsSingle()
+                .NonLazy();
+
+            Container
+                .BindInterfacesAndSelfTo<TowerExperienceBarView>()
+                .FromInstance(towerExperienceBarView)
+                .AsSingle()
+                .NonLazy();
+
+            Container
+                .BindInterfacesAndSelfTo<TowerLevelUpPopupView>()
+                .FromInstance(towerLevelUpPopupView)
                 .AsSingle()
                 .NonLazy();
         }

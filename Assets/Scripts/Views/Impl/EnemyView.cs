@@ -31,6 +31,14 @@ namespace Views.Impl
         [HideInInspector] public float frostSpeedMultiplier = 1f;
         [HideInInspector] public float frostTimeRemaining;
 
+        [Tooltip("Периодический урон (яд) от Poison-снаряда. Резолвится в EnemyPoisonSystem / PreviewCombatDriver.")]
+        [HideInInspector] public float poisonTimeRemaining;
+        [HideInInspector] public float poisonTickRemaining;
+        [HideInInspector] public float poisonDamagePerTick;
+        [HideInInspector] public float poisonTickInterval;
+        [HideInInspector] public GameObject poisonVfxPrefab;
+        private GameObject _poisonVfxInstance;
+
         /// <summary>
         /// Единая точка применения фрост-эффекта (пассив Frost-башни и ультимейт "Заморозка" оба
         /// идут через неё): более слабый эффект не имеет права прервать/ослабить уже активный
@@ -44,6 +52,40 @@ namespace Views.Impl
 
             frostSpeedMultiplier = speedMultiplier;
             frostTimeRemaining = duration;
+        }
+
+        /// <summary>
+        /// Единая точка применения яда (по аналогии с ApplyFrost): освежает длительность/тик и
+        /// запоминает партикл конкретного снаряда - у разных ядовитых снарядов он может отличаться.
+        /// </summary>
+        public void ApplyPoison(float damagePerTick, float tickInterval, float duration, GameObject vfxPrefab)
+        {
+            poisonDamagePerTick = damagePerTick;
+            poisonTickInterval = Mathf.Max(0.05f, tickInterval);
+            poisonTimeRemaining = duration;
+            poisonTickRemaining = poisonTickInterval;
+            poisonVfxPrefab = vfxPrefab;
+        }
+
+        /// <summary>Партикл яда создаётся лениво на активации и уничтожается на деактивации - в отличие
+        /// от frostVfx он не встроен в префаб врага, потому что разные снаряды несут разный партикл.</summary>
+        public GameObject PoisonVfxInstance => _poisonVfxInstance;
+
+        public void SetPoisonVisual(bool active)
+        {
+            if (active)
+            {
+                if (_poisonVfxInstance == null && poisonVfxPrefab != null)
+                    _poisonVfxInstance = Instantiate(poisonVfxPrefab, transform.position, Quaternion.identity, transform);
+
+                return;
+            }
+
+            if (_poisonVfxInstance == null)
+                return;
+
+            Destroy(_poisonVfxInstance);
+            _poisonVfxInstance = null;
         }
 
         public Transform Mesh => mesh;

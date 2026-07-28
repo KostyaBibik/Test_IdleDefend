@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Enums;
 using Infrastructure.Impl;
 using Services;
@@ -16,6 +17,7 @@ namespace Systems.RunTime.Tower
         private readonly EntityFactory _entityFactory;
         private readonly TowerView _towerView;
         private readonly IGameTimeProvider _gameTimeProvider;
+        private readonly TowerBuffRuntimeService _towerBuffRuntimeService;
 
         private float _reloadRemaining;
 
@@ -23,19 +25,19 @@ namespace Systems.RunTime.Tower
             TowerView towerView,
             EnemyService enemyService,
             EntityFactory entityFactory,
-            IGameTimeProvider gameTimeProvider
+            IGameTimeProvider gameTimeProvider,
+            TowerBuffRuntimeService towerBuffRuntimeService
         )
         {
             _towerView = towerView;
             _enemyService = enemyService;
             _entityFactory = entityFactory;
             _gameTimeProvider = gameTimeProvider;
+            _towerBuffRuntimeService = towerBuffRuntimeService;
         }
 
         public void Tick()
         {
-            // Гасим линию-разряд Pierce всегда, а не только во время перезарядки: иначе, если враги
-            // на экране кончились сразу после выстрела, линия висела бы до следующего попадания.
             BulletImpactVfx.TickPierceLine(_towerView, _gameTimeProvider.DeltaTime);
 
             if (_reloadRemaining > 0f)
@@ -45,21 +47,97 @@ namespace Systems.RunTime.Tower
             }
 
             var enemies = _enemyService.GetAssumedActiveEnemies();
-            if(enemies.Count <= 0)
+            if (enemies.Count <= 0)
                 return;
 
-            var nearestEnemy = AttackTargeting.FindNearestEnemy(_towerView.transform.position, enemies);
+            var towerPos = _towerView.transform.position;
+            var nearestEnemy = AttackTargeting.FindNearestEnemy(towerPos, enemies);
             if (!CheckOnDistanceAttack(nearestEnemy.transform.position))
                 return;
 
-            var bullet = (BulletView) _entityFactory.CreateBullet(_towerView.transform.position);
-            bullet.target = nearestEnemy;
-            bullet.damage = _towerView.attackDamage;
-            bullet.attackType = _towerView.attackType;
+            var mainDirection = (nearestEnemy.transform.position - towerPos).normalized;
+            var firedTargets = new List<EnemyView> { nearestEnemy };
+            CreateConfiguredBullet(nearestEnemy, mainDirection);
 
-            // Доп-эффекты (сплэш/фрост/пробитие) применяются BulletHitSystem по факту попадания,
-            // а не здесь, в момент выстрела - иначе враг получал бы урон/замедление раньше,
-            // чем снаряд физически до него долетит.
+            var stats = _towerBuffRuntimeService.Stats;
+            var effectiveRange = GetEffectiveRange();
+
+            for (var i = 0; i < stats.AdditionalForwardShots; i++)
+            {
+                var extraTarget = AttackTargeting.FindNearestUnhit(towerPos, enemies, firedTargets, effectiveRange);
+                if (extraTarget == null)
+                    break;
+
+                firedTargets.Add(extraTarget);
+                CreateConfiguredBullet(extraTarget, (extraTarget.transform.position - towerPos).normalized);
+            }
+
+            for (var i = 0; i < stats.BackShots; i++)
+            {
+                var backTarget = FindBackTarget(enemies, firedTargets, mainDirection, effectiveRange);
+                if (backTarget == null)
+                    break;
+
+                firedTargets.Add(backTarget);
+                CreateConfiguredBullet(backTarget, (backTarget.transform.position - towerPos).normalized);
+            }
+
+            _reloadRemaining = 1f / Mathf.Max(0.01f, _towerView.attackSpeed * stats.AttackSpeedMultiplier);
+        }
+
+        private bool CheckOnDistanceAttack(Vector3 enemyPos)
+        {
+            return Vector3.Distance(enemyPos, _towerView.transform.position) <= GetEffectiveRange();
+        }
+
+        private float GetEffectiveRange()
+        {
+            return _towerView.attackDistance
+                   * _towerView.ratioRange
+                   * _towerBuffRuntimeService.Stats.RangeMultiplier;
+        }
+
+        private int CalculateDamage()
+        {
+            var stats = _towerBuffRuntimeService.Stats;
+            var damage = _towerView.attackDamage * stats.DamageMultiplier;
+
+            if (stats.CritChance > 0f && Random.value < Mathf.Clamp01(stats.CritChance))
+                damage *= Mathf.Max(1f, stats.CritDamageMultiplier);
+
+            return Mathf.Max(1, Mathf.CeilToInt(damage));
+        }
+
+        private void CreateConfiguredBullet(EnemyView target, Vector3 launchDirection)
+        {
+            var bullet = (BulletView)_entityFactory.CreateBullet(_towerView.transform.position, _towerView.projectilePrefabVariant);
+            bullet.target = target;
+            bullet.damage = CalculateDamage();
+            bullet.attackType = _towerView.attackType;
+            bullet.speedMultiplier = _towerView.projectileSpeedMultiplier;
+            bullet.launchPosition = _towerView.transform.position;
+            bullet.launchDirection = launchDirection.sqrMagnitude > 0f ? launchDirection.normalized : _towerView.transform.forward;
+
+            var stats = _towerBuffRuntimeService.Stats;
+            bullet.ricochetRemaining = stats.RicochetCount;
+            bullet.ricochetRadius = stats.RicochetRadius;
+            bullet.ricochetFalloff = stats.RicochetFalloff;
+            bullet.piercingLineRemaining = stats.PiercingLineCount;
+            bullet.piercingLineWidth = stats.PiercingLineWidth;
+            bullet.piercingLineFalloff = stats.PiercingLineFalloff;
+            bullet.piercingLineRange = GetEffectiveRange();
+            bullet.hitEnemies.Clear();
+            bullet.hitEnemies.Add(target);
+
+            bullet.projectileAppliesFrost = _towerView.projectileAppliesFrost;
+            bullet.projectileFrostSlowPercent = _towerView.projectileFrostSlowPercent;
+            bullet.projectileFrostSlowDuration = _towerView.projectileFrostSlowDuration;
+            bullet.projectileAppliesPoison = _towerView.projectileAppliesPoison;
+            bullet.projectilePoisonDamagePercentPerTick = _towerView.projectilePoisonDamagePercentPerTick;
+            bullet.projectilePoisonTickInterval = _towerView.projectilePoisonTickInterval;
+            bullet.projectilePoisonDuration = _towerView.projectilePoisonDuration;
+            bullet.projectilePoisonVfxPrefab = _towerView.projectilePoisonVfxPrefab;
+
             switch (_towerView.attackType)
             {
                 case EMainTowerAttackType.Splash:
@@ -79,15 +157,51 @@ namespace Systems.RunTime.Tower
                     break;
             }
 
-            nearestEnemy.healthComponent.ReduceAssumedHealth(bullet.damage);
-
-            _reloadRemaining = 1f / _towerView.attackSpeed;
+            target.healthComponent.ReduceAssumedHealth(bullet.damage);
         }
 
-        private bool CheckOnDistanceAttack(Vector3 enemyPos)
+        private EnemyView FindBackTarget(
+            IReadOnlyList<EnemyView> enemies,
+            IReadOnlyList<EnemyView> excluded,
+            Vector3 forwardDirection,
+            float range)
         {
-            var distance = Vector3.Distance(enemyPos, _towerView.transform.position);
-            return distance <= _towerView.attackDistance * _towerView.ratioRange;
+            EnemyView best = null;
+            var bestDistance = float.MaxValue;
+            var towerPos = _towerView.transform.position;
+
+            foreach (var enemy in enemies)
+            {
+                if (Contains(excluded, enemy))
+                    continue;
+
+                var offset = enemy.transform.position - towerPos;
+                var distance = offset.magnitude;
+                if (distance > range || distance <= 0.01f)
+                    continue;
+
+                if (Vector3.Dot(forwardDirection, offset.normalized) > -0.35f)
+                    continue;
+
+                if (distance >= bestDistance)
+                    continue;
+
+                best = enemy;
+                bestDistance = distance;
+            }
+
+            return best;
+        }
+
+        private static bool Contains(IReadOnlyList<EnemyView> enemies, EnemyView enemy)
+        {
+            for (var i = 0; i < enemies.Count; i++)
+            {
+                if (enemies[i] == enemy)
+                    return true;
+            }
+
+            return false;
         }
     }
 }

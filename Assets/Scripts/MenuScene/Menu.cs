@@ -23,6 +23,7 @@ namespace MenuScene
         [SerializeField] private GameObject mainWindow;
         [SerializeField] private GameObject stageWindow;
         [SerializeField] private GameObject shopWindow;
+        [SerializeField] private BoostSelectWindowView boostSelectWindow;
         [Header("Navigation")]
         [SerializeField] private Button shopButton;
         [SerializeField] private Button stageButton;
@@ -31,10 +32,24 @@ namespace MenuScene
         private void Start()
         {
             InitializeNavigationButtons();
-            levelPathBuilder.Build(levelsConfig, PlayLevel);
+            levelPathBuilder.Build(levelsConfig, OpenBoostSelect);
             InitializeExitBtn();
-            SetupTowerPreview();
             HideWindows();
+        }
+
+        /// <summary>
+        /// Клик по уровню на карте открывает выбор бустов на бой вместо немедленной загрузки
+        /// GameScene. Если экран не назначен, ведём себя как раньше и грузим уровень сразу.
+        /// </summary>
+        private void OpenBoostSelect(int levelIndex)
+        {
+            if (boostSelectWindow == null)
+            {
+                PlayLevel(levelIndex);
+                return;
+            }
+
+            boostSelectWindow.Open(levelIndex, PlayLevel);
         }
 
         /// <summary>
@@ -131,6 +146,9 @@ namespace MenuScene
 
             if (shopWindow != null)
                 shopWindow.SetActive(false);
+
+            if (boostSelectWindow != null)
+                boostSelectWindow.Close();
         }
 
         private void InitializeExitBtn()

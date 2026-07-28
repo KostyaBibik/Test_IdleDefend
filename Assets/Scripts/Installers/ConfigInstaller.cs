@@ -17,6 +17,8 @@ namespace Installers
         [SerializeField] private SideTowerCatalogConfig sideTowerCatalogConfig;
         [SerializeField] private CameraZoomSettings cameraZoomSettings;
         [SerializeField] private ShopCatalogConfig shopCatalogConfig;
+        [SerializeField] private TowerExperienceConfig towerExperienceConfig;
+        [SerializeField] private TowerBuffCatalogConfig towerBuffCatalogConfig;
 
         public override void InstallBindings()
         {
@@ -29,6 +31,8 @@ namespace Installers
             Container.BindInstance(sideTowerCatalogConfig);
             Container.BindInstance(cameraZoomSettings);
             Container.BindInstance(shopCatalogConfig);
+            Container.BindInstance(towerExperienceConfig);
+            Container.BindInstance(towerBuffCatalogConfig);
         }
     }
 }

@@ -24,5 +24,7 @@ MonoBehaviour:
   iapProductId: 
   gemRewardAmount: 0
   ownedByDefault: 0
-  equippable: 1
+  equippable: 0
   sortOrder: 2
+  boostEffectType: 5
+  boostValue: 1

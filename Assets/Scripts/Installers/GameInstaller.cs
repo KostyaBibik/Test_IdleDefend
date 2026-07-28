@@ -37,6 +37,7 @@ namespace Installers
             Container.Rebind<SceneHandler>().FromInstance(sceneHandler).AsTransient();
 
             Container.Bind<IGameTimeProvider>().To<GameTimeProvider>().AsSingle().NonLazy();
+            Container.Bind<ActiveBoostService>().AsSingle().NonLazy();
 
             Container.BindInterfacesAndSelfTo<LevelService>().AsSingle().NonLazy();
 
@@ -72,6 +73,9 @@ namespace Installers
             Container.DeclareSignal<ShowRewardSignal>();
             Container.DeclareSignal<LevelWavesFinishedSignal>();
             Container.DeclareSignal<GameWinSignal>();
+            Container.DeclareSignal<TowerLevelUpSignal>();
+            Container.DeclareSignal<TowerBuffSelectedSignal>();
+            Container.DeclareSignal<TowerExperienceChangedSignal>();
         }
         
         private void InstallGameSystems()
@@ -82,6 +86,7 @@ namespace Installers
             Container.BindInterfacesAndSelfTo<ShowRewardSystem>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<ShakeCamOnDamageSystem>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<SurvivalTimeSystem>().AsSingle().NonLazy();
+            Container.BindInterfacesAndSelfTo<TowerLevelUpSystem>().AsSingle().NonLazy();
         }
 
         private void BindAndCreateTowerView()
@@ -124,6 +129,7 @@ namespace Installers
             Container.BindInterfacesAndSelfTo<EnemyService>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<EnemyMovingSystem>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<EnemyCheckToHitSystem>().AsSingle().NonLazy();
+            Container.BindInterfacesAndSelfTo<EnemyPoisonSystem>().AsSingle().NonLazy();
         }
         
         private void BindBulletComponents()
@@ -147,6 +153,11 @@ namespace Installers
         {
             Container.BindInterfacesAndSelfTo<UpgradeService>().AsSingle();
             Container.BindInterfacesAndSelfTo<CoinService>().AsSingle();
+            Container.BindInterfacesAndSelfTo<TowerExperienceService>().AsSingle();
+            Container.Bind<TowerBuffRuntimeService>().AsSingle();
+            Container.Bind<TowerBuffRollService>().AsSingle();
+            Container.Bind<TowerBuffSelectionService>().AsSingle();
+            Container.Bind<TowerLevelUpUiService>().AsSingle();
         }
     }
 }

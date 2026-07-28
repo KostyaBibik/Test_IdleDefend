@@ -1,6 +1,7 @@
 using Db;
 using Enums;
 using Services;
+using UnityEngine;
 using Views.Impl;
 using Zenject;
 
@@ -11,16 +12,19 @@ namespace Systems.Initializable
         private readonly TowerConfigSettings _towerConfigSettings;
         private readonly ShopCatalogConfig _shopCatalogConfig;
         private readonly TowerView _towerView;
+        private readonly ActiveBoostService _activeBoostService;
 
         public TowerInitializeSystem(
             TowerConfigSettings towerConfigSettings,
             ShopCatalogConfig shopCatalogConfig,
-            TowerView towerView
+            TowerView towerView,
+            ActiveBoostService activeBoostService
         )
         {
             _towerConfigSettings = towerConfigSettings;
             _shopCatalogConfig = shopCatalogConfig;
             _towerView = towerView;
+            _activeBoostService = activeBoostService;
         }
 
         public void Initialize()
@@ -35,6 +39,27 @@ namespace Systems.Initializable
             ShopInventoryService.EnsureDefaultEquipped(_shopCatalogConfig, EShopTab.Tower);
 
             ApplyTowerBody(ShopInventoryService.GetEquippedItem(_shopCatalogConfig, EShopTab.Tower)?.TowerBody);
+
+            ShopInventoryService.EnsureDefaultEquipped(_shopCatalogConfig, EShopTab.Projectiles);
+            ApplyProjectile(ShopInventoryService.GetEquippedItem(_shopCatalogConfig, EShopTab.Projectiles)?.Projectile);
+
+            ApplyActiveBoosts();
+        }
+
+        private void ApplyActiveBoosts()
+        {
+            _activeBoostService.EnsureLoaded();
+
+            _towerView.attackDamage = Mathf.CeilToInt(_towerView.attackDamage * _activeBoostService.DamageMultiplier);
+            _towerView.attackSpeed *= _activeBoostService.AttackSpeedMultiplier;
+            _towerView.attackDistance *= _activeBoostService.RangeMultiplier;
+
+            if (_towerView.Sphere != null)
+                _towerView.Sphere.localScale = new Vector3(
+                    _towerView.attackDistance,
+                    _towerView.attackDistance,
+                    _towerView.attackDistance
+                );
         }
 
         private void ApplyTowerBody(TowerBodyDefinition body)
@@ -81,6 +106,32 @@ namespace Systems.Initializable
             // Визуал (цвет сферы, аура) больше не проставляется рантаймом — он уже запечён
             // в конкретном prefab-варианте TowerView, который выбрал GameInstaller при спавне
             // (см. body.TowerPrefabVariant и GameInstaller.BindAndCreateTowerView).
+        }
+
+        private void ApplyProjectile(ProjectileDefinition projectile)
+        {
+            if (projectile == null)
+            {
+                _towerView.projectilePrefabVariant = null;
+                _towerView.projectileSpeedMultiplier = 1f;
+                _towerView.projectileAppliesFrost = false;
+                _towerView.projectileAppliesPoison = false;
+                return;
+            }
+
+            _towerView.projectilePrefabVariant = projectile.BulletPrefabVariant;
+            _towerView.projectileSpeedMultiplier = projectile.SpeedMultiplier;
+            _towerView.attackDamage = Mathf.CeilToInt(_towerView.attackDamage * projectile.DamageMultiplier);
+
+            _towerView.projectileAppliesFrost = projectile.AppliesFrost;
+            _towerView.projectileFrostSlowPercent = projectile.FrostSlowPercent;
+            _towerView.projectileFrostSlowDuration = projectile.FrostSlowDuration;
+
+            _towerView.projectileAppliesPoison = projectile.AppliesPoison;
+            _towerView.projectilePoisonDamagePercentPerTick = projectile.PoisonDamagePercentPerTick;
+            _towerView.projectilePoisonTickInterval = projectile.PoisonTickInterval;
+            _towerView.projectilePoisonDuration = projectile.PoisonDuration;
+            _towerView.projectilePoisonVfxPrefab = projectile.PoisonVfxPrefab;
         }
     }
 }

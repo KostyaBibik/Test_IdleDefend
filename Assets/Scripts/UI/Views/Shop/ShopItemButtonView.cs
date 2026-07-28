@@ -68,15 +68,16 @@ namespace UI.Views.Shop
                 return;
 
             var state = ShopInventoryService.GetState(_item);
+            var isBoost = BoostInventoryService.IsBoostItem(_item);
 
             if (priceLabel != null)
                 priceLabel.text = ShopItemPresenter.GetPriceText(_item);
 
             if (statusLabel != null)
-                statusLabel.text = state.ToString();
+                statusLabel.text = isBoost ? $"x{BoostInventoryService.GetCount(_item)}" : state.ToString();
 
             if (ownedState != null)
-                ownedState.SetActive(state == EShopItemState.Owned || state == EShopItemState.Equipped);
+                ownedState.SetActive(!isBoost && (state == EShopItemState.Owned || state == EShopItemState.Equipped));
 
             if (equippedState != null)
                 equippedState.SetActive(state == EShopItemState.Equipped);
@@ -85,11 +86,11 @@ namespace UI.Views.Shop
                 lockedState.SetActive(state == EShopItemState.NotEnoughCurrency);
 
             if (buyButton != null)
-                buyButton.gameObject.SetActive(state == EShopItemState.Available && !ShopInventoryService.IsOwned(_item));
+                buyButton.gameObject.SetActive(state == EShopItemState.Available && (isBoost || !ShopInventoryService.IsOwned(_item)));
 
             if (equipButton != null)
             {
-                equipButton.gameObject.SetActive(_item.Equippable && state == EShopItemState.Owned);
+                equipButton.gameObject.SetActive(!isBoost && _item.Equippable && state == EShopItemState.Owned);
                 equipButton.interactable = ShopInventoryService.IsOwned(_item);
             }
         }
@@ -104,8 +105,11 @@ namespace UI.Views.Shop
 
             if (buyButton != null)
             {
+                // Бусты покупаются пачкой в отдельном попапе (см. BoostPurchasePopupView),
+                // поэтому их BuyButton просто открывает попап, как и клик по самой карточке.
                 buyButton.onClick.RemoveListener(NotifyBuyRequested);
-                buyButton.onClick.AddListener(NotifyBuyRequested);
+                buyButton.onClick.RemoveListener(NotifySelected);
+                buyButton.onClick.AddListener(BoostInventoryService.IsBoostItem(_item) ? NotifySelected : NotifyBuyRequested);
             }
 
             if (equipButton != null)
@@ -119,7 +123,10 @@ namespace UI.Views.Shop
         {
             ClearPreview();
 
-            if (previewAnchor == null || _item.PreviewPrefab == null)
+            if (previewAnchor != null)
+                previewAnchor.gameObject.SetActive(CanShowPreview(_item));
+
+            if (!CanShowPreview(_item) || previewAnchor == null || _item.PreviewPrefab == null)
                 return;
 
             _previewInstance = Instantiate(_item.PreviewPrefab, previewAnchor);
@@ -136,6 +143,11 @@ namespace UI.Views.Shop
                 Destroy(_previewInstance);
 
             _previewInstance = null;
+        }
+
+        private static bool CanShowPreview(ShopItemDefinition item)
+        {
+            return item != null && item.Tab != EShopTab.Boosts && item.Tab != EShopTab.GemPack;
         }
 
         private void OnDestroy()

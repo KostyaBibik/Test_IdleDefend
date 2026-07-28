@@ -26,3 +26,7 @@ MonoBehaviour:
   ownedByDefault: 0
   equippable: 1
   sortOrder: 2
+  towerBody: {fileID: 0}
+  projectile: {fileID: 11400000, guid: c35d9c2973b2c6e4390e30ca8dfa7103, type: 2}
+  boostEffectType: 0
+  boostValue: 0

@@ -78,10 +78,12 @@ namespace Preview
         /// </summary>
         public bool Show(ShopItemDefinition item, bool transparentBackground = false)
         {
-            return Show(item != null ? item.TowerBody : null, transparentBackground);
+            var body = item != null ? item.TowerBody : null;
+            var projectile = item != null && item.Tab == EShopTab.Projectiles ? item.Projectile : null;
+            return Show(body, transparentBackground, projectile);
         }
 
-        public bool Show(TowerBodyDefinition body, bool transparentBackground = false)
+        public bool Show(TowerBodyDefinition body, bool transparentBackground = false, ProjectileDefinition projectile = null)
         {
             Clear();
 
@@ -101,7 +103,7 @@ namespace Preview
             MeasureFraming(_towerView);
             SetupCamera();
             SetActiveState(true);
-            combatDriver.Begin(this, _towerView);
+            combatDriver.Begin(this, _towerView, projectile);
 
             return true;
         }

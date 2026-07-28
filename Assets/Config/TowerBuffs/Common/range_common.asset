@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0f77f8a64a64b44a83a44d4b0f6d3a1, type: 3}
+  m_Name: range_common
+  m_EditorClassIdentifier: 
+  id: range_common
+  displayName: Range +10%
+  description: Tower attack range is increased until the end of this run.
+  icon: {fileID: 21300000, guid: cd410da309cc34c70910ea21170079b9, type: 3}
+  rarity: 0
+  effectType: 3
+  value: 0.1
+  maxStacks: 6
+  weight: 1
+  enabledInRoll: 1

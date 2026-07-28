@@ -86,9 +86,10 @@ namespace Infrastructure.Impl
             _sideTowerService.AddEntityOnService(sideTowerView);
         }
 
-        public IEntityView CreateBullet(Vector3 posSpawn)
+        public IEntityView CreateBullet(Vector3 posSpawn, BulletView prefabOverride = null)
         {
-            var bulletView = DiContainerRef.Container.InstantiatePrefabForComponent<BulletView>(_bulletConfigSettings.PrefabViewBullet);
+            var prefab = prefabOverride != null ? prefabOverride : _bulletConfigSettings.PrefabViewBullet;
+            var bulletView = DiContainerRef.Container.InstantiatePrefabForComponent<BulletView>(prefab);
             var bulletTransform = bulletView.transform;
             
             bulletTransform.position = posSpawn;

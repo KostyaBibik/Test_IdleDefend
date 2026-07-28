@@ -14,6 +14,9 @@ namespace Services
             if (item == null)
                 return false;
 
+            if (BoostInventoryService.IsBoostItem(item))
+                return BoostInventoryService.GetCount(item) > 0;
+
             if (item.OwnedByDefault)
                 return true;
 
@@ -36,6 +39,13 @@ namespace Services
             if (item == null)
                 return EShopItemState.Available;
 
+            if (BoostInventoryService.IsBoostItem(item))
+            {
+                return item.PurchaseType == EShopPurchaseType.Emeralds && EmeraldWallet.Balance < item.EmeraldPrice
+                    ? EShopItemState.NotEnoughCurrency
+                    : EShopItemState.Available;
+            }
+
             if (IsEquipped(item))
                 return EShopItemState.Equipped;
 
@@ -51,6 +61,9 @@ namespace Services
         {
             if (item == null)
                 return ShopPurchaseResult.Failed("Item is missing.");
+
+            if (BoostInventoryService.IsBoostItem(item))
+                return BoostInventoryService.TryPurchase(item, 1);
 
             if (IsOwned(item))
                 return ShopPurchaseResult.Ok();
@@ -92,6 +105,9 @@ namespace Services
 
         public static bool TryEquip(ShopItemDefinition item)
         {
+            if (BoostInventoryService.IsBoostItem(item))
+                return false;
+
             if (item == null || !item.Equippable || !IsOwned(item))
                 return false;
 

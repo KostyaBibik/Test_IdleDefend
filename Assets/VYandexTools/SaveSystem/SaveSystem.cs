@@ -101,6 +101,12 @@ public class SaveSystem : Singleton<SaveSystem>
 
         if (saveData.EquippedShopItemIds == null)
             saveData.EquippedShopItemIds = new System.Collections.Generic.Dictionary<string, string>();
+
+        if (saveData.BoostItemCounts == null)
+            saveData.BoostItemCounts = new System.Collections.Generic.Dictionary<string, int>();
+
+        if (saveData.SelectedBoostItemIds == null)
+            saveData.SelectedBoostItemIds = new System.Collections.Generic.List<string>();
     }
 
     public void SaveToStorage()
@@ -187,4 +193,6 @@ public struct PlayerSaveData
 
     public System.Collections.Generic.List<string> PurchasedShopItemIds;
     public System.Collections.Generic.Dictionary<string, string> EquippedShopItemIds;
+    public System.Collections.Generic.Dictionary<string, int> BoostItemCounts;
+    public System.Collections.Generic.List<string> SelectedBoostItemIds;
 }

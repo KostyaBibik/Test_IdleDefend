@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f6a9de6c7d4ef54993e9773ae98d983, type: 3}
+  m_Name: FireProjectile
+  m_EditorClassIdentifier: 
+  bulletPrefabVariant: {fileID: 2907902082207625547, guid: 88cd889286707124a821eef10ec0f55b, type: 3}
+  damageMultiplier: 1.4
+  speedMultiplier: 1
+  appliesFrost: 0
+  frostSlowPercent: 0.4
+  frostSlowDuration: 2
+  appliesPoison: 0
+  poisonDamagePerTick: 1
+  poisonTickInterval: 0.5
+  poisonDuration: 3
+  poisonVfxPrefab: {fileID: 0}

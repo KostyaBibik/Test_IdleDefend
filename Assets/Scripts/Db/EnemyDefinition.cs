@@ -20,6 +20,7 @@ namespace Db
         [SerializeField] private int health = 100;
         [SerializeField] private float speed = 0.3f;
         [SerializeField] private int rewardCoins = 50;
+        [SerializeField] private int experienceReward = 5;
         [SerializeField] private int damageToTower = 1;
         [SerializeField, Range(0f, 1f)] private float damageReduction;
 
@@ -40,6 +41,7 @@ namespace Db
         public int Health => health;
         public float Speed => speed;
         public int RewardCoins => rewardCoins;
+        public int ExperienceReward => experienceReward;
         public int DamageToTower => damageToTower;
         public float DamageReduction => damageReduction;
 

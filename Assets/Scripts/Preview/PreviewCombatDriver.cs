@@ -27,6 +27,7 @@ namespace Preview
         private TowerPreviewStage _stage;
         private TowerView _towerView;
         private TowerPreviewSettings _settings;
+        private ProjectileDefinition _projectile;
 
         private float _spawnRemaining;
         private float _reloadRemaining;
@@ -35,11 +36,12 @@ namespace Preview
         /// <summary>Есть ли кто-то в кадре - по этому признаку витрина отъезжает с крупного плана.</summary>
         public bool HasEnemies => _enemies.Count > 0;
 
-        public void Begin(TowerPreviewStage stage, TowerView towerView)
+        public void Begin(TowerPreviewStage stage, TowerView towerView, ProjectileDefinition projectile = null)
         {
             _stage = stage;
             _towerView = towerView;
             _settings = stage.Settings;
+            _projectile = projectile;
 
             if (_settings == null || _settings.EnemyDefinition == null || _settings.EnemyDefinition.ViewPrefab == null)
             {
@@ -145,6 +147,7 @@ namespace Preview
                 }
 
                 TickFrost(enemy.View, deltaTime);
+                TickPoison(enemy, deltaTime);
 
                 if (enemy.IsDying)
                     continue;
@@ -188,6 +191,32 @@ namespace Preview
             view.SetFrostVisual(true, view.frostSpeedMultiplier);
         }
 
+        /// <summary>Тот же периодический урон яда, что EnemyPoisonSystem считает в бою.</summary>
+        private void TickPoison(PreviewEnemy enemy, float deltaTime)
+        {
+            var view = enemy.View;
+
+            if (view.poisonTimeRemaining <= 0f)
+            {
+                view.SetPoisonVisual(false);
+                return;
+            }
+
+            view.poisonTimeRemaining -= deltaTime;
+            view.poisonTickRemaining -= deltaTime;
+
+            if (view.poisonTickRemaining <= 0f)
+            {
+                view.poisonTickRemaining += view.poisonTickInterval;
+                DamageEnemy(enemy, Mathf.RoundToInt(view.poisonDamagePerTick));
+            }
+
+            view.SetPoisonVisual(view.poisonTimeRemaining > 0f);
+
+            if (view.PoisonVfxInstance != null)
+                BulletImpactVfx.SetLayerRecursively(view.PoisonVfxInstance, _stage.PreviewLayer);
+        }
+
         private void TickTowerAttack(float deltaTime)
         {
             if (_reloadRemaining > 0f)
@@ -229,9 +258,9 @@ namespace Preview
 
         private void SpawnBullet(PreviewEnemy target)
         {
-            var bulletPrefab = _settings.BulletConfigSettings != null
-                ? _settings.BulletConfigSettings.PrefabViewBullet
-                : null;
+            var bulletPrefab = _projectile != null && _projectile.BulletPrefabVariant != null
+                ? _projectile.BulletPrefabVariant
+                : (_settings.BulletConfigSettings != null ? _settings.BulletConfigSettings.PrefabViewBullet : null);
 
             if (bulletPrefab == null)
                 return;
@@ -243,7 +272,9 @@ namespace Preview
                 _stage.CombatRoot);
 
             view.attackType = _towerView.attackType;
-            view.damage = _towerView.attackDamage;
+            view.damage = _projectile != null
+                ? Mathf.CeilToInt(_towerView.attackDamage * _projectile.DamageMultiplier)
+                : _towerView.attackDamage;
             view.splashRadius = _towerView.splashRadius;
             view.splashFalloff = _towerView.splashFalloff;
             view.splashImpactEffectPrefab = _towerView.splashImpactEffectPrefab;
@@ -261,7 +292,8 @@ namespace Preview
 
         private void TickBullets(float deltaTime)
         {
-            var speed = _settings.BulletConfigSettings != null ? _settings.BulletConfigSettings.SpeedMoving : 1.5f;
+            var baseSpeed = _settings.BulletConfigSettings != null ? _settings.BulletConfigSettings.SpeedMoving : 1.5f;
+            var speed = baseSpeed * (_projectile != null ? _projectile.SpeedMultiplier : 1f);
 
             for (var i = _bullets.Count - 1; i >= 0; i--)
             {
@@ -325,6 +357,27 @@ namespace Preview
             }
 
             DamageEnemy(target, bullet.View.damage);
+
+            // Эффекты снаряда - независимый от attackType источник, применяются дополнительно
+            // (см. TowerAttackSystem/BulletHitSystem для боевой версии той же логики).
+            if (!target.IsDying && _projectile != null)
+            {
+                if (_projectile.AppliesFrost)
+                {
+                    target.View.ApplyFrost(
+                        Mathf.Clamp01(1f - _projectile.FrostSlowPercent),
+                        _projectile.FrostSlowDuration);
+                }
+
+                if (_projectile.AppliesPoison)
+                {
+                    target.View.ApplyPoison(
+                        bullet.View.damage * _projectile.PoisonDamagePercentPerTick,
+                        _projectile.PoisonTickInterval,
+                        _projectile.PoisonDuration,
+                        _projectile.PoisonVfxPrefab);
+                }
+            }
         }
 
         private void ApplySplashDamage(PreviewBullet bullet, Vector3 center)

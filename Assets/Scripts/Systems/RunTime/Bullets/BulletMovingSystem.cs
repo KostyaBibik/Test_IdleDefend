@@ -34,16 +34,16 @@ namespace Systems.RunTime.Bullets
                     return;
                 }
 
-                MoveToTarget(bulletView.transform, bulletView.target.transform);
+                MoveToTarget(bulletView.transform, bulletView.target.transform, bulletView.speedMultiplier);
             }
         }
 
-        private void MoveToTarget(Transform bullet, Transform target)
+        private void MoveToTarget(Transform bullet, Transform target, float speedMultiplier)
         {
              var targetPos = target.position;
              var bulletPos = bullet.position;
              var direction = targetPos - bulletPos;
-             var speedMoving = _bulletConfigSettings.SpeedMoving;
+             var speedMoving = _bulletConfigSettings.SpeedMoving * speedMultiplier;
 
              bullet.transform.position = Vector3.MoveTowards(
                  bulletPos,
