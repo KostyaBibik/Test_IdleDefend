@@ -137,7 +137,6 @@ namespace Systems.RunTime.SideTower
         {
             var damageInt = Mathf.RoundToInt(damage);
             target.healthComponent.ReduceHealth(damageInt);
-            target.healthComponent.ReduceAssumedHealth(damageInt);
         }
 
     }

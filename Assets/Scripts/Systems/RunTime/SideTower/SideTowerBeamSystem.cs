@@ -61,7 +61,6 @@ namespace Systems.RunTime.SideTower
                 var toApply = Mathf.FloorToInt(tower.beamDamageAccumulator);
                 tower.beamDamageAccumulator -= toApply;
                 tower.beamCurrentTarget.healthComponent.ReduceHealth(toApply);
-                tower.beamCurrentTarget.healthComponent.ReduceAssumedHealth(toApply);
             }
 
             if (tower.BeamLine != null)

@@ -12,11 +12,14 @@ namespace Components.Enemy
 
         public override void ReduceHealth(int amount)
         {
-            var reducedAmount = definition != null
+            base.ReduceHealth(GetEffectiveDamage(amount));
+        }
+
+        public override int GetEffectiveDamage(int amount)
+        {
+            return definition != null
                 ? Mathf.RoundToInt(amount * (1f - definition.DamageReduction))
                 : amount;
-
-            base.ReduceHealth(reducedAmount);
         }
 
         protected override void Die()

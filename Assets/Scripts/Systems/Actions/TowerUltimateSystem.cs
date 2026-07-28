@@ -89,7 +89,6 @@ namespace Systems.Actions
             {
                 var damage = Mathf.RoundToInt(enemy.healthComponent.GetMaxHealth() * percent);
                 enemy.healthComponent.ReduceHealth(damage);
-                enemy.healthComponent.ReduceAssumedHealth(damage);
             }
         }
 

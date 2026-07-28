@@ -80,7 +80,6 @@ namespace Systems.RunTime.Bullets
 
                 var damageInt = Mathf.RoundToInt(damage);
                 next.healthComponent.ReduceHealth(damageInt);
-                next.healthComponent.ReduceAssumedHealth(damageInt);
 
                 hit.Add(next);
                 previous = next;
@@ -120,7 +119,6 @@ namespace Systems.RunTime.Bullets
                     continue;
 
                 enemy.healthComponent.ReduceHealth(damageInt);
-                enemy.healthComponent.ReduceAssumedHealth(damageInt);
             }
 
             SpawnImpactEffect(bullet, center);

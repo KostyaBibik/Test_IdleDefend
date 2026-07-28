@@ -12,7 +12,7 @@ namespace Components
         private Slider _healthSlider;
         private int _maxHealthValue;
         private int _healthValue;
-        private int _assumedHealthValue;
+        private int _reservedIncomingDamage;
 
         public void Initialize(
             int healthValue,
@@ -24,7 +24,7 @@ namespace Components
             _maxHealthValue = healthValue;
             _healthSlider = healthSlider;
             _entityView = entityView;
-            _assumedHealthValue = healthValue;
+            _reservedIncomingDamage = 0;
         }
         
         public void AddHealth(int amount)
@@ -35,7 +35,9 @@ namespace Components
 
         public virtual void ReduceHealth(int amount)
         {
-            _healthValue = Mathf.Clamp(_healthValue - amount, 0, _maxHealthValue);
+            var damage = Mathf.Max(0, amount);
+            _healthValue = Mathf.Clamp(_healthValue - damage, 0, _maxHealthValue);
+            _reservedIncomingDamage = Mathf.Max(0, _reservedIncomingDamage - damage);
             _healthSlider.value = (float)_healthValue / _maxHealthValue;
             if (_healthValue <= 0)
             {
@@ -51,12 +53,20 @@ namespace Components
 
         public void ReduceAssumedHealth(int amount)
         {
-            _assumedHealthValue -= amount;
+            _reservedIncomingDamage = Mathf.Clamp(
+                _reservedIncomingDamage + GetEffectiveDamage(amount),
+                0,
+                _healthValue);
         }
 
         public bool CheckAssumedStatus()
         {
-            return _assumedHealthValue > 0;
+            return _healthValue - _reservedIncomingDamage > 0;
+        }
+
+        public virtual int GetEffectiveDamage(int amount)
+        {
+            return amount;
         }
         
         protected virtual void Die()
