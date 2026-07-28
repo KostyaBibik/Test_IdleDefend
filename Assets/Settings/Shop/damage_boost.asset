@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56354e22be998a3479f69edda0d317e2, type: 3}
+  m_Name: damage_boost
+  m_EditorClassIdentifier: 
+  id: damage_boost
+  tab: 2
+  purchaseType: 0
+  displayName: "\u0423\u0440\u043E\u043D +10%"
+  description: "\u041D\u0435\u0431\u043E\u043B\u044C\u0448\u0430\u044F \u043F\u0440\u0438\u0431\u0430\u0432\u043A\u0430
+    \u043A \u0443\u0440\u043E\u043D\u0443 \u0431\u0430\u0448\u043D\u0438."
+  icon: {fileID: 21300000, guid: 169d45648e00348038299fc345aa6b4f, type: 3}
+  previewPrefab: {fileID: 3111316510567100242, guid: 048020c00c80a1148ba168072fc82b9c, type: 3}
+  emeraldPrice: 0
+  iapProductId: 
+  gemRewardAmount: 0
+  ownedByDefault: 1
+  equippable: 1
+  sortOrder: 0

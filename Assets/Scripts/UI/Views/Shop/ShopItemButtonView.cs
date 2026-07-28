@@ -98,9 +98,9 @@ namespace UI.Views.Shop
         {
             return item.PurchaseType switch
             {
-                EShopPurchaseType.Free => "Free",
+                EShopPurchaseType.Free => "Бесплатно",
                 EShopPurchaseType.Emeralds => item.EmeraldPrice.ToString(),
-                EShopPurchaseType.Iap => string.IsNullOrEmpty(item.IapProductId) ? "IAP" : item.IapProductId,
+                EShopPurchaseType.Iap => item.GemRewardAmount > 0 ? item.GemRewardAmount.ToString("N0") : "IAP",
                 _ => string.Empty
             };
         }

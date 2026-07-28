@@ -20,6 +20,16 @@ namespace UI.Views.Panels
             pauseButton.onClick.AddListener(pausePanel.Open);
         }
 
+        /// <summary>
+        /// Возврат в бой после продолжения за рекламу.
+        /// </summary>
+        public void ReturnToGame()
+        {
+            losePanel.SetActive(false);
+            winPanel.SetActive(false);
+            gamePanel.SetActive(true);
+        }
+
         private void ActivateLosePanel()
         {
             gamePanel.SetActive(false);

@@ -19,6 +19,7 @@ namespace MenuScene
         [Header("Navigation")]
         [SerializeField] private Button shopButton;
         [SerializeField] private Button stageButton;
+        [SerializeField] private Button stageBackButton;
 
         private void Start()
         {
@@ -41,6 +42,21 @@ namespace MenuScene
 
             if (stageButton != null)
                 stageButton.onClick.AddListener(ShowStage);
+
+            if (stageBackButton != null)
+                stageBackButton.onClick.AddListener(ShowMain);
+        }
+
+        private void ShowMain()
+        {
+            if (stageWindow != null)
+                stageWindow.SetActive(false);
+
+            if (shopWindow != null)
+                shopWindow.SetActive(false);
+
+            if (mainWindow != null)
+                mainWindow.SetActive(true);
         }
 
         private void ShowShop()
@@ -100,6 +116,9 @@ namespace MenuScene
 
             if (stageButton != null)
                 stageButton.onClick.RemoveListener(ShowStage);
+
+            if (stageBackButton != null)
+                stageBackButton.onClick.RemoveListener(ShowMain);
         }
     }
 }

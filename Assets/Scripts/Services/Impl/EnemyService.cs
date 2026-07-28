@@ -101,6 +101,15 @@ namespace Services.Impl
             return Enemies.Where(enemyView => enemyView.healthComponent.CheckAssumedStatus()).ToList();
         }
         
+        /// <summary>
+        /// Убирает всех живых врагов без наград и партиклов — используется при продолжении
+        /// игры за рекламу, чтобы башня не умерла повторно в ту же секунду.
+        /// </summary>
+        public void ClearAll()
+        {
+            RemoveAllEnemies();
+        }
+
         private void RemoveAllEnemies()
         {
             foreach (var enemyView in Enemies)
