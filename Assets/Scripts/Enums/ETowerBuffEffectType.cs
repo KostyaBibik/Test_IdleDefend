@@ -20,6 +20,9 @@ namespace Enums
         SlowShot = 105,
         DeathExplosion = 106,
         ChainLightning = 107,
-        SecondCore = 108
+        SecondCore = 108,
+        ExplosiveShot = 109,
+        Overload = 110,
+        Multishot = 111
     }
 }

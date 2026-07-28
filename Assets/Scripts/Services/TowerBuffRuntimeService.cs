@@ -86,6 +86,16 @@ namespace Services
                     case ETowerBuffEffectType.PiercingShot:
                         stats.PiercingLineCount += Mathf.Max(0, Mathf.RoundToInt(value));
                         break;
+                    case ETowerBuffEffectType.ExplosiveShot:
+                        stats.ExplosiveShotRadius += value;
+                        break;
+                    case ETowerBuffEffectType.Overload:
+                        stats.OverloadAttackSpeedMultiplier += value;
+                        stats.OverloadDuration = Mathf.Max(stats.OverloadDuration, 3f);
+                        break;
+                    case ETowerBuffEffectType.Multishot:
+                        stats.MultishotRepeats += Mathf.Max(0, Mathf.RoundToInt(value));
+                        break;
                 }
             }
 

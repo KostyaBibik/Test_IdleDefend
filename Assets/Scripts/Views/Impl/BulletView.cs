@@ -8,6 +8,7 @@ namespace Views.Impl
     {
         [HideInInspector] public EnemyView target;
         [HideInInspector] public int damage;
+        [HideInInspector] public bool isCritical;
 
         [Tooltip("Тип атаки башни, выпустившей снаряд - определяет, какой доп. эффект BulletHitSystem применит по факту попадания (не в момент выстрела).")]
         [HideInInspector] public EMainTowerAttackType attackType = EMainTowerAttackType.Default;
@@ -46,6 +47,8 @@ namespace Views.Impl
         [HideInInspector] public float piercingLineWidth;
         [HideInInspector] public float piercingLineFalloff;
         [HideInInspector] public float piercingLineRange;
+        [HideInInspector] public float explosiveShotRadius;
+        [HideInInspector] public float explosiveShotFalloff;
         [HideInInspector] public List<EnemyView> hitEnemies = new();
 
         public bool isDestroyed { get; set; }

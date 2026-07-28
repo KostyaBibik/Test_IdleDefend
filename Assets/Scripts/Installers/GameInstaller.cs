@@ -75,6 +75,7 @@ namespace Installers
             Container.DeclareSignal<GameWinSignal>();
             Container.DeclareSignal<TowerLevelUpSignal>();
             Container.DeclareSignal<TowerBuffSelectedSignal>();
+            Container.DeclareSignal<TowerDamageDealtSignal>();
             Container.DeclareSignal<TowerExperienceChangedSignal>();
         }
         

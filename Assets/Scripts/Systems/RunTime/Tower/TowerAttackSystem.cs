@@ -3,6 +3,7 @@ using Enums;
 using Infrastructure.Impl;
 using Services;
 using Services.Impl;
+using Signals;
 using Systems.RunTime;
 using Systems.RunTime.Bullets;
 using UnityEngine;
@@ -11,22 +12,25 @@ using Zenject;
 
 namespace Systems.RunTime.Tower
 {
-    public class TowerAttackSystem : ITickable
+    public class TowerAttackSystem : IInitializable, ITickable, System.IDisposable
     {
         private readonly EnemyService _enemyService;
         private readonly EntityFactory _entityFactory;
         private readonly TowerView _towerView;
         private readonly IGameTimeProvider _gameTimeProvider;
         private readonly TowerBuffRuntimeService _towerBuffRuntimeService;
+        private readonly SignalBus _signalBus;
 
         private float _reloadRemaining;
+        private float _overloadRemaining;
 
         public TowerAttackSystem(
             TowerView towerView,
             EnemyService enemyService,
             EntityFactory entityFactory,
             IGameTimeProvider gameTimeProvider,
-            TowerBuffRuntimeService towerBuffRuntimeService
+            TowerBuffRuntimeService towerBuffRuntimeService,
+            SignalBus signalBus
         )
         {
             _towerView = towerView;
@@ -34,11 +38,20 @@ namespace Systems.RunTime.Tower
             _entityFactory = entityFactory;
             _gameTimeProvider = gameTimeProvider;
             _towerBuffRuntimeService = towerBuffRuntimeService;
+            _signalBus = signalBus;
+        }
+
+        public void Initialize()
+        {
+            _signalBus.Subscribe<DestroyEntitySignal>(OnEnemyDestroyed);
         }
 
         public void Tick()
         {
             BulletImpactVfx.TickPierceLine(_towerView, _gameTimeProvider.DeltaTime);
+
+            if (_overloadRemaining > 0f)
+                _overloadRemaining = Mathf.Max(0f, _overloadRemaining - _gameTimeProvider.DeltaTime);
 
             if (_reloadRemaining > 0f)
             {
@@ -57,7 +70,10 @@ namespace Systems.RunTime.Tower
 
             var mainDirection = (nearestEnemy.transform.position - towerPos).normalized;
             var firedTargets = new List<EnemyView> { nearestEnemy };
-            CreateConfiguredBullet(nearestEnemy, mainDirection);
+            var shotPlan = new List<ShotRequest>
+            {
+                new ShotRequest(nearestEnemy, mainDirection)
+            };
 
             var stats = _towerBuffRuntimeService.Stats;
             var effectiveRange = GetEffectiveRange();
@@ -69,7 +85,7 @@ namespace Systems.RunTime.Tower
                     break;
 
                 firedTargets.Add(extraTarget);
-                CreateConfiguredBullet(extraTarget, (extraTarget.transform.position - towerPos).normalized);
+                shotPlan.Add(new ShotRequest(extraTarget, (extraTarget.transform.position - towerPos).normalized));
             }
 
             for (var i = 0; i < stats.BackShots; i++)
@@ -79,10 +95,11 @@ namespace Systems.RunTime.Tower
                     break;
 
                 firedTargets.Add(backTarget);
-                CreateConfiguredBullet(backTarget, (backTarget.transform.position - towerPos).normalized);
+                shotPlan.Add(new ShotRequest(backTarget, (backTarget.transform.position - towerPos).normalized));
             }
 
-            _reloadRemaining = 1f / Mathf.Max(0.01f, _towerView.attackSpeed * stats.AttackSpeedMultiplier);
+            FireShotPlan(shotPlan, Mathf.Max(1, 1 + stats.MultishotRepeats));
+            _reloadRemaining = 1f / Mathf.Max(0.01f, _towerView.attackSpeed * GetAttackSpeedMultiplier());
         }
 
         private bool CheckOnDistanceAttack(Vector3 enemyPos)
@@ -97,22 +114,40 @@ namespace Systems.RunTime.Tower
                    * _towerBuffRuntimeService.Stats.RangeMultiplier;
         }
 
-        private int CalculateDamage()
+        private float GetAttackSpeedMultiplier()
+        {
+            var stats = _towerBuffRuntimeService.Stats;
+            var multiplier = stats.AttackSpeedMultiplier;
+
+            if (_overloadRemaining > 0f)
+                multiplier *= Mathf.Max(1f, stats.OverloadAttackSpeedMultiplier);
+
+            return multiplier;
+        }
+
+        private DamageRoll CalculateDamage()
         {
             var stats = _towerBuffRuntimeService.Stats;
             var damage = _towerView.attackDamage * stats.DamageMultiplier;
+            var isCritical = false;
 
             if (stats.CritChance > 0f && Random.value < Mathf.Clamp01(stats.CritChance))
+            {
                 damage *= Mathf.Max(1f, stats.CritDamageMultiplier);
+                isCritical = true;
+            }
 
-            return Mathf.Max(1, Mathf.CeilToInt(damage));
+            return new DamageRoll(Mathf.Max(1, Mathf.CeilToInt(damage)), isCritical);
         }
 
         private void CreateConfiguredBullet(EnemyView target, Vector3 launchDirection)
         {
             var bullet = (BulletView)_entityFactory.CreateBullet(_towerView.transform.position, _towerView.projectilePrefabVariant);
+            var damageRoll = CalculateDamage();
+
             bullet.target = target;
-            bullet.damage = CalculateDamage();
+            bullet.damage = damageRoll.Damage;
+            bullet.isCritical = damageRoll.IsCritical;
             bullet.attackType = _towerView.attackType;
             bullet.speedMultiplier = _towerView.projectileSpeedMultiplier;
             bullet.launchPosition = _towerView.transform.position;
@@ -126,6 +161,8 @@ namespace Systems.RunTime.Tower
             bullet.piercingLineWidth = stats.PiercingLineWidth;
             bullet.piercingLineFalloff = stats.PiercingLineFalloff;
             bullet.piercingLineRange = GetEffectiveRange();
+            bullet.explosiveShotRadius = stats.ExplosiveShotRadius;
+            bullet.explosiveShotFalloff = stats.ExplosiveShotFalloff;
             bullet.hitEnemies.Clear();
             bullet.hitEnemies.Add(target);
 
@@ -158,6 +195,33 @@ namespace Systems.RunTime.Tower
             }
 
             target.healthComponent.ReduceAssumedHealth(bullet.damage);
+        }
+
+        private void FireShotPlan(IReadOnlyList<ShotRequest> shotPlan, int volleys)
+        {
+            for (var volley = 0; volley < volleys; volley++)
+            {
+                for (var i = 0; i < shotPlan.Count; i++)
+                {
+                    var shot = shotPlan[i];
+                    if (shot.Target == null || shot.Target.isDestroyed)
+                        continue;
+
+                    CreateConfiguredBullet(shot.Target, shot.Direction);
+                }
+            }
+        }
+
+        private void OnEnemyDestroyed(DestroyEntitySignal signal)
+        {
+            if (!signal.hashReward)
+                return;
+
+            var stats = _towerBuffRuntimeService.Stats;
+            if (stats.OverloadDuration <= 0f || stats.OverloadAttackSpeedMultiplier <= 1f)
+                return;
+
+            _overloadRemaining = stats.OverloadDuration;
         }
 
         private EnemyView FindBackTarget(
@@ -202,6 +266,35 @@ namespace Systems.RunTime.Tower
             }
 
             return false;
+        }
+
+        private readonly struct DamageRoll
+        {
+            public DamageRoll(int damage, bool isCritical)
+            {
+                Damage = damage;
+                IsCritical = isCritical;
+            }
+
+            public int Damage { get; }
+            public bool IsCritical { get; }
+        }
+
+        private readonly struct ShotRequest
+        {
+            public ShotRequest(EnemyView target, Vector3 direction)
+            {
+                Target = target;
+                Direction = direction;
+            }
+
+            public EnemyView Target { get; }
+            public Vector3 Direction { get; }
+        }
+
+        public void Dispose()
+        {
+            _signalBus.Unsubscribe<DestroyEntitySignal>(OnEnemyDestroyed);
         }
     }
 }

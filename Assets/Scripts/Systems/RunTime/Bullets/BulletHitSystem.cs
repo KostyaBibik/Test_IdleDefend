@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Enums;
 using Services.Impl;
+using Signals;
 using Systems.RunTime;
 using UnityEngine;
 using Views.Impl;
@@ -15,16 +16,19 @@ namespace Systems.RunTime.Bullets
         private readonly BulletService _bulletService;
         private readonly EnemyService _enemyService;
         private readonly TowerView _towerView;
+        private readonly SignalBus _signalBus;
 
         public BulletHitSystem(
             BulletService bulletService,
             EnemyService enemyService,
-            TowerView towerView
+            TowerView towerView,
+            SignalBus signalBus
         )
         {
             _bulletService = bulletService;
             _enemyService = enemyService;
             _towerView = towerView;
+            _signalBus = signalBus;
         }
 
         public void Tick()
@@ -46,7 +50,7 @@ namespace Systems.RunTime.Bullets
         {
             var primaryTarget = bullet.target;
 
-            primaryTarget.healthComponent.ReduceHealth(bullet.damage);
+            ApplyDamage(bullet, primaryTarget, bullet.damage, true);
 
             switch (bullet.attackType)
             {
@@ -62,6 +66,7 @@ namespace Systems.RunTime.Bullets
             }
 
             ApplyProjectileEffects(bullet, primaryTarget);
+            ApplyExplosiveShot(bullet, primaryTarget);
             ApplyLinePierce(bullet, primaryTarget);
 
             if (TryStartRicochet(bullet, primaryTarget))
@@ -116,7 +121,7 @@ namespace Systems.RunTime.Bullets
                     break;
 
                 var damageInt = Mathf.RoundToInt(damage);
-                next.healthComponent.ReduceHealth(damageInt);
+                ApplyDamage(bullet, next, damageInt, false);
 
                 hit.Add(next);
                 previous = next;
@@ -174,13 +179,33 @@ namespace Systems.RunTime.Bullets
             {
                 damage *= bullet.piercingLineFalloff;
                 var enemy = candidates[i].Enemy;
-                enemy.healthComponent.ReduceHealth(Mathf.Max(1, Mathf.RoundToInt(damage)));
+                ApplyDamage(bullet, enemy, Mathf.Max(1, Mathf.RoundToInt(damage)), false);
                 bullet.hitEnemies.Add(enemy);
                 hitPoints.Add(enemy.transform.position);
             }
 
             if (hitPoints.Count > 1)
                 BulletImpactVfx.ShowPierceLine(_towerView, bullet.launchPosition, hitPoints);
+        }
+
+        private void ApplyExplosiveShot(BulletView bullet, EnemyView primaryTarget)
+        {
+            if (bullet.explosiveShotRadius <= 0f)
+                return;
+
+            var center = primaryTarget.transform.position;
+            var damage = Mathf.Max(1, Mathf.RoundToInt(bullet.damage * bullet.explosiveShotFalloff));
+
+            foreach (var enemy in _enemyService.Enemies)
+            {
+                if (enemy == primaryTarget || ContainsHit(bullet, enemy))
+                    continue;
+
+                if (Vector3.Distance(center, enemy.transform.position) > bullet.explosiveShotRadius)
+                    continue;
+
+                ApplyDamage(bullet, enemy, damage, false);
+            }
         }
 
         private bool TryStartRicochet(BulletView bullet, EnemyView previousTarget)
@@ -219,7 +244,7 @@ namespace Systems.RunTime.Bullets
                 if (Vector3.Distance(center, enemy.transform.position) > bullet.splashRadius)
                     continue;
 
-                enemy.healthComponent.ReduceHealth(damageInt);
+                ApplyDamage(bullet, enemy, damageInt, false);
             }
 
             BulletImpactVfx.SpawnSplashImpact(
@@ -238,6 +263,24 @@ namespace Systems.RunTime.Bullets
             }
 
             return false;
+        }
+
+        private void ApplyDamage(BulletView bullet, EnemyView target, int rawDamage, bool isPrimaryHit)
+        {
+            if (target == null || target.isDestroyed)
+                return;
+
+            var effectiveDamage = target.healthComponent.GetEffectiveDamage(rawDamage);
+            target.healthComponent.ReduceHealth(rawDamage);
+
+            _signalBus.Fire(new TowerDamageDealtSignal
+            {
+                target = target,
+                worldPos = target.transform.position,
+                damage = Mathf.Max(0, effectiveDamage),
+                isCritical = bullet.isCritical,
+                isPrimaryHit = isPrimaryHit
+            });
         }
 
         private readonly struct LinePierceCandidate

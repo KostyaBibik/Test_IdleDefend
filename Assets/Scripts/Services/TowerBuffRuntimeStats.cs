@@ -16,6 +16,11 @@ namespace Services
         public int PiercingLineCount;
         public float PiercingLineWidth;
         public float PiercingLineFalloff;
+        public float ExplosiveShotRadius;
+        public float ExplosiveShotFalloff;
+        public float OverloadAttackSpeedMultiplier;
+        public float OverloadDuration;
+        public int MultishotRepeats;
 
         public static TowerBuffRuntimeStats Default => new TowerBuffRuntimeStats
         {
@@ -32,7 +37,12 @@ namespace Services
             RicochetFalloff = 0.7f,
             PiercingLineCount = 0,
             PiercingLineWidth = 0.45f,
-            PiercingLineFalloff = 0.75f
+            PiercingLineFalloff = 0.75f,
+            ExplosiveShotRadius = 0f,
+            ExplosiveShotFalloff = 0.45f,
+            OverloadAttackSpeedMultiplier = 1f,
+            OverloadDuration = 0f,
+            MultishotRepeats = 0
         };
     }
 }
