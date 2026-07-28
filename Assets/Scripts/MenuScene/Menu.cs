@@ -2,6 +2,7 @@ using Db;
 using Enums;
 using Services;
 using UI;
+using UI.Views.Shop;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -16,6 +17,8 @@ namespace MenuScene
         [SerializeField] private ShopCatalogConfig shopCatalogConfig;
         [SerializeField] private Transform towerPreviewAnchor;
         [SerializeField] private float towerPreviewScale = 2f;
+        [Tooltip("Живая витрина башни на главном экране. Не назначена — показывается статичный PreviewPrefab товара.")]
+        [SerializeField] private TowerPreviewSurfaceView towerPreviewSurfacePrefab;
         [Header("Windows")]
         [SerializeField] private GameObject mainWindow;
         [SerializeField] private GameObject stageWindow;
@@ -35,8 +38,9 @@ namespace MenuScene
         }
 
         /// <summary>
-        /// Показывает значок экипированной башни (тот же PreviewPrefab, что и в карточке магазина)
-        /// на главном экране - крутится через уже существующий ShopPreviewRotator.
+        /// Показывает экипированную башню на главном экране. Если назначена живая витрина
+        /// (та же, что в попапе магазина) - башня стоит и отстреливается по подлетающим манекенам;
+        /// иначе откатываемся на статичный PreviewPrefab из карточки магазина.
         /// </summary>
         private void SetupTowerPreview()
         {
@@ -45,7 +49,19 @@ namespace MenuScene
 
             ShopInventoryService.EnsureDefaultEquipped(shopCatalogConfig, EShopTab.Tower);
             var equippedItem = ShopInventoryService.GetEquippedItem(shopCatalogConfig, EShopTab.Tower);
-            if (equippedItem == null || equippedItem.PreviewPrefab == null)
+            if (equippedItem == null)
+                return;
+
+            if (towerPreviewSurfacePrefab != null)
+            {
+                var surface = Instantiate(towerPreviewSurfacePrefab, towerPreviewAnchor);
+                surface.transform.localPosition = Vector3.zero;
+                surface.transform.localScale = Vector3.one;
+                surface.Show(equippedItem, transparentBackground: true);
+                return;
+            }
+
+            if (equippedItem.PreviewPrefab == null)
                 return;
 
             var instance = Instantiate(equippedItem.PreviewPrefab, towerPreviewAnchor);

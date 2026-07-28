@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackType: 2
   towerPrefabVariant: {fileID: 6539610631215289473, guid: 563f21f73c9a9f74391737e7e0b58641, type: 3}
+  hideAuraInPreview: 1
   pierceCount: 3
   pierceJumpRadius: 2
   pierceFalloff: 0.75

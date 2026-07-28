@@ -10888,6 +10888,7 @@ MonoBehaviour:
   shopCatalogConfig: {fileID: 11400000, guid: e9508a87a7acd644b831ccd647a8012c, type: 2}
   towerPreviewAnchor: {fileID: 1059764338}
   towerPreviewScale: 2
+  towerPreviewSurfacePrefab: {fileID: 5656393772623532806, guid: 45468f027562c41458339db146ebd187, type: 3}
   mainWindow: {fileID: 413494074}
   stageWindow: {fileID: 104037167}
   shopWindow: {fileID: 1781807949}
@@ -16546,7 +16547,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 4294967039
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0

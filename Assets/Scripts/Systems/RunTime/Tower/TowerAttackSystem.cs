@@ -3,6 +3,7 @@ using Infrastructure.Impl;
 using Services;
 using Services.Impl;
 using Systems.RunTime;
+using Systems.RunTime.Bullets;
 using UnityEngine;
 using Views.Impl;
 using Zenject;
@@ -33,17 +34,13 @@ namespace Systems.RunTime.Tower
 
         public void Tick()
         {
+            // Гасим линию-разряд Pierce всегда, а не только во время перезарядки: иначе, если враги
+            // на экране кончились сразу после выстрела, линия висела бы до следующего попадания.
+            BulletImpactVfx.TickPierceLine(_towerView, _gameTimeProvider.DeltaTime);
+
             if (_reloadRemaining > 0f)
             {
                 _reloadRemaining -= _gameTimeProvider.DeltaTime;
-
-                if (_towerView.pierceLineRemaining > 0f)
-                {
-                    _towerView.pierceLineRemaining -= _gameTimeProvider.DeltaTime;
-                    if (_towerView.pierceLineRemaining <= 0f && _towerView.PierceLine != null)
-                        _towerView.PierceLine.positionCount = 0;
-                }
-
                 return;
             }
 

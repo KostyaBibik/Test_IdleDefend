@@ -70,7 +70,7 @@ namespace UI.Views.Shop
             var state = ShopInventoryService.GetState(_item);
 
             if (priceLabel != null)
-                priceLabel.text = GetPriceText(_item);
+                priceLabel.text = ShopItemPresenter.GetPriceText(_item);
 
             if (statusLabel != null)
                 statusLabel.text = state.ToString();
@@ -92,17 +92,6 @@ namespace UI.Views.Shop
                 equipButton.gameObject.SetActive(_item.Equippable && state == EShopItemState.Owned);
                 equipButton.interactable = ShopInventoryService.IsOwned(_item);
             }
-        }
-
-        private static string GetPriceText(ShopItemDefinition item)
-        {
-            return item.PurchaseType switch
-            {
-                EShopPurchaseType.Free => "Бесплатно",
-                EShopPurchaseType.Emeralds => item.EmeraldPrice.ToString(),
-                EShopPurchaseType.Iap => item.GemRewardAmount > 0 ? item.GemRewardAmount.ToString("N0") : "IAP",
-                _ => string.Empty
-            };
         }
 
         private void BindButtons()

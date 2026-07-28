@@ -27,13 +27,22 @@ namespace EpicToonFX
         // Update is called once per frame
         void Update()
         {
-            if (gameObject.GetComponent<Light>())
-            {
-                li.intensity -= initIntensity * (Time.deltaTime / life);
-                if (killAfterLife && li.intensity <= 0)
-                    //Destroy(gameObject);
-					Destroy(gameObject.GetComponent<Light>());
-            }
+            if (li == null)
+                return;
+
+            li.intensity -= initIntensity * (Time.deltaTime / life);
+
+            if (!killAfterLife || li.intensity > 0)
+                return;
+
+            // Оригинал делал Destroy(GetComponent<Light>()), но в URP на объекте со светом лежит
+            // UniversalAdditionalLightData, который от Light зависит - удаление молча проваливается
+            // с ошибкой "Can't remove Light because UniversalAdditionalLightData depends on it",
+            // и т.к. Light остаётся, попытка повторяется каждый кадр до конца жизни эффекта.
+            // Гасим свет и отключаем сам компонент: результат для игрока тот же, спама в консоли нет,
+            // и лишний Update не крутится (важно для WebGL, где эффектов на экране много).
+            li.enabled = false;
+            enabled = false;
         }
     }
 }

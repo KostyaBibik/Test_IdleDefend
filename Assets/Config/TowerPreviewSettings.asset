@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e55b5378824b40e4ead1aed71ee29fa3, type: 3}
+  m_Name: TowerPreviewSettings
+  m_EditorClassIdentifier: 
+  towerConfigSettings: {fileID: 11400000, guid: 72a1ded048f1a464bbc7391fe8da9251, type: 2}
+  bulletConfigSettings: {fileID: 11400000, guid: b20eb1d1afd4d714eaf9f63851e7da09, type: 2}
+  towerFillRatio: 0.8
+  combatFrameMultiplier: 2.6
+  frameLerpSpeed: 2
+  fallbackTowerRadius: 0.5
+  textureResolution: 512
+  backgroundColor: {r: 0.05, g: 0.03, b: 0.14, a: 1}
+  postProcessingProfile: {fileID: 11400000, guid: 6442c8856327cd34c8b769a63cfec6cb, type: 2}
+  usePostProcessing: 1
+  useHdr: 1
+  enemyDefinition: {fileID: 11400000, guid: 4ec069d88ca95624088a92cbc68ac495, type: 2}
+  firstSpawnDelay: 1.5
+  spawnDelayRange: {x: 2.5, y: 5}
+  maxAliveEnemies: 2
+  spawnRadiusRatio: 1.1
+  enemyDespawnDistance: 0.7
+  enemySpeedMultiplier: 0.55
+  bulletHitDistance: 0.05
+  deathParticleLifetime: 2

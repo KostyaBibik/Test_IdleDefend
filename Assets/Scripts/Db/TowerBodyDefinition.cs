@@ -20,6 +20,10 @@ namespace Db
                  "GameInstaller инстанцирует именно его вместо базового TowerConfigSettings.PrefabViewTower.")]
         [SerializeField] private TowerView towerPrefabVariant;
 
+        [Tooltip("Прятать ауру в витрине магазина (в бою она остаётся). Нужно тем телам, у которых аура " +
+                 "крупнее самой башни и в крупном плане читается как непонятное пятно.")]
+        [SerializeField] private bool hideAuraInPreview;
+
         [Header("Pierce — попадание прыгает по ближайшим врагам (как ChainLightning у доп-башен)")]
         [SerializeField, Min(1)] private int pierceCount = 3;
         [SerializeField, Min(0f)] private float pierceJumpRadius = 2f;
@@ -66,6 +70,7 @@ namespace Db
         public EMainTowerAttackType AttackType => attackType;
 
         public TowerView TowerPrefabVariant => towerPrefabVariant;
+        public bool HideAuraInPreview => hideAuraInPreview;
 
         public int PierceCount => pierceCount;
         public float PierceJumpRadius => pierceJumpRadius;

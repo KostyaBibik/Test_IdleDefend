@@ -19,6 +19,9 @@ namespace UI.Views.Shop
         [SerializeField] private GameObject windowToShowOnClose;
         [SerializeField] private TMP_Text selectedItemNameLabel;
         [SerializeField] private TMP_Text selectedItemDescriptionLabel;
+        [Tooltip("Попап с живой витриной: открывается по клику игрока на карточку. " +
+                 "Не обязателен - без него магазин работает как раньше.")]
+        [SerializeField] private TowerPreviewPopupView previewPopup;
 
         private EShopTab _currentTab;
         private readonly List<ShopItemButtonView> _visibleItemViews = new();
@@ -53,6 +56,11 @@ namespace UI.Views.Shop
 
         public void Hide()
         {
+            // Витрина держит камеру и RenderTexture — закрываем её вместе с магазином,
+            // а не оставляем висеть под скрытым окном.
+            if (previewPopup != null)
+                previewPopup.Close();
+
             gameObject.SetActive(false);
 
             if (windowToShowOnClose != null)
@@ -61,6 +69,9 @@ namespace UI.Views.Shop
 
         public void ShowTab(EShopTab tab)
         {
+            if (previewPopup != null && tab != _currentTab)
+                previewPopup.Close();
+
             _currentTab = tab;
             ShopInventoryService.EnsureDefaultEquipped(catalog, tab);
             RefreshTabs();
@@ -115,11 +126,24 @@ namespace UI.Views.Shop
                     continue;
                 }
 
-                itemView.Setup(items[i], SelectItem, BuyItem, EquipItem);
+                itemView.Setup(items[i], SelectItemByPlayer, BuyItem, EquipItem);
                 _visibleItemViews.Add(itemView);
             }
 
             SelectItem(items.Count > 0 ? items[0] : null);
+        }
+
+        /// <summary>
+        /// Клик игрока по карточке: помимо подписи внизу открывает попап живой витрины.
+        /// Отделено от SelectItem, который дёргается и при обычной перерисовке вкладки -
+        /// иначе попап открывался бы сам при каждом входе в магазин.
+        /// </summary>
+        private void SelectItemByPlayer(ShopItemDefinition item)
+        {
+            SelectItem(item);
+
+            if (previewPopup != null && item != null)
+                previewPopup.Open(item, BuyItem, EquipItem);
         }
 
         private void SelectItem(ShopItemDefinition item)

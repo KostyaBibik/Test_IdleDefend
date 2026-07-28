@@ -41,12 +41,11 @@ namespace Systems.Actions
         
         public void Initialize()
         {
-            var startHealth = _towerConfigSettings.StartHealthCount;
             var maxHealth = _towerConfigSettings.MaxHealthCounts;
             var healthPrefab = _towerConfigSettings.TowerHealthView;
 
-            _healthHandler.InitializeHealths(startHealth, maxHealth, healthPrefab);
-            _towerHealthComponent.AddHealth(startHealth);
+            _healthHandler.InitializeHealths(maxHealth, maxHealth, healthPrefab);
+            _towerHealthComponent.AddHealth(maxHealth);
             
             _signalBus.Subscribe<TowerLostHealthSignal>(TowerLostHealth);
             _signalBus.Subscribe<TowerAddHealthSignal>(AddTowerHealth);
