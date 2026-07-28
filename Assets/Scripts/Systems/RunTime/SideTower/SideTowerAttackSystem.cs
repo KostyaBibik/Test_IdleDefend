@@ -3,6 +3,7 @@ using Enums;
 using Infrastructure.Impl;
 using Services;
 using Services.Impl;
+using Systems.RunTime;
 using UnityEngine;
 using Views.Impl;
 using Zenject;
@@ -108,7 +109,7 @@ namespace Systems.RunTime.SideTower
             for (var i = 0; i < tower.chainJumpCount; i++)
             {
                 damage *= tower.chainFalloffFactor;
-                var next = FindNearestUnhit(previous.transform.position, enemies, hit, tower.chainJumpRadius);
+                var next = AttackTargeting.FindNearestUnhit(previous.transform.position, enemies, hit, tower.chainJumpRadius);
                 if (next == null)
                     break;
 
@@ -139,28 +140,5 @@ namespace Systems.RunTime.SideTower
             target.healthComponent.ReduceAssumedHealth(damageInt);
         }
 
-        private static EnemyView FindNearestUnhit(Vector3 fromPosition, IList<EnemyView> allEnemies, List<EnemyView> alreadyHit, float radius)
-        {
-            EnemyView nearest = null;
-            var nearestDistance = float.MaxValue;
-
-            foreach (var candidate in allEnemies)
-            {
-                if (alreadyHit.Contains(candidate))
-                    continue;
-
-                var distance = Vector3.Distance(fromPosition, candidate.transform.position);
-                if (distance > radius)
-                    continue;
-
-                if (distance < nearestDistance)
-                {
-                    nearestDistance = distance;
-                    nearest = candidate;
-                }
-            }
-
-            return nearest;
-        }
     }
 }

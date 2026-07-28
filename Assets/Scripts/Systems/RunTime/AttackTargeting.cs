@@ -23,5 +23,38 @@ namespace Systems.RunTime
 
             return nearest;
         }
+
+        /// <summary>
+        /// Ищет ближайшего к <paramref name="fromPosition"/> врага в радиусе <paramref name="radius"/>,
+        /// исключая уже задетых <paramref name="alreadyHit"/>. Общая логика "прыжка" — используется
+        /// и ChainLightning у доп-башен, и Pierce у главной башни (обе прыгают по ближайшим врагам).
+        /// </summary>
+        public static EnemyView FindNearestUnhit(
+            Vector3 fromPosition,
+            IList<EnemyView> allEnemies,
+            ICollection<EnemyView> alreadyHit,
+            float radius)
+        {
+            EnemyView nearest = null;
+            var nearestDistance = float.MaxValue;
+
+            foreach (var candidate in allEnemies)
+            {
+                if (alreadyHit.Contains(candidate))
+                    continue;
+
+                var distance = Vector3.Distance(fromPosition, candidate.transform.position);
+                if (distance > radius)
+                    continue;
+
+                if (distance < nearestDistance)
+                {
+                    nearestDistance = distance;
+                    nearest = candidate;
+                }
+            }
+
+            return nearest;
+        }
     }
 }

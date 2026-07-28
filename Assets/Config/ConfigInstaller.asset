@@ -20,3 +20,4 @@ MonoBehaviour:
   visualEffectsSettings: {fileID: 11400000, guid: 8ab4d57cd34e30b459eb924c5b6ac7dc, type: 2}
   sideTowerCatalogConfig: {fileID: 11400000, guid: 2962574eb80033843a3647ffd019c5c7, type: 2}
   cameraZoomSettings: {fileID: 11400000, guid: f3e8f65dad61c2847881d3dfaad90eeb, type: 2}
+  shopCatalogConfig: {fileID: 11400000, guid: e9508a87a7acd644b831ccd647a8012c, type: 2}

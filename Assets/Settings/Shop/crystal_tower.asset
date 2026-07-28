@@ -28,3 +28,4 @@ MonoBehaviour:
   ownedByDefault: 0
   equippable: 1
   sortOrder: 1
+  towerBody: {fileID: 11400000, guid: a11862205835b2044b77bcd94527936c, type: 2}

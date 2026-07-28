@@ -1,3 +1,4 @@
+using Enums;
 using Infrastructure.Impl;
 using Services;
 using Services.Impl;
@@ -35,6 +36,14 @@ namespace Systems.RunTime.Tower
             if (_reloadRemaining > 0f)
             {
                 _reloadRemaining -= _gameTimeProvider.DeltaTime;
+
+                if (_towerView.pierceLineRemaining > 0f)
+                {
+                    _towerView.pierceLineRemaining -= _gameTimeProvider.DeltaTime;
+                    if (_towerView.pierceLineRemaining <= 0f && _towerView.PierceLine != null)
+                        _towerView.PierceLine.positionCount = 0;
+                }
+
                 return;
             }
 
@@ -49,6 +58,30 @@ namespace Systems.RunTime.Tower
             var bullet = (BulletView) _entityFactory.CreateBullet(_towerView.transform.position);
             bullet.target = nearestEnemy;
             bullet.damage = _towerView.attackDamage;
+            bullet.attackType = _towerView.attackType;
+
+            // Доп-эффекты (сплэш/фрост/пробитие) применяются BulletHitSystem по факту попадания,
+            // а не здесь, в момент выстрела - иначе враг получал бы урон/замедление раньше,
+            // чем снаряд физически до него долетит.
+            switch (_towerView.attackType)
+            {
+                case EMainTowerAttackType.Splash:
+                    bullet.splashRadius = _towerView.splashRadius;
+                    bullet.splashFalloff = _towerView.splashFalloff;
+                    bullet.splashImpactEffectPrefab = _towerView.splashImpactEffectPrefab;
+                    bullet.splashImpactEffectReferenceRadius = _towerView.splashImpactEffectReferenceRadius;
+                    break;
+                case EMainTowerAttackType.Frost:
+                    bullet.frostSlowPercent = _towerView.frostSlowPercent;
+                    bullet.frostSlowDuration = _towerView.frostSlowDuration;
+                    break;
+                case EMainTowerAttackType.Pierce:
+                    bullet.pierceCount = _towerView.pierceCount;
+                    bullet.pierceJumpRadius = _towerView.pierceJumpRadius;
+                    bullet.pierceFalloff = _towerView.pierceFalloff;
+                    break;
+            }
+
             nearestEnemy.healthComponent.ReduceAssumedHealth(bullet.damage);
 
             _reloadRemaining = 1f / _towerView.attackSpeed;

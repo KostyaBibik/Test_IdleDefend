@@ -9,6 +9,7 @@ using Systems.RunTime.Tower;
 using Systems.RunTime.UI;
 using Components.Tower;
 using Db;
+using Enums;
 using Helpers;
 using Infrastructure.Impl;
 using Services;
@@ -23,6 +24,7 @@ namespace Installers
     public class GameInstaller : MonoInstaller
     {
         [SerializeField] private TowerConfigSettings towerConfigSettings;
+        [SerializeField] private ShopCatalogConfig shopCatalogConfig;
         [SerializeField] private Camera mainCamera;
         [SerializeField] private SceneHandler sceneHandler;
         
@@ -84,15 +86,28 @@ namespace Installers
 
         private void BindAndCreateTowerView()
         {
+            // Игрок мог ни разу не открыть магазин — EquippedShopItemIds тогда пуст. ShopWindowView
+            // сам вызывает EnsureDefaultEquipped при показе вкладки; здесь делаем то же самое, чтобы
+            // выбор prefab-варианта не зависел от того, заходил ли игрок в магазин. TowerInitializeSystem
+            // ниже независимо повторяет этот же лукап для чисел атаки/ультимейта — оба обращения
+            // дешёвые и идемпотентные, ветвиться не из-за чего.
+            ShopInventoryService.EnsureDefaultEquipped(shopCatalogConfig, EShopTab.Tower);
+            var equippedBody = ShopInventoryService.GetEquippedItem(shopCatalogConfig, EShopTab.Tower)?.TowerBody;
+
+            var prefab = equippedBody != null && equippedBody.TowerPrefabVariant != null
+                ? equippedBody.TowerPrefabVariant.gameObject
+                : towerConfigSettings.PrefabViewTower.gameObject;
+
             var towerView = Container.InstantiatePrefabForComponent<TowerView>(
-                towerConfigSettings.PrefabViewTower,
+                prefab,
                 sceneHandler.TowerPos.position,
-                Quaternion.identity, 
+                Quaternion.identity,
                 null
             );
-            
+
             Container.BindInterfacesAndSelfTo<TowerView>().FromInstance(towerView).AsCached().NonLazy();
             Container.BindInterfacesAndSelfTo<TowerAttackSystem>().AsSingle().NonLazy();
+            Container.BindInterfacesAndSelfTo<TowerUltimateSystem>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<TowerInitializeSystem>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<TowerChangeRadiusSystem>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<TowerChangeHealthSystem>().AsSingle().NonLazy();
@@ -122,7 +137,8 @@ namespace Installers
             Container.BindInterfacesAndSelfTo<SideTowerService>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<SideTowerAttackSystem>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<SideTowerBeamSystem>().AsSingle().NonLazy();
-            Container.BindInterfacesAndSelfTo<SideTowerSlowAuraSystem>().AsSingle().NonLazy();
+            // Комбинирует ауру SlowAura с тайм-замедлением от главной башни (Frost) — см. EnemySpeedModifierSystem.
+            Container.BindInterfacesAndSelfTo<EnemySpeedModifierSystem>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<SideTowerSlotService>().AsSingle().NonLazy();
         }
 

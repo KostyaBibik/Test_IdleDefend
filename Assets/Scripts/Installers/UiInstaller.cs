@@ -1,5 +1,6 @@
 ﻿using UI.Systems;
 using UI.Views;
+using UI.Views.Game;
 using UI.Views.Upgradable;
 using UnityEngine;
 using Zenject;
@@ -11,7 +12,8 @@ namespace Installers
         [SerializeField] private UpgradeViewsHandler upgradeViewsHandler;
         [SerializeField] private CoinsUiView coinsUiView;
         [SerializeField] private TowerHealthHandler towerHealthHandler;
-        
+        [SerializeField] private UltimateButtonView ultimateButtonView;
+
         public override void InstallBindings()
         {
             Container
@@ -34,6 +36,12 @@ namespace Installers
             Container
                 .BindInterfacesAndSelfTo<TowerHealthHandler>()
                 .FromInstance(towerHealthHandler)
+                .AsSingle()
+                .NonLazy();
+
+            Container
+                .BindInterfacesAndSelfTo<UltimateButtonView>()
+                .FromInstance(ultimateButtonView)
                 .AsSingle()
                 .NonLazy();
         }

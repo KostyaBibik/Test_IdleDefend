@@ -21,6 +21,9 @@ namespace Db
         [SerializeField] private bool equippable = true;
         [SerializeField] private int sortOrder;
 
+        [Header("Механика (только Tab == Tower)")]
+        [SerializeField] private TowerBodyDefinition towerBody;
+
         public string Id => id;
         public EShopTab Tab => tab;
         public EShopPurchaseType PurchaseType => purchaseType;
@@ -34,5 +37,6 @@ namespace Db
         public bool OwnedByDefault => ownedByDefault;
         public bool Equippable => equippable;
         public int SortOrder => sortOrder;
+        public TowerBodyDefinition TowerBody => towerBody;
     }
 }
