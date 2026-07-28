@@ -22,14 +22,43 @@ namespace UI.Views.Upgradable
 
         private IDisposable _fillObserver;
         private IDisposable _punchObserver;
+        private IDisposable _cycleObserver;
         private bool _initialized;
+        private int _lastTotalLevel;
+
+        public void SetCycledProgress(int totalLevel, int cycleLength, bool animate = true)
+        {
+            cycleLength = Mathf.Max(1, cycleLength);
+
+            var rank = totalLevel / cycleLength;
+            var levelInRank = totalLevel % cycleLength;
+            var completedCycle = totalLevel > 0 && levelInRank == 0 && totalLevel > _lastTotalLevel;
+
+            _cycleObserver?.Dispose();
+
+            if (completedCycle && animate && _initialized)
+            {
+                _cycleObserver = Observable.FromCoroutine(() => AnimateCycleComplete(cycleLength, rank)).Subscribe();
+            }
+            else
+            {
+                SetProgress(levelInRank, cycleLength, rank, animate);
+            }
+
+            _lastTotalLevel = totalLevel;
+        }
 
         public void SetProgress(int current, int max, bool animate = true)
+        {
+            SetProgress(current, max, current / Mathf.Max(1, max), animate);
+        }
+
+        private void SetProgress(int current, int max, int rank, bool animate = true)
         {
             var target = max > 0 ? Mathf.Clamp01((float) current / max) : 0f;
 
             if (label != null)
-                label.text = $"{current}/{max}";
+                label.text = $"{current}/{max} R{rank + 1}";
 
             if (!animate || !_initialized)
             {
@@ -46,6 +75,26 @@ namespace UI.Views.Upgradable
             }
 
             _initialized = true;
+        }
+
+        private IEnumerator AnimateCycleComplete(int cycleLength, int nextRank)
+        {
+            if (label != null)
+                label.text = $"{cycleLength}/{cycleLength} R{nextRank}";
+
+            _fillObserver?.Dispose();
+            yield return AnimateFill(1f);
+
+            _punchObserver?.Dispose();
+            _punchObserver = Observable.FromCoroutine(PunchScale).Subscribe();
+
+            yield return new WaitForSeconds(0.12f);
+
+            if (fill != null)
+                fill.fillAmount = 0f;
+
+            if (label != null)
+                label.text = $"0/{cycleLength} R{nextRank + 1}";
         }
 
         private IEnumerator AnimateFill(float target)

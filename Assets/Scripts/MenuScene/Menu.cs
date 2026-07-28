@@ -1,4 +1,5 @@
 using Db;
+using Enums;
 using Services;
 using UI;
 using UnityEngine;
@@ -12,6 +13,9 @@ namespace MenuScene
         [SerializeField] private Button exitBtn;
         [SerializeField] private LevelsConfig levelsConfig;
         [SerializeField] private LevelPathBuilder levelPathBuilder;
+        [SerializeField] private ShopCatalogConfig shopCatalogConfig;
+        [SerializeField] private Transform towerPreviewAnchor;
+        [SerializeField] private float towerPreviewScale = 2f;
         [Header("Windows")]
         [SerializeField] private GameObject mainWindow;
         [SerializeField] private GameObject stageWindow;
@@ -26,7 +30,28 @@ namespace MenuScene
             InitializeNavigationButtons();
             levelPathBuilder.Build(levelsConfig, PlayLevel);
             InitializeExitBtn();
+            SetupTowerPreview();
             HideWindows();
+        }
+
+        /// <summary>
+        /// Показывает значок экипированной башни (тот же PreviewPrefab, что и в карточке магазина)
+        /// на главном экране - крутится через уже существующий ShopPreviewRotator.
+        /// </summary>
+        private void SetupTowerPreview()
+        {
+            if (towerPreviewAnchor == null || shopCatalogConfig == null)
+                return;
+
+            ShopInventoryService.EnsureDefaultEquipped(shopCatalogConfig, EShopTab.Tower);
+            var equippedItem = ShopInventoryService.GetEquippedItem(shopCatalogConfig, EShopTab.Tower);
+            if (equippedItem == null || equippedItem.PreviewPrefab == null)
+                return;
+
+            var instance = Instantiate(equippedItem.PreviewPrefab, towerPreviewAnchor);
+            instance.transform.localPosition = Vector3.zero;
+            instance.transform.localRotation = Quaternion.identity;
+            instance.transform.localScale = Vector3.one * towerPreviewScale;
         }
 
         private void PlayLevel(int levelIndex)

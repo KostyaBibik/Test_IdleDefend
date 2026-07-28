@@ -16,10 +16,11 @@ namespace UI.Views
         [SerializeField] private Sprite emptyStarSprite;
         [SerializeField] private Color lockedColor = new Color(0.55f, 0.55f, 0.55f, 1f);
         [SerializeField] private Color unlockedColor = Color.white;
+        [SerializeField] private TMP_Text lockedReasonLabel;
 
         public Button Button => button;
 
-        public void Setup(int levelNumber, bool unlocked, bool isNext, int stars)
+        public void Setup(int levelNumber, bool unlocked, bool isNext, int stars, string lockedReasonText)
         {
             if (levelNumberLabel != null)
                 levelNumberLabel.text = levelNumber.ToString();
@@ -42,6 +43,12 @@ namespace UI.Views
 
                 starIcons[i].gameObject.SetActive(true);
                 starIcons[i].sprite = unlocked && i < stars ? filledStarSprite : emptyStarSprite;
+            }
+
+            if (lockedReasonLabel != null)
+            {
+                lockedReasonLabel.gameObject.SetActive(!unlocked);
+                lockedReasonLabel.text = lockedReasonText;
             }
         }
     }

@@ -8,6 +8,7 @@ using Enums;
 using Signals;
 using UI.Views;
 using UI.Views.Upgradable;
+using UnityEngine;
 using Zenject;
 
 namespace Services
@@ -23,11 +24,6 @@ namespace Services
         private readonly TowerChangeAttackSpeedSystem _changeAttackSpeedSystem;
         private readonly TowerChangeAttackDamageSystem _changeAttackDamageSystem;
         
-        private int costUpgradeRangeAttack;
-        private int costUpgradeAttackSpeed;
-        private int costUpgradeAttackDamage;
-        private int costUpHealth;
-
         private List<DateContainer> _dateContainers = new List<DateContainer>();
         
         public UpgradeService(
@@ -65,12 +61,6 @@ namespace Services
                 }
             }
 
-            // Счётчик уровня — основная защита от превышения maxLevel: сравнение по float-стату
-            // (CanUpRange/CanUpAttackSpeed/...) может пропустить лишнюю покупку из-за накопления
-            // погрешности после нескольких сложений upgradeValue.
-            if (date.currentLevel >= date.upgradeContainer.maxLevel)
-                return;
-
             switch (upgradeType)
             {
                 case EUpgradeType.None:
@@ -78,71 +68,63 @@ namespace Services
                 
                 case EUpgradeType.RangeAttack:
                 {
-                    if(!_towerChangeRadiusSystem.CanUpRange())
-                        break;
-
                     if(!_coinService.TryBought(date.currentCostUp))
                         break;
 
-                    _towerChangeRadiusSystem.UpRadius(date.upgradeContainer.upgradeValue);
-                    date.currentCostUp += date.upgradeContainer.costUpgrade;
+                    var upgradeValue = GetFloatUpgradeValue(date);
+                    _towerChangeRadiusSystem.UpRadius(upgradeValue);
                     date.currentLevel++;
+                    date.currentCostUp = GetUpgradeCost(date);
                     var rangeView = _upgradeViewsHandler.GetViewByType(date.upgradeContainer.upgradeType);
                     rangeView.SetCost(date.currentCostUp);
-                    rangeView.SetLevel(date.currentLevel, date.upgradeContainer.maxLevel);
+                    rangeView.SetLevel(date.currentLevel, date.upgradeContainer.CycleLength);
 
                     break;
                 }
                 case EUpgradeType.AttackSpeed:
                 {
-                    if(!_changeAttackSpeedSystem.CanUpAttackSpeed())
-                        break;
-
                     if(!_coinService.TryBought(date.currentCostUp))
                         break;
 
-                    date.currentCostUp += date.upgradeContainer.costUpgrade;
+                    var upgradeValue = GetFloatUpgradeValue(date);
                     date.currentLevel++;
-                    _changeAttackSpeedSystem.UpAttackSpeed(date.upgradeContainer.upgradeValue);
+                    _changeAttackSpeedSystem.UpAttackSpeed(upgradeValue);
+                    date.currentCostUp = GetUpgradeCost(date);
                     var speedView = _upgradeViewsHandler.GetViewByType(date.upgradeContainer.upgradeType);
                     speedView.SetCost(date.currentCostUp);
-                    speedView.SetLevel(date.currentLevel, date.upgradeContainer.maxLevel);
+                    speedView.SetLevel(date.currentLevel, date.upgradeContainer.CycleLength);
                     break;
                 }
                 case EUpgradeType.AttackDamage:
                 {
-                    if(!_changeAttackDamageSystem.CanUpAttackDamage())
-                        break;
-
                     if(!_coinService.TryBought(date.currentCostUp))
                         break;
 
-                    date.currentCostUp += date.upgradeContainer.costUpgrade;
+                    var upgradeValue = GetIntUpgradeValue(date);
                     date.currentLevel++;
-                    _changeAttackDamageSystem.UpAttackDamage((int)date.upgradeContainer.upgradeValue);
+                    _changeAttackDamageSystem.UpAttackDamage(upgradeValue);
+                    date.currentCostUp = GetUpgradeCost(date);
                     var damageView = _upgradeViewsHandler.GetViewByType(date.upgradeContainer.upgradeType);
                     damageView.SetCost(date.currentCostUp);
-                    damageView.SetLevel(date.currentLevel, date.upgradeContainer.maxLevel);
+                    damageView.SetLevel(date.currentLevel, date.upgradeContainer.CycleLength);
                     break;
                 }
                 case EUpgradeType.UpHealth:
                 {
-                    if(!_towerHealthHandler.CanUpHealth())
-                        break;
-
                     if(!_coinService.TryBought(date.currentCostUp))
                         break;
 
+                    var upgradeValue = GetIntUpgradeValue(date);
                     _signalBus.Fire(new TowerAddHealthSignal
                     {
-                        additiveCount = 1
+                        additiveCount = upgradeValue
                     });
 
-                    date.currentCostUp += date.upgradeContainer.costUpgrade;
                     date.currentLevel++;
+                    date.currentCostUp = GetUpgradeCost(date);
                     var healthView = _upgradeViewsHandler.GetViewByType(date.upgradeContainer.upgradeType);
                     healthView.SetCost(date.currentCostUp);
-                    healthView.SetLevel(date.currentLevel, date.upgradeContainer.maxLevel);
+                    healthView.SetLevel(date.currentLevel, date.upgradeContainer.CycleLength);
                     break;
                 }
             }
@@ -166,8 +148,33 @@ namespace Services
                 _dateContainers.Add(dateContainer);
                 var view = _upgradeViewsHandler.GetViewByType(enumType);
                 view.SetCost(container.startCost);
-                view.SetLevel(0, container.maxLevel, false);
+                view.SetLevel(0, container.CycleLength, false);
             }
+        }
+
+        private int GetUpgradeCost(DateContainer date)
+        {
+            var container = date.upgradeContainer;
+            var rank = GetRank(date);
+            var baseCost = container.startCost + date.currentLevel * container.costUpgrade;
+
+            return Mathf.Max(1, Mathf.RoundToInt(baseCost * Mathf.Pow(container.CostMultiplier, rank)));
+        }
+
+        private float GetFloatUpgradeValue(DateContainer date)
+        {
+            var container = date.upgradeContainer;
+            return container.upgradeValue * Mathf.Pow(container.ValueMultiplier, GetRank(date));
+        }
+
+        private int GetIntUpgradeValue(DateContainer date)
+        {
+            return Mathf.Max(1, Mathf.RoundToInt(GetFloatUpgradeValue(date)));
+        }
+
+        private static int GetRank(DateContainer date)
+        {
+            return date.currentLevel / date.upgradeContainer.CycleLength;
         }
 
         private class DateContainer

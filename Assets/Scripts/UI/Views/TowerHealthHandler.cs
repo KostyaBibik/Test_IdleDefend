@@ -16,6 +16,7 @@ namespace UI.Views
         [SerializeField] private Transform contentRect;
 
         private List<Image> _lifeCounters = new List<Image>();
+        private TowerHealthView _healthPrefab;
 
         private int _lifeCounter;
         private int _maxCounter;
@@ -32,11 +33,11 @@ namespace UI.Views
         )
         {
             _maxCounter = maxCount;
+            _healthPrefab = healthPrefab;
             
             for (var iterator = 0; iterator < maxCount; iterator++)
             {
-                var healthView = Instantiate(healthPrefab, contentRect);
-                _lifeCounters.Add(healthView.Image);
+                var healthView = CreateHealthView();
                 
                 if (iterator < currentCount)
                     AddHealth();
@@ -91,8 +92,8 @@ namespace UI.Views
         
         private IEnumerator ActivateLife()
         {
-            if(_maxCounter < _lifeCounter + 1)
-                yield break;
+            while (_maxCounter < _lifeCounter + 1)
+                AddMaxHealthSlot();
             
             _lifeCounter++;
             _isAddAnimating = true;
@@ -111,6 +112,20 @@ namespace UI.Views
             } while (activatedLife.color != targetColor);
             
             _isAddAnimating = false;
+        }
+
+        private void AddMaxHealthSlot()
+        {
+            var healthView = CreateHealthView();
+            healthView.Image.color = disableLife;
+            _maxCounter++;
+        }
+
+        private TowerHealthView CreateHealthView()
+        {
+            var healthView = Instantiate(_healthPrefab, contentRect);
+            _lifeCounters.Add(healthView.Image);
+            return healthView;
         }
     }
 }

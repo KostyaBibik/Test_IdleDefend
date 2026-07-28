@@ -15,25 +15,30 @@ using Object = UnityEngine.Object;
 
 namespace Services.Impl
 {
-    public class EnemyService : IEntityService, IInitializable, IDisposable
+    public class EnemyService : IEntityService, IInitializable, ITickable, IDisposable
     {
         private const float delayBeforeClearParticle = 1.5f;
         private readonly CoinService _coinService;
         private readonly EnemyPrefabsConfig _enemyPrefabsConfig;
+        private readonly LevelsConfig _levelsConfig;
         private readonly SignalBus _signalBus;
         private readonly IGameTimeProvider _gameTimeProvider;
+        private LevelDefinition _currentLevel;
+        private float _elapsedSeconds;
 
         [Inject] private EntityFactory _entityFactory;
 
         public EnemyService(
             CoinService coinService,
             EnemyPrefabsConfig enemyPrefabsConfig,
+            LevelsConfig levelsConfig,
             SignalBus signalBus,
             IGameTimeProvider gameTimeProvider
         )
         {
             _coinService = coinService;
             _enemyPrefabsConfig = enemyPrefabsConfig;
+            _levelsConfig = levelsConfig;
             _signalBus = signalBus;
             _gameTimeProvider = gameTimeProvider;
         }
@@ -51,7 +56,7 @@ namespace Services.Impl
             if (Enemies.Contains(view))
             {
                 var enemyDefinition = _enemyPrefabsConfig.GetPrefab(view.type);
-                var rewardCount = enemyDefinition.RewardCoins;
+                var rewardCount = CalculateReward(enemyDefinition);
 
                 Enemies.Remove(view);
                 var particlePrefab = enemyDefinition.GetRandomParticle();
@@ -123,7 +128,25 @@ namespace Services.Impl
         
         public void Initialize()
         {
+            var levelIndex = SelectedLevelHolder.SelectedLevelIndex;
+            if (levelIndex < 0 || levelIndex >= _levelsConfig.Count)
+                levelIndex = 0;
+
+            _currentLevel = _levelsConfig.GetByIndex(levelIndex);
+
             _signalBus.Subscribe<DestroyEntitySignal>(RemoveEntityFromService);
+        }
+
+        public void Tick()
+        {
+            _elapsedSeconds += _gameTimeProvider.DeltaTime;
+        }
+
+        private int CalculateReward(EnemyDefinition enemyDefinition)
+        {
+            return _currentLevel != null
+                ? _currentLevel.CalculateEnemyReward(enemyDefinition.RewardCoins, _elapsedSeconds)
+                : enemyDefinition.RewardCoins;
         }
         
         public void Dispose()

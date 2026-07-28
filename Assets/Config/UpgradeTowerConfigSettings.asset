@@ -18,18 +18,26 @@ MonoBehaviour:
     startCost: 15
     costUpgrade: 10
     maxLevel: 10
+    costRankMultiplier: 1.35
+    upgradeValueRankMultiplier: 0.85
   - upgradeType: 2
     upgradeValue: 0.22
     startCost: 15
     costUpgrade: 10
     maxLevel: 10
+    costRankMultiplier: 1.35
+    upgradeValueRankMultiplier: 0.85
   - upgradeType: 3
     upgradeValue: 16
     startCost: 15
     costUpgrade: 10
     maxLevel: 10
+    costRankMultiplier: 1.35
+    upgradeValueRankMultiplier: 0.85
   - upgradeType: 4
     upgradeValue: 1
     startCost: 100
     costUpgrade: 100
-    maxLevel: 2
+    maxLevel: 10
+    costRankMultiplier: 1.35
+    upgradeValueRankMultiplier: 0.85

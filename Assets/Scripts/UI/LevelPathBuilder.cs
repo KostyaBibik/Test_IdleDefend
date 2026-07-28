@@ -53,8 +53,9 @@ namespace UI
                 var unlocked = i <= unlockedIndex;
                 var isNext = i == unlockedIndex;
                 var stars = SaveSystem.GetLevelStars(level.LevelId);
+                var lockedReasonText = unlocked ? null : $"Пройдите этап {i}";
 
-                node.Setup(i + 1, unlocked, isNext, stars);
+                node.Setup(i + 1, unlocked, isNext, stars, lockedReasonText);
 
                 var levelIndex = i;
                 node.Button.onClick.AddListener(delegate { onLevelSelected(levelIndex); });

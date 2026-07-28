@@ -12,6 +12,9 @@ namespace Db
         [SerializeField] private int levelId;
         [SerializeField] private List<WaveDefinition> waves;
 
+        [Tooltip("Эмеральды, начисляемые за полную зачистку уровня (см. WinActionSystem)")]
+        [SerializeField] private int rewardEmeralds = 50;
+
         [Header("Доп-башни: индексы слотов сцены, доступных для покупки на этом уровне")]
         [SerializeField] private List<int> unlockedSideTowerSlotIndices;
 
@@ -24,12 +27,73 @@ namespace Db
         [Tooltip("После этого момента новые враги перестают спавниться (IsSpawnCapped); также чекпоинт на прогресс-баре")]
         [SerializeField] private float star3Seconds = 90f;
 
+        [Space]
+        [Header("Награда за врагов")]
+        [Tooltip("Множитель монет до первого порога звезды.")]
+        [SerializeField] private float rewardMultiplierAtStart = 1f;
+        [Tooltip("Множитель монет после первого порога звезды.")]
+        [SerializeField] private float rewardMultiplierAtStar1 = 1.1f;
+        [Tooltip("Множитель монет после второго порога звезды.")]
+        [SerializeField] private float rewardMultiplierAtStar2 = 1.2f;
+        [Tooltip("Множитель монет после третьего порога звезды.")]
+        [SerializeField] private float rewardMultiplierAtStar3 = 1.3f;
+        [Tooltip("Потолок плавного роста награды со временем. 0.6 = максимум +60% к фазовому множителю.")]
+        [SerializeField] private float rewardTimeGrowthLimit = 0.6f;
+        [Tooltip("Чем больше значение, тем медленнее награда приближается к потолку роста.")]
+        [SerializeField] private float rewardTimeGrowthSeconds = 120f;
+        [Tooltip("Округление награды до красивого шага. 5 = 73 округлится до 75.")]
+        [SerializeField] private int rewardRoundTo = 5;
+
         public int LevelId => levelId;
         public List<WaveDefinition> Waves => waves;
+        public int RewardEmeralds => rewardEmeralds;
         public List<int> UnlockedSideTowerSlotIndices => unlockedSideTowerSlotIndices;
         public float Star1Seconds => star1Seconds;
         public float Star2Seconds => star2Seconds;
         public float Star3Seconds => star3Seconds;
+        public float RewardMultiplierAtStart => rewardMultiplierAtStart;
+        public float RewardMultiplierAtStar1 => rewardMultiplierAtStar1;
+        public float RewardMultiplierAtStar2 => rewardMultiplierAtStar2;
+        public float RewardMultiplierAtStar3 => rewardMultiplierAtStar3;
+        public float RewardTimeGrowthLimit => rewardTimeGrowthLimit;
+        public float RewardTimeGrowthSeconds => rewardTimeGrowthSeconds;
+        public int RewardRoundTo => rewardRoundTo;
+
+        public int CalculateEnemyReward(int baseReward, float elapsedSeconds)
+        {
+            var reward = baseReward * GetRewardMultiplier(elapsedSeconds);
+            return RoundReward(Mathf.Max(1, Mathf.RoundToInt(reward)));
+        }
+
+        private float GetRewardMultiplier(float elapsedSeconds)
+        {
+            var phaseMultiplier = GetRewardPhaseMultiplier(elapsedSeconds);
+            var growthSeconds = Mathf.Max(0.01f, rewardTimeGrowthSeconds);
+            var timeMultiplier = 1f + Mathf.Max(0f, rewardTimeGrowthLimit) *
+                (1f - Mathf.Exp(-Mathf.Max(0f, elapsedSeconds) / growthSeconds));
+
+            return phaseMultiplier * timeMultiplier;
+        }
+
+        private float GetRewardPhaseMultiplier(float elapsedSeconds)
+        {
+            if (elapsedSeconds >= star3Seconds)
+                return rewardMultiplierAtStar3;
+            if (elapsedSeconds >= star2Seconds)
+                return rewardMultiplierAtStar2;
+            if (elapsedSeconds >= star1Seconds)
+                return rewardMultiplierAtStar1;
+
+            return rewardMultiplierAtStart;
+        }
+
+        private int RoundReward(int reward)
+        {
+            if (rewardRoundTo <= 1)
+                return reward;
+
+            return Mathf.Max(rewardRoundTo, Mathf.RoundToInt((float) reward / rewardRoundTo) * rewardRoundTo);
+        }
 
         public float GetTriggerSeconds(EWaveStartTrigger trigger)
         {

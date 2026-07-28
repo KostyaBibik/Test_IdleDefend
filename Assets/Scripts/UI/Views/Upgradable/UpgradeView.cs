@@ -22,7 +22,7 @@ namespace UI.Views.Upgradable
 
         public void SetLevel(int current, int max, bool animate = true)
         {
-            progressBar?.SetProgress(current, max, animate);
+            progressBar?.SetCycledProgress(current, max, animate);
         }
     }
 }

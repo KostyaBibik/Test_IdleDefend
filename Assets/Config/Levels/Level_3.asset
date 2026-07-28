@@ -32,7 +32,15 @@ MonoBehaviour:
     extraHealth: 30
     extraSpeed: 0.4
     startTrigger: 2
+  rewardEmeralds: 100
   unlockedSideTowerSlotIndices: 000000000100000002000000
   star1Seconds: 30
   star2Seconds: 60
   star3Seconds: 90
+  rewardMultiplierAtStart: 1
+  rewardMultiplierAtStar1: 1.1
+  rewardMultiplierAtStar2: 1.2
+  rewardMultiplierAtStar3: 1.3
+  rewardTimeGrowthLimit: 0.6
+  rewardTimeGrowthSeconds: 120
+  rewardRoundTo: 5

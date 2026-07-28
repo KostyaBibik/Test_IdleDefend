@@ -50,6 +50,8 @@ namespace Systems.Actions
             var levelId = _levelService.CurrentLevel.LevelId;
             var nextIndex = Math.Min(_levelService.CurrentLevelIndex + 1, _levelsConfig.Count - 1);
             SaveSystem.SaveLevelProgress(levelId, stars, nextIndex);
+
+            EmeraldWallet.Add(_levelService.CurrentLevel.RewardEmeralds);
         }
 
         public void Initialize()
