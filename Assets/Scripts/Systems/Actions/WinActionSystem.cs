@@ -36,7 +36,9 @@ namespace Systems.Actions
 
             _finished = true;
 
-            var stars = _levelService.CurrentLevel.CalculateStars(_levelService.ElapsedSeconds);
+            // Этот сигнал стреляет только когда все волны уже заспавнены и врагов не осталось —
+            // то есть уровень зачищен полностью. Другого исхода у этого пути нет, поэтому 3 звезды безусловно.
+            const int stars = 3;
 
             SaveProgress(stars);
 

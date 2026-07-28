@@ -16,12 +16,12 @@ namespace Db
         [SerializeField] private List<int> unlockedSideTowerSlotIndices;
 
         [Space]
-        [Header("Звёзды: сколько секунд нужно продержаться")]
-        [Tooltip("Продержался хотя бы столько секунд — 1 звезда")]
+        [Header("Тайминги волн и прогресс-бара (3 звезды даются за полную зачистку уровня, см. WinActionSystem)")]
+        [Tooltip("Момент запуска волн с триггером AfterStar1Threshold; также чекпоинт на прогресс-баре")]
         [SerializeField] private float star1Seconds = 30f;
-        [Tooltip("Продержался хотя бы столько секунд — 2 звезды")]
+        [Tooltip("Момент запуска волн с триггером AfterStar2Threshold; также чекпоинт на прогресс-баре")]
         [SerializeField] private float star2Seconds = 60f;
-        [Tooltip("Продержался хотя бы столько секунд — 3 звезды. После этого момента новые враги перестают спавниться")]
+        [Tooltip("После этого момента новые враги перестают спавниться (IsSpawnCapped); также чекпоинт на прогресс-баре")]
         [SerializeField] private float star3Seconds = 90f;
 
         public int LevelId => levelId;
@@ -30,15 +30,6 @@ namespace Db
         public float Star1Seconds => star1Seconds;
         public float Star2Seconds => star2Seconds;
         public float Star3Seconds => star3Seconds;
-
-        public int CalculateStars(float elapsedSeconds)
-        {
-            if (elapsedSeconds >= star3Seconds)
-                return 3;
-            if (elapsedSeconds >= star2Seconds)
-                return 2;
-            return 1;
-        }
 
         public float GetTriggerSeconds(EWaveStartTrigger trigger)
         {
