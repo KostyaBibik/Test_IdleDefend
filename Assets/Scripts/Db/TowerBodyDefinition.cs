@@ -54,6 +54,10 @@ namespace Db
 
         [Tooltip("Заморозка (Frost): полностью останавливает всех врагов на экране")]
         [SerializeField, Min(0f)] private float freezeDuration = 3f;
+        [Tooltip("Скорость расширения кольца заморозки (юниты/сек) - враг замерзает в момент, когда фронт волны его касается, а не мгновенно все разом")]
+        [SerializeField, Min(0.1f)] private float freezeWaveSpeed = 20f;
+        [Tooltip("Разовый партикл-вспышка в момент активации ультимейта (например Epic Toon FX NovaFrost)")]
+        [SerializeField] private GameObject freezeWaveBurstEffectPrefab;
 
         [Tooltip("Перегрузка (Splash): множитель радиуса сплэша")]
         [SerializeField, Min(1f)] private float overloadSplashRadiusMultiplier = 2f;
@@ -86,6 +90,8 @@ namespace Db
         public float ShatterDamagePercentOfMaxHealth => shatterDamagePercentOfMaxHealth;
 
         public float FreezeDuration => freezeDuration;
+        public float FreezeWaveSpeed => freezeWaveSpeed;
+        public GameObject FreezeWaveBurstEffectPrefab => freezeWaveBurstEffectPrefab;
 
         public float OverloadSplashRadiusMultiplier => overloadSplashRadiusMultiplier;
         public float OverloadDuration => overloadDuration;

@@ -73,6 +73,8 @@ namespace Systems.Initializable
             _towerView.barrageDuration = body.BarrageDuration;
             _towerView.shatterDamagePercentOfMaxHealth = body.ShatterDamagePercentOfMaxHealth;
             _towerView.freezeDuration = body.FreezeDuration;
+            _towerView.freezeWaveSpeed = body.FreezeWaveSpeed;
+            _towerView.freezeWaveBurstEffectPrefab = body.FreezeWaveBurstEffectPrefab;
             _towerView.overloadSplashRadiusMultiplier = body.OverloadSplashRadiusMultiplier;
             _towerView.overloadDuration = body.OverloadDuration;
 

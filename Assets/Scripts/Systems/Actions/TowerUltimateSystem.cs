@@ -20,16 +20,19 @@ namespace Systems.Actions
         private readonly TowerView _towerView;
         private readonly EnemyService _enemyService;
         private readonly IGameTimeProvider _gameTimeProvider;
+        private readonly FreezeWaveSystem _freezeWaveSystem;
 
         public TowerUltimateSystem(
             TowerView towerView,
             EnemyService enemyService,
-            IGameTimeProvider gameTimeProvider
+            IGameTimeProvider gameTimeProvider,
+            FreezeWaveSystem freezeWaveSystem
         )
         {
             _towerView = towerView;
             _enemyService = enemyService;
             _gameTimeProvider = gameTimeProvider;
+            _freezeWaveSystem = freezeWaveSystem;
         }
 
         public void Tick()
@@ -92,10 +95,10 @@ namespace Systems.Actions
 
         private void ActivateFreeze()
         {
-            // 0 всегда сильнее любого пассивного замедления - гвард в ApplyFrost тут не помешает
-            // применить эффект, но так вся логика "чей эффект сильнее" остаётся в одном месте.
-            foreach (var enemy in _enemyService.Enemies)
-                enemy.ApplyFrost(0f, _towerView.freezeDuration);
+            // Враги замерзают по фронту расширяющейся волны (FreezeWaveSystem), не мгновенно все
+            // разом - гвард в EnemyView.ApplyFrost всё равно гарантирует, что 0 (полная остановка)
+            // не будет ослаблен более слабым пассивным эффектом, догнавшим цель позже.
+            _freezeWaveSystem.StartWave();
         }
 
         private void ActivateOverload()

@@ -107,6 +107,7 @@ namespace Installers
 
             Container.BindInterfacesAndSelfTo<TowerView>().FromInstance(towerView).AsCached().NonLazy();
             Container.BindInterfacesAndSelfTo<TowerAttackSystem>().AsSingle().NonLazy();
+            Container.BindInterfacesAndSelfTo<FreezeWaveSystem>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<TowerUltimateSystem>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<TowerInitializeSystem>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<TowerChangeRadiusSystem>().AsSingle().NonLazy();

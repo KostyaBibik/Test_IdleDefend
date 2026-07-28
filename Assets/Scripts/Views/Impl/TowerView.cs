@@ -42,6 +42,8 @@ namespace Views.Impl
         [HideInInspector] public float barrageDuration;
         [HideInInspector] public float shatterDamagePercentOfMaxHealth;
         [HideInInspector] public float freezeDuration;
+        [HideInInspector] public float freezeWaveSpeed;
+        [HideInInspector] public GameObject freezeWaveBurstEffectPrefab;
         [HideInInspector] public float overloadSplashRadiusMultiplier;
         [HideInInspector] public float overloadDuration;
 

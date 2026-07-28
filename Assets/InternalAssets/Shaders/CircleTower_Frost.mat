@@ -41,7 +41,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Brightness: 1
+    - _Brightness: 0.27
     - _ColorMultiply: 7.22
     - _Direction: 0.1
     - _FresnelPower: 0.78
