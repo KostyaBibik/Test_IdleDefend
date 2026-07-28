@@ -13,25 +13,8 @@ MonoBehaviour:
   m_Name: Level_2
   m_EditorClassIdentifier: 
   levelId: 2
-  waves:
-  - enemyType: 1
-    count: 8
-    spawnDelay: 1
-    extraHealth: 10
-    extraSpeed: 0.1
-    startTrigger: 0
-  - enemyType: 2
-    count: 8
-    spawnDelay: 0.9
-    extraHealth: 15
-    extraSpeed: 0.2
-    startTrigger: 1
-  - enemyType: 1
-    count: 10
-    spawnDelay: 0.7
-    extraHealth: 20
-    extraSpeed: 0.3
-    startTrigger: 2
+  spawnSections:
+  - enemies: []
   rewardEmeralds: 75
   unlockedSideTowerSlotIndices: 0000000001000000
   star1Seconds: 30

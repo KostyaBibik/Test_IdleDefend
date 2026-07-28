@@ -13,25 +13,25 @@ MonoBehaviour:
   m_Name: Level_1
   m_EditorClassIdentifier: 
   levelId: 1
-  waves:
-  - enemyType: 0
-    count: 5
-    spawnDelay: 1.2
-    extraHealth: 0
-    extraSpeed: 0
-    startTrigger: 0
-  - enemyType: 1
-    count: 6
-    spawnDelay: 1
-    extraHealth: 5
-    extraSpeed: 0
-    startTrigger: 1
-  - enemyType: 0
-    count: 8
-    spawnDelay: 0.8
-    extraHealth: 10
-    extraSpeed: 0.2
-    startTrigger: 2
+  spawnSections:
+  - enemies:
+    - enemyType: 0
+      spawnDelayMin: 1
+      spawnDelayMax: 1.4
+      extraHealth: 0
+      extraSpeed: 0
+  - enemies:
+    - enemyType: 1
+      spawnDelayMin: 0.85
+      spawnDelayMax: 1.15
+      extraHealth: 5
+      extraSpeed: 0
+  - enemies:
+    - enemyType: 0
+      spawnDelayMin: 0.65
+      spawnDelayMax: 0.95
+      extraHealth: 10
+      extraSpeed: 0.2
   rewardEmeralds: 50
   unlockedSideTowerSlotIndices: 00000000
   star1Seconds: 30

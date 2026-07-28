@@ -10,7 +10,8 @@ namespace Db
     public class LevelDefinition : ScriptableObject
     {
         [SerializeField] private int levelId;
-        [SerializeField] private List<WaveDefinition> waves;
+        [Header("Секции спавна: 1 = старт-star1, 2 = star1-star2, 3 = star2-star3")]
+        [SerializeField] private List<SpawnSectionDefinition> spawnSections = new();
 
         [Tooltip("Эмеральды, начисляемые за полную зачистку уровня (см. WinActionSystem)")]
         [SerializeField] private int rewardEmeralds = 50;
@@ -45,7 +46,7 @@ namespace Db
         [SerializeField] private int rewardRoundTo = 5;
 
         public int LevelId => levelId;
-        public List<WaveDefinition> Waves => waves;
+        public IReadOnlyList<SpawnSectionDefinition> SpawnSections => spawnSections;
         public int RewardEmeralds => rewardEmeralds;
         public List<int> UnlockedSideTowerSlotIndices => unlockedSideTowerSlotIndices;
         public float Star1Seconds => star1Seconds;
@@ -95,28 +96,50 @@ namespace Db
             return Mathf.Max(rewardRoundTo, Mathf.RoundToInt((float) reward / rewardRoundTo) * rewardRoundTo);
         }
 
-        public float GetTriggerSeconds(EWaveStartTrigger trigger)
+        public SpawnSectionDefinition GetSpawnSection(float elapsedSeconds)
         {
-            switch (trigger)
-            {
-                case EWaveStartTrigger.AfterStar1Threshold:
-                    return star1Seconds;
-                case EWaveStartTrigger.AfterStar2Threshold:
-                    return star2Seconds;
-                default:
-                    return 0f;
-            }
+            if (spawnSections == null || spawnSections.Count == 0)
+                return null;
+
+            var index = GetSpawnSectionIndex(elapsedSeconds);
+            return index >= 0 && index < spawnSections.Count ? spawnSections[index] : null;
+        }
+
+        public int GetSpawnSectionIndex(float elapsedSeconds)
+        {
+            if (elapsedSeconds >= star3Seconds)
+                return -1;
+
+            if (elapsedSeconds >= star2Seconds)
+                return 2;
+
+            if (elapsedSeconds >= star1Seconds)
+                return 1;
+
+            return 0;
         }
     }
 
     [Serializable]
-    public class WaveDefinition
+    public class SpawnSectionDefinition
     {
+        [SerializeField] private List<EnemySpawnEntryDefinition> enemies = new();
+
+        public IReadOnlyList<EnemySpawnEntryDefinition> Enemies => enemies;
+    }
+
+    [Serializable]
+    public class EnemySpawnEntryDefinition
+    {
+        [Header("Враг")]
         public EEnemyType enemyType;
-        public int count = 5;
-        public float spawnDelay = 1f;
+
+        [Header("Задержка спавна")]
+        [Min(0.05f)] public float spawnDelayMin = 1f;
+        [Min(0.05f)] public float spawnDelayMax = 1f;
+
+        [Header("Модификаторы")]
         public int extraHealth;
         public float extraSpeed;
-        public EWaveStartTrigger startTrigger = EWaveStartTrigger.LevelStart;
     }
 }
