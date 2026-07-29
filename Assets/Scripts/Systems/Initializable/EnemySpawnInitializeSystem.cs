@@ -22,6 +22,7 @@ namespace Systems.Initializable
         private readonly List<SpawnEntryState> _entryStates = new();
         private int _activeSectionIndex = int.MinValue;
         private bool _spawnFinishedNotified;
+        private float _elapsedSeconds;
 
         public EnemySpawnInitializeSystem(
             EntityFactory entityFactory,
@@ -43,8 +44,7 @@ namespace Systems.Initializable
             _entryStates.Clear();
             _activeSectionIndex = int.MinValue;
             _spawnFinishedNotified = false;
-
-            ActivateCurrentSection();
+            _elapsedSeconds = 0f;
         }
 
         public void Tick()
@@ -52,7 +52,16 @@ namespace Systems.Initializable
             if (_spawnFinishedNotified)
                 return;
 
-            if (_levelService.IsSpawnCapped)
+            if (_levelService.CurrentLevel == null)
+                return;
+
+            var deltaTime = _gameTimeProvider.DeltaTime;
+            if (deltaTime <= 0f)
+                return;
+
+            _elapsedSeconds += deltaTime;
+
+            if (_levelService.CurrentLevel.GetSpawnSectionIndex(_elapsedSeconds) < 0)
             {
                 NotifySpawnFinished();
                 return;
@@ -60,31 +69,41 @@ namespace Systems.Initializable
 
             ActivateCurrentSection();
 
-            var deltaTime = _gameTimeProvider.DeltaTime;
             for (var i = 0; i < _entryStates.Count; i++)
             {
                 var state = _entryStates[i];
                 state.remainingDelay -= deltaTime;
 
-                if (state.remainingDelay > 0f)
-                    continue;
+                if (state.remainingDelay <= 0f)
+                {
+                    SpawnEnemy(state.entry);
+                    state.remainingDelay = RollDelay(state.entry);
+                }
 
-                SpawnEnemy(state.entry);
-                state.remainingDelay = RollDelay(state.entry);
+                // SpawnEntryState - структура, значит state здесь копия элемента списка.
+                // Записывать её обратно нужно при любом исходе, а не только после спавна:
+                // иначе тик отсчёта каждый кадр откатывается и таймер никогда не доходит до нуля.
                 _entryStates[i] = state;
             }
         }
 
         private void ActivateCurrentSection()
         {
-            var sectionIndex = _levelService.CurrentLevel.GetSpawnSectionIndex(_levelService.ElapsedSeconds);
+            var level = _levelService.CurrentLevel;
+            if (level == null)
+                return;
+
+            var sectionIndex = level.GetSpawnSectionIndex(_elapsedSeconds);
             if (sectionIndex == _activeSectionIndex)
                 return;
 
             _activeSectionIndex = sectionIndex;
             _entryStates.Clear();
 
-            var section = _levelService.CurrentLevel.GetSpawnSection(_levelService.ElapsedSeconds);
+            if (sectionIndex < 0)
+                return;
+
+            var section = level.GetSpawnSection(_elapsedSeconds);
             var entries = section?.Enemies;
             if (entries == null)
                 return;
@@ -95,7 +114,7 @@ namespace Systems.Initializable
                 if (entry == null)
                     continue;
 
-                _entryStates.Add(new SpawnEntryState(entry, RollDelay(entry)));
+                _entryStates.Add(new SpawnEntryState(entry, 0f));
             }
         }
 

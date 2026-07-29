@@ -13,30 +13,41 @@ MonoBehaviour:
   m_Name: Level_1
   m_EditorClassIdentifier: 
   levelId: 1
+  startCoins: 140
   spawnSections:
   - enemies:
     - enemyType: 0
-      spawnDelayMin: 1
-      spawnDelayMax: 1.4
+      spawnDelayMin: 1.35
+      spawnDelayMax: 1.65
       extraHealth: 0
       extraSpeed: 0
   - enemies:
-    - enemyType: 1
-      spawnDelayMin: 0.85
-      spawnDelayMax: 1.15
+    - enemyType: 0
+      spawnDelayMin: 1.1
+      spawnDelayMax: 1.4
       extraHealth: 5
+      extraSpeed: 0
+    - enemyType: 2
+      spawnDelayMin: 3.2
+      spawnDelayMax: 4
+      extraHealth: 0
       extraSpeed: 0
   - enemies:
     - enemyType: 0
-      spawnDelayMin: 0.65
-      spawnDelayMax: 0.95
-      extraHealth: 10
-      extraSpeed: 0.2
+      spawnDelayMin: 1
+      spawnDelayMax: 1.25
+      extraHealth: 15
+      extraSpeed: 0.05
+    - enemyType: 1
+      spawnDelayMin: 3.2
+      spawnDelayMax: 4.2
+      extraHealth: 0
+      extraSpeed: 0
   rewardEmeralds: 50
   unlockedSideTowerSlotIndices: 00000000
-  star1Seconds: 30
-  star2Seconds: 60
-  star3Seconds: 90
+  star1Seconds: 25
+  star2Seconds: 50
+  star3Seconds: 75
   rewardMultiplierAtStart: 1
   rewardMultiplierAtStar1: 1.1
   rewardMultiplierAtStar2: 1.2

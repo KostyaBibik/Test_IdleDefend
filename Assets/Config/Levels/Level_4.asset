@@ -12,31 +12,57 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3fb471f972ff14498c34cda37206166, type: 3}
   m_Name: Level_4
   m_EditorClassIdentifier: 
-  levelId: 3
+  levelId: 4
+  startCoins: 160
   spawnSections:
   - enemies:
+    - enemyType: 0
+      spawnDelayMin: 1
+      spawnDelayMax: 1.25
+      extraHealth: 15
+      extraSpeed: 0
+    - enemyType: 5
+      spawnDelayMin: 5
+      spawnDelayMax: 6
+      extraHealth: 0
+      extraSpeed: 0
+  - enemies:
     - enemyType: 2
-      spawnDelayMin: 0.75
-      spawnDelayMax: 1.05
+      spawnDelayMin: 2
+      spawnDelayMax: 2.4
+      extraHealth: 15
+      extraSpeed: 0.1
+    - enemyType: 5
+      spawnDelayMin: 4
+      spawnDelayMax: 5
+      extraHealth: 10
+      extraSpeed: 0
+    - enemyType: 4
+      spawnDelayMin: 4.5
+      spawnDelayMax: 5.5
+      extraHealth: 0
+      extraSpeed: 0
+  - enemies:
+    - enemyType: 3
+      spawnDelayMin: 1.8
+      spawnDelayMax: 2.2
       extraHealth: 20
-      extraSpeed: 0.2
-  - enemies:
-    - enemyType: 3
-      spawnDelayMin: 0.65
-      spawnDelayMax: 0.95
-      extraHealth: 25
-      extraSpeed: 0.3
-  - enemies:
-    - enemyType: 3
-      spawnDelayMin: 0.45
-      spawnDelayMax: 0.75
-      extraHealth: 30
-      extraSpeed: 0.4
+      extraSpeed: 0.05
+    - enemyType: 5
+      spawnDelayMin: 3.5
+      spawnDelayMax: 4.5
+      extraHealth: 20
+      extraSpeed: 0.03
+    - enemyType: 4
+      spawnDelayMin: 3.8
+      spawnDelayMax: 4.8
+      extraHealth: 10
+      extraSpeed: 0.03
   rewardEmeralds: 125
   unlockedSideTowerSlotIndices: 000000000100000002000000
-  star1Seconds: 15
-  star2Seconds: 40
-  star3Seconds: 90
+  star1Seconds: 30
+  star2Seconds: 60
+  star3Seconds: 100
   rewardMultiplierAtStart: 1
   rewardMultiplierAtStar1: 1.1
   rewardMultiplierAtStar2: 1.2

@@ -10,6 +10,8 @@ namespace Db
     public class LevelDefinition : ScriptableObject
     {
         [SerializeField] private int levelId;
+        [Tooltip("Стартовые монеты внутри боевой сессии. Позволяет балансировать темп апгрейдов отдельно для каждого уровня.")]
+        [SerializeField, Min(0)] private int startCoins = 120;
         [Header("Секции спавна: 1 = старт-star1, 2 = star1-star2, 3 = star2-star3")]
         [SerializeField] private List<SpawnSectionDefinition> spawnSections = new();
 
@@ -46,6 +48,7 @@ namespace Db
         [SerializeField] private int rewardRoundTo = 5;
 
         public int LevelId => levelId;
+        public int StartCoins => startCoins;
         public IReadOnlyList<SpawnSectionDefinition> SpawnSections => spawnSections;
         public int RewardEmeralds => rewardEmeralds;
         public List<int> UnlockedSideTowerSlotIndices => unlockedSideTowerSlotIndices;

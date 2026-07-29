@@ -20,5 +20,5 @@ MonoBehaviour:
   effectType: 5
   value: 1
   maxStacks: 99
-  weight: 0.7
+  weight: 0.35
   enabledInRoll: 1

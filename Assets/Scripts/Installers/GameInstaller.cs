@@ -84,7 +84,10 @@ namespace Installers
             Container.BindInterfacesAndSelfTo<GameInitializeSystem>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<LoseActionSystem>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<WinActionSystem>().AsSingle().NonLazy();
-            Container.BindInterfacesAndSelfTo<ShowRewardSystem>().AsSingle().NonLazy();
+            // Всплывающие монеты за смерть врага отключены: их место заняли числа урона.
+            // Начисление монет живёт в CoinService и не затронуто; ShowRewardSystem оставлен
+            // невключённым, чтобы эффект можно было вернуть под другие награды.
+            Container.BindInterfacesAndSelfTo<ShowDamageNumbersSystem>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<ShakeCamOnDamageSystem>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<SurvivalTimeSystem>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<TowerLevelUpSystem>().AsSingle().NonLazy();

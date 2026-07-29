@@ -1,4 +1,5 @@
 using System;
+using Db;
 using Zenject;
 
 namespace Services
@@ -10,7 +11,12 @@ namespace Services
     /// </summary>
     public class CoinService : IInitializable
     {
-        private const int StartCoins = 400;
+        private readonly LevelsConfig _levelsConfig;
+
+        public CoinService(LevelsConfig levelsConfig)
+        {
+            _levelsConfig = levelsConfig;
+        }
 
         private int countCoins;
 
@@ -36,8 +42,17 @@ namespace Services
 
         public void Initialize()
         {
-            countCoins = StartCoins;
+            countCoins = GetStartCoins();
             onUpdateCountCoins?.Invoke(countCoins);
+        }
+
+        private int GetStartCoins()
+        {
+            var levelIndex = SelectedLevelHolder.SelectedLevelIndex;
+            if (levelIndex < 0 || levelIndex >= _levelsConfig.Count)
+                levelIndex = 0;
+
+            return Math.Max(0, _levelsConfig.GetByIndex(levelIndex).StartCoins);
         }
     }
 }

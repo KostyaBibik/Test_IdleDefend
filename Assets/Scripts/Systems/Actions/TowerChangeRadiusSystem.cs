@@ -35,9 +35,12 @@ namespace Systems.Actions
 
         public void UpRadius(float addValue)
         {
-            _currentRange += addValue;
-            _towerView.attackDistance += addValue;
-            _towerView.Sphere.localScale += new Vector3(addValue, addValue, addValue);
+            var nextRange = Mathf.Min(_maxRange, _currentRange + addValue);
+            var appliedValue = nextRange - _currentRange;
+
+            _currentRange = nextRange;
+            _towerView.attackDistance += appliedValue;
+            _towerView.Sphere.localScale += new Vector3(appliedValue, appliedValue, appliedValue);
         }
 
         public void Initialize()

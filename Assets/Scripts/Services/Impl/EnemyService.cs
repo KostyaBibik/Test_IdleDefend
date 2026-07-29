@@ -79,11 +79,8 @@ namespace Services.Impl
                     _coinService.AddCoins(rewardCount);
                     _towerExperienceService.AddExperience(_towerExperienceConfig.GetEnemyExperience(enemyDefinition));
 
-                    _signalBus.Fire(new ShowRewardSignal
-                    {
-                        worldPos = view.transform.position,
-                        count = rewardCount
-                    });
+                    // Всплывающая монета больше не показывается - над врагами теперь живут числа
+                    // урона (ShowDamageNumbersSystem). Начисление наград и опыта выше не изменилось.
                 }
 
                 Object.Destroy(particles.gameObject, delayBeforeClearParticle);

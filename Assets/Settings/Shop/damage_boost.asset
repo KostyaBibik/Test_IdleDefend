@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: damage_boost
   tab: 2
-  purchaseType: 0
+  purchaseType: 1
   displayName: "\u0423\u0440\u043E\u043D +10%"
   description: "\u041D\u0435\u0431\u043E\u043B\u044C\u0448\u0430\u044F \u043F\u0440\u0438\u0431\u0430\u0432\u043A\u0430
     \u043A \u0443\u0440\u043E\u043D\u0443 \u0431\u0430\u0448\u043D\u0438."

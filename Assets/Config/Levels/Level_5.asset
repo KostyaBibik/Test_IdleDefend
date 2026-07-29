@@ -12,35 +12,66 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3fb471f972ff14498c34cda37206166, type: 3}
   m_Name: Level_5
   m_EditorClassIdentifier: 
-  levelId: 3
+  levelId: 5
+  startCoins: 180
   spawnSections:
   - enemies:
-    - enemyType: 2
-      spawnDelayMin: 0.75
-      spawnDelayMax: 1.05
+    - enemyType: 0
+      spawnDelayMin: 0.95
+      spawnDelayMax: 1.15
       extraHealth: 20
-      extraSpeed: 0.2
+      extraSpeed: 0.02
+    - enemyType: 2
+      spawnDelayMin: 3
+      spawnDelayMax: 3.6
+      extraHealth: 10
+      extraSpeed: 0.08
   - enemies:
     - enemyType: 3
-      spawnDelayMin: 0.65
-      spawnDelayMax: 0.95
+      spawnDelayMin: 1.8
+      spawnDelayMax: 2.2
       extraHealth: 25
-      extraSpeed: 0.3
+      extraSpeed: 0.05
+    - enemyType: 1
+      spawnDelayMin: 4
+      spawnDelayMax: 4.8
+      extraHealth: 40
+      extraSpeed: 0
+    - enemyType: 4
+      spawnDelayMin: 4
+      spawnDelayMax: 4.8
+      extraHealth: 15
+      extraSpeed: 0.05
   - enemies:
     - enemyType: 3
-      spawnDelayMin: 0.45
-      spawnDelayMax: 0.75
+      spawnDelayMin: 1.5
+      spawnDelayMax: 1.9
+      extraHealth: 35
+      extraSpeed: 0.08
+    - enemyType: 5
+      spawnDelayMin: 3.5
+      spawnDelayMax: 4.2
       extraHealth: 30
-      extraSpeed: 0.4
+      extraSpeed: 0.05
+    - enemyType: 2
+      spawnDelayMin: 2
+      spawnDelayMax: 2.5
+      extraHealth: 25
+      extraSpeed: 0.12
+    - enemyType: 1
+      spawnDelayMin: 5
+      spawnDelayMax: 6
+      extraHealth: 60
+      extraSpeed: 0
   rewardEmeralds: 150
   unlockedSideTowerSlotIndices: 000000000100000002000000
-  star1Seconds: 30
-  star2Seconds: 60
-  star3Seconds: 90
-  rewardMultiplierAtStart: 1
-  rewardMultiplierAtStar1: 1.1
-  rewardMultiplierAtStar2: 1.2
+  star1Seconds: 35
+  star2Seconds: 70
+  star3Seconds: 110
+  rewardMultiplierAtStart: 0.75
+  rewardMultiplierAtStar1: 0.85
+  rewardMultiplierAtStar2: 0.95
   rewardMultiplierAtStar3: 1.3
-  rewardTimeGrowthLimit: 0.6
+  rewardTimeGrowthLimit: 0.35
   rewardTimeGrowthSeconds: 120
   rewardRoundTo: 5

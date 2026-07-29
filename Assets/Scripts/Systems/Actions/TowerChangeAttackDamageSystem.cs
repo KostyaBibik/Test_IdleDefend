@@ -1,4 +1,5 @@
 ﻿using Db;
+using UnityEngine;
 using Views.Impl;
 using Zenject;
 
@@ -33,8 +34,11 @@ namespace Systems.Actions
 
         public void UpAttackDamage(int addValue)
         {
-            _currentAttackDamage += addValue;
-            _towerView.attackDamage += addValue;
+            var nextAttackDamage = Mathf.Min(_maxAttackDamage, _currentAttackDamage + addValue);
+            var appliedValue = Mathf.RoundToInt(nextAttackDamage - _currentAttackDamage);
+
+            _currentAttackDamage = Mathf.RoundToInt(nextAttackDamage);
+            _towerView.attackDamage += appliedValue;
         }
         
         public void Initialize()

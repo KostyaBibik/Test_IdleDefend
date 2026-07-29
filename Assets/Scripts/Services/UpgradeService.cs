@@ -68,6 +68,9 @@ namespace Services
                 
                 case EUpgradeType.RangeAttack:
                 {
+                    if (!_towerChangeRadiusSystem.CanUpRange())
+                        break;
+
                     if(!_coinService.TryBought(date.currentCostUp))
                         break;
 
@@ -83,6 +86,9 @@ namespace Services
                 }
                 case EUpgradeType.AttackSpeed:
                 {
+                    if (!_changeAttackSpeedSystem.CanUpAttackSpeed())
+                        break;
+
                     if(!_coinService.TryBought(date.currentCostUp))
                         break;
 
@@ -97,6 +103,9 @@ namespace Services
                 }
                 case EUpgradeType.AttackDamage:
                 {
+                    if (!_changeAttackDamageSystem.CanUpAttackDamage())
+                        break;
+
                     if(!_coinService.TryBought(date.currentCostUp))
                         break;
 

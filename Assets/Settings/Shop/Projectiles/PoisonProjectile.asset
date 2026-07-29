@@ -13,13 +13,13 @@ MonoBehaviour:
   m_Name: PoisonProjectile
   m_EditorClassIdentifier: 
   bulletPrefabVariant: {fileID: 3832951130695912988, guid: 3431d037ca87ba9459b3a152562caf71, type: 3}
-  damageMultiplier: 0.85
+  damageMultiplier: 0.9
   speedMultiplier: 1.1
   appliesFrost: 0
   frostSlowPercent: 0.4
   frostSlowDuration: 2
   appliesPoison: 1
-  poisonDamagePercentPerTick: 0.3
-  poisonTickInterval: 0.5
+  poisonDamagePercentPerTick: 0.12
+  poisonTickInterval: 0.75
   poisonDuration: 3
   poisonVfxPrefab: {fileID: 128874, guid: 648a454b0bdfd8c47a5cf48e1f8a3736, type: 3}

@@ -1,4 +1,5 @@
 ﻿using Db;
+using UnityEngine;
 using Views.Impl;
 using Zenject;
 
@@ -33,8 +34,11 @@ namespace Systems.Actions
 
         public void UpAttackSpeed(float addValue)
         {
-            _currentAttackSpeed += addValue;
-            _towerView.attackSpeed += addValue;
+            var nextAttackSpeed = Mathf.Min(_maxAttackSpeed, _currentAttackSpeed + addValue);
+            var appliedValue = nextAttackSpeed - _currentAttackSpeed;
+
+            _currentAttackSpeed = nextAttackSpeed;
+            _towerView.attackSpeed += appliedValue;
         }
         
         public void Initialize()

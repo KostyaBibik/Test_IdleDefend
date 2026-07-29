@@ -19,7 +19,7 @@ namespace Services
         public LevelDefinition CurrentLevel { get; private set; }
         public int CurrentLevelIndex { get; private set; }
         public float ElapsedSeconds => _elapsed;
-        public bool IsSpawnCapped => _elapsed >= CurrentLevel.Star3Seconds;
+        public bool IsSpawnCapped => CurrentLevel != null && _elapsed >= CurrentLevel.Star3Seconds;
 
         public LevelService(
             LevelsConfig levelsConfig,

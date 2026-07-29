@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bulletPrefabVariant: {fileID: 92150836052632695, guid: bb7455da45004534c8531493f28eef3f, type: 3}
   damageMultiplier: 0.9
-  speedMultiplier: 0.75
+  speedMultiplier: 0.9
   appliesFrost: 1
   frostSlowPercent: 0.4
   frostSlowDuration: 2
