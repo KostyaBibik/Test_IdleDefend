@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Db;
 using Enums;
+using UI.Views;
 using UnityEngine;
 
 namespace Services
@@ -10,11 +11,16 @@ namespace Services
     {
         private readonly TowerBuffCatalogConfig _catalog;
         private readonly TowerBuffRuntimeService _runtime;
+        private readonly TowerHealthHandler _towerHealthHandler;
 
-        public TowerBuffRollService(TowerBuffCatalogConfig catalog, TowerBuffRuntimeService runtime)
+        public TowerBuffRollService(
+            TowerBuffCatalogConfig catalog,
+            TowerBuffRuntimeService runtime,
+            TowerHealthHandler towerHealthHandler)
         {
             _catalog = catalog;
             _runtime = runtime;
+            _towerHealthHandler = towerHealthHandler;
             _runtime.RegisterCatalog(catalog);
         }
 
@@ -66,7 +72,16 @@ namespace Services
             return buff != null
                    && !string.IsNullOrEmpty(buff.Id)
                    && !excluded.Contains(buff.Id)
-                   && _runtime.CanApply(buff);
+                   && _runtime.CanApply(buff)
+                   && CanRollByCurrentState(buff);
+        }
+
+        private bool CanRollByCurrentState(TowerBuffDefinition buff)
+        {
+            if (buff.EffectType == ETowerBuffEffectType.HealTower)
+                return _towerHealthHandler == null || _towerHealthHandler.CanUpHealth();
+
+            return true;
         }
 
         private ETowerBuffRarity RollRarity()

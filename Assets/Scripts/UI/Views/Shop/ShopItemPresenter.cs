@@ -1,6 +1,7 @@
 using Db;
 using Enums;
 using Game.Localization;
+using Services;
 
 namespace UI.Views.Shop
 {
@@ -15,11 +16,20 @@ namespace UI.Views.Shop
             {
                 EShopPurchaseType.Free => GameLocalization.Text(LocalizationKey.shop_free, "Free"),
                 EShopPurchaseType.Emeralds => item.EmeraldPrice.ToString(),
-                EShopPurchaseType.Iap => item.GemRewardAmount > 0
-                    ? item.GemRewardAmount.ToString("N0")
-                    : GameLocalization.Text(LocalizationKey.shop_iap, "IAP"),
+                EShopPurchaseType.Iap => GetIapPriceText(item),
                 _ => string.Empty
             };
+        }
+
+        private static string GetIapPriceText(ShopItemDefinition item)
+        {
+            var catalogPrice = YandexIapService.GetCatalogPrice(item);
+            if (!string.IsNullOrEmpty(catalogPrice))
+                return catalogPrice;
+
+            return item.GemRewardAmount > 0
+                ? item.GemRewardAmount.ToString("N0")
+                : GameLocalization.Text(LocalizationKey.shop_iap, "IAP");
         }
     }
 }

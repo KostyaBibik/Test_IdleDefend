@@ -22,7 +22,7 @@ MonoBehaviour:
   frostSlowPercent: 0.4
   frostSlowDuration: 2
   splashRadius: 0.2
-  splashFalloff: 0.5
+  splashFalloff: 0.3
   splashImpactEffectPrefab: {fileID: 5867360829123775343, guid: 457de52efca936a4d8061ab694d96e4a, type: 3}
   splashImpactEffectReferenceRadius: 1
   ultimateName: "\u041F\u0435\u0440\u0435\u0433\u0440\u0443\u0437\u043A\u0430"

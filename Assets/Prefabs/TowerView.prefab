@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 506585791}
   - component: {fileID: 506585790}
   m_Layer: 0
-  m_Name: Cube
+  m_Name: Core
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -25,13 +25,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 506585788}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.3, y: 0.3, z: 1}
+  m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7146211355745278882}
-  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &506585791
 MeshFilter:
@@ -40,7 +40,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 506585788}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!23 &506585790
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -61,7 +61,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: c46ea2e3065a7dd4f9e22c67f15d40ce, type: 2}
+  - {fileID: 2100000, guid: ed258e0ebe1bbfb41900921e4cc1b2df, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -108,13 +108,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 843852433}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7146211355745278882}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &843852436
 MeshFilter:
@@ -190,6 +190,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 408305403690095803}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -198,7 +199,6 @@ Transform:
   - {fileID: 843852434}
   - {fileID: 506585789}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3483922683829673187
 MonoBehaviour:
@@ -216,4 +216,42 @@ MonoBehaviour:
   ratioRange: 0.5
   attackDistance: 0
   attackSpeed: 0
-  attackValue: 0
+  attackDamage: 0
+  attackType: 0
+  pierceCount: 0
+  pierceJumpRadius: 0
+  pierceFalloff: 0
+  pierceLineDuration: 0
+  pierceLineRemaining: 0
+  pierceLine: {fileID: 0}
+  frostSlowPercent: 0
+  frostSlowDuration: 0
+  splashRadius: 0
+  splashFalloff: 0
+  splashImpactEffectPrefab: {fileID: 0}
+  splashImpactEffectReferenceRadius: 1
+  projectilePrefabVariant: {fileID: 0}
+  projectileSpeedMultiplier: 1
+  projectileAppliesFrost: 0
+  projectileFrostSlowPercent: 0
+  projectileFrostSlowDuration: 0
+  projectileAppliesPoison: 0
+  projectilePoisonDamagePercentPerTick: 0
+  projectilePoisonTickInterval: 0
+  projectilePoisonDuration: 0
+  projectilePoisonVfxPrefab: {fileID: 0}
+  ultimateName: 
+  ultimateIcon: {fileID: 0}
+  ultimateCooldown: 0
+  ultimateCooldownRemaining: 0
+  ultimateAuraPrefab: {fileID: 0}
+  ultimateBurstPrefab: {fileID: 0}
+  ultimateVfxScale: 1
+  barrageAttackSpeedMultiplier: 0
+  barrageDuration: 0
+  shatterDamagePercentOfMaxHealth: 0
+  freezeDuration: 0
+  freezeWaveSpeed: 0
+  freezeWaveBurstEffectPrefab: {fileID: 0}
+  overloadSplashRadiusMultiplier: 0
+  overloadDuration: 0

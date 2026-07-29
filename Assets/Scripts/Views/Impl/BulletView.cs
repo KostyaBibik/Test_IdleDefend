@@ -40,6 +40,12 @@ namespace Views.Impl
 
         [HideInInspector] public Vector3 launchPosition;
         [HideInInspector] public Vector3 launchDirection;
+        [HideInInspector] public Vector3 previousPosition;
+        [HideInInspector] public Vector3 freeFlightDirection;
+        [HideInInspector] public float freeFlightRemainingDistance;
+        [HideInInspector] public float freeFlightRemainingSeconds;
+        [HideInInspector] public float freeFlightCollisionRadius = 0.18f;
+        [HideInInspector] public bool continueOnTargetLost;
         [HideInInspector] public int ricochetRemaining;
         [HideInInspector] public float ricochetRadius;
         [HideInInspector] public float ricochetFalloff;

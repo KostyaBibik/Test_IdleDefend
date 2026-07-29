@@ -8,7 +8,7 @@ namespace Services
         public float CoinRewardMultiplier;
         public float CritChance;
         public float CritDamageMultiplier;
-        public int AdditionalForwardShots;
+        public int ParallelForwardShots;
         public int BackShots;
         public int RicochetCount;
         public float RicochetRadius;
@@ -30,7 +30,7 @@ namespace Services
             CoinRewardMultiplier = 1f,
             CritChance = 0f,
             CritDamageMultiplier = 1f,
-            AdditionalForwardShots = 0,
+            ParallelForwardShots = 0,
             BackShots = 0,
             RicochetCount = 0,
             RicochetRadius = 2.5f,

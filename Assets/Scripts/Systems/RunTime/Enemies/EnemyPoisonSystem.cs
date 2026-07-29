@@ -25,8 +25,9 @@ namespace Systems.RunTime.Enemies
         {
             var deltaTime = _gameTimeProvider.DeltaTime;
 
-            foreach (var enemy in _enemyService.Enemies)
+            for (var i = _enemyService.Enemies.Count - 1; i >= 0; i--)
             {
+                var enemy = _enemyService.Enemies[i];
                 if (enemy.isDestroyed)
                     continue;
 

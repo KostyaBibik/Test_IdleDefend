@@ -12,6 +12,7 @@ namespace Systems.RunTime.Bullets
     public class BulletHitSystem : ITickable
     {
         private const float distanceCheckValue = 0.01f;
+        private const float splashDamagePercent = 0.3f;
 
         private readonly BulletService _bulletService;
         private readonly EnemyService _enemyService;
@@ -35,8 +36,13 @@ namespace Systems.RunTime.Bullets
         {
             foreach (var bullet in _bulletService.Bullets)
             {
-                if (bullet.target == null)
+                if (bullet.target == null || bullet.target.isDestroyed)
+                {
+                    if (TryHandleFreeFlightHit(bullet))
+                        return;
+
                     continue;
+                }
 
                 if (Vector3.Distance(bullet.target.transform.position, bullet.transform.position) > distanceCheckValue)
                     continue;
@@ -44,6 +50,71 @@ namespace Systems.RunTime.Bullets
                 HandleHit(bullet);
                 return;
             }
+        }
+
+        private bool TryHandleFreeFlightHit(BulletView bullet)
+        {
+            if (!bullet.continueOnTargetLost)
+                return false;
+
+            var target = FindFreeFlightTarget(bullet);
+            if (target == null)
+                return false;
+
+            bullet.target = target;
+            bullet.hitEnemies.Add(target);
+            target.healthComponent.ReduceAssumedHealth(bullet.damage);
+            HandleHit(bullet);
+            return true;
+        }
+
+        private EnemyView FindFreeFlightTarget(BulletView bullet)
+        {
+            var start = bullet.previousPosition;
+            var end = bullet.transform.position;
+            var radius = Mathf.Max(0.01f, bullet.freeFlightCollisionRadius);
+            var bestProjection = float.MaxValue;
+            EnemyView best = null;
+
+            foreach (var enemy in _enemyService.GetAssumedActiveEnemies())
+            {
+                if (enemy == null || enemy.isDestroyed || ContainsHit(bullet, enemy))
+                    continue;
+
+                if (!TryGetSegmentProjection(start, end, enemy.transform.position, out var projection, out var distance))
+                    continue;
+
+                if (distance > radius || projection >= bestProjection)
+                    continue;
+
+                best = enemy;
+                bestProjection = projection;
+            }
+
+            return best;
+        }
+
+        private static bool TryGetSegmentProjection(
+            Vector3 start,
+            Vector3 end,
+            Vector3 point,
+            out float projection,
+            out float distance)
+        {
+            var segment = end - start;
+            var segmentLengthSqr = segment.sqrMagnitude;
+            if (segmentLengthSqr <= 0.0001f)
+            {
+                projection = 0f;
+                distance = Vector3.Distance(point, end);
+                return true;
+            }
+
+            var t = Mathf.Clamp01(Vector3.Dot(point - start, segment) / segmentLengthSqr);
+            var closestPoint = start + segment * t;
+            projection = t;
+            distance = Vector3.Distance(point, closestPoint);
+            return true;
         }
 
         private void HandleHit(BulletView bullet)
@@ -67,7 +138,9 @@ namespace Systems.RunTime.Bullets
 
             ApplyProjectileEffects(bullet, primaryTarget);
             ApplyExplosiveShot(bullet, primaryTarget);
-            ApplyLinePierce(bullet, primaryTarget);
+
+            if (TryContinuePiercingShot(bullet, primaryTarget))
+                return;
 
             if (TryStartRicochet(bullet, primaryTarget))
                 return;
@@ -134,58 +207,33 @@ namespace Systems.RunTime.Bullets
             BulletImpactVfx.ShowPierceLine(_towerView, towerPos, hitPoints);
         }
 
-        private void ApplyLinePierce(BulletView bullet, EnemyView primaryTarget)
+        private bool TryContinuePiercingShot(BulletView bullet, EnemyView primaryTarget)
         {
             if (bullet.piercingLineRemaining <= 0)
-                return;
+                return false;
 
             var direction = bullet.launchDirection.sqrMagnitude > 0f
                 ? bullet.launchDirection.normalized
                 : (primaryTarget.transform.position - bullet.launchPosition).normalized;
 
             if (direction.sqrMagnitude <= 0f)
-                return;
+                return false;
 
             var origin = primaryTarget.transform.position;
             var maxDistance = Mathf.Max(0f, bullet.piercingLineRange - Vector3.Distance(bullet.launchPosition, origin));
             if (maxDistance <= 0f)
-                return;
+                return false;
 
-            var candidates = new List<LinePierceCandidate>();
-            foreach (var enemy in _enemyService.GetAssumedActiveEnemies())
-            {
-                if (enemy == primaryTarget || ContainsHit(bullet, enemy))
-                    continue;
+            bullet.piercingLineRemaining--;
+            bullet.target = null;
+            bullet.continueOnTargetLost = true;
+            bullet.freeFlightDirection = direction;
+            bullet.freeFlightRemainingDistance = maxDistance;
+            bullet.freeFlightRemainingSeconds = 0f;
+            bullet.freeFlightCollisionRadius = Mathf.Max(bullet.freeFlightCollisionRadius, bullet.piercingLineWidth);
+            bullet.previousPosition = bullet.transform.position;
 
-                var offset = enemy.transform.position - origin;
-                var projection = Vector3.Dot(offset, direction);
-                if (projection <= 0f || projection > maxDistance)
-                    continue;
-
-                var closestPoint = origin + direction * projection;
-                var sideDistance = Vector3.Distance(enemy.transform.position, closestPoint);
-                if (sideDistance > bullet.piercingLineWidth)
-                    continue;
-
-                candidates.Add(new LinePierceCandidate(enemy, projection));
-            }
-
-            candidates.Sort((a, b) => a.Projection.CompareTo(b.Projection));
-
-            var damage = (float)bullet.damage;
-            var hitPoints = new List<Vector3> { primaryTarget.transform.position };
-            var count = Mathf.Min(bullet.piercingLineRemaining, candidates.Count);
-            for (var i = 0; i < count; i++)
-            {
-                damage *= bullet.piercingLineFalloff;
-                var enemy = candidates[i].Enemy;
-                ApplyDamage(bullet, enemy, Mathf.Max(1, Mathf.RoundToInt(damage)), false);
-                bullet.hitEnemies.Add(enemy);
-                hitPoints.Add(enemy.transform.position);
-            }
-
-            if (hitPoints.Count > 1)
-                BulletImpactVfx.ShowPierceLine(_towerView, bullet.launchPosition, hitPoints);
+            return true;
         }
 
         private void ApplyExplosiveShot(BulletView bullet, EnemyView primaryTarget)
@@ -196,7 +244,8 @@ namespace Systems.RunTime.Bullets
             var center = primaryTarget.transform.position;
             var damage = Mathf.Max(1, Mathf.RoundToInt(bullet.damage * bullet.explosiveShotFalloff));
 
-            foreach (var enemy in _enemyService.Enemies)
+            var enemies = _enemyService.GetAssumedActiveEnemies();
+            foreach (var enemy in enemies)
             {
                 if (enemy == primaryTarget || ContainsHit(bullet, enemy))
                     continue;
@@ -233,10 +282,10 @@ namespace Systems.RunTime.Bullets
         private void ApplySplash(BulletView bullet)
         {
             var center = bullet.target.transform.position;
-            var damage = (float)bullet.damage * bullet.splashFalloff;
-            var damageInt = Mathf.RoundToInt(damage);
+            var damageInt = Mathf.Max(1, Mathf.CeilToInt(bullet.damage * splashDamagePercent));
 
-            foreach (var enemy in _enemyService.Enemies)
+            var enemies = _enemyService.GetAssumedActiveEnemies();
+            foreach (var enemy in enemies)
             {
                 if (enemy == bullet.target)
                     continue;
@@ -283,16 +332,5 @@ namespace Systems.RunTime.Bullets
             });
         }
 
-        private readonly struct LinePierceCandidate
-        {
-            public LinePierceCandidate(EnemyView enemy, float projection)
-            {
-                Enemy = enemy;
-                Projection = projection;
-            }
-
-            public EnemyView Enemy { get; }
-            public float Projection { get; }
-        }
     }
 }

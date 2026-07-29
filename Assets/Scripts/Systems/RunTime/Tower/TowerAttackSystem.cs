@@ -14,6 +14,9 @@ namespace Systems.RunTime.Tower
 {
     public class TowerAttackSystem : IInitializable, ITickable, System.IDisposable
     {
+        private const float parallelShotSpacing = 0.14f;
+        private const float backShotLifetimeSeconds = 3f;
+
         private readonly EnemyService _enemyService;
         private readonly EntityFactory _entityFactory;
         private readonly TowerView _towerView;
@@ -69,34 +72,16 @@ namespace Systems.RunTime.Tower
                 return;
 
             var mainDirection = (nearestEnemy.transform.position - towerPos).normalized;
-            var firedTargets = new List<EnemyView> { nearestEnemy };
             var shotPlan = new List<ShotRequest>
             {
-                new ShotRequest(nearestEnemy, mainDirection)
+                new ShotRequest(nearestEnemy, mainDirection, 0f)
             };
 
             var stats = _towerBuffRuntimeService.Stats;
-            var effectiveRange = GetEffectiveRange();
-
-            for (var i = 0; i < stats.AdditionalForwardShots; i++)
-            {
-                var extraTarget = AttackTargeting.FindNearestUnhit(towerPos, enemies, firedTargets, effectiveRange);
-                if (extraTarget == null)
-                    break;
-
-                firedTargets.Add(extraTarget);
-                shotPlan.Add(new ShotRequest(extraTarget, (extraTarget.transform.position - towerPos).normalized));
-            }
+            AddParallelForwardShots(shotPlan, nearestEnemy, mainDirection, stats.ParallelForwardShots);
 
             for (var i = 0; i < stats.BackShots; i++)
-            {
-                var backTarget = FindBackTarget(enemies, firedTargets, mainDirection, effectiveRange);
-                if (backTarget == null)
-                    break;
-
-                firedTargets.Add(backTarget);
-                shotPlan.Add(new ShotRequest(backTarget, (backTarget.transform.position - towerPos).normalized));
-            }
+                shotPlan.Add(new ShotRequest(null, -mainDirection, GetBackShotLateralOffset(i, stats.BackShots)));
 
             FireShotPlan(shotPlan, Mathf.Max(1, 1 + stats.MultishotRepeats));
             _reloadRemaining = 1f / Mathf.Max(0.01f, _towerView.attackSpeed * GetAttackSpeedMultiplier());
@@ -140,9 +125,31 @@ namespace Systems.RunTime.Tower
             return new DamageRoll(Mathf.Max(1, Mathf.CeilToInt(damage)), isCritical);
         }
 
-        private void CreateConfiguredBullet(EnemyView target, Vector3 launchDirection)
+        private void AddParallelForwardShots(
+            List<ShotRequest> shotPlan,
+            EnemyView target,
+            Vector3 direction,
+            int additionalShots)
         {
-            var bullet = (BulletView)_entityFactory.CreateBullet(_towerView.transform.position, _towerView.projectilePrefabVariant);
+            if (additionalShots <= 0)
+                return;
+
+            var totalShots = 1 + additionalShots;
+            for (var i = 0; i < totalShots; i++)
+            {
+                var laneIndex = i - (totalShots - 1) * 0.5f;
+                var request = new ShotRequest(target, direction, laneIndex * parallelShotSpacing);
+                if (i == 0)
+                    shotPlan[0] = request;
+                else
+                    shotPlan.Add(request);
+            }
+        }
+
+        private void CreateConfiguredBullet(EnemyView target, Vector3 launchDirection, float lateralOffset)
+        {
+            var spawnPosition = _towerView.transform.position + GetLateralOffset(launchDirection, lateralOffset);
+            var bullet = (BulletView)_entityFactory.CreateBullet(spawnPosition, _towerView.projectilePrefabVariant);
             var damageRoll = CalculateDamage();
 
             bullet.target = target;
@@ -150,21 +157,27 @@ namespace Systems.RunTime.Tower
             bullet.isCritical = damageRoll.IsCritical;
             bullet.attackType = _towerView.attackType;
             bullet.speedMultiplier = _towerView.projectileSpeedMultiplier;
-            bullet.launchPosition = _towerView.transform.position;
+            bullet.launchPosition = spawnPosition;
             bullet.launchDirection = launchDirection.sqrMagnitude > 0f ? launchDirection.normalized : _towerView.transform.forward;
+            bullet.previousPosition = spawnPosition;
+            bullet.freeFlightDirection = bullet.launchDirection;
+            bullet.freeFlightRemainingDistance = target == null ? 0f : GetEffectiveRange();
+            bullet.freeFlightRemainingSeconds = target == null ? backShotLifetimeSeconds : 0f;
+            bullet.continueOnTargetLost = true;
 
             var stats = _towerBuffRuntimeService.Stats;
             bullet.ricochetRemaining = stats.RicochetCount;
             bullet.ricochetRadius = stats.RicochetRadius;
             bullet.ricochetFalloff = stats.RicochetFalloff;
-            bullet.piercingLineRemaining = stats.PiercingLineCount;
+            bullet.piercingLineRemaining = stats.PiercingLineCount > 0 ? 1 : 0;
             bullet.piercingLineWidth = stats.PiercingLineWidth;
             bullet.piercingLineFalloff = stats.PiercingLineFalloff;
             bullet.piercingLineRange = GetEffectiveRange();
             bullet.explosiveShotRadius = stats.ExplosiveShotRadius;
             bullet.explosiveShotFalloff = stats.ExplosiveShotFalloff;
             bullet.hitEnemies.Clear();
-            bullet.hitEnemies.Add(target);
+            if (target != null)
+                bullet.hitEnemies.Add(target);
 
             bullet.projectileAppliesFrost = _towerView.projectileAppliesFrost;
             bullet.projectileFrostSlowPercent = _towerView.projectileFrostSlowPercent;
@@ -194,7 +207,26 @@ namespace Systems.RunTime.Tower
                     break;
             }
 
-            target.healthComponent.ReduceAssumedHealth(bullet.damage);
+            if (target != null)
+                target.healthComponent.ReduceAssumedHealth(bullet.damage);
+        }
+
+        private static float GetBackShotLateralOffset(int index, int count)
+        {
+            if (count <= 1)
+                return 0f;
+
+            return (index - (count - 1) * 0.5f) * parallelShotSpacing;
+        }
+
+        private static Vector3 GetLateralOffset(Vector3 direction, float offset)
+        {
+            if (Mathf.Approximately(offset, 0f))
+                return Vector3.zero;
+
+            var normalized = direction.sqrMagnitude > 0f ? direction.normalized : Vector3.up;
+            var right = Vector3.Cross(Vector3.forward, normalized).normalized;
+            return right * offset;
         }
 
         private void FireShotPlan(IReadOnlyList<ShotRequest> shotPlan, int volleys)
@@ -204,10 +236,10 @@ namespace Systems.RunTime.Tower
                 for (var i = 0; i < shotPlan.Count; i++)
                 {
                     var shot = shotPlan[i];
-                    if (shot.Target == null || shot.Target.isDestroyed)
+                    if (shot.Target != null && shot.Target.isDestroyed)
                         continue;
 
-                    CreateConfiguredBullet(shot.Target, shot.Direction);
+                    CreateConfiguredBullet(shot.Target, shot.Direction, shot.LateralOffset);
                 }
             }
         }
@@ -224,50 +256,6 @@ namespace Systems.RunTime.Tower
             _overloadRemaining = stats.OverloadDuration;
         }
 
-        private EnemyView FindBackTarget(
-            IReadOnlyList<EnemyView> enemies,
-            IReadOnlyList<EnemyView> excluded,
-            Vector3 forwardDirection,
-            float range)
-        {
-            EnemyView best = null;
-            var bestDistance = float.MaxValue;
-            var towerPos = _towerView.transform.position;
-
-            foreach (var enemy in enemies)
-            {
-                if (Contains(excluded, enemy))
-                    continue;
-
-                var offset = enemy.transform.position - towerPos;
-                var distance = offset.magnitude;
-                if (distance > range || distance <= 0.01f)
-                    continue;
-
-                if (Vector3.Dot(forwardDirection, offset.normalized) > -0.35f)
-                    continue;
-
-                if (distance >= bestDistance)
-                    continue;
-
-                best = enemy;
-                bestDistance = distance;
-            }
-
-            return best;
-        }
-
-        private static bool Contains(IReadOnlyList<EnemyView> enemies, EnemyView enemy)
-        {
-            for (var i = 0; i < enemies.Count; i++)
-            {
-                if (enemies[i] == enemy)
-                    return true;
-            }
-
-            return false;
-        }
-
         private readonly struct DamageRoll
         {
             public DamageRoll(int damage, bool isCritical)
@@ -282,14 +270,16 @@ namespace Systems.RunTime.Tower
 
         private readonly struct ShotRequest
         {
-            public ShotRequest(EnemyView target, Vector3 direction)
+            public ShotRequest(EnemyView target, Vector3 direction, float lateralOffset)
             {
                 Target = target;
                 Direction = direction;
+                LateralOffset = lateralOffset;
             }
 
             public EnemyView Target { get; }
             public Vector3 Direction { get; }
+            public float LateralOffset { get; }
         }
 
         public void Dispose()

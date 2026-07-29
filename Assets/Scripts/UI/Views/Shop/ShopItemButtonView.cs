@@ -1,10 +1,13 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using Db;
 using Enums;
 using Game.Localization;
 using Services;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Networking;
 using UnityEngine.UI;
 
 namespace UI.Views.Shop
@@ -18,6 +21,11 @@ namespace UI.Views.Shop
         [SerializeField] private TMP_Text nameLabel;
         [SerializeField] private TMP_Text descriptionLabel;
         [SerializeField] private TMP_Text priceLabel;
+        [Tooltip("Иконка внутриигровой валюты рядом с ценой. У IAP-товаров цена в реальных деньгах, " +
+                 "и валюту показывает priceCurrencyImage из Yandex SDK — поэтому здесь она скрывается, " +
+                 "чтобы в строке не оказалось двух разных значков валюты.")]
+        [SerializeField] private GameObject priceGemIcon;
+        [SerializeField] private RawImage priceCurrencyImage;
         [SerializeField] private TMP_Text statusLabel;
         [SerializeField] private GameObject ownedState;
         [SerializeField] private GameObject equippedState;
@@ -29,6 +37,9 @@ namespace UI.Views.Shop
         private Action<ShopItemDefinition> _onSelected;
         private Action<ShopItemDefinition> _onBuyRequested;
         private Action<ShopItemDefinition> _onEquipRequested;
+        private Coroutine _priceCurrencyIconRoutine;
+
+        private static readonly Dictionary<string, Texture2D> PriceCurrencyIconCache = new();
 
         public void Setup(
             ShopItemDefinition item,
@@ -46,6 +57,7 @@ namespace UI.Views.Shop
             if (item == null)
             {
                 ClearPreview();
+                HidePriceCurrencyIcon();
                 return;
             }
 
@@ -74,6 +86,10 @@ namespace UI.Views.Shop
             if (priceLabel != null)
                 priceLabel.text = ShopItemPresenter.GetPriceText(_item);
 
+            // Только IAP: у всех остальных типов покупки поведение ровно как раньше.
+            if (priceGemIcon != null)
+                priceGemIcon.SetActive(_item.PurchaseType != EShopPurchaseType.Iap);
+
             if (statusLabel != null)
                 statusLabel.text = isBoost ? $"x{BoostInventoryService.GetCount(_item)}" : GameLocalization.ShopState(state);
 
@@ -97,6 +113,7 @@ namespace UI.Views.Shop
 
             SetButtonLabel(buyButton, LocalizationKey.shop_buy, "Buy");
             SetButtonLabel(equipButton, LocalizationKey.shop_equip, "Equip");
+            RefreshPriceCurrencyIcon();
         }
 
         private void BindButtons()
@@ -149,6 +166,82 @@ namespace UI.Views.Shop
             _previewInstance = null;
         }
 
+        private void RefreshPriceCurrencyIcon()
+        {
+            if (priceCurrencyImage == null)
+                return;
+
+            StopPriceCurrencyIconRoutine();
+            HidePriceCurrencyIcon();
+
+            var url = YandexIapService.GetCatalogCurrencyPictureUrl(_item);
+            if (string.IsNullOrWhiteSpace(url))
+                return;
+
+            if (PriceCurrencyIconCache.TryGetValue(url, out var cachedTexture) && cachedTexture != null)
+            {
+                ShowPriceCurrencyIcon(cachedTexture);
+                return;
+            }
+
+            _priceCurrencyIconRoutine = StartCoroutine(DownloadPriceCurrencyIcon(url, _item));
+        }
+
+        private IEnumerator DownloadPriceCurrencyIcon(string url, ShopItemDefinition itemAtRequest)
+        {
+            using var request = UnityWebRequestTexture.GetTexture(url);
+            yield return request.SendWebRequest();
+
+            _priceCurrencyIconRoutine = null;
+
+            if (_item != itemAtRequest)
+                yield break;
+
+            if (request.result == UnityWebRequest.Result.ConnectionError ||
+                request.result == UnityWebRequest.Result.ProtocolError)
+            {
+                HidePriceCurrencyIcon();
+                yield break;
+            }
+
+            var texture = ((DownloadHandlerTexture)request.downloadHandler).texture;
+            if (texture == null)
+            {
+                HidePriceCurrencyIcon();
+                yield break;
+            }
+
+            PriceCurrencyIconCache[url] = texture;
+            ShowPriceCurrencyIcon(texture);
+        }
+
+        private void ShowPriceCurrencyIcon(Texture texture)
+        {
+            if (priceCurrencyImage == null)
+                return;
+
+            priceCurrencyImage.texture = texture;
+            priceCurrencyImage.gameObject.SetActive(true);
+        }
+
+        private void HidePriceCurrencyIcon()
+        {
+            if (priceCurrencyImage == null)
+                return;
+
+            priceCurrencyImage.texture = null;
+            priceCurrencyImage.gameObject.SetActive(false);
+        }
+
+        private void StopPriceCurrencyIconRoutine()
+        {
+            if (_priceCurrencyIconRoutine == null)
+                return;
+
+            StopCoroutine(_priceCurrencyIconRoutine);
+            _priceCurrencyIconRoutine = null;
+        }
+
         private static bool CanShowPreview(ShopItemDefinition item)
         {
             return item != null && item.Tab != EShopTab.Boosts && item.Tab != EShopTab.GemPack;
@@ -166,6 +259,7 @@ namespace UI.Views.Shop
 
         private void OnDestroy()
         {
+            StopPriceCurrencyIconRoutine();
             ClearPreview();
 
             if (selectButton != null)

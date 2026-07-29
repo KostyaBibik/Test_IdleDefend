@@ -28,5 +28,13 @@ namespace Db
 
             return items.FirstOrDefault(item => item != null && item.Id == id);
         }
+
+        public ShopItemDefinition GetItemByIapProductId(string iapProductId)
+        {
+            if (string.IsNullOrEmpty(iapProductId))
+                return null;
+
+            return items.FirstOrDefault(item => item != null && item.IapProductId == iapProductId);
+        }
     }
 }

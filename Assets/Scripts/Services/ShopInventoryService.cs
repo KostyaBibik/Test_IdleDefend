@@ -82,7 +82,9 @@ namespace Services
                     return ShopPurchaseResult.Ok();
 
                 case EShopPurchaseType.Iap:
-                    return ShopPurchaseResult.Failed("IAP purchase is not connected yet.");
+                    return YandexIapService.TryPurchase(item)
+                        ? ShopPurchaseResult.Ok()
+                        : ShopPurchaseResult.Failed("IAP purchase failed to start.");
 
                 default:
                     return ShopPurchaseResult.Failed("Unsupported purchase type.");
@@ -101,6 +103,18 @@ namespace Services
 
             SaveSystem.Instance.SaveToStorage();
             RaiseChanged();
+        }
+
+        public static bool TryGrantKnownIapProduct(string iapProductId)
+        {
+            var reward = GetKnownGemPackReward(iapProductId);
+            if (reward <= 0)
+                return false;
+
+            EmeraldWallet.Add(reward);
+            SaveSystem.Instance.SaveToStorage();
+            RaiseChanged();
+            return true;
         }
 
         public static bool TryEquip(ShopItemDefinition item)
@@ -166,6 +180,18 @@ namespace Services
         {
             PlayerSaveData.NotifyShopInventoryChanged();
             OnChanged?.Invoke();
+        }
+
+        private static int GetKnownGemPackReward(string iapProductId)
+        {
+            return iapProductId switch
+            {
+                "gems_small" => 100,
+                "gems_medium" => 550,
+                "gems_large" => 1200,
+                "gems_huge" => 2500,
+                _ => 0
+            };
         }
     }
 }

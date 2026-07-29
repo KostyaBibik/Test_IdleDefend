@@ -72,10 +72,10 @@ namespace Services
                         stats.CritDamageMultiplier += value;
                         break;
                     case ETowerBuffEffectType.DoubleShot:
-                        stats.AdditionalForwardShots += Mathf.Max(0, Mathf.RoundToInt(value));
+                        stats.ParallelForwardShots += Mathf.Max(0, Mathf.RoundToInt(value));
                         break;
                     case ETowerBuffEffectType.TripleShot:
-                        stats.AdditionalForwardShots += Mathf.Max(0, Mathf.RoundToInt(value) * 2);
+                        stats.ParallelForwardShots += Mathf.Max(0, Mathf.RoundToInt(value) * 2);
                         break;
                     case ETowerBuffEffectType.BackShot:
                         stats.BackShots += Mathf.Max(0, Mathf.RoundToInt(value));

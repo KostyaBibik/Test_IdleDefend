@@ -1,8 +1,10 @@
 using System.Collections;
 using Agava.YandexGames;
+using Db;
 using Game.Localization;
 using GameAnalyticsSDK;
 using Kimicu.YandexGames;
+using Services;
 using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Settings;
@@ -16,6 +18,7 @@ namespace DefaultNamespace.Yandex
     public class Boot : MonoBehaviour
     {
         private const string DefaultLocaleCode = "en";
+        [SerializeField] private ShopCatalogConfig shopCatalogConfig;
 
 #if UNITY_EDITOR
         [SerializeField] private string locale = "ru";
@@ -60,10 +63,14 @@ namespace DefaultNamespace.Yandex
             {
                 var product = purchaseProducts[i];
                 if (product.productID.Equals(PurchaseIndexes.NoAD.ToString()))
+                {
                     SaveSystem.SaveData.NoAds = true;
+                    Billing.ConsumeProduct(product.purchaseToken);
+                    continue;
+                }
 
-
-                Billing.ConsumeProduct(product.purchaseToken);
+                if (YandexIapService.TryGrantPendingProduct(product.productID, shopCatalogConfig))
+                    Billing.ConsumeProduct(product.purchaseToken);
             }
         }
 

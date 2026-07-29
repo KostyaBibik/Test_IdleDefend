@@ -2,6 +2,7 @@ using Db;
 using Services;
 using Services.Impl;
 using UnityEngine;
+using Views.Impl;
 using Zenject;
 
 namespace Systems.RunTime.Bullets
@@ -25,31 +26,71 @@ namespace Systems.RunTime.Bullets
 
         public void Tick()
         {
-            foreach (var bulletView in _bulletService.Bullets)
+            for (var i = _bulletService.Bullets.Count - 1; i >= 0; i--)
             {
-                if (bulletView.target == null)
+                var bulletView = _bulletService.Bullets[i];
+                if (bulletView.target == null || bulletView.target.isDestroyed)
                 {
-                    _bulletService.RemoveEntityFromService(bulletView);
-                    Debug.Log("RemoveEntityFromService");
-                    return;
+                    if (!MoveFreeFlight(bulletView))
+                        _bulletService.RemoveEntityFromService(bulletView);
+
+                    continue;
                 }
 
-                MoveToTarget(bulletView.transform, bulletView.target.transform, bulletView.speedMultiplier);
+                MoveToTarget(bulletView, bulletView.target.transform);
             }
         }
 
-        private void MoveToTarget(Transform bullet, Transform target, float speedMultiplier)
+        private void MoveToTarget(BulletView bulletView, Transform target)
         {
+             var bullet = bulletView.transform;
              var targetPos = target.position;
              var bulletPos = bullet.position;
              var direction = targetPos - bulletPos;
-             var speedMoving = _bulletConfigSettings.SpeedMoving * speedMultiplier;
+             var speedMoving = _bulletConfigSettings.SpeedMoving * bulletView.speedMultiplier;
+             var step = _gameTimeProvider.DeltaTime * speedMoving;
 
+             bulletView.previousPosition = bulletPos;
+             if (direction.sqrMagnitude > 0.0001f)
+                 bulletView.freeFlightDirection = direction.normalized;
+ 
              bullet.transform.position = Vector3.MoveTowards(
                  bulletPos,
                  targetPos,
-                 _gameTimeProvider.DeltaTime * speedMoving);
-             bullet.transform.LookAt(direction);
+                 step);
+             if (direction.sqrMagnitude > 0.0001f)
+                 bullet.transform.LookAt(bullet.position + direction);
+        }
+
+        private bool MoveFreeFlight(BulletView bulletView)
+        {
+            if (!bulletView.continueOnTargetLost
+                || (bulletView.freeFlightRemainingDistance <= 0f && bulletView.freeFlightRemainingSeconds <= 0f))
+                return false;
+
+            var direction = bulletView.freeFlightDirection.sqrMagnitude > 0.0001f
+                ? bulletView.freeFlightDirection.normalized
+                : bulletView.launchDirection.normalized;
+
+            if (direction.sqrMagnitude <= 0.0001f)
+                return false;
+
+            var speedMoving = _bulletConfigSettings.SpeedMoving * bulletView.speedMultiplier;
+            var rawStep = _gameTimeProvider.DeltaTime * speedMoving;
+            var step = bulletView.freeFlightRemainingDistance > 0f
+                ? Mathf.Min(rawStep, bulletView.freeFlightRemainingDistance)
+                : rawStep;
+            var bulletTransform = bulletView.transform;
+
+            bulletView.previousPosition = bulletTransform.position;
+            bulletTransform.position += direction * step;
+            if (bulletView.freeFlightRemainingDistance > 0f)
+                bulletView.freeFlightRemainingDistance -= step;
+            if (bulletView.freeFlightRemainingSeconds > 0f)
+                bulletView.freeFlightRemainingSeconds -= _gameTimeProvider.DeltaTime;
+            bulletTransform.LookAt(bulletTransform.position + direction);
+
+            return bulletView.freeFlightRemainingDistance > 0f || bulletView.freeFlightRemainingSeconds > 0f;
         }
     }
 }

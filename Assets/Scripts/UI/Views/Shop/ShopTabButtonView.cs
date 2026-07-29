@@ -14,6 +14,9 @@ namespace UI.Views.Shop
         [SerializeField] private EShopTab tab;
         [SerializeField] private Button button;
         [SerializeField] private TMP_Text label;
+        [Tooltip("Дубликат подписи поверх SelectedState (другой цвет/материал под подсветку выбранной вкладки). " +
+                 "Не обязателен — если не назначен, локализуется только обычный label.")]
+        [SerializeField] private TMP_Text labelSelected;
         [SerializeField] private GameObject selectedState;
 
         private Action<EShopTab> _onSelected;
@@ -57,8 +60,13 @@ namespace UI.Views.Shop
 
         private void RefreshLabel()
         {
+            var text = GameLocalization.ShopTab(tab);
+
             if (label != null)
-                label.text = GameLocalization.ShopTab(tab);
+                label.text = text;
+
+            if (labelSelected != null)
+                labelSelected.text = text;
         }
 
         private void OnSelectedLocaleChanged(Locale locale)
