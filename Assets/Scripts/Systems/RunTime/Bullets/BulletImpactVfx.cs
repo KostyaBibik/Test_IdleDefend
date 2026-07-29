@@ -54,7 +54,11 @@ namespace Systems.RunTime.Bullets
         /// Линия-разряд от башни через всех пробитых врагов. LineRenderer есть только у
         /// prefab-варианта башни с Pierce - у остальных null, это нормально.
         /// </summary>
-        public static void ShowPierceLine(TowerView towerView, Vector3 towerPos, IReadOnlyList<Vector3> hitPoints)
+        public static void ShowPierceLine(
+            TowerView towerView,
+            Vector3 towerPos,
+            IReadOnlyList<Vector3> hitPoints,
+            float durationOverride = 0f)
         {
             var line = towerView.PierceLine;
             if (line == null)
@@ -65,7 +69,11 @@ namespace Systems.RunTime.Bullets
             for (var i = 0; i < hitPoints.Count; i++)
                 line.SetPosition(i + 1, hitPoints[i]);
 
-            towerView.pierceLineRemaining = towerView.pierceLineDuration;
+            // Обычному пробитию хватает короткой вспышки из ассета, а ультимейту нужна своя,
+            // подлиннее — иначе залп по всем врагам мигнёт и пропадёт незамеченным.
+            towerView.pierceLineRemaining = durationOverride > 0f
+                ? durationOverride
+                : towerView.pierceLineDuration;
         }
 
         /// <summary>

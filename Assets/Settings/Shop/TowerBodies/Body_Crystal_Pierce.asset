@@ -14,9 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackType: 1
   towerPrefabVariant: {fileID: 4511187187056941062, guid: 839d8c046a660dc45bc73c977667c297, type: 3}
+  hideAuraInPreview: 0
   pierceCount: 3
-  pierceConeDegrees: 25
+  pierceJumpRadius: 2
   pierceFalloff: 0.75
+  pierceLineDuration: 0.15
   frostSlowPercent: 0.4
   frostSlowDuration: 2
   splashRadius: 1.5
@@ -26,9 +28,14 @@ MonoBehaviour:
   ultimateName: "\u0420\u0430\u0441\u043A\u043E\u043B"
   ultimateIcon: {fileID: 21300000, guid: e999f11042cd241a38ff7e27c7803480, type: 3}
   ultimateCooldown: 25
+  ultimateAuraPrefab: {fileID: 0}
+  ultimateBurstPrefab: {fileID: 189236, guid: 8b80f8497c25823439546e7fbb1d81a9, type: 3}
+  ultimateVfxScale: 0.35
   barrageAttackSpeedMultiplier: 3
   barrageDuration: 5
   shatterDamagePercentOfMaxHealth: 0.5
   freezeDuration: 3
+  freezeWaveSpeed: 20
+  freezeWaveBurstEffectPrefab: {fileID: 0}
   overloadSplashRadiusMultiplier: 2
   overloadDuration: 5

@@ -1,8 +1,10 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using Enums;
 using Services;
 using Services.Impl;
+using Signals;
 using UniRx;
 using UnityEngine;
 using Views.Impl;
@@ -21,18 +23,25 @@ namespace Systems.Actions
         private readonly EnemyService _enemyService;
         private readonly IGameTimeProvider _gameTimeProvider;
         private readonly FreezeWaveSystem _freezeWaveSystem;
+        private readonly SignalBus _signalBus;
+
+        // Переиспользуемый буфер под точки Раскола: ульта срабатывает часто и по всем врагам,
+        // новый список на каждую активацию тут ни к чему.
+        private readonly List<Vector3> _shatterHitPoints = new();
 
         public TowerUltimateSystem(
             TowerView towerView,
             EnemyService enemyService,
             IGameTimeProvider gameTimeProvider,
-            FreezeWaveSystem freezeWaveSystem
+            FreezeWaveSystem freezeWaveSystem,
+            SignalBus signalBus
         )
         {
             _towerView = towerView;
             _enemyService = enemyService;
             _gameTimeProvider = gameTimeProvider;
             _freezeWaveSystem = freezeWaveSystem;
+            _signalBus = signalBus;
         }
 
         public void Tick()
@@ -51,21 +60,37 @@ namespace Systems.Actions
             if (_towerView.ultimateCooldownRemaining > 0f)
                 return false;
 
+            // Длительность нужна визуалу, чтобы понимать: держать ауру на время действия
+            // или ограничиться разовой вспышкой.
+            var duration = 0f;
+            IReadOnlyList<Vector3> hitPoints = null;
+
             switch (_towerView.attackType)
             {
                 case EMainTowerAttackType.Default:
                     ActivateBarrage();
+                    duration = _towerView.barrageDuration;
                     break;
                 case EMainTowerAttackType.Pierce:
-                    ActivateShatter();
+                    hitPoints = ActivateShatter();
                     break;
                 case EMainTowerAttackType.Frost:
                     ActivateFreeze();
+                    duration = _towerView.freezeDuration;
                     break;
                 case EMainTowerAttackType.Splash:
                     ActivateOverload();
+                    duration = _towerView.overloadDuration;
                     break;
             }
+
+            _signalBus.Fire(new TowerUltimateActivatedSignal
+            {
+                attackType = _towerView.attackType,
+                duration = duration,
+                worldPos = _towerView.transform.position,
+                hitPoints = hitPoints
+            });
 
             _towerView.ultimateCooldownRemaining = _towerView.ultimateCooldown;
             return true;
@@ -81,15 +106,19 @@ namespace Systems.Actions
                 () => _towerView.attackSpeed /= multiplier)).Subscribe();
         }
 
-        private void ActivateShatter()
+        private IReadOnlyList<Vector3> ActivateShatter()
         {
             var percent = _towerView.shatterDamagePercentOfMaxHealth;
+            _shatterHitPoints.Clear();
 
             foreach (var enemy in _enemyService.GetAssumedActiveEnemies())
             {
                 var damage = Mathf.RoundToInt(enemy.healthComponent.GetMaxHealth() * percent);
                 enemy.healthComponent.ReduceHealth(damage);
+                _shatterHitPoints.Add(enemy.transform.position);
             }
+
+            return _shatterHitPoints;
         }
 
         private void ActivateFreeze()

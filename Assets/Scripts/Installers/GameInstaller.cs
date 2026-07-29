@@ -76,6 +76,7 @@ namespace Installers
             Container.DeclareSignal<TowerLevelUpSignal>();
             Container.DeclareSignal<TowerBuffSelectedSignal>();
             Container.DeclareSignal<TowerDamageDealtSignal>();
+            Container.DeclareSignal<TowerUltimateActivatedSignal>();
             Container.DeclareSignal<TowerExperienceChangedSignal>();
         }
         
@@ -118,6 +119,7 @@ namespace Installers
             Container.BindInterfacesAndSelfTo<TowerAttackSystem>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<FreezeWaveSystem>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<TowerUltimateSystem>().AsSingle().NonLazy();
+            Container.BindInterfacesAndSelfTo<TowerUltimateVfxSystem>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<TowerInitializeSystem>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<TowerChangeRadiusSystem>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<TowerChangeHealthSystem>().AsSingle().NonLazy();

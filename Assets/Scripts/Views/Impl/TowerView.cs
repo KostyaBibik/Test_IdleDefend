@@ -53,6 +53,10 @@ namespace Views.Impl
         [HideInInspector] public float ultimateCooldown;
         [HideInInspector] public float ultimateCooldownRemaining;
 
+        [HideInInspector] public GameObject ultimateAuraPrefab;
+        [HideInInspector] public GameObject ultimateBurstPrefab;
+        [HideInInspector] public float ultimateVfxScale = 1f;
+
         [HideInInspector] public float barrageAttackSpeedMultiplier;
         [HideInInspector] public float barrageDuration;
         [HideInInspector] public float shatterDamagePercentOfMaxHealth;

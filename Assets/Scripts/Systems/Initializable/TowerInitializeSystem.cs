@@ -70,6 +70,9 @@ namespace Systems.Initializable
             {
                 _towerView.attackType = EMainTowerAttackType.Default;
                 _towerView.ultimateCooldown = 0f;
+                _towerView.ultimateAuraPrefab = null;
+                _towerView.ultimateBurstPrefab = null;
+                _towerView.ultimateVfxScale = 1f;
                 return;
             }
 
@@ -93,6 +96,9 @@ namespace Systems.Initializable
             _towerView.ultimateIcon = body.UltimateIcon;
             _towerView.ultimateCooldown = body.UltimateCooldown;
             _towerView.ultimateCooldownRemaining = 0f;
+            _towerView.ultimateAuraPrefab = body.UltimateAuraPrefab;
+            _towerView.ultimateBurstPrefab = body.UltimateBurstPrefab;
+            _towerView.ultimateVfxScale = body.UltimateVfxScale;
 
             _towerView.barrageAttackSpeedMultiplier = body.BarrageAttackSpeedMultiplier;
             _towerView.barrageDuration = body.BarrageDuration;

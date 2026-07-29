@@ -49,6 +49,16 @@ namespace Db
         [SerializeField, Min(0.1f)] private float ultimateCooldown = 20f;
 
         [Space]
+        [Tooltip("Аура у башни на всё время действия ульты (Барраж, Перегрузка). Спавнится как child " +
+                 "башни и гаснет сама. Для мгновенных ульт не нужна.")]
+        [SerializeField] private GameObject ultimateAuraPrefab;
+        [Tooltip("Разовая вспышка в момент активации ульты. У Заморозки свой burst — см. " +
+                 "freezeWaveBurstEffectPrefab, здесь можно оставить пустым.")]
+        [SerializeField] private GameObject ultimateBurstPrefab;
+        [Tooltip("Общий масштаб эффектов ульты — подгоняет префаб под размер башни.")]
+        [SerializeField, Min(0.01f)] private float ultimateVfxScale = 1f;
+
+        [Space]
         [Tooltip("Барраж (Default): множитель скорости атаки")]
         [SerializeField, Min(1f)] private float barrageAttackSpeedMultiplier = 3f;
         [SerializeField, Min(0f)] private float barrageDuration = 5f;
@@ -88,6 +98,9 @@ namespace Db
         public string UltimateName => ultimateName;
         public Sprite UltimateIcon => ultimateIcon;
         public float UltimateCooldown => ultimateCooldown;
+        public GameObject UltimateAuraPrefab => ultimateAuraPrefab;
+        public GameObject UltimateBurstPrefab => ultimateBurstPrefab;
+        public float UltimateVfxScale => ultimateVfxScale;
 
         public float BarrageAttackSpeedMultiplier => barrageAttackSpeedMultiplier;
         public float BarrageDuration => barrageDuration;
