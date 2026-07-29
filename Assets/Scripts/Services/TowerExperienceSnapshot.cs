@@ -6,6 +6,8 @@ namespace Services
             int currentLevel,
             int currentExperience,
             int experienceToNextLevel,
+            int pendingExperience,
+            int queuedLevelUps,
             float progress01,
             bool isLevelUpPending,
             bool isMaxLevel,
@@ -14,6 +16,8 @@ namespace Services
             CurrentLevel = currentLevel;
             CurrentExperience = currentExperience;
             ExperienceToNextLevel = experienceToNextLevel;
+            PendingExperience = pendingExperience;
+            QueuedLevelUps = queuedLevelUps;
             Progress01 = progress01;
             IsLevelUpPending = isLevelUpPending;
             IsMaxLevel = isMaxLevel;
@@ -23,6 +27,8 @@ namespace Services
         public int CurrentLevel { get; }
         public int CurrentExperience { get; }
         public int ExperienceToNextLevel { get; }
+        public int PendingExperience { get; }
+        public int QueuedLevelUps { get; }
         public float Progress01 { get; }
         public bool IsLevelUpPending { get; }
         public bool IsMaxLevel { get; }

@@ -1,4 +1,5 @@
 using Db;
+using Game.Localization;
 using Services;
 using TMPro;
 using UnityEngine;
@@ -36,7 +37,7 @@ namespace UI.Views.Shop
                 icon.sprite = item.Icon;
 
             if (nameLabel != null)
-                nameLabel.text = item.DisplayName;
+                nameLabel.text = GameLocalization.ShopItemName(item);
 
             BindButton();
             Refresh();

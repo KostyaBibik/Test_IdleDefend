@@ -1169,6 +1169,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textComponent: {fileID: 131364757}
+  useEnumKey: 1
+  key: 0
   localizedString:
     m_TableReference:
       m_TableCollectionName: LocalizationTable
@@ -1194,6 +1196,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textComponent: {fileID: 131364759}
+  useEnumKey: 1
+  key: 0
   localizedString:
     m_TableReference:
       m_TableCollectionName: LocalizationTable
@@ -1218,6 +1222,7 @@ GameObject:
   - component: {fileID: 166496522}
   - component: {fileID: 166496521}
   - component: {fileID: 166496520}
+  - component: {fileID: 166496523}
   m_Layer: 5
   m_Name: Label
   m_TagString: Untagged
@@ -1353,6 +1358,33 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 166496518}
   m_CullTransparentMesh: 1
+--- !u!114 &166496523
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 166496518}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6e1c37be0c4162a8eab25930ad584b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textComponent: {fileID: 166496521}
+  useEnumKey: 1
+  key: 119
+  localizedString:
+    m_TableReference:
+      m_TableCollectionName: GUID:5fcab3783c5614146b3d458ba42420da
+    m_TableEntryReference:
+      m_KeyId: 2377113718
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  references:
+    version: 2
+    RefIds: []
 --- !u!1 &176031641
 GameObject:
   m_ObjectHideFlags: 0
@@ -1568,6 +1600,7 @@ RectTransform:
   - {fileID: 899661527}
   - {fileID: 1521101931}
   - {fileID: 764888967}
+  - {fileID: 2005679831}
   m_Father: {fileID: 1806038470}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
@@ -2151,6 +2184,7 @@ GameObject:
   - component: {fileID: 333177140}
   - component: {fileID: 333177142}
   - component: {fileID: 333177141}
+  - component: {fileID: 333177143}
   m_Layer: 0
   m_Name: Label
   m_TagString: Untagged
@@ -2274,6 +2308,33 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 333177139}
   m_CullTransparentMesh: 1
+--- !u!114 &333177143
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 333177139}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6e1c37be0c4162a8eab25930ad584b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textComponent: {fileID: 333177141}
+  useEnumKey: 1
+  key: 4
+  localizedString:
+    m_TableReference:
+      m_TableCollectionName: GUID:5fcab3783c5614146b3d458ba42420da
+    m_TableEntryReference:
+      m_KeyId: 2377113613
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  references:
+    version: 2
+    RefIds: []
 --- !u!1 &333212557
 GameObject:
   m_ObjectHideFlags: 0
@@ -2422,6 +2483,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textComponent: {fileID: 333212559}
+  useEnumKey: 1
+  key: 0
   localizedString:
     m_TableReference:
       m_TableCollectionName: LocalizationTable
@@ -3031,6 +3094,7 @@ GameObject:
   - component: {fileID: 442081462}
   - component: {fileID: 442081464}
   - component: {fileID: 442081463}
+  - component: {fileID: 442081465}
   m_Layer: 0
   m_Name: Label
   m_TagString: Untagged
@@ -3154,6 +3218,33 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 442081461}
   m_CullTransparentMesh: 1
+--- !u!114 &442081465
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 442081461}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6e1c37be0c4162a8eab25930ad584b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textComponent: {fileID: 442081463}
+  useEnumKey: 1
+  key: 12
+  localizedString:
+    m_TableReference:
+      m_TableCollectionName: GUID:5fcab3783c5614146b3d458ba42420da
+    m_TableEntryReference:
+      m_KeyId: 2377113608
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  references:
+    version: 2
+    RefIds: []
 --- !u!1 &453401904
 GameObject:
   m_ObjectHideFlags: 0
@@ -3165,6 +3256,7 @@ GameObject:
   - component: {fileID: 453401905}
   - component: {fileID: 453401907}
   - component: {fileID: 453401906}
+  - component: {fileID: 453401908}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -3288,6 +3380,33 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 453401904}
   m_CullTransparentMesh: 1
+--- !u!114 &453401908
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 453401904}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6e1c37be0c4162a8eab25930ad584b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textComponent: {fileID: 453401906}
+  useEnumKey: 1
+  key: 120
+  localizedString:
+    m_TableReference:
+      m_TableCollectionName: GUID:5fcab3783c5614146b3d458ba42420da
+    m_TableEntryReference:
+      m_KeyId: 2377113719
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  references:
+    version: 2
+    RefIds: []
 --- !u!1 &455843563
 GameObject:
   m_ObjectHideFlags: 0
@@ -10749,6 +10868,7 @@ GameObject:
   - component: {fileID: 1401230980}
   - component: {fileID: 1401230982}
   - component: {fileID: 1401230981}
+  - component: {fileID: 1401230983}
   m_Layer: 0
   m_Name: Label
   m_TagString: Untagged
@@ -10872,6 +10992,33 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1401230979}
   m_CullTransparentMesh: 1
+--- !u!114 &1401230983
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1401230979}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6e1c37be0c4162a8eab25930ad584b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textComponent: {fileID: 1401230981}
+  useEnumKey: 1
+  key: 16
+  localizedString:
+    m_TableReference:
+      m_TableCollectionName: GUID:5fcab3783c5614146b3d458ba42420da
+    m_TableEntryReference:
+      m_KeyId: 2377113615
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  references:
+    version: 2
+    RefIds: []
 --- !u!1 &1521101930
 GameObject:
   m_ObjectHideFlags: 0
@@ -11347,6 +11494,7 @@ MonoBehaviour:
   - {fileID: 1067818586}
   - {fileID: 1051927529}
   - {fileID: 1623710229}
+  titleText: {fileID: 0}
 --- !u!114 &1650914524
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11407,6 +11555,7 @@ GameObject:
   - component: {fileID: 1736829808}
   - component: {fileID: 1736829810}
   - component: {fileID: 1736829809}
+  - component: {fileID: 1736829811}
   m_Layer: 0
   m_Name: Label
   m_TagString: Untagged
@@ -11530,6 +11679,33 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1736829807}
   m_CullTransparentMesh: 1
+--- !u!114 &1736829811
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1736829807}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6e1c37be0c4162a8eab25930ad584b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textComponent: {fileID: 1736829809}
+  useEnumKey: 1
+  key: 17
+  localizedString:
+    m_TableReference:
+      m_TableCollectionName: GUID:5fcab3783c5614146b3d458ba42420da
+    m_TableEntryReference:
+      m_KeyId: 2377113616
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  references:
+    version: 2
+    RefIds: []
 --- !u!1001 &1745050764
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12076,6 +12252,7 @@ MonoBehaviour:
   panelsHandler: {fileID: 65032383}
   restartBtn: {fileID: 907134509}
   exitBtn: {fileID: 1486125626302724840}
+  titleText: {fileID: 0}
   continueBtn: {fileID: 430317213}
   continueGroup: {fileID: 1027822182}
   reviveLives: 3
@@ -12473,6 +12650,7 @@ MonoBehaviour:
   ultimateButtonView: {fileID: 907374956}
   towerExperienceBarView: {fileID: 218454558}
   towerLevelUpPopupView: {fileID: 1088449510}
+  towerExperienceOrbSpawnerView: {fileID: 2005679832}
 --- !u!1 &1890459690
 GameObject:
   m_ObjectHideFlags: 0
@@ -12619,6 +12797,7 @@ GameObject:
   - component: {fileID: 1890984696}
   - component: {fileID: 1890984695}
   - component: {fileID: 1890984697}
+  - component: {fileID: 1890984698}
   m_Layer: 0
   m_Name: Title
   m_TagString: Untagged
@@ -12754,6 +12933,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6366ee97f6b541449155028b9487355a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1890984698
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1890984693}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6e1c37be0c4162a8eab25930ad584b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textComponent: {fileID: 1890984695}
+  useEnumKey: 1
+  key: 15
+  localizedString:
+    m_TableReference:
+      m_TableCollectionName: GUID:5fcab3783c5614146b3d458ba42420da
+    m_TableEntryReference:
+      m_KeyId: 2377113614
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  references:
+    version: 2
+    RefIds: []
 --- !u!1 &1908801609
 GameObject:
   m_ObjectHideFlags: 0
@@ -13007,6 +13213,91 @@ Material:
     - _SpecularColor: {r: 1, g: 1, b: 1, a: 1}
     - _UnderlayColor: {r: 0, g: 0, b: 0, a: 0.45}
   m_BuildTextureStacks: []
+--- !u!1 &2005679830
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2005679831}
+  - component: {fileID: 2005679832}
+  m_Layer: 0
+  m_Name: XpOrbSpawnerSettings
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &2005679831
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2005679830}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 218454557}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2005679832
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2005679830}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dccfa7ff7f1e813478b36aa64b66bb98, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  orbPrefab: {fileID: 6019359288221113185, guid: 47fb3674993152b42abf665fcdaca6cc, type: 3}
+  minOrbCount: 4
+  maxOrbCount: 9
+  scatterRadius: 85
+  scatterDuration: 0.26
+  delayBeforeFlight: 0.32
+  flightDurationMin: 0.35
+  flightDurationMax: 0.6
+  flightCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  flightArcHeightMin: 40
+  flightArcHeightMax: 110
+  arrivalEffectDuration: 0.15
+  targetBarTransform: {fileID: 1521101931}
+  maxActiveOrbs: 40
 --- !u!1 &2006362781
 GameObject:
   m_ObjectHideFlags: 0
@@ -13374,6 +13665,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textComponent: {fileID: 2122453472}
+  useEnumKey: 1
+  key: 0
   localizedString:
     m_TableReference:
       m_TableCollectionName: LocalizationTable
@@ -14044,6 +14337,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textComponent: {fileID: 1486125627471581140}
+  useEnumKey: 1
+  key: 0
   localizedString:
     m_TableReference:
       m_TableCollectionName: LocalizationTable
@@ -14252,6 +14547,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textComponent: {fileID: 3214334490827732726}
+  useEnumKey: 1
+  key: 0
   localizedString:
     m_TableReference:
       m_TableCollectionName: LocalizationTable
@@ -14277,6 +14574,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textComponent: {fileID: 3214334490827732728}
+  useEnumKey: 1
+  key: 0
   localizedString:
     m_TableReference:
       m_TableCollectionName: LocalizationTable
@@ -14489,6 +14788,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textComponent: {fileID: 4333843514695710851}
+  useEnumKey: 1
+  key: 0
   localizedString:
     m_TableReference:
       m_TableCollectionName: LocalizationTable
@@ -14514,6 +14815,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textComponent: {fileID: 4333843514695710853}
+  useEnumKey: 1
+  key: 0
   localizedString:
     m_TableReference:
       m_TableCollectionName: LocalizationTable
@@ -14718,6 +15021,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textComponent: {fileID: 8130831448875127617}
+  useEnumKey: 1
+  key: 0
   localizedString:
     m_TableReference:
       m_TableCollectionName: LocalizationTable
@@ -14743,6 +15048,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textComponent: {fileID: 8130831448875127619}
+  useEnumKey: 1
+  key: 0
   localizedString:
     m_TableReference:
       m_TableCollectionName: LocalizationTable
@@ -14947,6 +15254,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textComponent: {fileID: 8318415049510613320}
+  useEnumKey: 1
+  key: 0
   localizedString:
     m_TableReference:
       m_TableCollectionName: LocalizationTable
@@ -14972,6 +15281,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textComponent: {fileID: 8318415049510613322}
+  useEnumKey: 1
+  key: 0
   localizedString:
     m_TableReference:
       m_TableCollectionName: LocalizationTable

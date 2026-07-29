@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using Db;
 using Enums;
+using Game.Localization;
 using Services;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -20,6 +22,7 @@ namespace UI.Views.Shop
         [SerializeField] private BoostSelectItemView[] itemViews;
         [SerializeField] private Button startButton;
         [SerializeField] private Button closeButton;
+        [SerializeField] private TMP_Text titleLabel;
 
         private Action<int> _onStartRequested;
         private int _pendingLevelIndex;
@@ -49,7 +52,18 @@ namespace UI.Views.Shop
             _onStartRequested = onStartRequested;
 
             gameObject.SetActive(true);
+            RefreshStaticLabels();
             RefreshItems();
+        }
+
+        private void RefreshStaticLabels()
+        {
+            titleLabel ??= GameLocalization.FindTextByCurrentValue(this, "Select boosts", "Выбор бустов");
+
+            if (titleLabel != null)
+                titleLabel.text = GameLocalization.Text(LocalizationKey.boost_select_title, "Select boosts");
+
+            GameLocalization.SetButtonLabel(startButton, LocalizationKey.menu_play, "Play");
         }
 
         public void Close()

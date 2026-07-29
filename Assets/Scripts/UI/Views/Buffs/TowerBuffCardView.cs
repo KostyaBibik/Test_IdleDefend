@@ -1,6 +1,7 @@
 using System;
 using Db;
 using Enums;
+using Game.Localization;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -55,10 +56,10 @@ namespace UI.Views.Buffs
             }
 
             if (nameText != null)
-                nameText.text = buff.DisplayName;
+                nameText.text = GameLocalization.TowerBuffName(buff);
 
             if (descriptionText != null)
-                descriptionText.text = buff.Description;
+                descriptionText.text = GameLocalization.TowerBuffDescription(buff);
 
             ApplyRarity(buff.Rarity);
 

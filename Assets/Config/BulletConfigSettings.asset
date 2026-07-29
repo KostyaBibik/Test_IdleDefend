@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: BulletConfigSettings
   m_EditorClassIdentifier: 
   prefabViewBullet: {fileID: 8179587622163273714, guid: 195025db2e63f1c4aa16398df949a8c6, type: 3}
-  speedMoving: 1.5
+  speedMoving: 4

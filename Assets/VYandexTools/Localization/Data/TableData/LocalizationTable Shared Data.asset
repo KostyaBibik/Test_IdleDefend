@@ -63,6 +63,446 @@ MonoBehaviour:
     m_Key: run_time
     m_Metadata:
       m_Items: []
+  - m_Id: 2377113611
+    m_Key: menu_shop
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113612
+    m_Key: menu_stages
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113613
+    m_Key: menu_settings
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113614
+    m_Key: pause_title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113615
+    m_Key: pause_resume
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113616
+    m_Key: pause_restart
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113617
+    m_Key: pause_give_up
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113618
+    m_Key: level_format
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113619
+    m_Key: locked_complete_stage_format
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113620
+    m_Key: tower_level_format
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113621
+    m_Key: max_level
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113622
+    m_Key: shop_tab_tower
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113623
+    m_Key: shop_tab_projectiles
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113624
+    m_Key: shop_tab_boosts
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113625
+    m_Key: shop_tab_gem_pack
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113626
+    m_Key: shop_state_available
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113627
+    m_Key: shop_state_not_enough_currency
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113628
+    m_Key: shop_state_owned
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113629
+    m_Key: shop_state_equipped
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113630
+    m_Key: shop_free
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113631
+    m_Key: shop_iap
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113632
+    m_Key: shop_price_each_format
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113633
+    m_Key: shop_total_format
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113634
+    m_Key: shop_buy
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113635
+    m_Key: shop_equip
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113636
+    m_Key: shop_selected
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113637
+    m_Key: boost_select_title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113638
+    m_Key: boost_active
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113639
+    m_Key: boost_inactive
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113640
+    m_Key: rarity_common
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113641
+    m_Key: rarity_rare
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113642
+    m_Key: rarity_legendary
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113643
+    m_Key: shop_item_default_tower_name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113644
+    m_Key: shop_item_default_tower_description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113645
+    m_Key: shop_item_arcane_tower_name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113646
+    m_Key: shop_item_arcane_tower_description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113647
+    m_Key: shop_item_crystal_tower_name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113648
+    m_Key: shop_item_crystal_tower_description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113649
+    m_Key: shop_item_dark_tower_name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113650
+    m_Key: shop_item_dark_tower_description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113651
+    m_Key: shop_item_default_projectile_name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113652
+    m_Key: shop_item_default_projectile_description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113653
+    m_Key: shop_item_fire_projectile_name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113654
+    m_Key: shop_item_fire_projectile_description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113655
+    m_Key: shop_item_ice_projectile_name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113656
+    m_Key: shop_item_ice_projectile_description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113657
+    m_Key: shop_item_poison_projectile_name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113658
+    m_Key: shop_item_poison_projectile_description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113659
+    m_Key: shop_item_damage_boost_name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113660
+    m_Key: shop_item_damage_boost_description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113661
+    m_Key: shop_item_range_boost_name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113662
+    m_Key: shop_item_range_boost_description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113663
+    m_Key: shop_item_speed_boost_name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113664
+    m_Key: shop_item_speed_boost_description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113665
+    m_Key: shop_item_shield_boost_name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113666
+    m_Key: shop_item_shield_boost_description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113667
+    m_Key: shop_item_small_gem_pack_name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113668
+    m_Key: shop_item_small_gem_pack_description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113669
+    m_Key: shop_item_medium_gem_pack_name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113670
+    m_Key: shop_item_medium_gem_pack_description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113671
+    m_Key: shop_item_large_gem_pack_name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113672
+    m_Key: shop_item_large_gem_pack_description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113673
+    m_Key: shop_item_huge_gem_pack_name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113674
+    m_Key: shop_item_huge_gem_pack_description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113675
+    m_Key: tower_buff_damage_common_name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113676
+    m_Key: tower_buff_damage_common_description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113677
+    m_Key: tower_buff_attack_speed_common_name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113678
+    m_Key: tower_buff_attack_speed_common_description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113679
+    m_Key: tower_buff_range_common_name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113680
+    m_Key: tower_buff_range_common_description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113681
+    m_Key: tower_buff_coins_common_name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113682
+    m_Key: tower_buff_coins_common_description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113683
+    m_Key: tower_buff_heal_common_name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113684
+    m_Key: tower_buff_heal_common_description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113685
+    m_Key: tower_buff_crit_chance_common_name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113686
+    m_Key: tower_buff_crit_chance_common_description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113687
+    m_Key: tower_buff_crit_damage_rare_name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113688
+    m_Key: tower_buff_crit_damage_rare_description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113689
+    m_Key: tower_buff_double_shot_rare_name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113690
+    m_Key: tower_buff_double_shot_rare_description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113691
+    m_Key: tower_buff_ricochet_rare_name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113692
+    m_Key: tower_buff_ricochet_rare_description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113693
+    m_Key: tower_buff_back_shot_rare_name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113694
+    m_Key: tower_buff_back_shot_rare_description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113695
+    m_Key: tower_buff_piercing_shot_rare_name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113696
+    m_Key: tower_buff_piercing_shot_rare_description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113697
+    m_Key: tower_buff_explosive_shot_rare_name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113698
+    m_Key: tower_buff_explosive_shot_rare_description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113699
+    m_Key: tower_buff_overload_legendary_name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113700
+    m_Key: tower_buff_overload_legendary_description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113701
+    m_Key: tower_buff_multishot_legendary_name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113702
+    m_Key: tower_buff_multishot_legendary_description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113703
+    m_Key: tower_buff_triple_shot_legendary_name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113704
+    m_Key: tower_buff_triple_shot_legendary_description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113705
+    m_Key: tower_buff_death_explosion_legendary_name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113706
+    m_Key: tower_buff_death_explosion_legendary_description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113707
+    m_Key: side_tower_beam_name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113708
+    m_Key: side_tower_chain_lightning_name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113709
+    m_Key: side_tower_projectiles_name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113710
+    m_Key: side_tower_slow_aura_name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113711
+    m_Key: ultimate_barrage_name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113712
+    m_Key: ultimate_shatter_name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113713
+    m_Key: ultimate_freeze_name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113714
+    m_Key: ultimate_overload_name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113715
+    m_Key: tower_level_up_title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113716
+    m_Key: tower_level_up_subtitle
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113717
+    m_Key: shop_title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113718
+    m_Key: win_title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113719
+    m_Key: win_next
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113720
+    m_Key: lose_continue
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

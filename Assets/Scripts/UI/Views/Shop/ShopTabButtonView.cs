@@ -1,7 +1,10 @@
 using System;
 using Enums;
+using Game.Localization;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Localization;
+using UnityEngine.Localization.Settings;
 using UnityEngine.UI;
 
 namespace UI.Views.Shop
@@ -17,12 +20,21 @@ namespace UI.Views.Shop
 
         public EShopTab Tab => tab;
 
+        private void OnEnable()
+        {
+            LocalizationSettings.SelectedLocaleChanged += OnSelectedLocaleChanged;
+            RefreshLabel();
+        }
+
+        private void OnDisable()
+        {
+            LocalizationSettings.SelectedLocaleChanged -= OnSelectedLocaleChanged;
+        }
+
         public void Setup(Action<EShopTab> onSelected)
         {
             _onSelected = onSelected;
-
-            if (label != null)
-                label.text = tab.ToString();
+            RefreshLabel();
 
             if (button == null)
                 return;
@@ -41,6 +53,17 @@ namespace UI.Views.Shop
         {
             if (button != null)
                 button.onClick.RemoveListener(NotifySelected);
+        }
+
+        private void RefreshLabel()
+        {
+            if (label != null)
+                label.text = GameLocalization.ShopTab(tab);
+        }
+
+        private void OnSelectedLocaleChanged(Locale locale)
+        {
+            RefreshLabel();
         }
 
         private void NotifySelected()

@@ -11619,6 +11619,7 @@ MonoBehaviour:
   - {fileID: 523665859}
   startButton: {fileID: 1606567506}
   closeButton: {fileID: 1274382751}
+  titleLabel: {fileID: 0}
 --- !u!21 &1350283486
 Material:
   serializedVersion: 8
@@ -18043,6 +18044,14 @@ PrefabInstance:
     - target: {fileID: 7491962498972514491, guid: 568dbecd8ae307c40807e0d5531b9814, type: 3}
       propertyPath: VelocityModule.y.scalar
       value: 88.50813
+      objectReference: {fileID: 0}
+    - target: {fileID: 7491962498972514491, guid: 568dbecd8ae307c40807e0d5531b9814, type: 3}
+      propertyPath: InitialModule.startSizeY.minMaxState
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7491962498972514491, guid: 568dbecd8ae307c40807e0d5531b9814, type: 3}
+      propertyPath: InitialModule.startSizeZ.minMaxState
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8709159115792466630, guid: 568dbecd8ae307c40807e0d5531b9814, type: 3}
       propertyPath: m_AnchoredPosition.x

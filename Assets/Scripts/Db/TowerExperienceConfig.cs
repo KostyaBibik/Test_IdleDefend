@@ -16,6 +16,17 @@ namespace Db
         [Tooltip("targetLevel = уровень, который получит башня. experience = сколько опыта нужно набрать с предыдущего уровня.")]
         [SerializeField] private List<LevelExperienceRequirement> levelRequirements = new();
 
+        [Header("РџР»Р°РІРЅРѕРµ РЅР°С‡РёСЃР»РµРЅРёРµ РѕРїС‹С‚Р°")]
+        [SerializeField, Min(1f)] private float experienceDrainBaseSpeed = 80f;
+        [SerializeField, Min(0f)] private float experienceDrainPendingMultiplier = 0.35f;
+        [SerializeField, Min(1f)] private float experienceDrainMaxSpeed = 900f;
+        [SerializeField, Min(0f)] private float levelUpPopupDelay = 0.45f;
+
+        public float ExperienceDrainBaseSpeed => experienceDrainBaseSpeed;
+        public float ExperienceDrainPendingMultiplier => experienceDrainPendingMultiplier;
+        public float ExperienceDrainMaxSpeed => experienceDrainMaxSpeed;
+        public float LevelUpPopupDelay => levelUpPopupDelay;
+
         public int MaxConfiguredLevel
         {
             get

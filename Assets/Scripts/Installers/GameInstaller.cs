@@ -78,6 +78,8 @@ namespace Installers
             Container.DeclareSignal<TowerDamageDealtSignal>();
             Container.DeclareSignal<TowerUltimateActivatedSignal>();
             Container.DeclareSignal<TowerExperienceChangedSignal>();
+            Container.DeclareSignal<TowerExperienceDroppedSignal>();
+            Container.DeclareSignal<TowerExperienceOrbArrivedSignal>();
         }
         
         private void InstallGameSystems()
@@ -89,6 +91,7 @@ namespace Installers
             // Начисление монет живёт в CoinService и не затронуто; ShowRewardSystem оставлен
             // невключённым, чтобы эффект можно было вернуть под другие награды.
             Container.BindInterfacesAndSelfTo<ShowDamageNumbersSystem>().AsSingle().NonLazy();
+            Container.BindInterfacesAndSelfTo<TowerExperienceOrbSystem>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<ShakeCamOnDamageSystem>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<SurvivalTimeSystem>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<TowerLevelUpSystem>().AsSingle().NonLazy();

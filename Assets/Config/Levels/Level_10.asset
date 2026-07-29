@@ -1,0 +1,107 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3fb471f972ff14498c34cda37206166, type: 3}
+  m_Name: Level_10
+  m_EditorClassIdentifier:
+  levelId: 10
+  startCoins: 245
+  spawnSections:
+  - enemies:
+    - enemyType: 0
+      spawnDelayMin: 1.2
+      spawnDelayMax: 1.73
+      extraHealth: 16
+      extraSpeed: 0
+    - enemyType: 2
+      spawnDelayMin: 2.81
+      spawnDelayMax: 4.04
+      extraHealth: 10
+      extraSpeed: 0.045
+    - enemyType: 1
+      spawnDelayMin: 18.15
+      spawnDelayMax: 26.11
+      extraHealth: 61
+      extraSpeed: 0
+    - enemyType: 3
+      spawnDelayMin: 16.33
+      spawnDelayMax: 23.5
+      extraHealth: 27
+      extraSpeed: 0
+    - enemyType: 5
+      spawnDelayMin: 49
+      spawnDelayMax: 70.51
+      extraHealth: 29
+      extraSpeed: 0
+  - enemies:
+    - enemyType: 0
+      spawnDelayMin: 1.15
+      spawnDelayMax: 1.65
+      extraHealth: 26
+      extraSpeed: 0
+    - enemyType: 2
+      spawnDelayMin: 1.72
+      spawnDelayMax: 2.48
+      extraHealth: 16
+      extraSpeed: 0.045
+    - enemyType: 1
+      spawnDelayMin: 10.84
+      spawnDelayMax: 15.6
+      extraHealth: 98
+      extraSpeed: 0
+    - enemyType: 3
+      spawnDelayMin: 9.76
+      spawnDelayMax: 14.04
+      extraHealth: 43
+      extraSpeed: 0
+    - enemyType: 5
+      spawnDelayMin: 29.27
+      spawnDelayMax: 42.12
+      extraHealth: 46
+      extraSpeed: 0
+  - enemies:
+    - enemyType: 0
+      spawnDelayMin: 1.1
+      spawnDelayMax: 1.58
+      extraHealth: 37
+      extraSpeed: 0
+    - enemyType: 2
+      spawnDelayMin: 1.29
+      spawnDelayMax: 1.86
+      extraHealth: 23
+      extraSpeed: 0.045
+    - enemyType: 1
+      spawnDelayMin: 6.79
+      spawnDelayMax: 9.77
+      extraHealth: 140
+      extraSpeed: 0
+    - enemyType: 3
+      spawnDelayMin: 6.11
+      spawnDelayMax: 8.79
+      extraHealth: 62
+      extraSpeed: 0
+    - enemyType: 5
+      spawnDelayMin: 18.32
+      spawnDelayMax: 26.37
+      extraHealth: 66
+      extraSpeed: 0
+  rewardEmeralds: 320
+  unlockedSideTowerSlotIndices: 000000000100000002000000
+  star1Seconds: 41
+  star2Seconds: 82
+  star3Seconds: 122
+  rewardMultiplierAtStart: 1.36
+  rewardMultiplierAtStar1: 1.52
+  rewardMultiplierAtStar2: 1.7
+  rewardMultiplierAtStar3: 1.93
+  rewardTimeGrowthLimit: 0.55
+  rewardTimeGrowthSeconds: 100
+  rewardRoundTo: 5

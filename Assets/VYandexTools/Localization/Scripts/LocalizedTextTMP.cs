@@ -12,16 +12,42 @@ namespace VYandexTools.Localization.Scripts
 {
     public class LocalizedTextTMP : MonoBehaviour
     {
+        private const string TableName = "LocalizationTable";
+
         [SerializeField] private TMP_Text textComponent;
+        [SerializeField] private bool useEnumKey = true;
+        [SerializeField] private LocalizationKey key;
         [SerializeField] private LocalizedString localizedString;
 
-        private void OnEnable() =>
-            LoadString(localizedString.GetLocalizedStringAsync());
+        private int _requestVersion;
+
+        private void OnEnable()
+        {
+            LocalizationSettings.SelectedLocaleChanged += OnSelectedLocaleChanged;
+            Refresh();
+        }
+
+        private void OnDisable()
+        {
+            LocalizationSettings.SelectedLocaleChanged -= OnSelectedLocaleChanged;
+            _requestVersion++;
+        }
 
         public void SetLocale(LocalizationKey key)
         {
-            var operation = LocalizationSettings.StringDatabase.GetLocalizedStringAsync(
-                "LocalizationTable", key.ToString());
+            useEnumKey = true;
+            this.key = key;
+            Refresh();
+        }
+
+        public void Refresh()
+        {
+            if (!textComponent)
+                return;
+
+            var operation = useEnumKey
+                ? LocalizationSettings.StringDatabase.GetLocalizedStringAsync(TableName, key.ToString())
+                : localizedString.GetLocalizedStringAsync();
 
             LoadString(operation);
         }
@@ -32,23 +58,31 @@ namespace VYandexTools.Localization.Scripts
         public void SetValue(LocalizationKey key, object[] values)
         {
             var operation = LocalizationSettings.StringDatabase.GetLocalizedStringAsync(
-                "LocalizationTable", key.ToString(), values);
+                TableName, key.ToString(), values);
 
             LoadString(operation);
         }
 
-        private void LoadString(AsyncOperationHandle<string> operation) =>
-            operation.Completed += OnStringLoaded;
-
-        private void OnStringLoaded(AsyncOperationHandle<string> operation)
+        private void LoadString(AsyncOperationHandle<string> operation)
         {
-            if (!this || !textComponent)
+            var version = ++_requestVersion;
+            operation.Completed += handle => OnStringLoaded(handle, version);
+        }
+
+        private void OnStringLoaded(AsyncOperationHandle<string> operation, int version)
+        {
+            if (version != _requestVersion || !this || !textComponent)
                 return;
 
             if (operation.Status == AsyncOperationStatus.Succeeded)
                 textComponent.text = operation.Result;
             else
                 Debug.LogError("Failed to load localized string.", this);
+        }
+
+        private void OnSelectedLocaleChanged(Locale locale)
+        {
+            Refresh();
         }
 
 #if UNITY_EDITOR

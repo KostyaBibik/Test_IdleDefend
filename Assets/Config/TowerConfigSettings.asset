@@ -14,11 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefabViewTower: {fileID: 6288956181412553466, guid: bf4db958f3a33b942b390c4b3dfe8410, type: 3}
   towerHealthView: {fileID: -1616105500782642185, guid: cec45c8496692cd49832ba244c757b8d, type: 3}
-  rangeAttack: 2
-  attackSpeed: 0.8
-  attackDamage: 40
-  startHealthCount: 1
+  rangeAttack: 4
+  attackSpeed: 1.2
+  attackDamage: 30
+  startHealthCount: 3
   maxHealthCounts: 3
-  maxAttackDamage: 200
-  maxAttackSpeed: 3
-  maxRangeAttack: 4
+  maxAttackDamage: 400
+  maxAttackSpeed: 4
+  maxRangeAttack: 8

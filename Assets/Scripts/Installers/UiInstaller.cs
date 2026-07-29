@@ -16,6 +16,7 @@ namespace Installers
         [SerializeField] private UltimateButtonView ultimateButtonView;
         [SerializeField] private TowerExperienceBarView towerExperienceBarView;
         [SerializeField] private TowerLevelUpPopupView towerLevelUpPopupView;
+        [SerializeField] private TowerExperienceOrbSpawnerView towerExperienceOrbSpawnerView;
 
         public override void InstallBindings()
         {
@@ -57,6 +58,12 @@ namespace Installers
             Container
                 .BindInterfacesAndSelfTo<TowerLevelUpPopupView>()
                 .FromInstance(towerLevelUpPopupView)
+                .AsSingle()
+                .NonLazy();
+
+            Container
+                .BindInterfacesAndSelfTo<TowerExperienceOrbSpawnerView>()
+                .FromInstance(towerExperienceOrbSpawnerView)
                 .AsSingle()
                 .NonLazy();
         }

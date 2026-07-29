@@ -66,6 +66,446 @@ MonoBehaviour:
     m_Localized: Result
     m_Metadata:
       m_Items: []
+  - m_Id: 2377113611
+    m_Localized: Shop
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113612
+    m_Localized: Stages
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113613
+    m_Localized: Settings
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113614
+    m_Localized: Pause
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113615
+    m_Localized: Resume
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113616
+    m_Localized: Restart
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113617
+    m_Localized: Give up
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113618
+    m_Localized: "Level {0}"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113619
+    m_Localized: "Complete stage {0}"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113620
+    m_Localized: "Lv.{0}"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113621
+    m_Localized: Max level
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113622
+    m_Localized: Towers
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113623
+    m_Localized: Projectiles
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113624
+    m_Localized: Boosts
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113625
+    m_Localized: Gem packs
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113626
+    m_Localized: Available
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113627
+    m_Localized: Not enough currency
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113628
+    m_Localized: Owned
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113629
+    m_Localized: Equipped
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113630
+    m_Localized: Free
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113631
+    m_Localized: IAP
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113632
+    m_Localized: "Price each: {0}"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113633
+    m_Localized: "Total: {0}"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113634
+    m_Localized: Buy
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113635
+    m_Localized: Equip
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113636
+    m_Localized: Selected
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113637
+    m_Localized: Select boosts
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113638
+    m_Localized: Active
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113639
+    m_Localized: Inactive
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113640
+    m_Localized: Common
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113641
+    m_Localized: Rare
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113642
+    m_Localized: Legendary
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113643
+    m_Localized: Default Tower
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113644
+    m_Localized: Reliable starter tower. Always ready to defend.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113645
+    m_Localized: Arcane Tower
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113646
+    m_Localized: Ancient magic empowers every shot.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113647
+    m_Localized: Crystal Tower
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113648
+    m_Localized: Shines with crystal energy and pierces enemies.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113649
+    m_Localized: Dark Tower
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113650
+    m_Localized: Forged in shadow. A veteran choice.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113651
+    m_Localized: Default Projectile
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113652
+    m_Localized: Standard tower ammunition.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113653
+    m_Localized: Fire Projectile
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113654
+    m_Localized: Burns through enemies. +18% damage.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113655
+    m_Localized: Ice Projectile
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113656
+    m_Localized: Freezes and slows enemies.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113657
+    m_Localized: Poison Projectile
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113658
+    m_Localized: Poisons enemies, dealing damage over time.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113659
+    m_Localized: Damage +10%
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113660
+    m_Localized: A small boost to tower damage.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113661
+    m_Localized: Range +20%
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113662
+    m_Localized: The tower reaches enemies much farther away.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113663
+    m_Localized: Speed +15%
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113664
+    m_Localized: The tower fires noticeably faster.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113665
+    m_Localized: Shield +25%
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113666
+    m_Localized: A sturdy barrier that extends your defense.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113667
+    m_Localized: Handful of Emeralds
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113668
+    m_Localized: A small pouch of emeralds.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113669
+    m_Localized: Bag of Emeralds
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113670
+    m_Localized: A weighty bag with emeralds.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113671
+    m_Localized: Emerald Chest
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113672
+    m_Localized: A heavy chest full of emeralds.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113673
+    m_Localized: Huge Chest
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113674
+    m_Localized: A whole fortune in emeralds.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113675
+    m_Localized: Damage +15%
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113676
+    m_Localized: Tower damage is increased until the end of this run.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113677
+    m_Localized: Attack Speed +12%
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113678
+    m_Localized: Tower attacks faster until the end of this run.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113679
+    m_Localized: Range +10%
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113680
+    m_Localized: Tower attack range is increased until the end of this run.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113681
+    m_Localized: Coins +10%
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113682
+    m_Localized: Enemy coin rewards are increased until the end of this run.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113683
+    m_Localized: Repair +1 HP
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113684
+    m_Localized: Restores one tower health point immediately.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113685
+    m_Localized: Crit Chance +5%
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113686
+    m_Localized: Adds a chance for tower shots to deal critical damage.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113687
+    m_Localized: Crit Damage +50%
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113688
+    m_Localized: Critical hits deal more damage until the end of this run.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113689
+    m_Localized: Double Shot
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113690
+    m_Localized: Shoots one extra forward projectile at another target.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113691
+    m_Localized: Ricochet
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113692
+    m_Localized: Projectile jumps to another nearby enemy after hit.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113693
+    m_Localized: Back Shot
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113694
+    m_Localized: Fires an additional projectile at an enemy behind the tower.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113695
+    m_Localized: Piercing Shot
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113696
+    m_Localized: Projectile pierces enemies standing behind the first target in a line.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113697
+    m_Localized: Explosive Shot
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113698
+    m_Localized: Hits create a small explosion that damages nearby enemies.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113699
+    m_Localized: Overload
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113700
+    m_Localized: Killing any enemy temporarily greatly increases tower attack speed.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113701
+    m_Localized: Multishot
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113702
+    m_Localized: Each attack immediately repeats the whole fired volley.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113703
+    m_Localized: Triple Shot
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113704
+    m_Localized: Future special buff. Shoots three projectiles in a spread.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113705
+    m_Localized: Death Explosion
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113706
+    m_Localized: Future special buff. Killed enemies explode and damage nearby enemies.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113707
+    m_Localized: Beam
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113708
+    m_Localized: Lightning
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113709
+    m_Localized: Projectiles
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113710
+    m_Localized: Slow Aura
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113711
+    m_Localized: Barrage
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113712
+    m_Localized: Shatter
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113713
+    m_Localized: Freeze
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113714
+    m_Localized: Overload
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113715
+    m_Localized: Level up
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113716
+    m_Localized: Choose a new skill
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113717
+    m_Localized: Shop
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113718
+    m_Localized: You win!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113719
+    m_Localized: Next
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2377113720
+    m_Localized: Continue
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

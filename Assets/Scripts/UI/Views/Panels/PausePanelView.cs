@@ -1,4 +1,5 @@
 using Installers;
+using Game.Localization;
 using Services;
 using TMPro;
 using UnityEngine;
@@ -33,8 +34,17 @@ namespace UI.Views.Panels
         public void Open()
         {
             _gameTimeProvider?.Pause();
+            RefreshStaticLabels();
             RefreshLevelLabel();
             gameObject.SetActive(true);
+        }
+
+        private void RefreshStaticLabels()
+        {
+            SetButtonLabel(continueBtn, LocalizationKey.pause_resume, "Resume");
+            SetButtonLabel(restartBtn, LocalizationKey.pause_restart, "Restart");
+            SetButtonLabel(giveUpBtn, LocalizationKey.pause_give_up, "Give up");
+            GameLocalization.SetTextByCurrentValue(this, LocalizationKey.pause_title, "Pause", "Pause", "ПАУЗА", "Пауза");
         }
 
         public void Close()
@@ -50,7 +60,7 @@ namespace UI.Views.Panels
 
             // LevelService уже нормализовал индекс, но на всякий случай переживаем его отсутствие.
             var index = _levelService?.CurrentLevelIndex ?? SelectedLevelHolder.SelectedLevelIndex;
-            levelLabel.text = $"Уровень {index + 1}";
+            levelLabel.text = GameLocalization.Format(LocalizationKey.level_format, "Level {0}", index + 1);
         }
 
         private void RestartLevel()
@@ -78,6 +88,16 @@ namespace UI.Views.Panels
 
             var loader = SceneManager.LoadSceneAsync("Menu");
             loader.allowSceneActivation = true;
+        }
+
+        private static void SetButtonLabel(Button button, LocalizationKey key, string fallback)
+        {
+            if (button == null)
+                return;
+
+            var label = button.GetComponentInChildren<TMP_Text>(true);
+            if (label != null)
+                label.text = GameLocalization.Text(key, fallback);
         }
 
         [Inject]

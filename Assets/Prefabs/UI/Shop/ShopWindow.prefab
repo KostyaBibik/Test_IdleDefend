@@ -747,6 +747,7 @@ GameObject:
   - component: {fileID: 7336511076713542679}
   - component: {fileID: 6802900933333859758}
   - component: {fileID: 7212347465326067031}
+  - component: {fileID: 2658164092776693460}
   m_Layer: 5
   m_Name: TitleLabel
   m_TagString: Untagged
@@ -870,6 +871,33 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &2658164092776693460
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1228538622321196790}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6e1c37be0c4162a8eab25930ad584b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textComponent: {fileID: 7212347465326067031}
+  useEnumKey: 1
+  key: 38
+  localizedString:
+    m_TableReference:
+      m_TableCollectionName: GUID:5fcab3783c5614146b3d458ba42420da
+    m_TableEntryReference:
+      m_KeyId: 2377113717
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  references:
+    version: 2
+    RefIds: []
 --- !u!1 &1269539285587286587
 GameObject:
   m_ObjectHideFlags: 0
@@ -3095,6 +3123,7 @@ MonoBehaviour:
   - {fileID: 996042021530215775}
   closeButton: {fileID: 6317484231394222480}
   windowToShowOnClose: {fileID: 0}
+  titleLabel: {fileID: 0}
   selectedItemNameLabel: {fileID: 6062834374664135805}
   selectedItemDescriptionLabel: {fileID: 3010464253668136075}
   previewPopup: {fileID: 6768697432524128794}
@@ -6148,6 +6177,14 @@ PrefabInstance:
       value: Tab_Tower
       objectReference: {fileID: 0}
     - target: {fileID: 5435576809763452594, guid: 7b215eda4ea2b35449618f1a3439618a, type: 3}
+      propertyPath: m_text
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5435576809763452594, guid: 7b215eda4ea2b35449618f1a3439618a, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 16777215
+      objectReference: {fileID: 0}
+    - target: {fileID: 5435576809763452594, guid: 7b215eda4ea2b35449618f1a3439618a, type: 3}
       propertyPath: m_TextStyleHashCode
       value: -1183493901
       objectReference: {fileID: 0}
@@ -6460,13 +6497,59 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5919049298965776646, guid: 85a86f57e6ec8164a8772e1b28f0ebc1, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4086397944579226972}
   m_SourcePrefab: {fileID: 100100000, guid: 85a86f57e6ec8164a8772e1b28f0ebc1, type: 3}
 --- !u!224 &378918857267422320 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7464970684254016559, guid: 85a86f57e6ec8164a8772e1b28f0ebc1, type: 3}
   m_PrefabInstance: {fileID: 7123243221525033055}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1599281796239323522 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8424860144631972317, guid: 85a86f57e6ec8164a8772e1b28f0ebc1, type: 3}
+  m_PrefabInstance: {fileID: 7123243221525033055}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3530391108751472985}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &3530391108751472985 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5919049298965776646, guid: 85a86f57e6ec8164a8772e1b28f0ebc1, type: 3}
+  m_PrefabInstance: {fileID: 7123243221525033055}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4086397944579226972
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3530391108751472985}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6e1c37be0c4162a8eab25930ad584b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textComponent: {fileID: 1599281796239323522}
+  useEnumKey: 1
+  key: 36
+  localizedString:
+    m_TableReference:
+      m_TableCollectionName: GUID:5fcab3783c5614146b3d458ba42420da
+    m_TableEntryReference:
+      m_KeyId: 2377113635
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &7901205589040287857 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1115889295243517998, guid: 85a86f57e6ec8164a8772e1b28f0ebc1, type: 3}

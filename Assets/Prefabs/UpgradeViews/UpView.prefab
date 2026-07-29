@@ -674,6 +674,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   upgradeBtn: {fileID: 7332633221360700446}
   costTxt: {fileID: 5115445410473235929}
+  titleTxt: {fileID: 0}
+  buttonLabel: {fileID: 0}
   upgradeType: 0
   progressBar: {fileID: 168430752677420817}
 --- !u!1 &4751581577882585824
@@ -1467,6 +1469,7 @@ GameObject:
   - component: {fileID: 4458192422714575866}
   - component: {fileID: 8512223217338426002}
   - component: {fileID: 6246257999345682938}
+  - component: {fileID: 2708750037321017498}
   m_Layer: 5
   m_Name: Text
   m_TagString: Untagged
@@ -1590,6 +1593,33 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &2708750037321017498
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6974050873719960318}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6e1c37be0c4162a8eab25930ad584b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textComponent: {fileID: 6246257999345682938}
+  useEnumKey: 1
+  key: 9
+  localizedString:
+    m_TableReference:
+      m_TableCollectionName: GUID:5fcab3783c5614146b3d458ba42420da
+    m_TableEntryReference:
+      m_KeyId: 2377113605
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  references:
+    version: 2
+    RefIds: []
 --- !u!1 &7450718396173612875
 GameObject:
   m_ObjectHideFlags: 0

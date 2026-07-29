@@ -1,6 +1,8 @@
+using Game.Localization;
 using Installers;
 using Services;
 using Signals;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -13,6 +15,7 @@ namespace UI.Views.Panels
         [SerializeField] private Button nextBtn;
         [SerializeField] private Button menuBtn;
         [SerializeField] private GameObject[] starIcons;
+        [SerializeField] private TMP_Text titleText;
 
         private SignalBus _signalBus;
         private bool _transitionStarted;
@@ -52,8 +55,21 @@ namespace UI.Views.Panels
 
         private void OnGameWin(GameWinSignal signal)
         {
+            RefreshStaticLabels();
+
             for (var i = 0; i < starIcons.Length; i++)
                 starIcons[i].SetActive(i < signal.stars);
+        }
+
+        private void RefreshStaticLabels()
+        {
+            titleText ??= GameLocalization.FindTextByCurrentValue(this, "You win!", "Победа!");
+
+            if (titleText != null)
+                titleText.text = GameLocalization.Text(LocalizationKey.win_title, "You win!");
+
+            GameLocalization.SetButtonLabel(nextBtn, LocalizationKey.win_next, "Next");
+            GameLocalization.SetButtonLabel(menuBtn, LocalizationKey.lose_menu, "Menu");
         }
 
         private void OnDestroy()

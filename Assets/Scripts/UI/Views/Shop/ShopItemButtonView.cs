@@ -1,6 +1,7 @@
 using System;
 using Db;
 using Enums;
+using Game.Localization;
 using Services;
 using TMPro;
 using UnityEngine;
@@ -52,10 +53,10 @@ namespace UI.Views.Shop
                 icon.sprite = item.Icon;
 
             if (nameLabel != null)
-                nameLabel.text = item.DisplayName;
+                nameLabel.text = GameLocalization.ShopItemName(item);
 
             if (descriptionLabel != null)
-                descriptionLabel.text = item.Description;
+                descriptionLabel.text = GameLocalization.ShopItemDescription(item);
 
             RefreshState();
             RebuildPreview();
@@ -74,7 +75,7 @@ namespace UI.Views.Shop
                 priceLabel.text = ShopItemPresenter.GetPriceText(_item);
 
             if (statusLabel != null)
-                statusLabel.text = isBoost ? $"x{BoostInventoryService.GetCount(_item)}" : state.ToString();
+                statusLabel.text = isBoost ? $"x{BoostInventoryService.GetCount(_item)}" : GameLocalization.ShopState(state);
 
             if (ownedState != null)
                 ownedState.SetActive(!isBoost && (state == EShopItemState.Owned || state == EShopItemState.Equipped));
@@ -93,6 +94,9 @@ namespace UI.Views.Shop
                 equipButton.gameObject.SetActive(!isBoost && _item.Equippable && state == EShopItemState.Owned);
                 equipButton.interactable = ShopInventoryService.IsOwned(_item);
             }
+
+            SetButtonLabel(buyButton, LocalizationKey.shop_buy, "Buy");
+            SetButtonLabel(equipButton, LocalizationKey.shop_equip, "Equip");
         }
 
         private void BindButtons()
@@ -148,6 +152,16 @@ namespace UI.Views.Shop
         private static bool CanShowPreview(ShopItemDefinition item)
         {
             return item != null && item.Tab != EShopTab.Boosts && item.Tab != EShopTab.GemPack;
+        }
+
+        private static void SetButtonLabel(Button button, LocalizationKey key, string fallback)
+        {
+            if (button == null)
+                return;
+
+            var label = button.GetComponentInChildren<TMP_Text>(true);
+            if (label != null)
+                label.text = GameLocalization.Text(key, fallback);
         }
 
         private void OnDestroy()

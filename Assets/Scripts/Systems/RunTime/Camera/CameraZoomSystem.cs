@@ -23,6 +23,7 @@ namespace Systems.RunTime.Camera
         private readonly CameraZoomSettings _settings;
         private readonly TowerConfigSettings _towerConfigSettings;
         private readonly IGameTimeProvider _gameTimeProvider;
+        private readonly TowerBuffRuntimeService _towerBuffRuntimeService;
 
         private float _minOrthographicSize;
         private float _currentVerticalOffset;
@@ -38,7 +39,8 @@ namespace Systems.RunTime.Camera
             LevelService levelService,
             CameraZoomSettings settings,
             TowerConfigSettings towerConfigSettings,
-            IGameTimeProvider gameTimeProvider
+            IGameTimeProvider gameTimeProvider,
+            TowerBuffRuntimeService towerBuffRuntimeService
         )
         {
             _camera = camera;
@@ -49,6 +51,7 @@ namespace Systems.RunTime.Camera
             _settings = settings;
             _towerConfigSettings = towerConfigSettings;
             _gameTimeProvider = gameTimeProvider;
+            _towerBuffRuntimeService = towerBuffRuntimeService;
         }
 
         public void Initialize()
@@ -80,7 +83,7 @@ namespace Systems.RunTime.Camera
         private float ComputeRequiredRadius()
         {
             var towerPos = _towerView.transform.position;
-            var required = _towerView.attackDistance;
+            var required = GetEffectiveMainTowerRange();
 
             var unlockedIndices = _levelService.CurrentLevel.UnlockedSideTowerSlotIndices;
             var markers = _sceneHandler.SideTowerSlotMarkers;
@@ -107,8 +110,13 @@ namespace Systems.RunTime.Camera
 
         private float ComputeMainTowerRangeZoomSize()
         {
-            var rangeDelta = Mathf.Max(0f, _towerView.attackDistance - _towerConfigSettings.RangeAttack);
+            var rangeDelta = Mathf.Max(0f, GetEffectiveMainTowerRange() - _towerConfigSettings.RangeAttack);
             return _minOrthographicSize + rangeDelta * _settings.MainTowerRangeZoomSizePerUnit;
+        }
+
+        private float GetEffectiveMainTowerRange()
+        {
+            return _towerView.attackDistance * _towerBuffRuntimeService.Stats.RangeMultiplier;
         }
 
         /// <summary>

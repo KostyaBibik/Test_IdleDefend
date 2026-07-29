@@ -1,8 +1,10 @@
 using System.Collections;
+using Game.Localization;
 using Installers;
 using Services;
 using Services.Impl;
 using Signals;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -15,6 +17,7 @@ namespace UI.Views.Panels
         [SerializeField] private PanelsHandler panelsHandler;
         [SerializeField] private Button restartBtn;
         [SerializeField] private Button exitBtn;
+        [SerializeField] private TMP_Text titleText;
 
         [Header("Продолжение за рекламу")]
         [SerializeField] private Button continueBtn;
@@ -76,9 +79,23 @@ namespace UI.Views.Panels
 
             if (continueGroup != null)
                 continueGroup.SetActive(_continuesUsed < maxContinuesPerRun);
+
+            RefreshStaticLabels();
         }
 
         // ---------- продолжение за рекламу ----------
+
+        private void RefreshStaticLabels()
+        {
+            titleText ??= GameLocalization.FindTextByCurrentValue(this, "You lose!", "Вы проиграли!");
+
+            if (titleText != null)
+                titleText.text = GameLocalization.Text(LocalizationKey.lose_title, "You lose!");
+
+            GameLocalization.SetButtonLabel(restartBtn, LocalizationKey.lose_restart, "Restart");
+            GameLocalization.SetButtonLabel(exitBtn, LocalizationKey.lose_menu, "Menu");
+            GameLocalization.SetButtonLabel(continueBtn, LocalizationKey.lose_continue, "Continue");
+        }
 
         private void OnContinueClicked()
         {

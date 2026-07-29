@@ -11,47 +11,57 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b3fb471f972ff14498c34cda37206166, type: 3}
   m_Name: Level_1
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier:
   levelId: 1
-  startCoins: 140
+  startCoins: 180
   spawnSections:
   - enemies:
     - enemyType: 0
-      spawnDelayMin: 1.35
-      spawnDelayMax: 1.65
+      spawnDelayMin: 0.93
+      spawnDelayMax: 1.34
       extraHealth: 0
       extraSpeed: 0
   - enemies:
     - enemyType: 0
-      spawnDelayMin: 1.1
-      spawnDelayMax: 1.4
-      extraHealth: 5
+      spawnDelayMin: 0.96
+      spawnDelayMax: 1.38
+      extraHealth: 7
       extraSpeed: 0
     - enemyType: 2
-      spawnDelayMin: 3.2
-      spawnDelayMax: 4
-      extraHealth: 0
+      spawnDelayMin: 3.83
+      spawnDelayMax: 5.51
+      extraHealth: 4
+      extraSpeed: 0
+    - enemyType: 1
+      spawnDelayMin: 14.56
+      spawnDelayMax: 20.95
+      extraHealth: 27
       extraSpeed: 0
   - enemies:
     - enemyType: 0
-      spawnDelayMin: 1
-      spawnDelayMax: 1.25
+      spawnDelayMin: 0.9
+      spawnDelayMax: 1.3
       extraHealth: 15
-      extraSpeed: 0.05
+      extraSpeed: 0
+    - enemyType: 2
+      spawnDelayMin: 2.31
+      spawnDelayMax: 3.33
+      extraHealth: 10
+      extraSpeed: 0
     - enemyType: 1
-      spawnDelayMin: 3.2
-      spawnDelayMax: 4.2
-      extraHealth: 0
+      spawnDelayMin: 6.55
+      spawnDelayMax: 9.43
+      extraHealth: 58
       extraSpeed: 0
   rewardEmeralds: 50
   unlockedSideTowerSlotIndices: 00000000
-  star1Seconds: 25
-  star2Seconds: 50
-  star3Seconds: 75
+  star1Seconds: 24
+  star2Seconds: 48
+  star3Seconds: 72
   rewardMultiplierAtStart: 1
-  rewardMultiplierAtStar1: 1.1
-  rewardMultiplierAtStar2: 1.2
-  rewardMultiplierAtStar3: 1.3
-  rewardTimeGrowthLimit: 0.6
-  rewardTimeGrowthSeconds: 120
+  rewardMultiplierAtStar1: 1.12
+  rewardMultiplierAtStar2: 1.25
+  rewardMultiplierAtStar3: 1.42
+  rewardTimeGrowthLimit: 0.55
+  rewardTimeGrowthSeconds: 100
   rewardRoundTo: 5

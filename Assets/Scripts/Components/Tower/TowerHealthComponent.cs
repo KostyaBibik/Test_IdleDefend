@@ -17,8 +17,10 @@ namespace Components.Tower
 
         public void ReduceHealth(int amount)
         {
-            _lifeCounter--;
-            
+            // Раньше здесь всегда снимался ровно 1 счётчик, из-за чего EnemyDefinition.damageToTower
+            // не влиял ни на что. Танк с damageToTower: 2 обязан стоить двух жизней.
+            _lifeCounter -= Mathf.Max(1, amount);
+
             if (_lifeCounter <= 0)
                 Die();
         }

@@ -1,3 +1,4 @@
+using Game.Localization;
 using Services;
 using Signals;
 using TMPro;
@@ -38,7 +39,7 @@ namespace UI.Views.Game
         private void Apply(int level, float progress01, bool isMaxLevel)
         {
             if (levelText != null)
-                levelText.text = $"Lv.{level}";
+                levelText.text = GameLocalization.Format(LocalizationKey.tower_level_format, "Lv.{0}", level);
 
             if (fillImage != null)
                 fillImage.fillAmount = isMaxLevel ? 1f : Mathf.Clamp01(progress01);

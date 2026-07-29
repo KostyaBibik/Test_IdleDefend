@@ -1,12 +1,9 @@
 using Db;
 using Enums;
+using Game.Localization;
 
 namespace UI.Views.Shop
 {
-    /// <summary>
-    /// Общее представление товара для всех мест, где он показывается (карточка сетки, попап
-    /// превью, будущие витрины) - чтобы цена не форматировалась в трёх местах по-разному.
-    /// </summary>
     public static class ShopItemPresenter
     {
         public static string GetPriceText(ShopItemDefinition item)
@@ -16,9 +13,11 @@ namespace UI.Views.Shop
 
             return item.PurchaseType switch
             {
-                EShopPurchaseType.Free => "Бесплатно",
+                EShopPurchaseType.Free => GameLocalization.Text(LocalizationKey.shop_free, "Free"),
                 EShopPurchaseType.Emeralds => item.EmeraldPrice.ToString(),
-                EShopPurchaseType.Iap => item.GemRewardAmount > 0 ? item.GemRewardAmount.ToString("N0") : "IAP",
+                EShopPurchaseType.Iap => item.GemRewardAmount > 0
+                    ? item.GemRewardAmount.ToString("N0")
+                    : GameLocalization.Text(LocalizationKey.shop_iap, "IAP"),
                 _ => string.Empty
             };
         }

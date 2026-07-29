@@ -2,9 +2,12 @@ using System.Collections.Generic;
 using System.Linq;
 using Db;
 using Enums;
+using Game.Localization;
 using Services;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Localization;
+using UnityEngine.Localization.Settings;
 using UnityEngine.UI;
 
 namespace UI.Views.Shop
@@ -17,6 +20,7 @@ namespace UI.Views.Shop
         [SerializeField] private ShopItemButtonView[] itemViews;
         [SerializeField] private Button closeButton;
         [SerializeField] private GameObject windowToShowOnClose;
+        [SerializeField] private TMP_Text titleLabel;
         [SerializeField] private TMP_Text selectedItemNameLabel;
         [SerializeField] private TMP_Text selectedItemDescriptionLabel;
         [Tooltip("Попап с живой витриной: открывается по клику игрока на карточку. " +
@@ -27,6 +31,7 @@ namespace UI.Views.Shop
         [SerializeField] private BoostPurchasePopupView boostPurchasePopup;
 
         private EShopTab _currentTab;
+        private ShopItemDefinition _selectedItem;
         private readonly List<ShopItemButtonView> _visibleItemViews = new();
 
         private void Awake()
@@ -43,6 +48,8 @@ namespace UI.Views.Shop
             PlayerSaveData.OnEmeraldsChanged += RefreshCurrentTab;
             ShopInventoryService.OnChanged += RefreshCurrentTab;
             BoostInventoryService.OnChanged += RefreshCurrentTab;
+            LocalizationSettings.SelectedLocaleChanged += OnSelectedLocaleChanged;
+            RefreshStaticLabels();
             ShowTab(_currentTab);
         }
 
@@ -51,12 +58,22 @@ namespace UI.Views.Shop
             PlayerSaveData.OnEmeraldsChanged -= RefreshCurrentTab;
             ShopInventoryService.OnChanged -= RefreshCurrentTab;
             BoostInventoryService.OnChanged -= RefreshCurrentTab;
+            LocalizationSettings.SelectedLocaleChanged -= OnSelectedLocaleChanged;
         }
 
         public void Show()
         {
             gameObject.SetActive(true);
+            RefreshStaticLabels();
             ShowTab(_currentTab);
+        }
+
+        private void RefreshStaticLabels()
+        {
+            titleLabel ??= GameLocalization.FindTextByCurrentValue(this, "Shop", "Магазин");
+
+            if (titleLabel != null)
+                titleLabel.text = GameLocalization.Text(LocalizationKey.shop_title, "Shop");
         }
 
         public void Hide()
@@ -182,11 +199,13 @@ namespace UI.Views.Shop
 
         private void SelectItem(ShopItemDefinition item)
         {
+            _selectedItem = item;
+
             if (selectedItemNameLabel != null)
-                selectedItemNameLabel.text = item != null ? item.DisplayName : string.Empty;
+                selectedItemNameLabel.text = item != null ? GameLocalization.ShopItemName(item) : string.Empty;
 
             if (selectedItemDescriptionLabel != null)
-                selectedItemDescriptionLabel.text = item != null ? item.Description : string.Empty;
+                selectedItemDescriptionLabel.text = item != null ? GameLocalization.ShopItemDescription(item) : string.Empty;
         }
 
         private void BuyItem(ShopItemDefinition item)
@@ -209,6 +228,13 @@ namespace UI.Views.Shop
         {
             foreach (var itemView in _visibleItemViews)
                 itemView.RefreshState();
+        }
+
+        private void OnSelectedLocaleChanged(Locale locale)
+        {
+            RefreshStaticLabels();
+            SelectItem(_selectedItem);
+            RefreshItemViews();
         }
 
         private void OnDestroy()

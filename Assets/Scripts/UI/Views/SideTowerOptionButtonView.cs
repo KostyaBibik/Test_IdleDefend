@@ -1,5 +1,6 @@
 using System;
 using Db;
+using Game.Localization;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -18,7 +19,7 @@ namespace UI.Views
             if (icon != null)
                 icon.sprite = definition.Icon;
 
-            nameLabel.text = definition.DisplayName;
+            nameLabel.text = GameLocalization.SideTowerName(definition);
             costLabel.text = definition.Cost.ToString();
 
             button.onClick.RemoveAllListeners();

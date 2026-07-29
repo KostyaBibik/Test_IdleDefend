@@ -120,6 +120,11 @@ namespace Services
                 }
                 case EUpgradeType.UpHealth:
                 {
+                    // Потолок жизней (TowerConfigSettings.MaxHealthCounts) раньше не проверялся
+                    // нигде, и здоровье можно было докупать бесконечно.
+                    if (!_towerHealthHandler.CanUpHealth())
+                        break;
+
                     if(!_coinService.TryBought(date.currentCostUp))
                         break;
 

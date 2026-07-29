@@ -100,8 +100,10 @@ namespace Services
                 buff = buff
             });
 
-            _gameTimeProvider.Resume();
             _experience.CompletePendingLevelUp();
+            if (!HasPendingSelection)
+                _gameTimeProvider.Resume();
+
             return true;
         }
 

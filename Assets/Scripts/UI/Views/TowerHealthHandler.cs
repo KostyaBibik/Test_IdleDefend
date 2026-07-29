@@ -69,7 +69,7 @@ namespace UI.Views
         
         private IEnumerator DisableLife()
         {
-            if(_lifeCounter - 1 <= 0)
+            if(_lifeCounter <= 0)
                 yield break;
 
             _isLostAnimating = true;

@@ -11,47 +11,62 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b3fb471f972ff14498c34cda37206166, type: 3}
   m_Name: Level_2
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier:
   levelId: 2
-  startCoins: 160
+  startCoins: 185
   spawnSections:
   - enemies:
     - enemyType: 0
-      spawnDelayMin: 1.15
-      spawnDelayMax: 1.45
-      extraHealth: 5
+      spawnDelayMin: 1
+      spawnDelayMax: 1.44
+      extraHealth: 2
+      extraSpeed: 0
+    - enemyType: 2
+      spawnDelayMin: 9.01
+      spawnDelayMax: 12.97
+      extraHealth: 1
+      extraSpeed: 0.005
+  - enemies:
+    - enemyType: 0
+      spawnDelayMin: 1.02
+      spawnDelayMax: 1.47
+      extraHealth: 9
+      extraSpeed: 0
+    - enemyType: 2
+      spawnDelayMin: 2.91
+      spawnDelayMax: 4.19
+      extraHealth: 6
+      extraSpeed: 0.005
+    - enemyType: 1
+      spawnDelayMin: 10.06
+      spawnDelayMax: 14.47
+      extraHealth: 35
       extraSpeed: 0
   - enemies:
     - enemyType: 0
-      spawnDelayMin: 1.15
-      spawnDelayMax: 1.45
-      extraHealth: 10
-      extraSpeed: 0.03
-    - enemyType: 2
-      spawnDelayMin: 2.2
-      spawnDelayMax: 2.8
-      extraHealth: 0
-      extraSpeed: 0.05
-  - enemies:
-    - enemyType: 2
-      spawnDelayMin: 1.6
-      spawnDelayMax: 2.1
-      extraHealth: 5
-      extraSpeed: 0.08
-    - enemyType: 1
-      spawnDelayMin: 3.2
-      spawnDelayMax: 4
-      extraHealth: 10
+      spawnDelayMin: 0.95
+      spawnDelayMax: 1.37
+      extraHealth: 18
       extraSpeed: 0
-  rewardEmeralds: 75
+    - enemyType: 2
+      spawnDelayMin: 2.03
+      spawnDelayMax: 2.91
+      extraHealth: 11
+      extraSpeed: 0.005
+    - enemyType: 1
+      spawnDelayMin: 4.75
+      spawnDelayMax: 6.84
+      extraHealth: 67
+      extraSpeed: 0
+  rewardEmeralds: 70
   unlockedSideTowerSlotIndices: 0000000001000000
-  star1Seconds: 25
-  star2Seconds: 52
+  star1Seconds: 27
+  star2Seconds: 53
   star3Seconds: 80
-  rewardMultiplierAtStart: 1
-  rewardMultiplierAtStar1: 1.1
-  rewardMultiplierAtStar2: 1.2
-  rewardMultiplierAtStar3: 1.3
-  rewardTimeGrowthLimit: 0.6
-  rewardTimeGrowthSeconds: 120
+  rewardMultiplierAtStart: 1.04
+  rewardMultiplierAtStar1: 1.16
+  rewardMultiplierAtStar2: 1.3
+  rewardMultiplierAtStar3: 1.48
+  rewardTimeGrowthLimit: 0.55
+  rewardTimeGrowthSeconds: 100
   rewardRoundTo: 5

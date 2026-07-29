@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Db;
+using Game.Localization;
 using Services;
 using Signals;
 using TMPro;
@@ -16,6 +17,8 @@ namespace UI.Views.Buffs
     /// </summary>
     public class TowerLevelUpPopupView : MonoBehaviour
     {
+        [SerializeField] private TMP_Text titleText;
+        [SerializeField] private TMP_Text subtitleText;
         [SerializeField] private TMP_Text levelText;
         [SerializeField] private TowerBuffCardView[] cardViews;
 
@@ -54,8 +57,10 @@ namespace UI.Views.Buffs
 
         private void Open(int level, IReadOnlyList<TowerBuffDefinition> choices)
         {
+            RefreshStaticLabels();
+
             if (levelText != null)
-                levelText.text = $"Lv.{level}";
+                levelText.text = GameLocalization.Format(LocalizationKey.tower_level_format, "Lv.{0}", level);
 
             for (var i = 0; i < cardViews.Length; i++)
             {
@@ -70,6 +75,18 @@ namespace UI.Views.Buffs
             }
 
             gameObject.SetActive(true);
+        }
+
+        private void RefreshStaticLabels()
+        {
+            titleText ??= GameLocalization.FindTextByCurrentValue(this, "LEVEL UP", "Level up", "Новый уровень");
+            subtitleText ??= GameLocalization.FindTextByCurrentValue(this, "Choose a new skill!", "Choose a new skill", "Выберите новый навык");
+
+            if (titleText != null)
+                titleText.text = GameLocalization.Text(LocalizationKey.tower_level_up_title, "Level up");
+
+            if (subtitleText != null)
+                subtitleText.text = GameLocalization.Text(LocalizationKey.tower_level_up_subtitle, "Choose a new skill");
         }
 
         private void Close()

@@ -1,6 +1,7 @@
 using System;
 using Db;
 using Enums;
+using Game.Localization;
 using Services;
 using TMPro;
 using UnityEngine;
@@ -61,10 +62,10 @@ namespace UI.Views.Shop
             gameObject.SetActive(true);
 
             if (nameLabel != null)
-                nameLabel.text = item.DisplayName;
+                nameLabel.text = GameLocalization.ShopItemName(item);
 
             if (descriptionLabel != null)
-                descriptionLabel.text = item.Description;
+                descriptionLabel.text = GameLocalization.ShopItemDescription(item);
 
             if (previewSurface != null)
                 previewSurface.Show(item);
@@ -103,6 +104,19 @@ namespace UI.Views.Shop
 
             if (equippedState != null)
                 equippedState.SetActive(state == EShopItemState.Equipped);
+
+            SetButtonLabel(buyButton, LocalizationKey.shop_buy, "Buy");
+            SetButtonLabel(equipButton, LocalizationKey.shop_equip, "Equip");
+        }
+
+        private static void SetButtonLabel(Button button, LocalizationKey key, string fallback)
+        {
+            if (button == null)
+                return;
+
+            var label = button.GetComponentInChildren<TMP_Text>(true);
+            if (label != null)
+                label.text = GameLocalization.Text(key, fallback);
         }
 
         private void NotifyBuyRequested()

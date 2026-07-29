@@ -10,7 +10,7 @@ namespace Installers
         {
             get => _container;
 
-            set => _container ??= value;
+            set => _container = value;
         }
     }
 }

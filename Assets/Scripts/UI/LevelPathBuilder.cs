@@ -1,5 +1,6 @@
 using System;
 using Db;
+using Game.Localization;
 using Services;
 using UI.Views;
 using UnityEngine;
@@ -53,7 +54,9 @@ namespace UI
                 var unlocked = i <= unlockedIndex;
                 var isNext = i == unlockedIndex;
                 var stars = SaveSystem.GetLevelStars(level.LevelId);
-                var lockedReasonText = unlocked ? null : $"Пройдите этап {i}";
+                var lockedReasonText = unlocked
+                    ? null
+                    : GameLocalization.Format(LocalizationKey.locked_complete_stage_format, "Complete stage {0}", i);
 
                 node.Setup(i + 1, unlocked, isNext, stars, lockedReasonText);
 

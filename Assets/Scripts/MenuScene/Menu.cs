@@ -1,5 +1,6 @@
 using Db;
 using Enums;
+using Game.Localization;
 using Services;
 using UI;
 using UI.Views.Shop;
@@ -32,9 +33,20 @@ namespace MenuScene
         private void Start()
         {
             InitializeNavigationButtons();
+            RefreshStaticLabels();
             levelPathBuilder.Build(levelsConfig, OpenBoostSelect);
             InitializeExitBtn();
             HideWindows();
+        }
+
+        private void RefreshStaticLabels()
+        {
+            GameLocalization.SetButtonLabel(shopButton, LocalizationKey.menu_shop, "Shop");
+            GameLocalization.SetButtonLabel(stageButton, LocalizationKey.menu_play, "Play");
+            GameLocalization.SetButtonLabel(stageBackButton, LocalizationKey.lose_menu, "Menu");
+
+            if (stageWindow != null)
+                GameLocalization.SetTextByCurrentValue(stageWindow.transform, LocalizationKey.menu_stages, "Stages", "Stages", "Этапы");
         }
 
         /// <summary>

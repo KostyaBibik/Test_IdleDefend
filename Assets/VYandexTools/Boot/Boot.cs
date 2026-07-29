@@ -1,5 +1,6 @@
 using System.Collections;
 using Agava.YandexGames;
+using Game.Localization;
 using GameAnalyticsSDK;
 using Kimicu.YandexGames;
 using UnityEngine;
@@ -14,6 +15,8 @@ namespace DefaultNamespace.Yandex
 {
     public class Boot : MonoBehaviour
     {
+        private const string DefaultLocaleCode = "en";
+
 #if UNITY_EDITOR
         [SerializeField] private string locale = "ru";
 
@@ -67,11 +70,27 @@ namespace DefaultNamespace.Yandex
         private void SetLanguage()
         {
 #if UNITY_EDITOR
-            string lang = locale;
+            string lang = LocalizationTestOverride.HasLocaleCode ? LocalizationTestOverride.LocaleCode : locale;
 #else
-             string lang = YandexGamesSdk.Environment.i18n.lang;
+            string lang = YandexGamesSdk.Environment.i18n.lang;
 #endif
-            LocalizationSettings.SelectedLocale = LocalizationSettings.AvailableLocales.GetLocale(lang);
+            LocalizationSettings.SelectedLocale = GetAvailableLocale(lang);
+        }
+
+        private static Locale GetAvailableLocale(string lang)
+        {
+            var locales = LocalizationSettings.AvailableLocales;
+            var selectedLocale = locales.GetLocale(lang);
+
+            if (selectedLocale != null)
+                return selectedLocale;
+
+            selectedLocale = locales.GetLocale(DefaultLocaleCode);
+
+            if (selectedLocale != null)
+                return selectedLocale;
+
+            return locales.Locales.Count > 0 ? locales.Locales[0] : null;
         }
 
         private static void OnStopGame(bool value)

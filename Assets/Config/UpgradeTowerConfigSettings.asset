@@ -14,30 +14,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   containers:
   - upgradeType: 1
-    upgradeValue: 0.16
-    startCost: 75
-    costUpgrade: 45
-    maxLevel: 10
-    costRankMultiplier: 1.3
-    upgradeValueRankMultiplier: 0.9
+    upgradeValue: 0.14
+    startCost: 70
+    costUpgrade: 55
+    maxLevel: 8
+    costRankMultiplier: 1.7
+    upgradeValueRankMultiplier: 0.85
   - upgradeType: 2
-    upgradeValue: 0.12
-    startCost: 75
-    costUpgrade: 45
+    upgradeValue: 0.14
+    startCost: 45
+    costUpgrade: 26
     maxLevel: 10
-    costRankMultiplier: 1.3
-    upgradeValueRankMultiplier: 0.9
+    costRankMultiplier: 1.5
+    upgradeValueRankMultiplier: 1.25
   - upgradeType: 3
-    upgradeValue: 8
-    startCost: 75
-    costUpgrade: 45
+    upgradeValue: 5
+    startCost: 40
+    costUpgrade: 24
     maxLevel: 10
-    costRankMultiplier: 1.3
-    upgradeValueRankMultiplier: 0.9
+    costRankMultiplier: 1.45
+    upgradeValueRankMultiplier: 1.5
   - upgradeType: 4
     upgradeValue: 1
-    startCost: 180
-    costUpgrade: 150
-    maxLevel: 10
-    costRankMultiplier: 1.3
-    upgradeValueRankMultiplier: 0.9
+    startCost: 200
+    costUpgrade: 240
+    maxLevel: 5
+    costRankMultiplier: 1.6
+    upgradeValueRankMultiplier: 1

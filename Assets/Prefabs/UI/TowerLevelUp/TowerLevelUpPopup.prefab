@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6161361853679447571}
   - component: {fileID: 3568352591756666271}
   - component: {fileID: 6933258043601428311}
+  - component: {fileID: 8165148934299966840}
   m_Layer: 0
   m_Name: Title
   m_TagString: Untagged
@@ -134,6 +135,33 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &8165148934299966840
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1923269727305726850}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6e1c37be0c4162a8eab25930ad584b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textComponent: {fileID: 6933258043601428311}
+  useEnumKey: 1
+  key: 40
+  localizedString:
+    m_TableReference:
+      m_TableCollectionName: GUID:5fcab3783c5614146b3d458ba42420da
+    m_TableEntryReference:
+      m_KeyId: 2377113715
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  references:
+    version: 2
+    RefIds: []
 --- !u!1 &6937574067389282492
 GameObject:
   m_ObjectHideFlags: 0
@@ -210,6 +238,7 @@ GameObject:
   - component: {fileID: 3096303666683473348}
   - component: {fileID: 4452092973352408952}
   - component: {fileID: 9151451010259757148}
+  - component: {fileID: 7468564442411161377}
   m_Layer: 0
   m_Name: Subtitle
   m_TagString: Untagged
@@ -333,6 +362,33 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &7468564442411161377
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7624523104805728038}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6e1c37be0c4162a8eab25930ad584b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textComponent: {fileID: 9151451010259757148}
+  useEnumKey: 1
+  key: 41
+  localizedString:
+    m_TableReference:
+      m_TableCollectionName: GUID:5fcab3783c5614146b3d458ba42420da
+    m_TableEntryReference:
+      m_KeyId: 2377113716
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  references:
+    version: 2
+    RefIds: []
 --- !u!1 &7685055396042850425
 GameObject:
   m_ObjectHideFlags: 0
@@ -425,6 +481,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 411b9ff3d4700194180da845890d987d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  titleText: {fileID: 0}
+  subtitleText: {fileID: 0}
   levelText: {fileID: 5263894410129845488}
   cardViews:
   - {fileID: 6304539246019301391}

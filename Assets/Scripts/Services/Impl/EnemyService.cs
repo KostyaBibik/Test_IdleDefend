@@ -18,6 +18,8 @@ namespace Services.Impl
     public class EnemyService : IEntityService, IInitializable, ITickable, IDisposable
     {
         private const float delayBeforeClearParticle = 1.5f;
+        private const float splitChildPushOut = 0.5f;
+        private const float splitChildSpreadDeg = 40f;
         private readonly CoinService _coinService;
         private readonly EnemyPrefabsConfig _enemyPrefabsConfig;
         private readonly LevelsConfig _levelsConfig;
@@ -31,6 +33,7 @@ namespace Services.Impl
         private float _elapsedSeconds;
 
         [Inject] private EntityFactory _entityFactory;
+        [Inject] private TowerView _towerView;
 
         public EnemyService(
             CoinService coinService,
@@ -77,7 +80,9 @@ namespace Services.Impl
                 if (signal.hashReward)
                 {
                     _coinService.AddCoins(rewardCount);
-                    _towerExperienceService.AddExperience(_towerExperienceConfig.GetEnemyExperience(enemyDefinition));
+                    _towerExperienceService.AddExperience(
+                        _towerExperienceConfig.GetEnemyExperience(enemyDefinition),
+                        view.transform.position);
 
                     // Всплывающая монета больше не показывается - над врагами теперь живут числа
                     // урона (ShowDamageNumbersSystem). Начисление наград и опыта выше не изменилось.
@@ -103,12 +108,41 @@ namespace Services.Impl
 
             yield return _gameTimeProvider.WaitForSeconds(enemyDefinition.DeathDelay);
 
-            for (var i = 0; i < enemyDefinition.SplitChildCount; i++)
+            var childCount = enemyDefinition.SplitChildCount;
+            for (var i = 0; i < childCount; i++)
             {
-                _entityFactory.CreateEnemy(deathPos, enemyDefinition.SplitChildType.Type, 0, 0);
+                _entityFactory.CreateEnemy(
+                    GetSplitChildPosition(deathPos, i, childCount),
+                    enemyDefinition.SplitChildType.Type, 0, 0);
             }
 
             Object.Destroy(view.gameObject);
+        }
+
+        /// <summary>
+        /// Раньше дети спавнились ровно в точке смерти родителя. Родитель обычно умирает уже
+        /// внутри зоны поражения, поэтому дети появлялись вплотную к башне и доходили до неё
+        /// почти бесплатно — один Splitter стоил игроку больше, чем целая волна. Теперь дети
+        /// выталкиваются наружу, минимум на край зоны поражения, и раскладываются веером,
+        /// чтобы не слипаться в одну точку.
+        /// </summary>
+        private Vector3 GetSplitChildPosition(Vector3 deathPos, int index, int count)
+        {
+            if (_towerView == null)
+                return deathPos;
+
+            var towerPos = _towerView.transform.position;
+            var offset = deathPos - towerPos;
+            var direction = offset.sqrMagnitude > 0.0001f ? offset.normalized : Vector3.up;
+
+            var effectiveRange = _towerView.attackDistance * _towerView.ratioRange;
+            var distance = Mathf.Max(offset.magnitude + splitChildPushOut, effectiveRange * 1.05f);
+
+            // Веер вокруг направления родителя: один ребёнок — строго по нему, несколько — симметрично.
+            var spread = count > 1 ? (index / (float) (count - 1) - 0.5f) * splitChildSpreadDeg : 0f;
+            var rotated = Quaternion.Euler(0f, 0f, spread) * direction;
+
+            return towerPos + rotated * distance;
         }
 
         public List<EnemyView> GetAssumedActiveEnemies()
