@@ -23,9 +23,15 @@ namespace UI.Views.Shop
         [SerializeField] private Button startButton;
         [SerializeField] private Button closeButton;
         [SerializeField] private TMP_Text titleLabel;
+        [Tooltip("Необязателен: без него окно открывается и закрывается мгновенно, как раньше.")]
+        [SerializeField] private BoostSelectWindowAnimator animator;
 
         private Action<int> _onStartRequested;
         private int _pendingLevelIndex;
+
+        // Окно можно успеть открыть заново, пока играет финал закрытия: счётчик даёт отложенному
+        // закрытию понять, что оно устарело.
+        private int _openGeneration;
 
         private void Awake()
         {
@@ -50,10 +56,15 @@ namespace UI.Views.Shop
         {
             _pendingLevelIndex = levelIndex;
             _onStartRequested = onStartRequested;
+            _openGeneration++;
 
             gameObject.SetActive(true);
             RefreshStaticLabels();
             RefreshItems();
+
+            // Строго после RefreshItems: вступление считает набор видимых строк, а его определяет
+            // именно эта перерисовка.
+            animator?.PlayIntro();
         }
 
         private void RefreshStaticLabels()
@@ -68,7 +79,18 @@ namespace UI.Views.Shop
 
         public void Close()
         {
-            gameObject.SetActive(false);
+            if (animator == null || !gameObject.activeSelf)
+            {
+                gameObject.SetActive(false);
+                return;
+            }
+
+            var generation = _openGeneration;
+            animator.PlayOutro(() =>
+            {
+                if (generation == _openGeneration)
+                    gameObject.SetActive(false);
+            });
         }
 
         private void RefreshItems()
@@ -84,19 +106,38 @@ namespace UI.Views.Shop
                 if (itemView == null)
                     continue;
 
+                itemView.Toggled -= OnItemToggled;
+                itemView.Toggled += OnItemToggled;
                 itemView.Setup(i < boosts.Count ? boosts[i] : null);
             }
+        }
+
+        private void OnItemToggled(BoostSelectItemView itemView)
+        {
+            animator?.PunchRow(itemView);
         }
 
         private void NotifyStart()
         {
             var levelIndex = _pendingLevelIndex;
-            Close();
+
+            // Здесь закрываемся без анимации: следом грузится GameScene, и доигрывать финал
+            // всё равно негде.
+            _openGeneration++;
+            gameObject.SetActive(false);
+
             _onStartRequested?.Invoke(levelIndex);
         }
 
         private void OnDestroy()
         {
+            if (itemViews != null)
+            {
+                foreach (var itemView in itemViews)
+                    if (itemView != null)
+                        itemView.Toggled -= OnItemToggled;
+            }
+
             if (startButton != null)
                 startButton.onClick.RemoveListener(NotifyStart);
 

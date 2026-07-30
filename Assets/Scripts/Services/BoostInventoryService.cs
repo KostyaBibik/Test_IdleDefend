@@ -75,7 +75,7 @@ namespace Services
             {
                 var removed = selectedIds.Remove(item.Id);
                 if (removed)
-                    SaveAndRaiseChanged();
+                    RaiseChanged();
 
                 return removed;
             }
@@ -87,7 +87,7 @@ namespace Services
                 return true;
 
             selectedIds.Add(item.Id);
-            SaveAndRaiseChanged();
+            RaiseChanged();
             return true;
         }
 
@@ -148,6 +148,19 @@ namespace Services
         private static void SaveAndRaiseChanged()
         {
             SaveSystem.Instance.SaveToStorage();
+            RaiseChanged();
+        }
+
+        /// <summary>
+        /// Обновляет UI, но не пишет сейв на диск.
+        ///
+        /// Так помечается выбор бустов на бой: игрок тапает по строкам подряд, а каждый тап
+        /// раньше приводил к синхронной записи файла. Выбор всё равно попадёт в сейв — его
+        /// подхватит периодическое автосохранение SaveSystem, а списание бустов на старте боя
+        /// сохраняется немедленно, как и раньше.
+        /// </summary>
+        private static void RaiseChanged()
+        {
             PlayerSaveData.NotifyShopInventoryChanged();
             OnChanged?.Invoke();
         }

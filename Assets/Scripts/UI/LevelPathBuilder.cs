@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Db;
 using Game.Localization;
 using Services;
@@ -20,16 +21,55 @@ namespace UI
         [SerializeField] private float topPadding = 320f;
         [SerializeField] private float connectorThickness = 18f;
 
+        private readonly List<LevelButtonView> _nodes = new();
+
+        /// <summary>Узлы уровней в порядке индексов. Нужны аниматору окна этапов.</summary>
+        public IReadOnlyList<LevelButtonView> Nodes => _nodes;
+
+        /// <summary>Индекс последнего открытого уровня на момент построения карты.</summary>
+        public int UnlockedIndex { get; private set; } = -1;
+
+        public ScrollRect ScrollRect => scrollRect;
+
+        /// <summary>
+        /// Позиция вертикальной прокрутки (в терминах ScrollRect: 1 — верх, 0 — низ), при которой
+        /// узел уровня оказывается по центру видимой области. Если карта короче окна, прокручивать
+        /// некуда — возвращаем низ, как при обычном построении.
+        /// </summary>
+        public float GetNormalizedPositionForLevel(int levelIndex)
+        {
+            if (scrollRect == null || content == null || levelIndex < 0 || levelIndex >= _nodes.Count)
+                return 0f;
+
+            var viewport = scrollRect.viewport != null ? scrollRect.viewport : (RectTransform)scrollRect.transform;
+            var scrollableHeight = content.rect.height - viewport.rect.height;
+            if (scrollableHeight <= 0f)
+                return 0f;
+
+            var node = _nodes[levelIndex];
+            if (node == null)
+                return 0f;
+
+            // anchoredPosition.y узла отсчитывается вниз от верха content и потому отрицателен.
+            var nodeOffsetFromTop = -((RectTransform)node.transform).anchoredPosition.y;
+            var offsetFromTop = Mathf.Clamp(nodeOffsetFromTop - viewport.rect.height * 0.5f, 0f, scrollableHeight);
+
+            return 1f - offsetFromTop / scrollableHeight;
+        }
+
         public void Build(LevelsConfig levelsConfig, Action<int> onLevelSelected)
         {
             for (var i = content.childCount - 1; i >= 0; i--)
                 Destroy(content.GetChild(i).gameObject);
+
+            _nodes.Clear();
 
             var levelCount = levelsConfig.Count;
             if (levelCount <= 0)
                 return;
 
             var unlockedIndex = SaveSystem.GetUnlockedLevelIndex();
+            UnlockedIndex = Mathf.Clamp(unlockedIndex, 0, levelCount - 1);
             var positions = new Vector2[levelCount];
 
             for (var i = 0; i < levelCount; i++)
@@ -62,6 +102,8 @@ namespace UI
 
                 var levelIndex = i;
                 node.Button.onClick.AddListener(delegate { onLevelSelected(levelIndex); });
+
+                _nodes.Add(node);
             }
 
             content.sizeDelta = new Vector2(content.sizeDelta.x, topPadding + (levelCount - 1) * verticalSpacing + bottomPadding);

@@ -120,7 +120,19 @@ public class SaveSystem : Singleton<SaveSystem>
 
         if (json == lastSavedJson)
             return;
-        Cloud.SetValue("SaveData", json, true, () => lastSavedJson = json);
+
+        // В редакторе Cloud пишет обычный файл (EditorCloud/Save.txt), и запись изредка падает
+        // с Win32 1224 (ERROR_USER_MAPPED_FILE): файл в этот момент замаплен другим процессом.
+        // Ронять из-за этого кадр незачем — lastSavedJson остаётся прежним, поэтому следующее
+        // периодическое сохранение (раз в SavingPeriod секунд) просто повторит запись.
+        try
+        {
+            Cloud.SetValue("SaveData", json, true, () => lastSavedJson = json);
+        }
+        catch (System.IO.IOException exception)
+        {
+            UnityEngine.Debug.LogWarning($"[SaveSystem] Сохранение не удалось, повтор через {SavingPeriod} c: {exception.Message}");
+        }
     }
 }
 

@@ -1,3 +1,4 @@
+using System;
 using Db;
 using Game.Localization;
 using Services;
@@ -23,6 +24,9 @@ namespace UI.Views.Shop
         [SerializeField, Range(0f, 1f)] private float disabledAlpha = 0.4f;
 
         private ShopItemDefinition _item;
+
+        /// <summary>Игрок переключил буст. Окно использует это для анимационного отклика.</summary>
+        public event Action<BoostSelectItemView> Toggled;
 
         public void Setup(ShopItemDefinition item)
         {
@@ -81,6 +85,7 @@ namespace UI.Views.Shop
 
             BoostInventoryService.ToggleSelected(_item);
             Refresh();
+            Toggled?.Invoke(this);
         }
 
         private void OnDestroy()

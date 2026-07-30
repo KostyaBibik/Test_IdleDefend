@@ -20,8 +20,13 @@ namespace UI.Views
 
         public Button Button => button;
 
+        /// <summary>Узел уровня, на котором сейчас стоит игрок. Аниматор подсвечивает именно его.</summary>
+        public bool IsNext { get; private set; }
+
         public void Setup(int levelNumber, bool unlocked, bool isNext, int stars, string lockedReasonText)
         {
+            IsNext = unlocked && isNext;
+
             if (levelNumberLabel != null)
                 levelNumberLabel.text = levelNumber.ToString();
 
