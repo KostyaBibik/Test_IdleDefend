@@ -71,7 +71,8 @@ namespace Services
                     if (!_towerChangeRadiusSystem.CanUpRange())
                         break;
 
-                    if(!_coinService.TryBought(date.currentCostUp))
+                    var paidCost = date.currentCostUp;
+                    if(!_coinService.TryBought(paidCost))
                         break;
 
                     var upgradeValue = GetFloatUpgradeValue(date);
@@ -81,6 +82,7 @@ namespace Services
                     var rangeView = _upgradeViewsHandler.GetViewByType(date.upgradeContainer.upgradeType);
                     rangeView.SetCost(date.currentCostUp);
                     rangeView.SetLevel(date.currentLevel, date.upgradeContainer.CycleLength);
+                    FirePurchased(upgradeType, date.currentLevel, paidCost);
 
                     break;
                 }
@@ -89,7 +91,8 @@ namespace Services
                     if (!_changeAttackSpeedSystem.CanUpAttackSpeed())
                         break;
 
-                    if(!_coinService.TryBought(date.currentCostUp))
+                    var paidCost = date.currentCostUp;
+                    if(!_coinService.TryBought(paidCost))
                         break;
 
                     var upgradeValue = GetFloatUpgradeValue(date);
@@ -99,6 +102,7 @@ namespace Services
                     var speedView = _upgradeViewsHandler.GetViewByType(date.upgradeContainer.upgradeType);
                     speedView.SetCost(date.currentCostUp);
                     speedView.SetLevel(date.currentLevel, date.upgradeContainer.CycleLength);
+                    FirePurchased(upgradeType, date.currentLevel, paidCost);
                     break;
                 }
                 case EUpgradeType.AttackDamage:
@@ -106,7 +110,8 @@ namespace Services
                     if (!_changeAttackDamageSystem.CanUpAttackDamage())
                         break;
 
-                    if(!_coinService.TryBought(date.currentCostUp))
+                    var paidCost = date.currentCostUp;
+                    if(!_coinService.TryBought(paidCost))
                         break;
 
                     var upgradeValue = GetIntUpgradeValue(date);
@@ -116,6 +121,7 @@ namespace Services
                     var damageView = _upgradeViewsHandler.GetViewByType(date.upgradeContainer.upgradeType);
                     damageView.SetCost(date.currentCostUp);
                     damageView.SetLevel(date.currentLevel, date.upgradeContainer.CycleLength);
+                    FirePurchased(upgradeType, date.currentLevel, paidCost);
                     break;
                 }
                 case EUpgradeType.UpHealth:
@@ -125,7 +131,8 @@ namespace Services
                     if (!_towerHealthHandler.CanUpHealth())
                         break;
 
-                    if(!_coinService.TryBought(date.currentCostUp))
+                    var paidCost = date.currentCostUp;
+                    if(!_coinService.TryBought(paidCost))
                         break;
 
                     var upgradeValue = GetIntUpgradeValue(date);
@@ -139,9 +146,20 @@ namespace Services
                     var healthView = _upgradeViewsHandler.GetViewByType(date.upgradeContainer.upgradeType);
                     healthView.SetCost(date.currentCostUp);
                     healthView.SetLevel(date.currentLevel, date.upgradeContainer.CycleLength);
+                    FirePurchased(upgradeType, date.currentLevel, paidCost);
                     break;
                 }
             }
+        }
+
+        private void FirePurchased(EUpgradeType upgradeType, int level, int paidCost)
+        {
+            _signalBus.Fire(new TowerUpgradePurchasedSignal
+            {
+                upgradeType = upgradeType,
+                level = level,
+                paidCost = paidCost
+            });
         }
 
         public void Initialize()

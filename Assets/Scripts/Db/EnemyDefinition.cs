@@ -24,6 +24,10 @@ namespace Db
         [SerializeField] private int damageToTower = 1;
         [SerializeField, Range(0f, 1f)] private float damageReduction;
 
+        [Header("Финал уровня")]
+        [Tooltip("За сколько секунд до конца уровня этот тип перестаёт спавниться в финальной секции.")]
+        [SerializeField, Min(0f)] private float finalSpawnLeadSeconds = 4f;
+
         [Header("Движение")]
         [SerializeField] private EEnemyMovementType movementType = EEnemyMovementType.Linear;
         [SerializeField] private float orbitAngularSpeedDegPerSec = 60f;
@@ -44,6 +48,7 @@ namespace Db
         public int ExperienceReward => experienceReward;
         public int DamageToTower => damageToTower;
         public float DamageReduction => damageReduction;
+        public float FinalSpawnLeadSeconds => finalSpawnLeadSeconds;
 
         public EEnemyMovementType MovementType => movementType;
         public float OrbitAngularSpeedDegPerSec => orbitAngularSpeedDegPerSec;

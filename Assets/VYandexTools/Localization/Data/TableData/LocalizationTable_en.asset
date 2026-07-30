@@ -506,6 +506,58 @@ MonoBehaviour:
     m_Localized: Continue
     m_Metadata:
       m_Items: []
+  - m_Id: 1353737602850816
+    m_Localized: Upgrade damage
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1353737632210944
+    m_Localized: Spend coins to make every shot stronger.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1353737632210945
+    m_Localized: Experience
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1353737632210946
+    m_Localized: Defeated enemies drop experience for the tower.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1353737632210947
+    m_Localized: Tap to continue
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1353737632210948
+    m_Localized: Legendary upgrade
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1353737632210949
+    m_Localized: Multishot repeats every volley. Take the gift!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1353737632210950
+    m_Localized: Ultimate
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1353737632210951
+    m_Localized: Use the ultimate to crush the whole wave.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1353737632210952
+    m_Localized: Support tower
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1353737632210953
+    m_Localized: Build a support tower before the next attack.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1353737632210954
+    m_Localized: Projectile tower
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1353737632210955
+    m_Localized: Choose a reliable support tower.
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

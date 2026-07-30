@@ -24,6 +24,7 @@ MonoBehaviour:
   experienceReward: 18
   damageToTower: 1
   damageReduction: 0
+  finalSpawnLeadSeconds: 10
   movementType: 1
   orbitAngularSpeedDegPerSec: 55
   orbitRadiusShrinkSpeed: 0.2

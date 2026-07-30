@@ -31,6 +31,9 @@ namespace UI.Views.Buffs
         private TowerBuffDefinition _buff;
         private Action<TowerBuffDefinition> _onSelected;
 
+        public TowerBuffDefinition Buff => _buff;
+        public Button SelectButton => selectButton;
+
         [Serializable]
         private struct RarityStyle
         {

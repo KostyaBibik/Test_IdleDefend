@@ -1,0 +1,123 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3fb471f972ff14498c34cda37206166, type: 3}
+  m_Name: Level_25
+  m_EditorClassIdentifier:
+  levelId: 25
+  startCoins: 335
+  spawnSections:
+  - enemies:
+    - enemyType: 0
+      spawnDelayMin: 1.07
+      spawnDelayMax: 1.51
+      extraHealth: 40
+      extraSpeed: 0
+      finalSpawnLeadSecondsOverride: -1
+    - enemyType: 2
+      spawnDelayMin: 2.6
+      spawnDelayMax: 3.82
+      extraHealth: 26
+      extraSpeed: 0.068
+      finalSpawnLeadSecondsOverride: -1
+    - enemyType: 5
+      spawnDelayMin: 42.03
+      spawnDelayMax: 60.52
+      extraHealth: 73
+      extraSpeed: 0.003
+      finalSpawnLeadSecondsOverride: -1
+    - enemyType: 3
+      spawnDelayMin: 16.36
+      spawnDelayMax: 22.58
+      extraHealth: 63
+      extraSpeed: 0.003
+      finalSpawnLeadSecondsOverride: -1
+  - enemies:
+    - enemyType: 0
+      spawnDelayMin: 1.02
+      spawnDelayMax: 1.44
+      extraHealth: 64
+      extraSpeed: 0
+      finalSpawnLeadSecondsOverride: -1
+    - enemyType: 2
+      spawnDelayMin: 1.69
+      spawnDelayMax: 2.48
+      extraHealth: 41
+      extraSpeed: 0.068
+      finalSpawnLeadSecondsOverride: -1
+    - enemyType: 5
+      spawnDelayMin: 24.21
+      spawnDelayMax: 34.86
+      extraHealth: 117
+      extraSpeed: 0.003
+      finalSpawnLeadSecondsOverride: -1
+    - enemyType: 3
+      spawnDelayMin: 9.42
+      spawnDelayMax: 13
+      extraHealth: 102
+      extraSpeed: 0.003
+      finalSpawnLeadSecondsOverride: -1
+    - enemyType: 4
+      spawnDelayMin: 12.6
+      spawnDelayMax: 17.77
+      extraHealth: 82
+      extraSpeed: 0
+      finalSpawnLeadSecondsOverride: -1
+  - enemies:
+    - enemyType: 0
+      spawnDelayMin: 0.98
+      spawnDelayMax: 1.38
+      extraHealth: 89
+      extraSpeed: 0
+      finalSpawnLeadSecondsOverride: 4
+    - enemyType: 2
+      spawnDelayMin: 1.24
+      spawnDelayMax: 1.82
+      extraHealth: 57
+      extraSpeed: 0.068
+      finalSpawnLeadSecondsOverride: 2
+    - enemyType: 1
+      spawnDelayMin: 6.35
+      spawnDelayMax: 9.14
+      extraHealth: 294
+      extraSpeed: 0.004
+      finalSpawnLeadSecondsOverride: 11
+    - enemyType: 3
+      spawnDelayMin: 5.44
+      spawnDelayMax: 7.51
+      extraHealth: 141
+      extraSpeed: 0.003
+      finalSpawnLeadSecondsOverride: 6
+    - enemyType: 4
+      spawnDelayMin: 7.73
+      spawnDelayMax: 10.9
+      extraHealth: 114
+      extraSpeed: 0
+      finalSpawnLeadSecondsOverride: 10
+    - enemyType: 5
+      spawnDelayMin: 14.85
+      spawnDelayMax: 21.38
+      extraHealth: 163
+      extraSpeed: 0.003
+      finalSpawnLeadSecondsOverride: 6
+  rewardEmeralds: 570
+  unlockedSideTowerSlotIndices: 000000000100000002000000
+  star1Seconds: 40
+  star2Seconds: 86
+  star3Seconds: 133
+  rewardMultiplierAtStart: 1.72
+  rewardMultiplierAtStar1: 1.88
+  rewardMultiplierAtStar2: 2.06
+  rewardMultiplierAtStar3: 2.29
+  rewardTimeGrowthLimit: 0.57
+  rewardTimeGrowthSeconds: 100
+  rewardRoundTo: 5
+

@@ -19,6 +19,7 @@ namespace Installers
         [SerializeField] private ShopCatalogConfig shopCatalogConfig;
         [SerializeField] private TowerExperienceConfig towerExperienceConfig;
         [SerializeField] private TowerBuffCatalogConfig towerBuffCatalogConfig;
+        [SerializeField] private TutorialScenarioConfig tutorialScenarioConfig;
 
         public override void InstallBindings()
         {
@@ -33,6 +34,7 @@ namespace Installers
             Container.BindInstance(shopCatalogConfig);
             Container.BindInstance(towerExperienceConfig);
             Container.BindInstance(towerBuffCatalogConfig);
+            Container.BindInstance(tutorialScenarioConfig);
         }
     }
 }

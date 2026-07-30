@@ -32,6 +32,20 @@ namespace UI.Views.Buffs
         // открыться заново. Счётчик позволяет отложенному закрытию понять, что оно устарело.
         private int _openGeneration;
 
+        public TowerBuffCardView GetCardFor(TowerBuffDefinition buff)
+        {
+            if (buff == null || cardViews == null)
+                return null;
+
+            foreach (var card in cardViews)
+            {
+                if (card != null && card.Buff == buff)
+                    return card;
+            }
+
+            return null;
+        }
+
         private void Awake()
         {
             gameObject.SetActive(false);
@@ -45,6 +59,7 @@ namespace UI.Views.Buffs
 
             _signalBus.Subscribe<TowerLevelUpSignal>(OnLevelUp);
             _signalBus.Subscribe<TowerBuffSelectedSignal>(OnBuffSelected);
+            _signalBus.Subscribe<GameWinSignal>(OnGameWin);
 
             // Если сцена стартовала с уже отложенным выбором (окно не успело подписаться до
             // BeginSelection), открываем его сразу, а не ждём следующего левел-апа.
@@ -60,6 +75,13 @@ namespace UI.Views.Buffs
         private void OnBuffSelected(TowerBuffSelectedSignal signal)
         {
             Close();
+        }
+
+        private void OnGameWin(GameWinSignal signal)
+        {
+            _openGeneration++;
+            animator?.CancelOutro();
+            gameObject.SetActive(false);
         }
 
         private void Open(int level, IReadOnlyList<TowerBuffDefinition> choices)
@@ -136,8 +158,9 @@ namespace UI.Views.Buffs
 
         private void OnDestroy()
         {
-            _signalBus.Unsubscribe<TowerLevelUpSignal>(OnLevelUp);
-            _signalBus.Unsubscribe<TowerBuffSelectedSignal>(OnBuffSelected);
+            _signalBus?.Unsubscribe<TowerLevelUpSignal>(OnLevelUp);
+            _signalBus?.Unsubscribe<TowerBuffSelectedSignal>(OnBuffSelected);
+            _signalBus?.Unsubscribe<GameWinSignal>(OnGameWin);
         }
     }
 }

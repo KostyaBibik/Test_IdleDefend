@@ -256,4 +256,10 @@ public struct PlayerSaveData
     public System.Collections.Generic.Dictionary<string, string> EquippedShopItemIds;
     public System.Collections.Generic.Dictionary<string, int> BoostItemCounts;
     public System.Collections.Generic.List<string> SelectedBoostItemIds;
+
+    // Version of the deterministic first-level tutorial completed by this player.
+    public int TutorialVersion;
+
+    // Set when Boot routes a genuinely new player directly into the first level.
+    public bool HasStartedFirstGame;
 }

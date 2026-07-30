@@ -144,5 +144,9 @@ namespace Db
         [Header("Модификаторы")]
         public int extraHealth;
         public float extraSpeed;
+
+        [Header("Финал уровня")]
+        [Tooltip("За сколько секунд до конца уровня прекратить этот поток в финальной секции. -1 = значение типа врага, 0 = спавнить до конца.")]
+        [Min(-1f)] public float finalSpawnLeadSecondsOverride = -1f;
     }
 }

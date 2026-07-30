@@ -5,6 +5,7 @@ using UI.Views.Game;
 using UI.Views.Upgradable;
 using UnityEngine;
 using Zenject;
+using UI.Views.Tutorial;
 
 namespace Installers
 {
@@ -17,6 +18,7 @@ namespace Installers
         [SerializeField] private TowerExperienceBarView towerExperienceBarView;
         [SerializeField] private TowerLevelUpPopupView towerLevelUpPopupView;
         [SerializeField] private TowerExperienceOrbSpawnerView towerExperienceOrbSpawnerView;
+        [SerializeField] private TutorialOverlayView tutorialOverlayView;
 
         public override void InstallBindings()
         {
@@ -64,6 +66,12 @@ namespace Installers
             Container
                 .BindInterfacesAndSelfTo<TowerExperienceOrbSpawnerView>()
                 .FromInstance(towerExperienceOrbSpawnerView)
+                .AsSingle()
+                .NonLazy();
+
+            Container
+                .BindInterfacesAndSelfTo<TutorialOverlayView>()
+                .FromInstance(tutorialOverlayView)
                 .AsSingle()
                 .NonLazy();
         }

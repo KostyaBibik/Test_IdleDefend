@@ -21,6 +21,10 @@ namespace Views.Impl
         [HideInInspector] public float speedMoving;
         [HideInInspector] public EEnemyType type;
         [HideInInspector] public EnemyDefinition definition;
+        [HideInInspector] public int experienceRewardOverride = -1;
+        [HideInInspector] public bool grantCoinReward = true;
+        [HideInInspector] public bool grantExperienceReward = true;
+        [HideInInspector] public float tutorialDamageTakenMultiplier = 1f;
 
         [HideInInspector] public float orbitAngleDeg = float.NaN;
         [HideInInspector] public float orbitRadius = -1f;

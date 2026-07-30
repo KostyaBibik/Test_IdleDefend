@@ -15,18 +15,24 @@ namespace Systems.Actions
         private readonly SignalBus _signalBus;
         private readonly LevelService _levelService;
         private readonly LevelsConfig _levelsConfig;
+        private readonly TowerExperienceService _experienceService;
+        private readonly TowerBuffSelectionService _buffSelectionService;
 
         private bool _finished;
 
         public WinActionSystem(
             SignalBus signalBus,
             LevelService levelService,
-            LevelsConfig levelsConfig
+            LevelsConfig levelsConfig,
+            TowerExperienceService experienceService,
+            TowerBuffSelectionService buffSelectionService
         )
         {
             _signalBus = signalBus;
             _levelService = levelService;
             _levelsConfig = levelsConfig;
+            _experienceService = experienceService;
+            _buffSelectionService = buffSelectionService;
         }
 
         private void OnLevelWavesFinished(LevelWavesFinishedSignal signal)
@@ -35,6 +41,8 @@ namespace Systems.Actions
                 return;
 
             _finished = true;
+            _buffSelectionService.CancelForLevelEnd();
+            _experienceService.FinishLevel();
 
             // Этот сигнал стреляет только когда все волны уже заспавнены и врагов не осталось —
             // то есть уровень зачищен полностью. Другого исхода у этого пути нет, поэтому 3 звезды безусловно.

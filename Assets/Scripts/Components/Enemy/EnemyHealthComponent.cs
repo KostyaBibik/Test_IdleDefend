@@ -17,9 +17,15 @@ namespace Components.Enemy
 
         public override int GetEffectiveDamage(int amount)
         {
-            return definition != null
+            var reducedDamage = definition != null
                 ? Mathf.RoundToInt(amount * (1f - definition.DamageReduction))
                 : amount;
+
+            var enemyView = _entityView as Views.Impl.EnemyView;
+            var tutorialMultiplier = enemyView != null
+                ? Mathf.Max(1f, enemyView.tutorialDamageTakenMultiplier)
+                : 1f;
+            return Mathf.Max(0, Mathf.RoundToInt(reducedDamage * tutorialMultiplier));
         }
 
         protected override void Die()

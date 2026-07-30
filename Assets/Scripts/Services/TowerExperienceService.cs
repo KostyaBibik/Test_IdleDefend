@@ -13,6 +13,7 @@ namespace Services
         private readonly SignalBus _signalBus;
         private readonly Queue<int> _queuedLevelUps = new();
         private bool _levelUpPending;
+        private bool _levelFinished;
         private float _drainCarry;
         private float _levelUpDelayTimer;
 
@@ -42,6 +43,7 @@ namespace Services
             PendingExperience = 0;
             _queuedLevelUps.Clear();
             _levelUpPending = false;
+            _levelFinished = false;
             _drainCarry = 0f;
             _levelUpDelayTimer = 0f;
 
@@ -63,6 +65,9 @@ namespace Services
         /// </summary>
         public void AddExperience(int amount, Vector3 worldPosition)
         {
+            if (_levelFinished)
+                return;
+
             if (amount <= 0)
                 return;
 
@@ -83,6 +88,9 @@ namespace Services
         /// </summary>
         private void OnOrbArrived(TowerExperienceOrbArrivedSignal signal)
         {
+            if (_levelFinished)
+                return;
+
             if (signal.amount <= 0)
                 return;
 
@@ -95,6 +103,9 @@ namespace Services
 
         public void Tick()
         {
+            if (_levelFinished)
+                return;
+
             if (_levelUpPending)
                 return;
 
@@ -107,11 +118,28 @@ namespace Services
 
         public void CompletePendingLevelUp()
         {
+            if (_levelFinished)
+                return;
+
             if (!_levelUpPending)
                 return;
 
             _levelUpPending = false;
             TryStartQueuedLevelUp(ignoreDelay: true);
+            RaiseChanged();
+        }
+
+        public void FinishLevel()
+        {
+            if (_levelFinished)
+                return;
+
+            _levelFinished = true;
+            PendingExperience = 0;
+            _queuedLevelUps.Clear();
+            _levelUpPending = false;
+            _drainCarry = 0f;
+            _levelUpDelayTimer = 0f;
             RaiseChanged();
         }
 

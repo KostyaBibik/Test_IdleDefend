@@ -2,6 +2,7 @@ using Db;
 using Services.Impl;
 using Signals;
 using Zenject;
+using Tutorial;
 
 namespace Services
 {
@@ -11,6 +12,7 @@ namespace Services
         private readonly EnemyService _enemyService;
         private readonly SignalBus _signalBus;
         private readonly IGameTimeProvider _gameTimeProvider;
+        private readonly TutorialRuntimeState _tutorialRuntime;
 
         private bool _allWavesSpawned;
         private bool _finished;
@@ -25,13 +27,15 @@ namespace Services
             LevelsConfig levelsConfig,
             EnemyService enemyService,
             SignalBus signalBus,
-            IGameTimeProvider gameTimeProvider
+            IGameTimeProvider gameTimeProvider,
+            TutorialRuntimeState tutorialRuntime
         )
         {
             _levelsConfig = levelsConfig;
             _enemyService = enemyService;
             _signalBus = signalBus;
             _gameTimeProvider = gameTimeProvider;
+            _tutorialRuntime = tutorialRuntime;
         }
 
         public void Initialize()
@@ -51,6 +55,9 @@ namespace Services
         public void Tick()
         {
             if (_finished)
+                return;
+
+            if (_tutorialRuntime.BlocksStandardGameplay)
                 return;
 
             _elapsed += _gameTimeProvider.DeltaTime;

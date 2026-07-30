@@ -34,11 +34,14 @@ namespace Infrastructure.Impl
             _sideTowerService = sideTowerService;
         }
         
-        public void CreateEnemy(
+        public EnemyView CreateEnemy(
             Vector3 posSpawn,
             EEnemyType type,
             int additiveHealth,
-            float additiveSpeed
+            float additiveSpeed,
+            int experienceRewardOverride = -1,
+            bool grantCoinReward = true,
+            bool grantExperienceReward = true
         )
         {
             var enemyDefinition = _enemyPrefabsConfig.GetPrefab(type);
@@ -59,8 +62,12 @@ namespace Infrastructure.Impl
             enemyView.type = type;
             enemyView.speedMoving = speed;
             enemyView.definition = enemyDefinition;
+            enemyView.experienceRewardOverride = experienceRewardOverride;
+            enemyView.grantCoinReward = grantCoinReward;
+            enemyView.grantExperienceReward = grantExperienceReward;
 
             _enemyService.AddEntityOnService(enemyView);
+            return enemyView;
         }
 
         public void CreateSideTower(Vector3 posSpawn, SideTowerDefinition definition)

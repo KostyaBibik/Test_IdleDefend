@@ -503,6 +503,58 @@ MonoBehaviour:
     m_Key: lose_continue
     m_Metadata:
       m_Items: []
+  - m_Id: 1353737602850816
+    m_Key: tutorial_damage_title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1353737632210944
+    m_Key: tutorial_damage_body
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1353737632210945
+    m_Key: tutorial_experience_title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1353737632210946
+    m_Key: tutorial_experience_body
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1353737632210947
+    m_Key: tutorial_tap_continue
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1353737632210948
+    m_Key: tutorial_legendary_title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1353737632210949
+    m_Key: tutorial_legendary_body
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1353737632210950
+    m_Key: tutorial_ultimate_title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1353737632210951
+    m_Key: tutorial_ultimate_body
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1353737632210952
+    m_Key: tutorial_side_tower_title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1353737632210953
+    m_Key: tutorial_side_tower_body
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1353737632210954
+    m_Key: tutorial_side_tower_choice_title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1353737632210955
+    m_Key: tutorial_side_tower_choice_body
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

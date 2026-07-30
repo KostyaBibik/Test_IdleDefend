@@ -14,8 +14,12 @@ namespace UI.Views
         [SerializeField] private TMP_Text nameLabel;
         [SerializeField] private TMP_Text costLabel;
 
+        public SideTowerDefinition Definition { get; private set; }
+        public Button Button => button;
+
         public void Setup(SideTowerDefinition definition, Action onClick)
         {
+            Definition = definition;
             if (icon != null)
                 icon.sprite = definition.Icon;
 

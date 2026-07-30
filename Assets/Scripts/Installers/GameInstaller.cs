@@ -18,6 +18,7 @@ using Signals;
 using UnityEngine;
 using Views.Impl;
 using Zenject;
+using Tutorial;
 
 namespace Installers
 {
@@ -31,6 +32,8 @@ namespace Installers
         public override void InstallBindings()
         {
             InitializeSignals();
+
+            Container.Bind<TutorialRuntimeState>().AsSingle().NonLazy();
             
             Container.Bind<Camera>().FromInstance(mainCamera).AsSingle();
 
@@ -80,6 +83,10 @@ namespace Installers
             Container.DeclareSignal<TowerExperienceChangedSignal>();
             Container.DeclareSignal<TowerExperienceDroppedSignal>();
             Container.DeclareSignal<TowerExperienceOrbArrivedSignal>();
+            Container.DeclareSignal<TutorialPhaseChangedSignal>();
+            Container.DeclareSignal<TowerUpgradePurchasedSignal>();
+            Container.DeclareSignal<SideTowerPurchasedSignal>();
+            Container.DeclareSignal<SideTowerPickerOpenedSignal>();
         }
         
         private void InstallGameSystems()
@@ -95,6 +102,7 @@ namespace Installers
             Container.BindInterfacesAndSelfTo<ShakeCamOnDamageSystem>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<SurvivalTimeSystem>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<TowerLevelUpSystem>().AsSingle().NonLazy();
+            Container.BindInterfacesAndSelfTo<TutorialDirector>().AsSingle().NonLazy();
         }
 
         private void BindAndCreateTowerView()

@@ -73,26 +73,31 @@ MonoBehaviour:
       spawnDelayMax: 1.45
       extraHealth: 25
       extraSpeed: 0
+      finalSpawnLeadSecondsOverride: 4
     - enemyType: 2
       spawnDelayMin: 1.65
       spawnDelayMax: 2.37
       extraHealth: 16
       extraSpeed: 0.02
+      finalSpawnLeadSecondsOverride: 2
     - enemyType: 1
       spawnDelayMin: 13.43
       spawnDelayMax: 19.33
       extraHealth: 94
       extraSpeed: 0
+      finalSpawnLeadSecondsOverride: 11
     - enemyType: 3
       spawnDelayMin: 6.72
       spawnDelayMax: 9.66
       extraHealth: 42
       extraSpeed: 0
+      finalSpawnLeadSecondsOverride: 6
     - enemyType: 4
       spawnDelayMin: 9.59
       spawnDelayMax: 13.81
       extraHealth: 36
       extraSpeed: 0
+      finalSpawnLeadSecondsOverride: 10
   rewardEmeralds: 140
   unlockedSideTowerSlotIndices: 000000000100000002000000
   star1Seconds: 33

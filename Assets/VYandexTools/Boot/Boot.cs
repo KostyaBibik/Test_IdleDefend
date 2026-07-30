@@ -170,7 +170,26 @@ namespace DefaultNamespace.Yandex
         }
 
 
-        private void LoadScene() => SceneManager.LoadScene(sceneBuildIndex: 1);
+        private void LoadScene()
+        {
+            SaveSystem.EnsureRuntimeCollections();
+            ref var saveData = ref SaveSystem.SaveData;
+            var isFirstGame = !saveData.HasStartedFirstGame
+                              && saveData.TutorialVersion <= 0
+                              && saveData.UnlockedLevelIndex <= 0
+                              && saveData.LevelStars.Count == 0;
+
+            if (!isFirstGame)
+            {
+                SceneManager.LoadScene(sceneBuildIndex: 1);
+                return;
+            }
+
+            saveData.HasStartedFirstGame = true;
+            SaveSystem.Instance.SaveToStorage();
+            SelectedLevelHolder.SelectedLevelIndex = 0;
+            SceneManager.LoadScene("GameScene");
+        }
 
 
         internal enum PurchaseIndexes

@@ -24,7 +24,7 @@ namespace UI.Views.Panels
         [SerializeField] private int maxColumns = 3;
         [SerializeField] private Vector2 panelPadding = new(40f, 40f);
 
-        private readonly List<GameObject> _spawnedOptions = new();
+        private readonly List<SideTowerOptionButtonView> _spawnedOptions = new();
         private Action<SideTowerDefinition> _onPicked;
 
         private void Awake()
@@ -43,7 +43,7 @@ namespace UI.Views.Panels
             {
                 var option = Instantiate(optionButtonPrefab, optionsContainer);
                 option.Setup(definition, () => _onPicked?.Invoke(definition));
-                _spawnedOptions.Add(option.gameObject);
+                _spawnedOptions.Add(option);
             }
 
             ResizeForOptionCount(definitions.Count);
@@ -78,6 +78,17 @@ namespace UI.Views.Panels
             ClearOptions();
         }
 
+        public SideTowerOptionButtonView GetOptionFor(SideTowerDefinition definition)
+        {
+            foreach (var option in _spawnedOptions)
+            {
+                if (option != null && option.Definition == definition)
+                    return option;
+            }
+
+            return null;
+        }
+
         private void PositionAt(Vector3 worldPosition, Camera worldCamera)
         {
             var screenPoint = worldCamera.WorldToScreenPoint(worldPosition);
@@ -107,8 +118,11 @@ namespace UI.Views.Panels
 
         private void ClearOptions()
         {
-            foreach (var go in _spawnedOptions)
-                Destroy(go);
+            foreach (var option in _spawnedOptions)
+            {
+                if (option != null)
+                    Destroy(option.gameObject);
+            }
 
             _spawnedOptions.Clear();
         }

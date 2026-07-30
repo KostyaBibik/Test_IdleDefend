@@ -79,10 +79,16 @@ namespace Services.Impl
                     view.transform.position, Quaternion.identity);
                 if (signal.hashReward)
                 {
-                    _coinService.AddCoins(rewardCount);
-                    _towerExperienceService.AddExperience(
-                        _towerExperienceConfig.GetEnemyExperience(enemyDefinition),
-                        view.transform.position);
+                    if (view.grantCoinReward)
+                        _coinService.AddCoins(rewardCount);
+
+                    if (view.grantExperienceReward)
+                    {
+                        var experience = view.experienceRewardOverride > 0
+                            ? view.experienceRewardOverride
+                            : _towerExperienceConfig.GetEnemyExperience(enemyDefinition);
+                        _towerExperienceService.AddExperience(experience, view.transform.position);
+                    }
 
                     // Всплывающая монета больше не показывается - над врагами теперь живут числа
                     // урона (ShowDamageNumbersSystem). Начисление наград и опыта выше не изменилось.

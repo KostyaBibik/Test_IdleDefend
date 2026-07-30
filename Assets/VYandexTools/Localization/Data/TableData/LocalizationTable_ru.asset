@@ -506,6 +506,58 @@ MonoBehaviour:
     m_Localized: Продолжить
     m_Metadata:
       m_Items: []
+  - m_Id: 1353737602850816
+    m_Localized: Улучшите урон
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1353737632210944
+    m_Localized: Потратьте монеты, чтобы усилить каждый выстрел.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1353737632210945
+    m_Localized: Опыт
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1353737632210946
+    m_Localized: Побеждённые враги оставляют опыт для башни.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1353737632210947
+    m_Localized: Нажмите, чтобы продолжить
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1353737632210948
+    m_Localized: Легендарное усиление
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1353737632210949
+    m_Localized: Мультивыстрел повторяет каждый залп. Заберите подарок!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1353737632210950
+    m_Localized: Ультимейт
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1353737632210951
+    m_Localized: Используйте ультимейт, чтобы уничтожить всю волну.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1353737632210952
+    m_Localized: Дополнительная башня
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1353737632210953
+    m_Localized: Постройте дополнительную башню перед новой атакой.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1353737632210954
+    m_Localized: Башня со снарядами
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1353737632210955
+    m_Localized: Выберите надёжную дополнительную башню.
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

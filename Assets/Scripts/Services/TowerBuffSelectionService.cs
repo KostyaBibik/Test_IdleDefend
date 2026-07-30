@@ -14,6 +14,7 @@ namespace Services
         private readonly IGameTimeProvider _gameTimeProvider;
         private readonly SignalBus _signalBus;
         private IReadOnlyList<TowerBuffDefinition> _pendingChoices = new List<TowerBuffDefinition>();
+        private bool _levelFinished;
 
         public TowerBuffSelectionService(
             TowerBuffRuntimeService runtime,
@@ -46,7 +47,7 @@ namespace Services
 
         public void BeginSelection(int level, IReadOnlyList<TowerBuffDefinition> choices)
         {
-            if (HasPendingSelection)
+            if (_levelFinished || HasPendingSelection)
                 return;
 
             PendingLevel = level;
@@ -84,7 +85,7 @@ namespace Services
 
         public bool SelectBuff(TowerBuffDefinition buff)
         {
-            if (!HasPendingSelection || buff == null || !_pendingChoices.Contains(buff))
+            if (_levelFinished || !HasPendingSelection || buff == null || !_pendingChoices.Contains(buff))
                 return false;
 
             var selectedLevel = PendingLevel;
@@ -105,6 +106,14 @@ namespace Services
                 _gameTimeProvider.Resume();
 
             return true;
+        }
+
+        public void CancelForLevelEnd()
+        {
+            _levelFinished = true;
+            HasPendingSelection = false;
+            PendingLevel = 0;
+            _pendingChoices = new List<TowerBuffDefinition>();
         }
 
         private void ApplySelectedBuff(TowerBuffDefinition buff)

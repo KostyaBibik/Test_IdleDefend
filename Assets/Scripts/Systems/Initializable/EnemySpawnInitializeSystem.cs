@@ -8,6 +8,7 @@ using Systems.RunTime.Camera;
 using UnityEngine;
 using Zenject;
 using Random = UnityEngine.Random;
+using Tutorial;
 
 namespace Systems.Initializable
 {
@@ -18,6 +19,8 @@ namespace Systems.Initializable
         private readonly SceneHandler _sceneHandler;
         private readonly CameraZoomSystem _cameraZoomSystem;
         private readonly IGameTimeProvider _gameTimeProvider;
+        private readonly TutorialRuntimeState _tutorialRuntime;
+        private readonly EnemyPrefabsConfig _enemyPrefabsConfig;
 
         private readonly List<SpawnEntryState> _entryStates = new();
         private int _activeSectionIndex = int.MinValue;
@@ -29,7 +32,9 @@ namespace Systems.Initializable
             LevelService levelService,
             SceneHandler sceneHandler,
             CameraZoomSystem cameraZoomSystem,
-            IGameTimeProvider gameTimeProvider
+            IGameTimeProvider gameTimeProvider,
+            TutorialRuntimeState tutorialRuntime,
+            EnemyPrefabsConfig enemyPrefabsConfig
         )
         {
             _entityFactory = entityFactory;
@@ -37,6 +42,8 @@ namespace Systems.Initializable
             _sceneHandler = sceneHandler;
             _cameraZoomSystem = cameraZoomSystem;
             _gameTimeProvider = gameTimeProvider;
+            _tutorialRuntime = tutorialRuntime;
+            _enemyPrefabsConfig = enemyPrefabsConfig;
         }
 
         public void Initialize()
@@ -50,6 +57,9 @@ namespace Systems.Initializable
         public void Tick()
         {
             if (_spawnFinishedNotified)
+                return;
+
+            if (_tutorialRuntime.BlocksStandardGameplay)
                 return;
 
             if (_levelService.CurrentLevel == null)
@@ -72,6 +82,17 @@ namespace Systems.Initializable
             for (var i = 0; i < _entryStates.Count; i++)
             {
                 var state = _entryStates[i];
+
+                if (state.isStopped)
+                    continue;
+
+                if (ShouldStopForLevelEnd(state.entry))
+                {
+                    state.isStopped = true;
+                    _entryStates[i] = state;
+                    continue;
+                }
+
                 state.remainingDelay -= deltaTime;
 
                 if (state.remainingDelay <= 0f)
@@ -136,6 +157,20 @@ namespace Systems.Initializable
             return Random.Range(min, max);
         }
 
+        private bool ShouldStopForLevelEnd(EnemySpawnEntryDefinition entry)
+        {
+            var level = _levelService.CurrentLevel;
+            if (level == null || _activeSectionIndex != level.SpawnSections.Count - 1)
+                return false;
+
+            var leadSeconds = entry.finalSpawnLeadSecondsOverride >= 0f
+                ? entry.finalSpawnLeadSecondsOverride
+                : _enemyPrefabsConfig.GetPrefab(entry.enemyType).FinalSpawnLeadSeconds;
+
+            var remainingSeconds = level.Star3Seconds - _elapsedSeconds;
+            return remainingSeconds <= Mathf.Max(0f, leadSeconds);
+        }
+
         private void NotifySpawnFinished()
         {
             _spawnFinishedNotified = true;
@@ -152,11 +187,13 @@ namespace Systems.Initializable
         {
             public readonly EnemySpawnEntryDefinition entry;
             public float remainingDelay;
+            public bool isStopped;
 
             public SpawnEntryState(EnemySpawnEntryDefinition entry, float remainingDelay)
             {
                 this.entry = entry;
                 this.remainingDelay = remainingDelay;
+                isStopped = false;
             }
         }
     }
