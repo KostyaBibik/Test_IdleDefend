@@ -18,45 +18,101 @@ namespace DefaultNamespace.Yandex
     public class Boot : MonoBehaviour
     {
         private const string DefaultLocaleCode = "en";
+        private const float GameAnalyticsInitializationTimeoutSeconds = 5f;
+        private const float CloudInitializationTimeoutSeconds = 5f;
+        private const float BillingInitializationTimeoutSeconds = 8f;
+        private const float PurchasedProductsTimeoutSeconds = 5f;
         [SerializeField] private ShopCatalogConfig shopCatalogConfig;
 
 #if UNITY_EDITOR
         [SerializeField] private string locale = "ru";
 
 #endif
-        private bool _billingSuccses;
+        private bool _purchasedProductsRequestFinished;
 
         private IEnumerator Start()
         {
             yield return YandexGamesSdk.Initialize();
-            yield return Cloud.Initialize();
+            yield return InitializeCloud();
             Advertisement.Initialize();
             WebApplication.Initialize(OnStopGame);
-            GameAnalytics.Initialize();
-#if !UNITY_EDITOR
-            yield return new WaitUntil(() => GameAnalytics.Initialized);
-            yield return new WaitUntil(GameAnalytics.IsRemoteConfigsReady);
-#endif
-            yield return Billing.Initialize();
-            yield return Consume();
+            yield return InitializeGameAnalytics();
+            yield return InitializeBilling();
+
+            if (Billing.Initialized)
+                yield return Consume();
 
             SaveSystem.Instance.Init();
             yield return LocalizationSettings.InitializationOperation;
             SetLanguage();
-            Advertisement.ShowInterstitialAd();
             LoadScene();
+        }
+
+        private IEnumerator InitializeCloud()
+        {
+            Coroutine initialization = StartCoroutine(Cloud.Initialize());
+            float deadline = Time.realtimeSinceStartup + CloudInitializationTimeoutSeconds;
+
+            while (!Cloud.Initialized && Time.realtimeSinceStartup < deadline)
+                yield return null;
+
+            if (Cloud.Initialized)
+                yield break;
+
+            StopCoroutine(initialization);
+            Debug.LogWarning("Cloud save is unavailable. Continuing with local storage.");
+        }
+
+        private IEnumerator InitializeBilling()
+        {
+            Coroutine initialization = StartCoroutine(Billing.Initialize());
+            float deadline = Time.realtimeSinceStartup + BillingInitializationTimeoutSeconds;
+
+            while (!Billing.Initialized && Time.realtimeSinceStartup < deadline)
+                yield return null;
+
+            if (Billing.Initialized)
+                yield break;
+
+            StopCoroutine(initialization);
+            Debug.LogWarning("Billing is unavailable. Continuing with purchases disabled.");
+        }
+
+        private static IEnumerator InitializeGameAnalytics()
+        {
+            GameAnalytics.Initialize();
+
+#if !UNITY_EDITOR
+            float deadline = Time.realtimeSinceStartup + GameAnalyticsInitializationTimeoutSeconds;
+            while (!GameAnalytics.IsRemoteConfigsReady() && Time.realtimeSinceStartup < deadline)
+                yield return null;
+
+            if (!GameAnalytics.IsRemoteConfigsReady())
+                Debug.LogWarning("GameAnalytics remote config is unavailable. Continuing with local defaults.");
+#endif
+            yield break;
         }
 
         private IEnumerator Consume()
         {
-            Billing.GetPurchasedProducts(UpdateProductCatalog);
-            yield return new WaitUntil(() => _billingSuccses);
+            _purchasedProductsRequestFinished = false;
+            Billing.GetPurchasedProducts(UpdateProductCatalog, OnPurchasedProductsError);
+
+            float deadline = Time.realtimeSinceStartup + PurchasedProductsTimeoutSeconds;
+            while (!_purchasedProductsRequestFinished && Time.realtimeSinceStartup < deadline)
+                yield return null;
+
+            if (!_purchasedProductsRequestFinished)
+                Debug.LogWarning("Pending purchases request timed out. The game will continue without blocking startup.");
         }
 
         private void UpdateProductCatalog(GetPurchasedProductsResponse response)
         {
-            _billingSuccses = true;
-            PurchasedProduct[] purchaseProducts = response.purchasedProducts;
+            _purchasedProductsRequestFinished = true;
+            PurchasedProduct[] purchaseProducts = response?.purchasedProducts;
+
+            if (purchaseProducts == null)
+                return;
 
             var countProducts = purchaseProducts.Length;
             for (var i = 0; i < countProducts; i++)
@@ -72,6 +128,12 @@ namespace DefaultNamespace.Yandex
                 if (YandexIapService.TryGrantPendingProduct(product.productID, shopCatalogConfig))
                     Billing.ConsumeProduct(product.purchaseToken);
             }
+        }
+
+        private void OnPurchasedProductsError(string error)
+        {
+            _purchasedProductsRequestFinished = true;
+            Debug.LogWarning($"Pending purchases are unavailable: {error}");
         }
 
         private void SetLanguage()

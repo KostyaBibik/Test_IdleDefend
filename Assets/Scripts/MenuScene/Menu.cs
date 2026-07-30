@@ -1,3 +1,5 @@
+using System.Collections;
+using DefaultNamespace.Yandex;
 using Db;
 using Enums;
 using Game.Localization;
@@ -30,13 +32,17 @@ namespace MenuScene
         [SerializeField] private Button stageButton;
         [SerializeField] private Button stageBackButton;
 
-        private void Start()
+        private IEnumerator Start()
         {
             InitializeNavigationButtons();
             RefreshStaticLabels();
             levelPathBuilder.Build(levelsConfig, OpenBoostSelect);
             InitializeExitBtn();
             HideWindows();
+
+            yield return new WaitForEndOfFrame();
+            GameReady.Notify();
+            global::Yandex.Advertisement.ShowInterstitial(placement: "startup");
         }
 
         private void RefreshStaticLabels()

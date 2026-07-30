@@ -45,6 +45,12 @@ namespace Services
                 return false;
             }
 
+            if (!Billing.Initialized)
+            {
+                onComplete?.Invoke(ShopPurchaseResult.Failed("Purchases are temporarily unavailable."));
+                return false;
+            }
+
 #if UNITY_EDITOR
             Debug.Log($"[YandexIapService] Editor purchase simulation: {item.IapProductId}");
             ShopInventoryService.GrantIapItem(item);
@@ -56,7 +62,7 @@ namespace Services
                 ShopInventoryService.GrantIapItem(item);
                 Billing.ConsumeProduct(response.purchaseData.purchaseToken);
                 onComplete?.Invoke(ShopPurchaseResult.Ok());
-            });
+            }, error => onComplete?.Invoke(ShopPurchaseResult.Failed(error)));
 
             return true;
 #endif

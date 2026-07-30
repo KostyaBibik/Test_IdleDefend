@@ -249,6 +249,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8064d22b5083c0241b380bbf7f039e82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DefaultNamespace.Yandex.Boot
+  shopCatalogConfig: {fileID: 11400000, guid: e9508a87a7acd644b831ccd647a8012c, type: 2}
   locale: ru
 --- !u!4 &567321179
 Transform:

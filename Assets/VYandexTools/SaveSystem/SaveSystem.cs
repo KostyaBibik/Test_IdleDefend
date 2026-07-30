@@ -4,6 +4,10 @@ using Newtonsoft.Json;
 
 public class SaveSystem : Singleton<SaveSystem>
 {
+    private const string CloudSaveKey = "SaveData";
+    private const string LocalSaveKey = "IdleDefend.LocalSaveData";
+    private const int SavingPeriod = 4;
+
     private static bool IsDataLoaded { get; set; }
 
     private static PlayerSaveData cachedSaveData;
@@ -19,9 +23,8 @@ public class SaveSystem : Singleton<SaveSystem>
         }
     }
 
-    private static string lastSavedJson;
-
-    private const int SavingPeriod = 4;
+    private static string lastSavedLocalJson;
+    private static string lastSavedCloudJson;
 
     public static int GetUnlockedLevelIndex()
     {
@@ -63,18 +66,21 @@ public class SaveSystem : Singleton<SaveSystem>
     
     private static PlayerSaveData LoadPlayerData()
     {
-        string json = Cloud.GetValue("SaveData", "");
+        string json = LoadJson();
 
         PlayerSaveData saveData;
 
-        if (!string.IsNullOrEmpty(json) && !string.IsNullOrWhiteSpace(json))
-            saveData = JsonConvert.DeserializeObject<PlayerSaveData>(json);
-        else
-            saveData = new PlayerSaveData
-            {
-                NoAds = false,
-                BestSurvivalTime = 0f,
-            };
+        try
+        {
+            saveData = !string.IsNullOrWhiteSpace(json)
+                ? JsonConvert.DeserializeObject<PlayerSaveData>(json)
+                : CreateDefaultSave();
+        }
+        catch (Exception exception)
+        {
+            UnityEngine.Debug.LogWarning($"[SaveSystem] Save data is invalid. Starting with defaults: {exception.Message}");
+            saveData = CreateDefaultSave();
+        }
 
         // It is very imporant to add null-checks for any collections you add in future updates
         // Since NewtonsoftJson is creating nulls when reading jsons with no info about collections
@@ -82,6 +88,40 @@ public class SaveSystem : Singleton<SaveSystem>
 
         IsDataLoaded = true;
         return saveData;
+    }
+
+    private static string LoadJson()
+    {
+        string localJson = UnityEngine.PlayerPrefs.GetString(LocalSaveKey, string.Empty);
+        lastSavedLocalJson = localJson;
+
+        if (!Cloud.Initialized)
+            return localJson;
+
+        try
+        {
+            string cloudJson = Cloud.GetValue(CloudSaveKey, string.Empty);
+            if (!string.IsNullOrWhiteSpace(cloudJson))
+            {
+                lastSavedCloudJson = cloudJson;
+                return cloudJson;
+            }
+        }
+        catch (Exception exception)
+        {
+            UnityEngine.Debug.LogWarning($"[SaveSystem] Cloud load failed. Using local data: {exception.Message}");
+        }
+
+        return localJson;
+    }
+
+    private static PlayerSaveData CreateDefaultSave()
+    {
+        return new PlayerSaveData
+        {
+            NoAds = false,
+            BestSurvivalTime = 0f,
+        };
     }
 
     public static void EnsureRuntimeCollections()
@@ -118,7 +158,14 @@ public class SaveSystem : Singleton<SaveSystem>
     {
         string json = JsonConvert.SerializeObject(cachedSaveData);
 
-        if (json == lastSavedJson)
+        if (json != lastSavedLocalJson)
+        {
+            UnityEngine.PlayerPrefs.SetString(LocalSaveKey, json);
+            UnityEngine.PlayerPrefs.Save();
+            lastSavedLocalJson = json;
+        }
+
+        if (!Cloud.Initialized || json == lastSavedCloudJson)
             return;
 
         // В редакторе Cloud пишет обычный файл (EditorCloud/Save.txt), и запись изредка падает
@@ -127,9 +174,11 @@ public class SaveSystem : Singleton<SaveSystem>
         // периодическое сохранение (раз в SavingPeriod секунд) просто повторит запись.
         try
         {
-            Cloud.SetValue("SaveData", json, true, () => lastSavedJson = json);
+            Cloud.SetValue(CloudSaveKey, json, true,
+                () => lastSavedCloudJson = json,
+                error => UnityEngine.Debug.LogWarning($"[SaveSystem] Cloud save failed, retry in {SavingPeriod}s: {error}"));
         }
-        catch (System.IO.IOException exception)
+        catch (Exception exception)
         {
             UnityEngine.Debug.LogWarning($"[SaveSystem] Сохранение не удалось, повтор через {SavingPeriod} c: {exception.Message}");
         }

@@ -6,7 +6,7 @@
   "canvasHeight": 16,
   "lockAspectRatioPC": true,
   "uiTextType": "TMP",
-  "hasPayments": false,
+  "hasPayments": true,
   "saveFields": ["Money", "NoAds", "ProgressInitialized", "BestSurvivalTime"],
   "gamePush": {
     "projectId": "",

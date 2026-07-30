@@ -15,7 +15,6 @@ public static class YandexPortSceneSetup
     private const string SceneIndexShiftMarker = "ProjectSettings/YandexPortSceneSetup.scene-index-shifted";
     private const string LegacyNoAdsPrefab = "Assets/VYandexTools/Advertisements/NoAds/NoAdsButton/Prefabs/NoAdButtonLegacyText.prefab";
     private const string TmpNoAdsPrefab = "Assets/VYandexTools/Advertisements/NoAds/NoAdsButton/Prefabs/NoAdButton .prefab";
-    private const string GameReadyPrefab = "Assets/VYandexTools/Boot/GameReady.prefab";
     private const string FirstClickCheckerPrefab = "Assets/VYandexTools/Analytics/FirstClickChecker.prefab";
     private static readonly string[] OldSdkTokens =
     {
@@ -31,7 +30,6 @@ public static class YandexPortSceneSetup
         EnsureBootScene();
         RemoveOldSdkObjectsFromBuildScenes();
         AddRequiredPrefabsToFirstGameplayScene();
-        AddNoAdsButtonToFirstGameplayScene();
         AssetDatabase.SaveAssets();
         Debug.Log("[YandexPortSceneSetup] Done");
     }
@@ -190,7 +188,6 @@ public static class YandexPortSceneSetup
 
         var scene = EditorSceneManager.OpenScene(gameplayScene, OpenSceneMode.Single);
         var changed = false;
-        changed |= AddPrefabIfMissing(scene, GameReadyPrefab, "GameReady");
         changed |= AddPrefabIfMissing(scene, FirstClickCheckerPrefab, "FirstClickChecker");
 
         if (!changed) return;
