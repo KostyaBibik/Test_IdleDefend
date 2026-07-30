@@ -29,10 +29,16 @@ namespace UI.Views.Shop
         [Tooltip("Попап покупки буста-расходника пачкой: открывается вместо живой витрины " +
                  "для вкладки Boosts.")]
         [SerializeField] private BoostPurchasePopupView boostPurchasePopup;
+        [Tooltip("Необязателен: без него окно открывается мгновенно, как раньше.")]
+        [SerializeField] private ShopWindowAnimator animator;
 
         private EShopTab _currentTab;
         private ShopItemDefinition _selectedItem;
         private readonly List<ShopItemButtonView> _visibleItemViews = new();
+
+        // Вкладка перерисовывается и при смене баланса — выкладку карточек играем только когда
+        // набор товаров действительно поменялся, иначе сетка дёргалась бы после каждой покупки.
+        private bool _itemsLayoutDirty = true;
 
         private void Awake()
         {
@@ -50,6 +56,10 @@ namespace UI.Views.Shop
             BoostInventoryService.OnChanged += RefreshCurrentTab;
             LocalizationSettings.SelectedLocaleChanged += OnSelectedLocaleChanged;
             RefreshStaticLabels();
+            _itemsLayoutDirty = true;
+            // Строго до ShowTab: вступление глушит прошлые корутины аниматора, а выкладку карточек
+            // запускает уже ShowTab.
+            animator?.PlayOpen();
             ShowTab(_currentTab);
         }
 
@@ -65,6 +75,8 @@ namespace UI.Views.Shop
         {
             gameObject.SetActive(true);
             RefreshStaticLabels();
+            _itemsLayoutDirty = true;
+            animator?.PlayOpen();
             ShowTab(_currentTab);
         }
 
@@ -99,6 +111,12 @@ namespace UI.Views.Shop
 
             if (boostPurchasePopup != null && tab != _currentTab)
                 boostPurchasePopup.Close();
+
+            if (tab != _currentTab)
+            {
+                _itemsLayoutDirty = true;
+                PunchTab(tab);
+            }
 
             _currentTab = tab;
             ShopInventoryService.EnsureDefaultEquipped(catalog, tab);
@@ -159,6 +177,12 @@ namespace UI.Views.Shop
             }
 
             SelectItem(items.Count > 0 ? items[0] : null);
+
+            if (_itemsLayoutDirty)
+            {
+                _itemsLayoutDirty = false;
+                animator?.PlayItems(_visibleItemViews);
+            }
         }
 
         /// <summary>
@@ -216,12 +240,50 @@ namespace UI.Views.Shop
                 ShopInventoryService.TryEquip(item);
 
             RefreshItemViews();
+
+            if (result.Success)
+                PunchCardOf(item);
         }
 
         private void EquipItem(ShopItemDefinition item)
         {
             ShopInventoryService.TryEquip(item);
             RefreshItemViews();
+            PunchCardOf(item);
+        }
+
+        private void PunchTab(EShopTab tab)
+        {
+            if (animator == null || tabButtons == null)
+                return;
+
+            foreach (var tabButton in tabButtons)
+            {
+                if (tabButton != null && tabButton.Tab == tab)
+                {
+                    animator.PunchTab(tabButton);
+                    return;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Отклик на карточке купленного или надетого товара. Покупка может прийти и из попапа
+        /// витрины, поэтому карточку ищем по товару, а не получаем от нажатой кнопки.
+        /// </summary>
+        private void PunchCardOf(ShopItemDefinition item)
+        {
+            if (animator == null || item == null)
+                return;
+
+            foreach (var itemView in _visibleItemViews)
+            {
+                if (itemView != null && itemView.Item == item)
+                {
+                    animator.PunchCard(itemView);
+                    return;
+                }
+            }
         }
 
         private void RefreshItemViews()

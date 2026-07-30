@@ -41,6 +41,9 @@ namespace UI.Views.Shop
 
         private static readonly Dictionary<string, Texture2D> PriceCurrencyIconCache = new();
 
+        /// <summary>Товар в карточке. Нужен окну, чтобы найти карточку купленного товара.</summary>
+        public ShopItemDefinition Item => _item;
+
         public void Setup(
             ShopItemDefinition item,
             Action<ShopItemDefinition> onSelected,

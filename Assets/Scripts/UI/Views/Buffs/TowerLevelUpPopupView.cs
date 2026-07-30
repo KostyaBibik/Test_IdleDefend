@@ -22,8 +22,15 @@ namespace UI.Views.Buffs
         [SerializeField] private TMP_Text levelText;
         [SerializeField] private TowerBuffCardView[] cardViews;
 
+        [Tooltip("Необязателен: без него окно открывается и закрывается мгновенно, как раньше.")]
+        [SerializeField] private TowerLevelUpPopupAnimator animator;
+
         private SignalBus _signalBus;
         private TowerLevelUpUiService _uiService;
+
+        // Уровней может прийти несколько подряд: пока играется финал закрытия, окно уже может
+        // открыться заново. Счётчик позволяет отложенному закрытию понять, что оно устарело.
+        private int _openGeneration;
 
         private void Awake()
         {
@@ -59,6 +66,10 @@ namespace UI.Views.Buffs
         {
             RefreshStaticLabels();
 
+            _openGeneration++;
+            // Прошлый финал закрытия мог не успеть доиграть — он не должен трогать новое окно.
+            animator?.CancelOutro();
+
             if (levelText != null)
                 levelText.text = GameLocalization.Format(LocalizationKey.tower_level_format, "Lv.{0}", level);
 
@@ -69,12 +80,21 @@ namespace UI.Views.Buffs
                     continue;
 
                 if (choices != null && i < choices.Count && choices[i] != null)
-                    card.Setup(choices[i], OnCardSelected);
+                {
+                    var cardIndex = i;
+                    card.Setup(choices[i], buff => OnCardSelected(buff, cardIndex));
+                }
                 else
+                {
                     card.Hide();
+                }
             }
 
             gameObject.SetActive(true);
+
+            // Явно, а не через OnEnable: при втором левел-апе подряд окно уже активно,
+            // и OnEnable не пришёл бы.
+            animator?.PlayIntro();
         }
 
         private void RefreshStaticLabels()
@@ -91,11 +111,26 @@ namespace UI.Views.Buffs
 
         private void Close()
         {
-            gameObject.SetActive(false);
+            if (animator == null || !gameObject.activeSelf)
+            {
+                gameObject.SetActive(false);
+                return;
+            }
+
+            // Финал короткий, но за это время может прийти следующий левел-ап и открыть окно
+            // заново — тогда гасить его нельзя, иначе игрок останется без выбора.
+            var generation = _openGeneration;
+            animator.PlayOutro(() =>
+            {
+                if (generation == _openGeneration)
+                    gameObject.SetActive(false);
+            });
         }
 
-        private void OnCardSelected(TowerBuffDefinition buff)
+        private void OnCardSelected(TowerBuffDefinition buff, int cardIndex)
         {
+            // Запоминаем выбор до применения: SelectBuffById синхронно приводит к Close().
+            animator?.NoteChosen(cardIndex);
             _uiService.SelectBuffById(buff.Id);
         }
 
