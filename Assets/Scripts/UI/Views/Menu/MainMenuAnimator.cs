@@ -24,7 +24,6 @@ namespace UI.Views.Menu
         [SerializeField] private RectTransform primaryButton;
         [SerializeField] private RectTransform secondaryButton;
         [SerializeField] private RectTransform currencyPill;
-        [SerializeField] private RectTransform recordLabel;
 
         [Header("Тайминги")]
         [SerializeField, Min(0f)] private float titleDrop = 0.5f;
@@ -40,7 +39,7 @@ namespace UI.Views.Menu
         [SerializeField] private float titleBobPixels = 8f;
         [SerializeField] private float primaryPulse = 0.03f;
 
-        private Vector2 _titleHome, _progressHome, _primaryHome, _secondaryHome, _pillHome, _recordHome;
+        private Vector2 _titleHome, _progressHome, _primaryHome, _secondaryHome, _pillHome;
         private bool _homeCaptured;
         private readonly List<Coroutine> _running = new();
 
@@ -61,7 +60,6 @@ namespace UI.Views.Menu
             if (primaryButton != null) _primaryHome = primaryButton.anchoredPosition;
             if (secondaryButton != null) _secondaryHome = secondaryButton.anchoredPosition;
             if (currencyPill != null) _pillHome = currencyPill.anchoredPosition;
-            if (recordLabel != null) _recordHome = recordLabel.anchoredPosition;
 
             _homeCaptured = true;
         }
@@ -110,7 +108,6 @@ namespace UI.Views.Menu
             Place(primaryButton, _primaryHome, 1f);
             Place(secondaryButton, _secondaryHome, 1f);
             Place(currencyPill, _pillHome, 1f);
-            Place(recordLabel, _recordHome, 1f);
 
             if (title != null) title.localScale = Vector3.one;
             if (primaryButton != null) primaryButton.localScale = Vector3.one;
@@ -134,7 +131,6 @@ namespace UI.Views.Menu
             Place(title, _titleHome + new Vector2(0f, 220f), 0f);
             Place(progressRow, _progressHome + new Vector2(0f, 40f), 0f);
             Place(currencyPill, _pillHome + new Vector2(0f, 90f), 0f);
-            Place(recordLabel, _recordHome + new Vector2(0f, -60f), 0f);
             Place(primaryButton, _primaryHome + new Vector2(0f, -buttonRise), 0f);
             Place(secondaryButton, _secondaryHome + new Vector2(0f, -buttonRise), 0f);
 
@@ -144,7 +140,6 @@ namespace UI.Views.Menu
 
             yield return WaitUnscaled(pillDelay);
             Track(StartCoroutine(Slide(currencyPill, _pillHome + new Vector2(0f, 90f), _pillHome, 0.3f, back: true)));
-            Track(StartCoroutine(Slide(recordLabel, _recordHome + new Vector2(0f, -60f), _recordHome, 0.36f, back: false)));
 
             yield return WaitUnscaled(Mathf.Max(0f, progressDelay - pillDelay));
             Track(StartCoroutine(Slide(progressRow, _progressHome + new Vector2(0f, 40f), _progressHome, 0.32f, back: true)));

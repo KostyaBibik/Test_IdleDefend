@@ -7,6 +7,7 @@ using Services;
 using UI;
 using UI.Views.Shop;
 using UnityEngine;
+using UnityEngine.Localization.Settings;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -34,6 +35,14 @@ namespace MenuScene
 
         private IEnumerator Start()
         {
+            // On the first application launch the string table may still be loading when Menu.Start runs.
+            // Synchronous localization calls then return their English fallbacks, while subsequent visits work
+            // because the table is already cached. Warm up the table before creating any menu labels or nodes.
+            yield return LocalizationSettings.InitializationOperation;
+            var localizationWarmup = LocalizationSettings.StringDatabase.GetLocalizedStringAsync(
+                "LocalizationTable", LocalizationKey.menu_shop.ToString());
+            yield return localizationWarmup;
+
             InitializeNavigationButtons();
             RefreshStaticLabels();
             levelPathBuilder.Build(levelsConfig, OpenBoostSelect);

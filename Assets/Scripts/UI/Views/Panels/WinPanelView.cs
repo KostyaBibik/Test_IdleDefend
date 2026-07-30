@@ -17,6 +17,10 @@ namespace UI.Views.Panels
         [SerializeField] private GameObject[] starIcons;
         [SerializeField] private TMP_Text titleText;
 
+        [Header("Награда")]
+        [Tooltip("Необязателен: без него награда просто не показывается, начисление не меняется.")]
+        [SerializeField] private WinPanelAnimator animator;
+
         private SignalBus _signalBus;
         private bool _transitionStarted;
 
@@ -59,6 +63,11 @@ namespace UI.Views.Panels
 
             for (var i = 0; i < starIcons.Length; i++)
                 starIcons[i].SetActive(i < signal.stars);
+
+            // Сигнал приходит раньше, чем PanelsHandler включит панель, поэтому аниматор только
+            // запоминает награду — проигрывает он её из своего OnEnable вместе с остальным вступлением.
+            if (animator != null)
+                animator.SetReward(signal.reward, signal.unlockedItem);
         }
 
         private void RefreshStaticLabels()

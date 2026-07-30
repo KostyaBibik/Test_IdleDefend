@@ -229,7 +229,7 @@ namespace UI.Views.Shop
                 selectedItemNameLabel.text = item != null ? GameLocalization.ShopItemName(item) : string.Empty;
 
             if (selectedItemDescriptionLabel != null)
-                selectedItemDescriptionLabel.text = item != null ? GameLocalization.ShopItemDescription(item) : string.Empty;
+                selectedItemDescriptionLabel.text = ShopItemPresenter.GetDescriptionText(item);
         }
 
         private void BuyItem(ShopItemDefinition item)

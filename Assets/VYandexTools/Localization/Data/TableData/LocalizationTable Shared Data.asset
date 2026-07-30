@@ -55,10 +55,6 @@ MonoBehaviour:
     m_Key: lose_menu
     m_Metadata:
       m_Items: []
-  - m_Id: 2377113609
-    m_Key: best_time
-    m_Metadata:
-      m_Items: []
   - m_Id: 2377113610
     m_Key: run_time
     m_Metadata:
@@ -553,6 +549,10 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 1353737632210955
     m_Key: tutorial_side_tower_choice_body
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1353737632210956
+    m_Key: shop_gem_reward
     m_Metadata:
       m_Items: []
   m_Metadata:

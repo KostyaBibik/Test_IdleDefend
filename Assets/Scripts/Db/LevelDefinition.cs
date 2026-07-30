@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Enums;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Db
 {
@@ -15,8 +16,16 @@ namespace Db
         [Header("Секции спавна: 1 = старт-star1, 2 = star1-star2, 3 = star2-star3")]
         [SerializeField] private List<SpawnSectionDefinition> spawnSections = new();
 
-        [Tooltip("Эмеральды, начисляемые за полную зачистку уровня (см. WinActionSystem)")]
-        [SerializeField] private int rewardEmeralds = 50;
+        [Tooltip("Эмеральды за ОДНУ звезду уровня. Полная зачистка даёт 3 звезды, то есть тройную " +
+                 "величину. Награда выдаётся только за прирост звёзд относительно лучшего результата " +
+                 "(см. LevelRewardService), поэтому перепрохождение не фармится.")]
+        [FormerlySerializedAs("rewardEmeralds")]
+        [SerializeField] private int rewardEmeraldsPerStar = 25;
+
+        [Tooltip("Предмет магазина, который выдаётся бесплатно за первое прохождение этого уровня " +
+                 "(башня, снаряд). Выдаётся один раз: повторное прохождение ничего не дублирует, " +
+                 "потому что предмет уже во владении. Пусто — обычный уровень без подарка.")]
+        [SerializeField] private ShopItemDefinition unlockRewardItem;
 
         [Header("Доп-башни: индексы слотов сцены, доступных для покупки на этом уровне")]
         [SerializeField] private List<int> unlockedSideTowerSlotIndices;
@@ -50,7 +59,35 @@ namespace Db
         public int LevelId => levelId;
         public int StartCoins => startCoins;
         public IReadOnlyList<SpawnSectionDefinition> SpawnSections => spawnSections;
-        public int RewardEmeralds => rewardEmeralds;
+        public int RewardEmeraldsPerStar => rewardEmeraldsPerStar;
+        public ShopItemDefinition UnlockRewardItem => unlockRewardItem;
+
+        /// <summary>
+        /// Максимум звёзд уровня. Пороги те же, что рисует прогресс-бар боя.
+        /// </summary>
+        public const int MaxStars = 3;
+
+        /// <summary>
+        /// Сколько звёзд заслуживает забег, продержавшийся elapsedSeconds. Пороги совпадают
+        /// с чекпоинтами прогресс-бара, поэтому игрок видит свои звёзды прямо во время боя.
+        ///
+        /// Полная зачистка уровня наступает не раньше star3Seconds (после этого момента враги
+        /// уже не спавнятся), так что победа всегда даёт три звезды — отдельного случая для неё
+        /// не нужно.
+        /// </summary>
+        public int GetStarsForElapsed(float elapsedSeconds)
+        {
+            if (elapsedSeconds >= star3Seconds)
+                return 3;
+
+            if (elapsedSeconds >= star2Seconds)
+                return 2;
+
+            if (elapsedSeconds >= star1Seconds)
+                return 1;
+
+            return 0;
+        }
         public List<int> UnlockedSideTowerSlotIndices => unlockedSideTowerSlotIndices;
         public float Star1Seconds => star1Seconds;
         public float Star2Seconds => star2Seconds;

@@ -37,6 +37,22 @@ public class SaveSystem : Singleton<SaveSystem>
         return cachedSaveData.LevelStars.TryGetValue(levelId, out var stars) ? stars : 0;
     }
 
+    /// <summary>
+    /// Фиксирует звёзды, не двигая прогресс по карте. Нужно для поражения: продержаться до
+    /// второй звезды — результат, который стоит сохранить, но следующий уровень открывать нельзя.
+    /// </summary>
+    public static void SaveLevelStars(int levelId, int stars)
+    {
+        EnsureRuntimeCollections();
+
+        var bestStars = cachedSaveData.LevelStars.TryGetValue(levelId, out var existing) ? existing : 0;
+        if (stars <= bestStars)
+            return;
+
+        cachedSaveData.LevelStars[levelId] = stars;
+        Instance.SaveToStorage();
+    }
+
     public static void SaveLevelProgress(int levelId, int stars, int unlockedLevelIndex)
     {
         EnsureRuntimeCollections();

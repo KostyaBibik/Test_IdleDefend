@@ -11,7 +11,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b3fb471f972ff14498c34cda37206166, type: 3}
   m_Name: Level_1
-  m_EditorClassIdentifier:
+  m_EditorClassIdentifier: 
   levelId: 1
   startCoins: 180
   spawnSections:
@@ -21,22 +21,26 @@ MonoBehaviour:
       spawnDelayMax: 1.34
       extraHealth: 0
       extraSpeed: 0
+      finalSpawnLeadSecondsOverride: -1
   - enemies:
     - enemyType: 0
       spawnDelayMin: 0.96
       spawnDelayMax: 1.38
       extraHealth: 7
       extraSpeed: 0
+      finalSpawnLeadSecondsOverride: -1
     - enemyType: 2
       spawnDelayMin: 3.83
       spawnDelayMax: 5.51
       extraHealth: 4
       extraSpeed: 0
+      finalSpawnLeadSecondsOverride: -1
     - enemyType: 1
       spawnDelayMin: 14.56
       spawnDelayMax: 20.95
       extraHealth: 27
       extraSpeed: 0
+      finalSpawnLeadSecondsOverride: -1
   - enemies:
     - enemyType: 0
       spawnDelayMin: 0.9
@@ -56,7 +60,7 @@ MonoBehaviour:
       extraHealth: 58
       extraSpeed: 0
       finalSpawnLeadSecondsOverride: 7
-  rewardEmeralds: 50
+  rewardEmeraldsPerStar: 25
   unlockedSideTowerSlotIndices: 00000000
   star1Seconds: 8
   star2Seconds: 16

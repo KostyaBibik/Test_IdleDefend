@@ -20,7 +20,7 @@ MonoBehaviour:
     \u043D\u0430\u0441\u043A\u0432\u043E\u0437\u044C. +18% \u0443\u0440\u043E\u043D\u0430."
   icon: {fileID: 21300000, guid: 86f26d1801a474506a9d618fc1d0f246, type: 3}
   previewPrefab: {fileID: 3111316510567100242, guid: 048020c00c80a1148ba168072fc82b9c, type: 3}
-  emeraldPrice: 120
+  emeraldPrice: 500
   iapProductId: 
   gemRewardAmount: 0
   ownedByDefault: 0

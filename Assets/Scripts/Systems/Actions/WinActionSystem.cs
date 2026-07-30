@@ -46,11 +46,21 @@ namespace Systems.Actions
 
             // Этот сигнал стреляет только когда все волны уже заспавнены и врагов не осталось —
             // то есть уровень зачищен полностью. Другого исхода у этого пути нет, поэтому 3 звезды безусловно.
-            const int stars = 3;
+            const int stars = LevelDefinition.MaxStars;
+
+            // Награду считаем до сохранения: она платится за прирост звёзд, а SaveLevelProgress
+            // уже запишет новый результат как лучший.
+            var reward = LevelRewardService.GrantForRun(_levelService.CurrentLevel, stars);
+            var unlockedItem = LevelRewardService.GrantUnlockItem(_levelService.CurrentLevel);
 
             SaveProgress(stars);
 
-            _signalBus.Fire(new GameWinSignal { stars = stars });
+            _signalBus.Fire(new GameWinSignal
+            {
+                stars = stars,
+                reward = reward,
+                unlockedItem = unlockedItem,
+            });
         }
 
         private void SaveProgress(int stars)
@@ -58,8 +68,6 @@ namespace Systems.Actions
             var levelId = _levelService.CurrentLevel.LevelId;
             var nextIndex = Math.Min(_levelService.CurrentLevelIndex + 1, _levelsConfig.Count - 1);
             SaveSystem.SaveLevelProgress(levelId, stars, nextIndex);
-
-            EmeraldWallet.Add(_levelService.CurrentLevel.RewardEmeralds);
         }
 
         public void Initialize()

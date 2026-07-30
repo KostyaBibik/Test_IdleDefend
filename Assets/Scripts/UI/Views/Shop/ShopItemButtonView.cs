@@ -71,7 +71,7 @@ namespace UI.Views.Shop
                 nameLabel.text = GameLocalization.ShopItemName(item);
 
             if (descriptionLabel != null)
-                descriptionLabel.text = GameLocalization.ShopItemDescription(item);
+                descriptionLabel.text = ShopItemPresenter.GetDescriptionText(item);
 
             RefreshState();
             RebuildPreview();

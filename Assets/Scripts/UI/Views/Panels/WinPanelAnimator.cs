@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Services;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -49,6 +50,31 @@ namespace UI.Views.Panels
         [SerializeField, Min(0f)] private float starPop = 0.4f;
         [SerializeField, Min(0f)] private float buttonsDelay = 1.05f;
 
+        [Header("Награда")]
+        [Tooltip("Строка с иконкой гема и числом. Не назначена — награда просто не показывается.")]
+        [SerializeField] private RectTransform rewardRow;
+        [SerializeField] private TMPro.TMP_Text rewardLabel;
+        [Tooltip("Спрайт летящего гема. Гемы вылетают из каждой заработанной звезды в строку награды.")]
+        [SerializeField] private Sprite gemSprite;
+        [SerializeField, Min(1)] private int gemsPerStar = 5;
+        [SerializeField, Min(0.01f)] private float gemFlightDuration = 0.55f;
+        [SerializeField, Min(0f)] private float gemFlightStagger = 0.05f;
+        [Tooltip("Сколько крутится счётчик после прилёта последнего гема.")]
+        [SerializeField, Min(0.01f)] private float counterDuration = 0.7f;
+
+        [Header("Подарок за уровень")]
+        [Tooltip("Карточка новой башни/снаряда. Не назначена — подарок просто не показывается.")]
+        [SerializeField] private RectTransform unlockCard;
+        [SerializeField] private Image unlockIcon;
+        [SerializeField] private TMPro.TMP_Text unlockNameLabel;
+        [Tooltip("Свечение под карточкой подарка — пульсирует, пока панель открыта.")]
+        [SerializeField] private RectTransform unlockGlow;
+        [SerializeField, Min(0f)] private float unlockDelay = 0.35f;
+        [SerializeField, Min(0.01f)] private float unlockPop = 0.5f;
+        [Tooltip("На сколько панель короче, когда подарка нет. Панель растёт вниз от неподвижного " +
+                 "верхнего края, поэтому заголовок и звёзды при этом не двигаются.")]
+        [SerializeField, Min(0f)] private float unlockBlockHeight = 190f;
+
         // Стартовые значения, чтобы каждое переоткрытие панели начиналось с чистого листа
         // (панель переиспользуется: PanelsHandler гасит и включает её заново).
         private Vector2 _ribbonHome, _titleHome, _nextHome, _menuHome;
@@ -62,6 +88,19 @@ namespace UI.Views.Panels
         private float _scrimAlpha = 1f;
         private Transform _sparkleRoot;
         private readonly List<Sparkle> _sparkles = new();
+
+        private LevelRewardResult _reward;
+        private bool _rewardKnown;
+        private Db.ShopItemDefinition _unlockedItem;
+
+        // Исходная (максимальная) высота панели и текущие цели кнопок — зависят от того,
+        // показываем ли мы блок подарка.
+        private float _panelHomeHeight;
+        private Vector2 _nextTarget, _menuTarget;
+
+        // Летящие гемы создаются на лету, поэтому их надо прибрать вместе с панелью:
+        // иначе прерванный полёт оставит иконку висеть на экране.
+        private readonly List<GameObject> _spawnedGems = new();
 
         private struct Sparkle
         {
@@ -86,6 +125,9 @@ namespace UI.Views.Panels
             if (titleLabel != null) _titleHome = titleLabel.anchoredPosition;
             if (nextButton != null) _nextHome = nextButton.anchoredPosition;
             if (menuButton != null) _menuHome = menuButton.anchoredPosition;
+            if (panel != null) _panelHomeHeight = panel.sizeDelta.y;
+            _nextTarget = _nextHome;
+            _menuTarget = _menuHome;
             if (starsGlow != null) _glowHome = starsGlow.localScale;
             if (scrim != null) _scrimAlpha = scrim.color.a;
 
@@ -124,6 +166,16 @@ namespace UI.Views.Panels
         {
             StopAllCoroutines();
             ClearSparkles();
+            ClearGems();
+        }
+
+        private void ClearGems()
+        {
+            foreach (var gem in _spawnedGems)
+                if (gem != null)
+                    Destroy(gem);
+
+            _spawnedGems.Clear();
         }
 
         private IEnumerator PlayIntro()
@@ -134,10 +186,16 @@ namespace UI.Views.Panels
             if (panel != null) panel.localScale = Vector3.one * 0.72f;
             if (titleRibbon != null) titleRibbon.anchoredPosition = _ribbonHome + new Vector2(0f, 260f);
             if (titleLabel != null) titleLabel.anchoredPosition = _titleHome + new Vector2(0f, 260f);
-            if (nextButton != null) nextButton.anchoredPosition = _nextHome + new Vector2(0f, -70f);
-            if (menuButton != null) menuButton.anchoredPosition = _menuHome + new Vector2(0f, -70f);
+            if (nextButton != null) nextButton.anchoredPosition = _nextTarget + new Vector2(0f, -70f);
+            if (menuButton != null) menuButton.anchoredPosition = _menuTarget + new Vector2(0f, -70f);
             SetButtonsAlpha(0f);
             HideStars();
+
+            // Карточку подарка гасим сразу, а не в UnlockRoutine: та отрабатывает только после
+            // гемов, и до неё пустая карточка секунды висела бы на экране белым прямоугольником.
+            if (unlockCard != null) unlockCard.gameObject.SetActive(false);
+            if (rewardRow != null) rewardRow.gameObject.SetActive(false);
+            ApplyPanelHeight();
 
             // Кадр ожидания: к следующему кадру WinPanelView уже обработал GameWinSignal,
             // поэтому activeSelf у звёзд соответствует реальному результату.
@@ -161,10 +219,246 @@ namespace UI.Views.Panels
             var toButtons = buttonsDelay - starsDelay - starStagger * (stars != null ? stars.Length : 0);
             if (toButtons > 0f) yield return WaitUnscaled(toButtons);
 
-            StartCoroutine(SlideButton(nextButton, _nextHome, 0.32f));
+            StartCoroutine(RewardAndUnlockRoutine());
+
+            StartCoroutine(SlideButton(nextButton, _nextTarget, 0.32f));
             yield return WaitUnscaled(0.12f);
-            StartCoroutine(SlideButton(menuButton, _menuHome, 0.32f));
+            StartCoroutine(SlideButton(menuButton, _menuTarget, 0.32f));
         }
+
+        /// <summary>
+        /// Награду сообщает WinPanelView по сигналу победы — до того, как панель включат.
+        /// Проигрывается она уже из вступления, вместе со звёздами.
+        /// </summary>
+        public void SetReward(LevelRewardResult reward, Db.ShopItemDefinition unlockedItem = null)
+        {
+            _reward = reward;
+            _rewardKnown = true;
+            _unlockedItem = unlockedItem;
+        }
+
+        /// <summary>
+        /// Подгоняет высоту панели под то, будет ли подарок: без него полка под карточку осталась бы
+        /// пустой дырой между наградой и кнопками. Кнопки при этом подтягиваются вверх.
+        /// </summary>
+        private void ApplyPanelHeight()
+        {
+            if (panel == null || _panelHomeHeight <= 0f)
+                return;
+
+            var showsUnlock = _unlockedItem != null;
+            var height = showsUnlock ? _panelHomeHeight : _panelHomeHeight - unlockBlockHeight;
+            var shift = showsUnlock ? 0f : unlockBlockHeight;
+
+            panel.sizeDelta = new Vector2(panel.sizeDelta.x, height);
+
+            // Цели выезда кнопок пересчитываются здесь же — иначе они приехали бы на старые места,
+            // под несуществующую карточку.
+            _nextTarget = _nextHome + new Vector2(0f, shift);
+            _menuTarget = _menuHome + new Vector2(0f, shift);
+
+            if (nextButton != null) nextButton.anchoredPosition = _nextTarget;
+            if (menuButton != null) menuButton.anchoredPosition = _menuTarget;
+        }
+
+        /// <summary>
+        /// Карточка подарка: показывается только когда предмет действительно выдан на этом забеге.
+        /// Играется после гемов — так два события не спорят за внимание.
+        /// </summary>
+        private IEnumerator UnlockRoutine()
+        {
+            if (unlockCard == null)
+                yield break;
+
+            unlockCard.gameObject.SetActive(_unlockedItem != null);
+            if (_unlockedItem == null)
+                yield break;
+
+            if (unlockIcon != null)
+                unlockIcon.sprite = _unlockedItem.Icon;
+
+            if (unlockNameLabel != null)
+                unlockNameLabel.text = global::Game.Localization.GameLocalization.ShopItemName(_unlockedItem);
+
+            unlockCard.localScale = Vector3.zero;
+            yield return WaitUnscaled(unlockDelay);
+
+            // Заметный overshoot: подарок — самое ценное событие на экране.
+            var t = 0f;
+            while (t < unlockPop)
+            {
+                t += Time.unscaledDeltaTime;
+                var s = Mathf.LerpUnclamped(0f, 1f, EaseOutBack(Mathf.Clamp01(t / unlockPop), 2.4f));
+                unlockCard.localScale = new Vector3(s, s, 1f);
+                yield return null;
+            }
+            unlockCard.localScale = Vector3.one;
+
+            SpawnSparkleBurst();
+            StartCoroutine(LoopUnlockGlow());
+        }
+
+        private IEnumerator LoopUnlockGlow()
+        {
+            if (unlockGlow == null)
+                yield break;
+
+            var t = 0f;
+            while (true)
+            {
+                t += Time.unscaledDeltaTime;
+                var s = 1f + Mathf.Sin(t * 2.2f) * 0.08f;
+                unlockGlow.localScale = new Vector3(s, s, 1f);
+                unlockGlow.localRotation = Quaternion.Euler(0f, 0f, t * 14f);
+                yield return null;
+            }
+        }
+
+        /// <summary>
+        /// Гемы, затем подарок. Через одну корутину, потому что у наград общий порядок:
+        /// пропуск гемов (их может не быть на повторе) не должен съедать показ подарка.
+        /// </summary>
+        private IEnumerator RewardAndUnlockRoutine()
+        {
+            yield return RewardRoutine();
+            yield return UnlockRoutine();
+        }
+
+        private IEnumerator RewardRoutine()
+        {
+            if (rewardRow == null)
+                yield break;
+
+            // Без награды строку не показываем совсем: пустой «+0» на экране победы выглядит
+            // как ошибка, а не как результат.
+            var total = _rewardKnown ? _reward.Total : 0;
+            rewardRow.gameObject.SetActive(total > 0);
+            if (total <= 0)
+                yield break;
+
+            if (rewardLabel != null)
+                rewardLabel.text = "+0";
+
+            rewardRow.localScale = Vector3.zero;
+            yield return PopRoutine(rewardRow, 0.34f);
+
+            // Гемы вылетают из тех звёзд, что реально заработаны.
+            var earnedStars = Mathf.Clamp(_reward.Stars, 0, stars != null ? stars.Length : 0);
+            var flights = Mathf.Max(1, earnedStars * gemsPerStar);
+            var landed = 0;
+
+            for (var i = 0; i < flights; i++)
+            {
+                var starIndex = earnedStars > 0 ? i % earnedStars : 0;
+                var from = stars != null && starIndex < stars.Length && stars[starIndex] != null
+                    ? stars[starIndex].position
+                    : rewardRow.position;
+
+                StartCoroutine(GemFlightRoutine(from, () => landed++));
+                yield return WaitUnscaled(gemFlightStagger);
+            }
+
+            // Счётчик догоняет прилетающие гемы, а не стартует после них: так число растёт
+            // одновременно с потоком, и экран не «замирает» в ожидании.
+            var elapsed = 0f;
+            var duration = counterDuration + gemFlightDuration;
+            while (elapsed < duration)
+            {
+                elapsed += Time.unscaledDeltaTime;
+                var byTime = Mathf.Clamp01(elapsed / duration);
+                var byLanded = flights > 0 ? (float) landed / flights : 1f;
+                var shown = Mathf.RoundToInt(total * Mathf.Min(byTime, Mathf.Max(byLanded, byTime * 0.6f)));
+
+                if (rewardLabel != null)
+                    rewardLabel.text = "+" + shown;
+
+                yield return null;
+            }
+
+            if (rewardLabel != null)
+                rewardLabel.text = "+" + total;
+
+            yield return PunchRoutine(rewardRow, 1.18f, 0.26f);
+        }
+
+        private IEnumerator GemFlightRoutine(Vector3 worldFrom, System.Action onLanded)
+        {
+            if (gemSprite == null || rewardRow == null)
+            {
+                onLanded?.Invoke();
+                yield break;
+            }
+
+            var go = new GameObject("RewardGem", typeof(RectTransform), typeof(Image));
+            var rect = (RectTransform)go.transform;
+            rect.SetParent(rewardRow.parent, false);
+            rect.sizeDelta = new Vector2(52f, 52f);
+            rect.position = worldFrom;
+
+            var image = go.GetComponent<Image>();
+            image.sprite = gemSprite;
+            image.preserveAspect = true;
+            image.raycastTarget = false;
+
+            _spawnedGems.Add(go);
+
+            var start = rect.anchoredPosition;
+            var end = ((RectTransform)rewardRow).anchoredPosition;
+            // Дуга в сторону — прямой отрезок читается как «телепорт», а не как полёт.
+            var control = (start + end) * 0.5f + new Vector2(UnityEngine.Random.Range(-160f, 160f), 160f);
+
+            var t = 0f;
+            while (t < gemFlightDuration)
+            {
+                t += Time.unscaledDeltaTime;
+                var k = EaseInCubic(Mathf.Clamp01(t / gemFlightDuration));
+                rect.anchoredPosition = QuadraticBezier(start, control, end, k);
+                rect.localScale = Vector3.one * Mathf.Lerp(1f, 0.55f, k);
+                rect.localRotation = Quaternion.Euler(0f, 0f, k * 220f);
+                yield return null;
+            }
+
+            _spawnedGems.Remove(go);
+            Destroy(go);
+            onLanded?.Invoke();
+        }
+
+        private IEnumerator PopRoutine(RectTransform target, float duration)
+        {
+            var t = 0f;
+            while (t < duration)
+            {
+                t += Time.unscaledDeltaTime;
+                var s = Mathf.LerpUnclamped(0f, 1f, EaseOutBack(Mathf.Clamp01(t / duration)));
+                target.localScale = new Vector3(s, s, 1f);
+                yield return null;
+            }
+            target.localScale = Vector3.one;
+        }
+
+        private IEnumerator PunchRoutine(RectTransform target, float peak, float duration)
+        {
+            var t = 0f;
+            while (t < duration)
+            {
+                t += Time.unscaledDeltaTime;
+                var k = Mathf.Clamp01(t / duration);
+                var s = k < 0.35f
+                    ? Mathf.Lerp(1f, peak, k / 0.35f)
+                    : Mathf.LerpUnclamped(peak, 1f, EaseOutBack((k - 0.35f) / 0.65f, 1.2f));
+                target.localScale = new Vector3(s, s, 1f);
+                yield return null;
+            }
+            target.localScale = Vector3.one;
+        }
+
+        private static Vector2 QuadraticBezier(Vector2 a, Vector2 b, Vector2 c, float t)
+        {
+            var u = 1f - t;
+            return u * u * a + 2f * u * t * b + t * t * c;
+        }
+
+        private static float EaseInCubic(float k) => k * k * k;
 
         private IEnumerator FadeScrim()
         {

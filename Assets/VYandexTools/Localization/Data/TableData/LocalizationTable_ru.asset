@@ -58,10 +58,6 @@ MonoBehaviour:
     m_Localized: В меню
     m_Metadata:
       m_Items: []
-  - m_Id: 2377113609
-    m_Localized: Рекорд
-    m_Metadata:
-      m_Items: []
   - m_Id: 2377113610
     m_Localized: Результат
     m_Metadata:
@@ -556,6 +552,10 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 1353737632210955
     m_Localized: Выберите надёжную дополнительную башню.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1353737632210956
+    m_Localized: Эмеральдов
     m_Metadata:
       m_Items: []
   references:

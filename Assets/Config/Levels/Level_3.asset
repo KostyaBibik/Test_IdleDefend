@@ -11,7 +11,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b3fb471f972ff14498c34cda37206166, type: 3}
   m_Name: Level_3
-  m_EditorClassIdentifier:
+  m_EditorClassIdentifier: 
   levelId: 3
   startCoins: 195
   spawnSections:
@@ -21,42 +21,50 @@ MonoBehaviour:
       spawnDelayMax: 1.61
       extraHealth: 4
       extraSpeed: 0
+      finalSpawnLeadSecondsOverride: -1
     - enemyType: 2
       spawnDelayMin: 5.1
       spawnDelayMax: 7.34
       extraHealth: 2
       extraSpeed: 0.01
+      finalSpawnLeadSecondsOverride: -1
     - enemyType: 1
       spawnDelayMin: 52.34
       spawnDelayMax: 75.32
       extraHealth: 14
       extraSpeed: 0
+      finalSpawnLeadSecondsOverride: -1
     - enemyType: 3
       spawnDelayMin: 26.17
       spawnDelayMax: 37.66
       extraHealth: 6
       extraSpeed: 0
+      finalSpawnLeadSecondsOverride: -1
   - enemies:
     - enemyType: 0
       spawnDelayMin: 1.04
       spawnDelayMax: 1.5
       extraHealth: 11
       extraSpeed: 0
+      finalSpawnLeadSecondsOverride: -1
     - enemyType: 2
       spawnDelayMin: 2.67
       spawnDelayMax: 3.85
       extraHealth: 7
       extraSpeed: 0.01
+      finalSpawnLeadSecondsOverride: -1
     - enemyType: 1
       spawnDelayMin: 22.72
       spawnDelayMax: 32.69
       extraHealth: 43
       extraSpeed: 0
+      finalSpawnLeadSecondsOverride: -1
     - enemyType: 3
       spawnDelayMin: 11.36
       spawnDelayMax: 16.35
       extraHealth: 19
       extraSpeed: 0
+      finalSpawnLeadSecondsOverride: -1
   - enemies:
     - enemyType: 0
       spawnDelayMin: 0.96
@@ -82,7 +90,8 @@ MonoBehaviour:
       extraHealth: 34
       extraSpeed: 0
       finalSpawnLeadSecondsOverride: 6
-  rewardEmeralds: 90
+  rewardEmeraldsPerStar: 30
+  unlockRewardItem: {fileID: 11400000, guid: dc99ce53add39ac4e947c7caacb97106, type: 2}
   unlockedSideTowerSlotIndices: 000000000100000002000000
   star1Seconds: 29
   star2Seconds: 59

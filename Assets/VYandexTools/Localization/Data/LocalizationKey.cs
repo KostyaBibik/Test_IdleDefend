@@ -13,7 +13,6 @@ public enum LocalizationKey
     lose_title,
     lose_restart,
     lose_menu,
-    best_time,
     run_time,
     pause_title,
     pause_resume,
@@ -135,4 +134,5 @@ public enum LocalizationKey
     tutorial_side_tower_body,
     tutorial_side_tower_choice_title,
     tutorial_side_tower_choice_body,
+    shop_gem_reward,
 }

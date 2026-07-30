@@ -20,11 +20,13 @@ MonoBehaviour:
     \u0437\u0430\u043C\u0435\u0442\u043D\u043E \u0447\u0430\u0449\u0435."
   icon: {fileID: 21300000, guid: ccf97ddb50dc9437e9899ba23fab088a, type: 3}
   previewPrefab: {fileID: 5371031730098696228, guid: f811055c47d71e94784ae072cfbcea1d, type: 3}
-  emeraldPrice: 180
+  emeraldPrice: 100
   iapProductId: 
   gemRewardAmount: 0
   ownedByDefault: 0
   equippable: 0
   sortOrder: 1
+  towerBody: {fileID: 0}
+  projectile: {fileID: 0}
   boostEffectType: 2
   boostValue: 0.15

@@ -11,7 +11,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b3fb471f972ff14498c34cda37206166, type: 3}
   m_Name: Level_6
-  m_EditorClassIdentifier:
+  m_EditorClassIdentifier: 
   levelId: 6
   startCoins: 215
   spawnSections:
@@ -21,52 +21,62 @@ MonoBehaviour:
       spawnDelayMax: 1.66
       extraHealth: 9
       extraSpeed: 0
+      finalSpawnLeadSecondsOverride: -1
     - enemyType: 2
       spawnDelayMin: 3.65
       spawnDelayMax: 5.25
       extraHealth: 6
       extraSpeed: 0.025
+      finalSpawnLeadSecondsOverride: -1
     - enemyType: 1
       spawnDelayMin: 40.69
       spawnDelayMax: 58.55
       extraHealth: 34
       extraSpeed: 0
+      finalSpawnLeadSecondsOverride: -1
     - enemyType: 3
       spawnDelayMin: 20.35
       spawnDelayMax: 29.28
       extraHealth: 15
       extraSpeed: 0
+      finalSpawnLeadSecondsOverride: -1
     - enemyType: 4
       spawnDelayMin: 25.43
       spawnDelayMax: 36.6
       extraHealth: 13
       extraSpeed: 0
+      finalSpawnLeadSecondsOverride: -1
   - enemies:
     - enemyType: 0
       spawnDelayMin: 1.08
       spawnDelayMax: 1.56
       extraHealth: 18
       extraSpeed: 0
+      finalSpawnLeadSecondsOverride: -1
     - enemyType: 2
       spawnDelayMin: 2.1
       spawnDelayMax: 3.03
       extraHealth: 11
       extraSpeed: 0.025
+      finalSpawnLeadSecondsOverride: -1
     - enemyType: 1
       spawnDelayMin: 22.01
       spawnDelayMax: 31.67
       extraHealth: 67
       extraSpeed: 0
+      finalSpawnLeadSecondsOverride: -1
     - enemyType: 3
       spawnDelayMin: 11
       spawnDelayMax: 15.84
       extraHealth: 29
       extraSpeed: 0
+      finalSpawnLeadSecondsOverride: -1
     - enemyType: 4
       spawnDelayMin: 13.76
       spawnDelayMax: 19.79
       extraHealth: 25
       extraSpeed: 0
+      finalSpawnLeadSecondsOverride: -1
   - enemies:
     - enemyType: 0
       spawnDelayMin: 1.02
@@ -98,7 +108,7 @@ MonoBehaviour:
       extraHealth: 40
       extraSpeed: 0
       finalSpawnLeadSecondsOverride: 10
-  rewardEmeralds: 170
+  rewardEmeraldsPerStar: 35
   unlockedSideTowerSlotIndices: 000000000100000002000000
   star1Seconds: 35
   star2Seconds: 70

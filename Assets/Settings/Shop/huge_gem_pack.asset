@@ -22,7 +22,11 @@ MonoBehaviour:
   previewPrefab: {fileID: 5371031730098696228, guid: f811055c47d71e94784ae072cfbcea1d, type: 3}
   emeraldPrice: 0
   iapProductId: gems_huge
-  gemRewardAmount: 2500
+  gemRewardAmount: 9000
   ownedByDefault: 0
   equippable: 0
   sortOrder: 3
+  towerBody: {fileID: 0}
+  projectile: {fileID: 0}
+  boostEffectType: 0
+  boostValue: 0

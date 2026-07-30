@@ -11,7 +11,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b3fb471f972ff14498c34cda37206166, type: 3}
   m_Name: Level_39
-  m_EditorClassIdentifier:
+  m_EditorClassIdentifier: 
   levelId: 39
   startCoins: 415
   spawnSections:
@@ -108,7 +108,7 @@ MonoBehaviour:
       extraHealth: 232
       extraSpeed: 0.006
       finalSpawnLeadSecondsOverride: 6
-  rewardEmeralds: 805
+  rewardEmeraldsPerStar: 95
   unlockedSideTowerSlotIndices: 000000000100000002000000
   star1Seconds: 41
   star2Seconds: 95
@@ -120,4 +120,3 @@ MonoBehaviour:
   rewardTimeGrowthLimit: 0.59
   rewardTimeGrowthSeconds: 100
   rewardRoundTo: 5
-

@@ -20,7 +20,7 @@ MonoBehaviour:
     \u0438 \u0437\u0430\u043C\u0435\u0434\u043B\u044F\u0435\u0442 \u0432\u0440\u0430\u0433\u043E\u0432."
   icon: {fileID: 21300000, guid: bee99074e3aaa4f10b57618376e3c07a, type: 3}
   previewPrefab: {fileID: 3014169250733544910, guid: 8668316dcff8ff34cabd81c36810db5b, type: 3}
-  emeraldPrice: 120
+  emeraldPrice: 550
   iapProductId: 
   gemRewardAmount: 0
   ownedByDefault: 0

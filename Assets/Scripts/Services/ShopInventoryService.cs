@@ -105,6 +105,22 @@ namespace Services
             RaiseChanged();
         }
 
+        /// <summary>
+        /// Выдаёт предмет бесплатно — награда за уровень. Возвращает false, если он уже есть:
+        /// это же условие делает выдачу идемпотентной, поэтому повторное прохождение уровня
+        /// ничего не дублирует и отдельного флага в сейве не нужно.
+        /// </summary>
+        public static bool TryGrantFree(ShopItemDefinition item)
+        {
+            if (item == null || BoostInventoryService.IsBoostItem(item) || IsOwned(item))
+                return false;
+
+            AddOwned(item);
+            SaveSystem.Instance.SaveToStorage();
+            RaiseChanged();
+            return true;
+        }
+
         public static bool TryGrantKnownIapProduct(string iapProductId)
         {
             var reward = GetKnownGemPackReward(iapProductId);

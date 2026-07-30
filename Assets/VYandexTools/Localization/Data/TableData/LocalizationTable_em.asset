@@ -58,10 +58,6 @@ MonoBehaviour:
     m_Localized: 
     m_Metadata:
       m_Items: []
-  - m_Id: 2377113609
-    m_Localized: 
-    m_Metadata:
-      m_Items: []
   - m_Id: 2377113610
     m_Localized: 
     m_Metadata:
@@ -504,6 +500,10 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 2377113720
     m_Localized: 
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1353737632210956
+    m_Localized: Emeralds
     m_Metadata:
       m_Items: []
   references:
