@@ -11,6 +11,15 @@ namespace Game.Localization
     public static class GameLocalization
     {
         private const string TableName = "LocalizationTable";
+        public const string EmptyLocaleCode = "em";
+
+        public static bool IsEmptyLocale =>
+            LocalizationSettings.HasSettings &&
+            LocalizationSettings.SelectedLocale != null &&
+            string.Equals(
+                LocalizationSettings.SelectedLocale.Identifier.Code,
+                EmptyLocaleCode,
+                StringComparison.OrdinalIgnoreCase);
 
         public static string Text(LocalizationKey key, string fallback = "")
         {
@@ -26,6 +35,9 @@ namespace Game.Localization
             {
                 if (!LocalizationSettings.HasSettings || LocalizationSettings.SelectedLocale == null)
                     return fallback;
+
+                if (IsEmptyLocale)
+                    return string.Empty;
 
                 return LocalizationSettings.StringDatabase.GetLocalizedString(TableName, key);
             }

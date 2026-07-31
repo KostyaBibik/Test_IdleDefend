@@ -1,7 +1,7 @@
+using Game.Localization;
 using Services;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Localization.Settings;
 
 namespace UI.Views
 {
@@ -11,7 +11,6 @@ namespace UI.Views
     /// </summary>
     public class BestTimeLabel : MonoBehaviour
     {
-        private const string TableName = "LocalizationTable";
         private const string RunKey = "run_time";
 
         [SerializeField] private TMP_Text label;
@@ -45,19 +44,7 @@ namespace UI.Views
 
         private static string Localized(string key, string fallback)
         {
-            // В редакторе (запуск в обход Boot-сцены) локаль может быть ещё не выбрана — тогда фолбэк.
-            try
-            {
-                if (!LocalizationSettings.HasSettings || LocalizationSettings.SelectedLocale == null)
-                    return fallback;
-
-                var value = LocalizationSettings.StringDatabase.GetLocalizedString(TableName, key);
-                return string.IsNullOrEmpty(value) ? fallback : value;
-            }
-            catch
-            {
-                return fallback;
-            }
+            return GameLocalization.Text(key, fallback);
         }
 
 #if UNITY_EDITOR

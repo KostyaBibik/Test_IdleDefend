@@ -135,4 +135,6 @@ public enum LocalizationKey
     tutorial_side_tower_choice_title,
     tutorial_side_tower_choice_body,
     shop_gem_reward,
+    menu_title_line_1,
+    menu_title_line_2,
 }

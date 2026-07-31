@@ -13,7 +13,7 @@ OcclusionCullingSettings:
 --- !u!104 &2
 RenderSettings:
   m_ObjectHideFlags: 0
-  serializedVersion: 10
+  serializedVersion: 9
   m_Fog: 0
   m_FogColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   m_FogMode: 3
@@ -42,8 +42,8 @@ RenderSettings:
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
-  serializedVersion: 13
-  m_BakeOnSceneLoad: 0
+  serializedVersion: 12
+  m_GIWorkflowMode: 1
   m_GISettings:
     serializedVersion: 2
     m_BounceScale: 1
@@ -66,6 +66,9 @@ LightmapSettings:
     m_LightmapParameters: {fileID: 0}
     m_LightmapsBakeMode: 1
     m_TextureCompression: 1
+    m_FinalGather: 0
+    m_FinalGatherFiltering: 1
+    m_FinalGatherRayCount: 256
     m_ReflectionCompression: 2
     m_MixedBakeMode: 2
     m_BakeBackend: 2
@@ -274,10 +277,26 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3394514155353822386, guid: 9fda19dbcbc1b0241ab8f4fa11f4a4b1, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: c140dda68be49ee46a315f0223af87f8, type: 2}
+    - target: {fileID: 3394514155353822386, guid: 9fda19dbcbc1b0241ab8f4fa11f4a4b1, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: 236b796978198dc4e94a6446c107cbec, type: 2}
     - target: {fileID: 6604211695940180622, guid: 9fda19dbcbc1b0241ab8f4fa11f4a4b1, type: 3}
       propertyPath: m_Name
       value: ReviewCanvas
       objectReference: {fileID: 0}
+    - target: {fileID: 6881928418666167480, guid: 9fda19dbcbc1b0241ab8f4fa11f4a4b1, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 8ba20b472606d1540a47e986996ca101, type: 2}
+    - target: {fileID: 6881928418666167480, guid: 9fda19dbcbc1b0241ab8f4fa11f4a4b1, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: 4bccecd6a4495a643ab129848e2e88d4, type: 2}
     - target: {fileID: 7748089154622851722, guid: 9fda19dbcbc1b0241ab8f4fa11f4a4b1, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -362,6 +381,14 @@ PrefabInstance:
       propertyPath: time
       value: 300
       objectReference: {fileID: 0}
+    - target: {fileID: 8882397441812136261, guid: 9fda19dbcbc1b0241ab8f4fa11f4a4b1, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 8ba20b472606d1540a47e986996ca101, type: 2}
+    - target: {fileID: 8882397441812136261, guid: 9fda19dbcbc1b0241ab8f4fa11f4a4b1, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: 4bccecd6a4495a643ab129848e2e88d4, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

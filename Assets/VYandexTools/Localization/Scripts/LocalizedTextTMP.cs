@@ -45,6 +45,9 @@ namespace VYandexTools.Localization.Scripts
             if (!textComponent)
                 return;
 
+            if (ClearForEmptyLocale())
+                return;
+
             var operation = useEnumKey
                 ? LocalizationSettings.StringDatabase.GetLocalizedStringAsync(TableName, key.ToString())
                 : localizedString.GetLocalizedStringAsync();
@@ -52,15 +55,40 @@ namespace VYandexTools.Localization.Scripts
             LoadString(operation);
         }
 
-        public void SetValue(object[] values) =>
+        public void SetValue(object[] values)
+        {
+            if (ClearForEmptyLocale())
+                return;
+
             LoadString(localizedString.GetLocalizedStringAsync(values));
+        }
 
         public void SetValue(LocalizationKey key, object[] values)
         {
+            if (ClearForEmptyLocale())
+                return;
+
             var operation = LocalizationSettings.StringDatabase.GetLocalizedStringAsync(
                 TableName, key.ToString(), values);
 
             LoadString(operation);
+        }
+
+        private bool ClearForEmptyLocale()
+        {
+            if (!LocalizationSettings.HasSettings ||
+                LocalizationSettings.SelectedLocale == null ||
+                !string.Equals(
+                    LocalizationSettings.SelectedLocale.Identifier.Code,
+                    "em",
+                    System.StringComparison.OrdinalIgnoreCase))
+                return false;
+
+            _requestVersion++;
+            if (textComponent)
+                textComponent.text = string.Empty;
+
+            return true;
         }
 
         private void LoadString(AsyncOperationHandle<string> operation)

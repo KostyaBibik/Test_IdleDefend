@@ -1,8 +1,8 @@
 using System.Collections;
 using System.Text;
+using Game.Localization;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Localization.Settings;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -10,7 +10,6 @@ namespace LoadScene
 {
     public class LevelLoader : MonoBehaviour
     {
-        private const string TableName = "LocalizationTable";
         private const string LoadingKey = "loading";
 
         [SerializeField] private Slider progressSlider;
@@ -46,19 +45,7 @@ namespace LoadScene
 
         private static string LoadingCaption()
         {
-            // Локаль выбирает Boot-сцена; если игру запустили в обход неё (редактор) — фолбэк.
-            try
-            {
-                if (!LocalizationSettings.HasSettings || LocalizationSettings.SelectedLocale == null)
-                    return "Loading...";
-
-                var value = LocalizationSettings.StringDatabase.GetLocalizedString(TableName, LoadingKey);
-                return string.IsNullOrEmpty(value) ? "Loading..." : value;
-            }
-            catch
-            {
-                return "Loading...";
-            }
+            return GameLocalization.Text(LoadingKey, "Loading...");
         }
     }
 }

@@ -6,7 +6,9 @@ using Game.Localization;
 using Services;
 using UI;
 using UI.Views.Shop;
+using TMPro;
 using UnityEngine;
+using UnityEngine.Localization;
 using UnityEngine.Localization.Settings;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -23,6 +25,9 @@ namespace MenuScene
         [SerializeField] private float towerPreviewScale = 2f;
         [Tooltip("Живая витрина башни на главном экране. Не назначена — показывается статичный PreviewPrefab товара.")]
         [SerializeField] private TowerPreviewSurfaceView towerPreviewSurfacePrefab;
+        [Header("Title")]
+        [SerializeField] private TMP_Text titleLine1;
+        [SerializeField] private TMP_Text titleLine2;
         [Header("Windows")]
         [SerializeField] private GameObject mainWindow;
         [SerializeField] private GameObject stageWindow;
@@ -39,10 +44,15 @@ namespace MenuScene
             // Synchronous localization calls then return their English fallbacks, while subsequent visits work
             // because the table is already cached. Warm up the table before creating any menu labels or nodes.
             yield return LocalizationSettings.InitializationOperation;
-            var localizationWarmup = LocalizationSettings.StringDatabase.GetLocalizedStringAsync(
-                "LocalizationTable", LocalizationKey.menu_shop.ToString());
-            yield return localizationWarmup;
+            if (!GameLocalization.IsEmptyLocale)
+            {
+                var localizationWarmup = LocalizationSettings.StringDatabase.GetLocalizedStringAsync(
+                    "LocalizationTable", LocalizationKey.menu_shop.ToString());
+                yield return localizationWarmup;
+            }
 
+            LocalizationSettings.SelectedLocaleChanged -= OnSelectedLocaleChanged;
+            LocalizationSettings.SelectedLocaleChanged += OnSelectedLocaleChanged;
             InitializeNavigationButtons();
             RefreshStaticLabels();
             levelPathBuilder.Build(levelsConfig, OpenBoostSelect);
@@ -56,6 +66,12 @@ namespace MenuScene
 
         private void RefreshStaticLabels()
         {
+            if (titleLine1 != null)
+                titleLine1.text = GameLocalization.Text(LocalizationKey.menu_title_line_1, "TOWER");
+
+            if (titleLine2 != null)
+                titleLine2.text = GameLocalization.Text(LocalizationKey.menu_title_line_2, "VS EVERYONE");
+
             GameLocalization.SetButtonLabel(shopButton, LocalizationKey.menu_shop, "Shop");
             GameLocalization.SetButtonLabel(stageButton, LocalizationKey.menu_play, "Play");
             GameLocalization.SetButtonLabel(stageBackButton, LocalizationKey.lose_menu, "Menu");
@@ -68,6 +84,11 @@ namespace MenuScene
         /// Клик по уровню на карте открывает выбор бустов на бой вместо немедленной загрузки
         /// GameScene. Если экран не назначен, ведём себя как раньше и грузим уровень сразу.
         /// </summary>
+        private void OnSelectedLocaleChanged(Locale _)
+        {
+            RefreshStaticLabels();
+        }
+
         private void OpenBoostSelect(int levelIndex)
         {
             if (boostSelectWindow == null)
@@ -197,6 +218,8 @@ namespace MenuScene
 
         private void OnDestroy()
         {
+            LocalizationSettings.SelectedLocaleChanged -= OnSelectedLocaleChanged;
+
             if (shopButton != null)
                 shopButton.onClick.RemoveListener(ShowShop);
 

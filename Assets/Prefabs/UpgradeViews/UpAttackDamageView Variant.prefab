@@ -100,6 +100,30 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4751581577882585826, guid: eb0bd34c952fb0742945db07e0bf9e44, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 8ba20b472606d1540a47e986996ca101, type: 2}
+    - target: {fileID: 4751581577882585826, guid: eb0bd34c952fb0742945db07e0bf9e44, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: 4bccecd6a4495a643ab129848e2e88d4, type: 2}
+    - target: {fileID: 5115445410473235929, guid: eb0bd34c952fb0742945db07e0bf9e44, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 8ba20b472606d1540a47e986996ca101, type: 2}
+    - target: {fileID: 5115445410473235929, guid: eb0bd34c952fb0742945db07e0bf9e44, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: 4bccecd6a4495a643ab129848e2e88d4, type: 2}
+    - target: {fileID: 6246257999345682938, guid: eb0bd34c952fb0742945db07e0bf9e44, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 8ba20b472606d1540a47e986996ca101, type: 2}
+    - target: {fileID: 6246257999345682938, guid: eb0bd34c952fb0742945db07e0bf9e44, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: 4bccecd6a4495a643ab129848e2e88d4, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

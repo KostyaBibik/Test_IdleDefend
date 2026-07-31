@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Game.Localization;
 using UnityEditor;
+using UnityEditor.Localization;
 using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Settings;
@@ -9,6 +10,7 @@ using UnityEngine.Localization.Settings;
 public class LocalizationTestLanguageWindow : EditorWindow
 {
     private const string MenuPath = "Tools/Localization/Test Language";
+    private const string LocalesPath = "Assets/VYandexTools/Localization/Data/Locales";
 
     private readonly List<Locale> _locales = new();
     private string[] _options = System.Array.Empty<string>();
@@ -38,7 +40,7 @@ public class LocalizationTestLanguageWindow : EditorWindow
 
         if (_locales.Count == 0)
         {
-            EditorGUILayout.HelpBox("No locales found in LocalizationSettings.AvailableLocales.", MessageType.Warning);
+            EditorGUILayout.HelpBox("No locale assets found. Check the localization setup.", MessageType.Warning);
             if (GUILayout.Button("Refresh"))
                 RefreshLocales();
 
@@ -76,18 +78,36 @@ public class LocalizationTestLanguageWindow : EditorWindow
     {
         _locales.Clear();
 
-        if (!LocalizationSettings.HasSettings || LocalizationSettings.AvailableLocales == null)
+        if (!LocalizationSettings.HasSettings)
         {
             _options = System.Array.Empty<string>();
             _selectedIndex = 0;
             return;
         }
 
-        foreach (var locale in LocalizationSettings.AvailableLocales.Locales)
+        // AvailableLocales is populated by Addressables during runtime initialization and is commonly empty
+        // while the Editor is not in Play Mode. The editor registry is the authoritative source here.
+        foreach (var locale in LocalizationEditorSettings.GetLocales())
+            AddLocale(locale);
+
+        if (_locales.Count == 0 && LocalizationSettings.AvailableLocales != null)
         {
-            if (locale != null)
-                _locales.Add(locale);
+            foreach (var locale in LocalizationSettings.AvailableLocales.Locales)
+                AddLocale(locale);
         }
+
+        // Keep the test tool usable even when the editor registry has not refreshed after importing assets.
+        if (_locales.Count == 0)
+        {
+            foreach (var guid in AssetDatabase.FindAssets("t:Locale", new[] { LocalesPath }))
+            {
+                var path = AssetDatabase.GUIDToAssetPath(guid);
+                AddLocale(AssetDatabase.LoadAssetAtPath<Locale>(path));
+            }
+        }
+
+        _locales.Sort((left, right) =>
+            string.Compare(left.Identifier.Code, right.Identifier.Code, System.StringComparison.Ordinal));
 
         _options = new string[_locales.Count];
         for (int i = 0; i < _locales.Count; i++)
@@ -104,6 +124,20 @@ public class LocalizationTestLanguageWindow : EditorWindow
 
         _selectedIndex = FindLocaleIndex(selectedCode);
         Repaint();
+    }
+
+    private void AddLocale(Locale locale)
+    {
+        if (locale == null)
+            return;
+
+        foreach (var existing in _locales)
+        {
+            if (existing.Identifier == locale.Identifier)
+                return;
+        }
+
+        _locales.Add(locale);
     }
 
     private void ApplySelectedLocale()

@@ -558,6 +558,14 @@ MonoBehaviour:
     m_Localized: Emeralds
     m_Metadata:
       m_Items: []
+  - m_Id: 1353737632210957
+    m_Localized: TOWER
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1353737632210958
+    m_Localized: VS EVERYONE
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []
