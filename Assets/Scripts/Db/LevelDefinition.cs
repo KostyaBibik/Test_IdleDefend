@@ -158,6 +158,34 @@ namespace Db
 
             return 0;
         }
+
+        /// <summary>
+        /// Границы (начало, конец) секции спавна по её индексу. Нужны, чтобы понять,
+        /// насколько далеко волна продвинулась (см. EnemySpawnInitializeSystem и
+        /// EnemySpawnEntryDefinition.endOfWaveHealthMultiplier).
+        /// </summary>
+        public void GetSpawnSectionBounds(int sectionIndex, out float start, out float end)
+        {
+            switch (sectionIndex)
+            {
+                case 0:
+                    start = 0f;
+                    end = star1Seconds;
+                    return;
+                case 1:
+                    start = star1Seconds;
+                    end = star2Seconds;
+                    return;
+                case 2:
+                    start = star2Seconds;
+                    end = star3Seconds;
+                    return;
+                default:
+                    start = 0f;
+                    end = 0f;
+                    return;
+            }
+        }
     }
 
     [Serializable]
@@ -181,6 +209,15 @@ namespace Db
         [Header("Модификаторы")]
         public int extraHealth;
         public float extraSpeed;
+
+        [Header("Рост HP внутри волны")]
+        [Tooltip("Во сколько раз вырастет HP этого потока врагов к концу волны относительно её начала. " +
+                 "1 = без изменений, 1.5 = к концу волны HP на 50% больше, чем было в начале. Рост линейный. " +
+                 "Важно: 'начало волны' - это не всегда база (extraHealth). Если враг того же типа уже " +
+                 "рос в предыдущей волне, следующая волна продолжает рост с той отметки, на которой " +
+                 "предыдущая закончилась (чтобы не было провала HP на границе волн), и уже от неё " +
+                 "откладывает свои +50%.")]
+        [Min(1f)] public float endOfWaveHealthMultiplier = 1f;
 
         [Header("Финал уровня")]
         [Tooltip("За сколько секунд до конца уровня прекратить этот поток в финальной секции. -1 = значение типа врага, 0 = спавнить до конца.")]

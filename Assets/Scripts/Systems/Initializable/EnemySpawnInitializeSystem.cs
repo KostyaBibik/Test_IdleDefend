@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Db;
+using Enums;
 using Helpers;
 using Infrastructure.Impl;
 using Services;
@@ -23,6 +24,7 @@ namespace Systems.Initializable
         private readonly EnemyPrefabsConfig _enemyPrefabsConfig;
 
         private readonly List<SpawnEntryState> _entryStates = new();
+        private readonly Dictionary<EEnemyType, float> _healthMultiplierByType = new();
         private int _activeSectionIndex = int.MinValue;
         private bool _spawnFinishedNotified;
         private float _elapsedSeconds;
@@ -49,6 +51,7 @@ namespace Systems.Initializable
         public void Initialize()
         {
             _entryStates.Clear();
+            _healthMultiplierByType.Clear();
             _activeSectionIndex = int.MinValue;
             _spawnFinishedNotified = false;
             _elapsedSeconds = 0f;
@@ -118,6 +121,11 @@ namespace Systems.Initializable
             if (sectionIndex == _activeSectionIndex)
                 return;
 
+            // Волна закончилась - запоминаем, каким HP-множителем она закончилась для каждого
+            // типа врага. Следующая волна для того же типа продолжит рост именно с этой отметки,
+            // а не сбросится на 1x, иначе на границе волн возникал бы провал/скачок сложности.
+            CarryOverHealthMultipliers();
+
             _activeSectionIndex = sectionIndex;
             _entryStates.Clear();
 
@@ -147,7 +155,54 @@ namespace Systems.Initializable
                               new Vector3(Random.value - 0.5f, Random.value - 0.5f, 0f).normalized *
                               distanceFromCenter;
 
-            _entityFactory.CreateEnemy(randomPoint, entry.enemyType, entry.extraHealth, entry.extraSpeed);
+            // Стартовый множитель этой волны - не всегда 1x: если тот же тип врага уже рос
+            // в предыдущей волне, продолжаем с той отметки, на которой он закончил (см. CarryOverHealthMultipliers).
+            var startMultiplier = GetCarriedMultiplier(entry.enemyType);
+            var targetMultiplier = startMultiplier * entry.endOfWaveHealthMultiplier;
+            var healthMultiplier = Mathf.Lerp(startMultiplier, targetMultiplier, GetActiveSectionProgress());
+
+            _entityFactory.CreateEnemy(randomPoint, entry.enemyType, entry.extraHealth, entry.extraSpeed,
+                healthMultiplier: healthMultiplier);
+        }
+
+        /// <summary>
+        /// 0 = только начало текущей волны, 1 = самый её конец. Используется, чтобы
+        /// врагам одного типа плавно поднимать HP к концу волны (EnemySpawnEntryDefinition.endOfWaveHealthMultiplier).
+        /// </summary>
+        private float GetActiveSectionProgress()
+        {
+            var level = _levelService.CurrentLevel;
+            if (level == null)
+                return 0f;
+
+            level.GetSpawnSectionBounds(_activeSectionIndex, out var start, out var end);
+            var duration = end - start;
+            if (duration <= 0f)
+                return 0f;
+
+            return Mathf.Clamp01((_elapsedSeconds - start) / duration);
+        }
+
+        private float GetCarriedMultiplier(EEnemyType enemyType)
+        {
+            return _healthMultiplierByType.TryGetValue(enemyType, out var value) ? value : 1f;
+        }
+
+        /// <summary>
+        /// Вызывается ровно в момент смены волны, пока _entryStates ещё хранит entry-шки
+        /// уходящей волны и _activeSectionIndex/_elapsedSeconds ещё её описывают (прогресс = 1).
+        /// </summary>
+        private void CarryOverHealthMultipliers()
+        {
+            foreach (var state in _entryStates)
+            {
+                var entry = state.entry;
+                if (entry == null)
+                    continue;
+
+                var startMultiplier = GetCarriedMultiplier(entry.enemyType);
+                _healthMultiplierByType[entry.enemyType] = startMultiplier * entry.endOfWaveHealthMultiplier;
+            }
         }
 
         private static float RollDelay(EnemySpawnEntryDefinition entry)

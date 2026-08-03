@@ -41,7 +41,8 @@ namespace Infrastructure.Impl
             float additiveSpeed,
             int experienceRewardOverride = -1,
             bool grantCoinReward = true,
-            bool grantExperienceReward = true
+            bool grantExperienceReward = true,
+            float healthMultiplier = 1f
         )
         {
             var enemyDefinition = _enemyPrefabsConfig.GetPrefab(type);
@@ -52,7 +53,7 @@ namespace Infrastructure.Impl
             var healthComponent =
                 DiContainerRef.Container.InstantiateComponent<EnemyHealthComponent>(enemyView.gameObject);
 
-            var hp = enemyDefinition.Health + additiveHealth;
+            var hp = Mathf.RoundToInt((enemyDefinition.Health + additiveHealth) * healthMultiplier);
             var speed = enemyDefinition.Speed + additiveSpeed;
 
             healthComponent.Initialize(hp, enemyView.HealthSlider, enemyView);

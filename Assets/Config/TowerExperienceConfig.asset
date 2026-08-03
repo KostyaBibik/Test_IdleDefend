@@ -13,69 +13,69 @@ MonoBehaviour:
   m_Name: TowerExperienceConfig
   m_EditorClassIdentifier: 
   defaultExperiencePerEnemy: 4
-  enemyExperienceMultiplier: 1
+  enemyExperienceMultiplier: 0.6
+  levelRequirements:
+  - targetLevel: 2
+    experience: 30
+  - targetLevel: 3
+    experience: 42
+  - targetLevel: 4
+    experience: 75
+  - targetLevel: 5
+    experience: 100
+  - targetLevel: 6
+    experience: 112
+  - targetLevel: 7
+    experience: 130
+  - targetLevel: 8
+    experience: 150
+  - targetLevel: 9
+    experience: 165
+  - targetLevel: 10
+    experience: 190
+  - targetLevel: 11
+    experience: 215
+  - targetLevel: 12
+    experience: 262
+  - targetLevel: 13
+    experience: 331
+  - targetLevel: 14
+    experience: 420
+  - targetLevel: 15
+    experience: 534
+  - targetLevel: 16
+    experience: 681
+  - targetLevel: 17
+    experience: 872
+  - targetLevel: 18
+    experience: 1120
+  - targetLevel: 19
+    experience: 1442
+  - targetLevel: 20
+    experience: 1863
+  - targetLevel: 21
+    experience: 2415
+  - targetLevel: 22
+    experience: 3139
+  - targetLevel: 23
+    experience: 4094
+  - targetLevel: 24
+    experience: 5355
+  - targetLevel: 25
+    experience: 7025
+  - targetLevel: 26
+    experience: 9246
+  - targetLevel: 27
+    experience: 12204
+  - targetLevel: 28
+    experience: 16158
+  - targetLevel: 29
+    experience: 21458
+  - targetLevel: 30
+    experience: 28582
+  - targetLevel: 31
+    experience: 38186
   experienceDrainBaseSpeed: 80
   experienceDrainPendingMultiplier: 0.35
   experienceDrainMaxSpeed: 900
   levelUpPopupDelay: 0.45
-  levelRequirements:
-  - targetLevel: 2
-    experience: 34
-  - targetLevel: 3
-    experience: 43
-  - targetLevel: 4
-    experience: 53
-  - targetLevel: 5
-    experience: 65
-  - targetLevel: 6
-    experience: 80
-  - targetLevel: 7
-    experience: 99
-  - targetLevel: 8
-    experience: 120
-  - targetLevel: 9
-    experience: 146
-  - targetLevel: 10
-    experience: 177
-  - targetLevel: 11
-    experience: 215
-  - targetLevel: 12
-    experience: 259
-  - targetLevel: 13
-    experience: 312
-  - targetLevel: 14
-    experience: 375
-  - targetLevel: 15
-    experience: 449
-  - targetLevel: 16
-    experience: 538
-  - targetLevel: 17
-    experience: 643
-  - targetLevel: 18
-    experience: 767
-  - targetLevel: 19
-    experience: 915
-  - targetLevel: 20
-    experience: 1089
-  - targetLevel: 21
-    experience: 1295
-  - targetLevel: 22
-    experience: 1536
-  - targetLevel: 23
-    experience: 1818
-  - targetLevel: 24
-    experience: 2148
-  - targetLevel: 25
-    experience: 2533
-  - targetLevel: 26
-    experience: 2982
-  - targetLevel: 27
-    experience: 3505
-  - targetLevel: 28
-    experience: 4114
-  - targetLevel: 29
-    experience: 4823
-  - targetLevel: 30
-    experience: 5647
-  - targetLevel: 31
-    experience: 6604
