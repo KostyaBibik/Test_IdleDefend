@@ -36,9 +36,9 @@ MonoBehaviour:
       enabled: 1
       spawnDelayMin: 0.91
       spawnDelayMax: 1.56
-      extraHealth: 25
-      extraSpeed: 0
-      endOfWaveHealthMultiplier: 2
+      extraHealth: 80
+      extraSpeed: 0.1
+      endOfWaveHealthMultiplier: 3
       finalSpawnLeadSecondsOverride: 4
   - enemyType: 2
     stage1:
@@ -62,7 +62,7 @@ MonoBehaviour:
       spawnDelayMin: 20.14
       spawnDelayMax: 40.27
       extraHealth: 140
-      extraSpeed: 0.19
+      extraSpeed: 0.32
       endOfWaveHealthMultiplier: 3
       finalSpawnLeadSecondsOverride: 2
   - enemyType: 1
@@ -86,9 +86,9 @@ MonoBehaviour:
       enabled: 1
       spawnDelayMin: 3.92
       spawnDelayMax: 7.83
-      extraHealth: 45
-      extraSpeed: 0
-      endOfWaveHealthMultiplier: 2.2
+      extraHealth: 200
+      extraSpeed: 0.1
+      endOfWaveHealthMultiplier: 2
       finalSpawnLeadSecondsOverride: 11
   rewardEmeraldsPerStar: 25
   unlockRewardItem: {fileID: 0}

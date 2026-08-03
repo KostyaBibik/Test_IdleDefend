@@ -20,9 +20,9 @@ MonoBehaviour:
       enabled: 1
       spawnDelayMin: 0.24
       spawnDelayMax: 0.96
-      extraHealth: 5
-      extraSpeed: 0.16
-      endOfWaveHealthMultiplier: 2
+      extraHealth: 45
+      extraSpeed: 0.3
+      endOfWaveHealthMultiplier: 3
       finalSpawnLeadSecondsOverride: -1
     stage2:
       enabled: 1
@@ -86,9 +86,9 @@ MonoBehaviour:
       enabled: 1
       spawnDelayMin: 3.83
       spawnDelayMax: 7.66
-      extraHealth: 75
-      extraSpeed: 0
-      endOfWaveHealthMultiplier: 2.2
+      extraHealth: 300
+      extraSpeed: 0.1
+      endOfWaveHealthMultiplier: 4
       finalSpawnLeadSecondsOverride: 11
   - enemyType: 3
     stage1:
