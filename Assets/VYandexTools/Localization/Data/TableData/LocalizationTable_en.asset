@@ -91,15 +91,15 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 2377113618
-    m_Localized: "Level {0}"
+    m_Localized: Level {0}
     m_Metadata:
       m_Items: []
   - m_Id: 2377113619
-    m_Localized: "Complete stage {0}"
+    m_Localized: Complete stage {0}
     m_Metadata:
       m_Items: []
   - m_Id: 2377113620
-    m_Localized: "Lv.{0}"
+    m_Localized: Lv.{0}
     m_Metadata:
       m_Items: []
   - m_Id: 2377113621
@@ -147,11 +147,11 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 2377113632
-    m_Localized: "Price each: {0}"
+    m_Localized: 'Price each: {0}'
     m_Metadata:
       m_Items: []
   - m_Id: 2377113633
-    m_Localized: "Total: {0}"
+    m_Localized: 'Total: {0}'
     m_Metadata:
       m_Items: []
   - m_Id: 2377113634
@@ -403,7 +403,8 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 2377113696
-    m_Localized: Projectile pierces enemies standing behind the first target in a line.
+    m_Localized: Projectile pierces enemies standing behind the first target in a
+      line.
     m_Metadata:
       m_Items: []
   - m_Id: 2377113697
@@ -564,6 +565,10 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 1353737632210958
     m_Localized: VS EVERYONE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2794689882218496
+    m_Localized: Continue?
     m_Metadata:
       m_Items: []
   references:

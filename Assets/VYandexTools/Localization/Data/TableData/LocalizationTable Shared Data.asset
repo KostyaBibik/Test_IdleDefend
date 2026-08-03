@@ -563,6 +563,10 @@ MonoBehaviour:
     m_Key: menu_title_line_2
     m_Metadata:
       m_Items: []
+  - m_Id: 2794689882218496
+    m_Key: lose_continue_ask
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

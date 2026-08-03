@@ -1172,7 +1172,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   textComponent: {fileID: 131364757}
   useEnumKey: 1
-  key: 0
+  key: 9
   localizedString:
     m_TableReference:
       m_TableCollectionName: LocalizationTable
@@ -1199,7 +1199,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   textComponent: {fileID: 131364759}
   useEnumKey: 1
-  key: 0
+  key: 5
   localizedString:
     m_TableReference:
       m_TableCollectionName: LocalizationTable
@@ -2638,7 +2638,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   textComponent: {fileID: 333212559}
   useEnumKey: 1
-  key: 0
+  key: 11
   localizedString:
     m_TableReference:
       m_TableCollectionName: LocalizationTable
@@ -3906,6 +3906,7 @@ GameObject:
   - component: {fileID: 496954456}
   - component: {fileID: 496954458}
   - component: {fileID: 496954457}
+  - component: {fileID: 496954459}
   m_Layer: 5
   m_Name: Ask
   m_TagString: Untagged
@@ -4029,6 +4030,33 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 496954455}
   m_CullTransparentMesh: 1
+--- !u!114 &496954459
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 496954455}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6e1c37be0c4162a8eab25930ad584b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textComponent: {fileID: 496954457}
+  useEnumKey: 1
+  key: 137
+  localizedString:
+    m_TableReference:
+      m_TableCollectionName: 
+    m_TableEntryReference:
+      m_KeyId: 0
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  references:
+    version: 2
+    RefIds: []
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -15026,7 +15054,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   textComponent: {fileID: 2122453472}
   useEnumKey: 1
-  key: 0
+  key: 10
   localizedString:
     m_TableReference:
       m_TableCollectionName: LocalizationTable
@@ -15705,7 +15733,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   textComponent: {fileID: 1486125627471581140}
   useEnumKey: 1
-  key: 0
+  key: 12
   localizedString:
     m_TableReference:
       m_TableCollectionName: LocalizationTable
@@ -15915,7 +15943,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   textComponent: {fileID: 3214334490827732726}
   useEnumKey: 1
-  key: 0
+  key: 9
   localizedString:
     m_TableReference:
       m_TableCollectionName: LocalizationTable
@@ -15942,7 +15970,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   textComponent: {fileID: 3214334490827732728}
   useEnumKey: 1
-  key: 0
+  key: 5
   localizedString:
     m_TableReference:
       m_TableCollectionName: LocalizationTable
@@ -16156,7 +16184,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   textComponent: {fileID: 4333843514695710851}
   useEnumKey: 1
-  key: 0
+  key: 9
   localizedString:
     m_TableReference:
       m_TableCollectionName: LocalizationTable
@@ -16183,7 +16211,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   textComponent: {fileID: 4333843514695710853}
   useEnumKey: 1
-  key: 0
+  key: 6
   localizedString:
     m_TableReference:
       m_TableCollectionName: LocalizationTable
@@ -16389,7 +16417,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   textComponent: {fileID: 8130831448875127617}
   useEnumKey: 1
-  key: 0
+  key: 9
   localizedString:
     m_TableReference:
       m_TableCollectionName: LocalizationTable
@@ -16416,7 +16444,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   textComponent: {fileID: 8130831448875127619}
   useEnumKey: 1
-  key: 0
+  key: 7
   localizedString:
     m_TableReference:
       m_TableCollectionName: LocalizationTable
@@ -16622,7 +16650,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   textComponent: {fileID: 8318415049510613320}
   useEnumKey: 1
-  key: 0
+  key: 9
   localizedString:
     m_TableReference:
       m_TableCollectionName: LocalizationTable
@@ -16649,7 +16677,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   textComponent: {fileID: 8318415049510613322}
   useEnumKey: 1
-  key: 0
+  key: 8
   localizedString:
     m_TableReference:
       m_TableCollectionName: LocalizationTable

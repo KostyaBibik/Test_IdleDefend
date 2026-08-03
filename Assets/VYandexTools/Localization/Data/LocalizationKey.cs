@@ -137,4 +137,5 @@ public enum LocalizationKey
     shop_gem_reward,
     menu_title_line_1,
     menu_title_line_2,
+    lose_continue_ask,
 }

@@ -132,10 +132,7 @@ namespace Systems.Initializable
             if (sectionIndex < 0)
                 return;
 
-            var section = level.GetSpawnSection(_elapsedSeconds);
-            var entries = section?.Enemies;
-            if (entries == null)
-                return;
+            var entries = level.GetSpawnEntries(sectionIndex);
 
             for (var i = 0; i < entries.Count; i++)
             {
@@ -215,7 +212,7 @@ namespace Systems.Initializable
         private bool ShouldStopForLevelEnd(EnemySpawnEntryDefinition entry)
         {
             var level = _levelService.CurrentLevel;
-            if (level == null || _activeSectionIndex != level.SpawnSections.Count - 1)
+            if (level == null || _activeSectionIndex != LevelDefinition.MaxStars - 1)
                 return false;
 
             var leadSeconds = entry.finalSpawnLeadSecondsOverride >= 0f

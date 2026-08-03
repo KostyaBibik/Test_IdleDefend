@@ -24,13 +24,13 @@ MonoBehaviour:
   - targetLevel: 5
     experience: 100
   - targetLevel: 6
-    experience: 112
-  - targetLevel: 7
     experience: 130
-  - targetLevel: 8
+  - targetLevel: 7
     experience: 150
+  - targetLevel: 8
+    experience: 168
   - targetLevel: 9
-    experience: 165
+    experience: 188
   - targetLevel: 10
     experience: 190
   - targetLevel: 11

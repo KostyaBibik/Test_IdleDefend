@@ -19,543 +19,623 @@ MonoBehaviour:
     m_Items: []
   m_TableData:
   - m_Id: 2356142080
-    m_Localized: Загрузка
+    m_Localized: "\u0417\u0430\u0433\u0440\u0443\u0437\u043A\u0430"
     m_Metadata:
       m_Items: []
   - m_Id: 2377113600
-    m_Localized: Играть
+    m_Localized: "\u0418\u0433\u0440\u0430\u0442\u044C"
     m_Metadata:
       m_Items: []
   - m_Id: 2377113601
-    m_Localized: Дальность
+    m_Localized: "\u0414\u0430\u043B\u044C\u043D\u043E\u0441\u0442\u044C"
     m_Metadata:
       m_Items: []
   - m_Id: 2377113602
-    m_Localized: Урон
+    m_Localized: "\u0423\u0440\u043E\u043D"
     m_Metadata:
       m_Items: []
   - m_Id: 2377113603
-    m_Localized: Скор. атаки
+    m_Localized: "\u0421\u043A\u043E\u0440. \u0430\u0442\u0430\u043A\u0438"
     m_Metadata:
       m_Items: []
   - m_Id: 2377113604
-    m_Localized: Здоровье
+    m_Localized: "\u0417\u0434\u043E\u0440\u043E\u0432\u044C\u0435"
     m_Metadata:
       m_Items: []
   - m_Id: 2377113605
-    m_Localized: Купить
+    m_Localized: "\u041A\u0443\u043F\u0438\u0442\u044C"
     m_Metadata:
       m_Items: []
   - m_Id: 2377113606
-    m_Localized: Вы проиграли!
+    m_Localized: "\u0412\u044B \u043F\u0440\u043E\u0438\u0433\u0440\u0430\u043B\u0438!"
     m_Metadata:
       m_Items: []
   - m_Id: 2377113607
-    m_Localized: Заново
+    m_Localized: "\u0417\u0430\u043D\u043E\u0432\u043E"
     m_Metadata:
       m_Items: []
   - m_Id: 2377113608
-    m_Localized: В меню
+    m_Localized: "\u0412 \u043C\u0435\u043D\u044E"
     m_Metadata:
       m_Items: []
   - m_Id: 2377113610
-    m_Localized: Результат
+    m_Localized: "\u0420\u0435\u0437\u0443\u043B\u044C\u0442\u0430\u0442"
     m_Metadata:
       m_Items: []
   - m_Id: 2377113611
-    m_Localized: Магазин
+    m_Localized: "\u041C\u0430\u0433\u0430\u0437\u0438\u043D"
     m_Metadata:
       m_Items: []
   - m_Id: 2377113612
-    m_Localized: Этапы
+    m_Localized: "\u042D\u0442\u0430\u043F\u044B"
     m_Metadata:
       m_Items: []
   - m_Id: 2377113613
-    m_Localized: Настройки
+    m_Localized: "\u041D\u0430\u0441\u0442\u0440\u043E\u0439\u043A\u0438"
     m_Metadata:
       m_Items: []
   - m_Id: 2377113614
-    m_Localized: Пауза
+    m_Localized: "\u041F\u0430\u0443\u0437\u0430"
     m_Metadata:
       m_Items: []
   - m_Id: 2377113615
-    m_Localized: Продолжить
+    m_Localized: "\u041F\u0440\u043E\u0434\u043E\u043B\u0436\u0438\u0442\u044C"
     m_Metadata:
       m_Items: []
   - m_Id: 2377113616
-    m_Localized: Заново
+    m_Localized: "\u0417\u0430\u043D\u043E\u0432\u043E"
     m_Metadata:
       m_Items: []
   - m_Id: 2377113617
-    m_Localized: Сдаться
+    m_Localized: "\u0421\u0434\u0430\u0442\u044C\u0441\u044F"
     m_Metadata:
       m_Items: []
   - m_Id: 2377113618
-    m_Localized: "Уровень {0}"
+    m_Localized: "\u0423\u0440\u043E\u0432\u0435\u043D\u044C {0}"
     m_Metadata:
       m_Items: []
   - m_Id: 2377113619
-    m_Localized: "Пройдите этап {0}"
+    m_Localized: "\u041F\u0440\u043E\u0439\u0434\u0438\u0442\u0435 \u044D\u0442\u0430\u043F
+      {0}"
     m_Metadata:
       m_Items: []
   - m_Id: 2377113620
-    m_Localized: "Ур.{0}"
+    m_Localized: "\u0423\u0440.{0}"
     m_Metadata:
       m_Items: []
   - m_Id: 2377113621
-    m_Localized: Макс. уровень
+    m_Localized: "\u041C\u0430\u043A\u0441. \u0443\u0440\u043E\u0432\u0435\u043D\u044C"
     m_Metadata:
       m_Items: []
   - m_Id: 2377113622
-    m_Localized: Башни
+    m_Localized: "\u0411\u0430\u0448\u043D\u0438"
     m_Metadata:
       m_Items: []
   - m_Id: 2377113623
-    m_Localized: Снаряды
+    m_Localized: "\u0421\u043D\u0430\u0440\u044F\u0434\u044B"
     m_Metadata:
       m_Items: []
   - m_Id: 2377113624
-    m_Localized: Бусты
+    m_Localized: "\u0411\u0443\u0441\u0442\u044B"
     m_Metadata:
       m_Items: []
   - m_Id: 2377113625
-    m_Localized: Эмеральды
+    m_Localized: "\u042D\u043C\u0435\u0440\u0430\u043B\u044C\u0434\u044B"
     m_Metadata:
       m_Items: []
   - m_Id: 2377113626
-    m_Localized: Доступно
+    m_Localized: "\u0414\u043E\u0441\u0442\u0443\u043F\u043D\u043E"
     m_Metadata:
       m_Items: []
   - m_Id: 2377113627
-    m_Localized: Недостаточно валюты
+    m_Localized: "\u041D\u0435\u0434\u043E\u0441\u0442\u0430\u0442\u043E\u0447\u043D\u043E
+      \u0432\u0430\u043B\u044E\u0442\u044B"
     m_Metadata:
       m_Items: []
   - m_Id: 2377113628
-    m_Localized: Куплено
+    m_Localized: "\u041A\u0443\u043F\u043B\u0435\u043D\u043E"
     m_Metadata:
       m_Items: []
   - m_Id: 2377113629
-    m_Localized: Надето
+    m_Localized: "\u041D\u0430\u0434\u0435\u0442\u043E"
     m_Metadata:
       m_Items: []
   - m_Id: 2377113630
-    m_Localized: Бесплатно
+    m_Localized: "\u0411\u0435\u0441\u043F\u043B\u0430\u0442\u043D\u043E"
     m_Metadata:
       m_Items: []
   - m_Id: 2377113631
-    m_Localized: Покупка
+    m_Localized: "\u041F\u043E\u043A\u0443\u043F\u043A\u0430"
     m_Metadata:
       m_Items: []
   - m_Id: 2377113632
-    m_Localized: "Цена за 1: {0}"
+    m_Localized: "\u0426\u0435\u043D\u0430 \u0437\u0430 1: {0}"
     m_Metadata:
       m_Items: []
   - m_Id: 2377113633
-    m_Localized: "Итого: {0}"
+    m_Localized: "\u0418\u0442\u043E\u0433\u043E: {0}"
     m_Metadata:
       m_Items: []
   - m_Id: 2377113634
-    m_Localized: Купить
+    m_Localized: "\u041A\u0443\u043F\u0438\u0442\u044C"
     m_Metadata:
       m_Items: []
   - m_Id: 2377113635
-    m_Localized: Надеть
+    m_Localized: "\u041D\u0430\u0434\u0435\u0442\u044C"
     m_Metadata:
       m_Items: []
   - m_Id: 2377113636
-    m_Localized: Выбрано
+    m_Localized: "\u0412\u044B\u0431\u0440\u0430\u043D\u043E"
     m_Metadata:
       m_Items: []
   - m_Id: 2377113637
-    m_Localized: Выбор бустов
+    m_Localized: "\u0412\u044B\u0431\u043E\u0440 \u0431\u0443\u0441\u0442\u043E\u0432"
     m_Metadata:
       m_Items: []
   - m_Id: 2377113638
-    m_Localized: Активен
+    m_Localized: "\u0410\u043A\u0442\u0438\u0432\u0435\u043D"
     m_Metadata:
       m_Items: []
   - m_Id: 2377113639
-    m_Localized: Неактивен
+    m_Localized: "\u041D\u0435\u0430\u043A\u0442\u0438\u0432\u0435\u043D"
     m_Metadata:
       m_Items: []
   - m_Id: 2377113640
-    m_Localized: Обычный
+    m_Localized: "\u041E\u0431\u044B\u0447\u043D\u044B\u0439"
     m_Metadata:
       m_Items: []
   - m_Id: 2377113641
-    m_Localized: Редкий
+    m_Localized: "\u0420\u0435\u0434\u043A\u0438\u0439"
     m_Metadata:
       m_Items: []
   - m_Id: 2377113642
-    m_Localized: Легендарный
+    m_Localized: "\u041B\u0435\u0433\u0435\u043D\u0434\u0430\u0440\u043D\u044B\u0439"
     m_Metadata:
       m_Items: []
   - m_Id: 2377113643
-    m_Localized: Обычная башня
+    m_Localized: "\u041E\u0431\u044B\u0447\u043D\u0430\u044F \u0431\u0430\u0448\u043D\u044F"
     m_Metadata:
       m_Items: []
   - m_Id: 2377113644
-    m_Localized: Надежная стартовая башня. Всегда готова к обороне.
+    m_Localized: "\u041D\u0430\u0434\u0435\u0436\u043D\u0430\u044F \u0441\u0442\u0430\u0440\u0442\u043E\u0432\u0430\u044F
+      \u0431\u0430\u0448\u043D\u044F. \u0412\u0441\u0435\u0433\u0434\u0430 \u0433\u043E\u0442\u043E\u0432\u0430
+      \u043A \u043E\u0431\u043E\u0440\u043E\u043D\u0435."
     m_Metadata:
       m_Items: []
   - m_Id: 2377113645
-    m_Localized: Аркановая башня
+    m_Localized: "\u0410\u0440\u043A\u0430\u043D\u043E\u0432\u0430\u044F \u0431\u0430\u0448\u043D\u044F"
     m_Metadata:
       m_Items: []
   - m_Id: 2377113646
-    m_Localized: Древняя магия усиливает каждый выстрел.
+    m_Localized: "\u0414\u0440\u0435\u0432\u043D\u044F\u044F \u043C\u0430\u0433\u0438\u044F
+      \u0443\u0441\u0438\u043B\u0438\u0432\u0430\u0435\u0442 \u043A\u0430\u0436\u0434\u044B\u0439
+      \u0432\u044B\u0441\u0442\u0440\u0435\u043B."
     m_Metadata:
       m_Items: []
   - m_Id: 2377113647
-    m_Localized: Кристальная башня
+    m_Localized: "\u041A\u0440\u0438\u0441\u0442\u0430\u043B\u044C\u043D\u0430\u044F
+      \u0431\u0430\u0448\u043D\u044F"
     m_Metadata:
       m_Items: []
   - m_Id: 2377113648
-    m_Localized: Сияет кристальной энергией и пробивает врагов.
+    m_Localized: "\u0421\u0438\u044F\u0435\u0442 \u043A\u0440\u0438\u0441\u0442\u0430\u043B\u044C\u043D\u043E\u0439
+      \u044D\u043D\u0435\u0440\u0433\u0438\u0435\u0439 \u0438 \u043F\u0440\u043E\u0431\u0438\u0432\u0430\u0435\u0442
+      \u0432\u0440\u0430\u0433\u043E\u0432."
     m_Metadata:
       m_Items: []
   - m_Id: 2377113649
-    m_Localized: Темная башня
+    m_Localized: "\u0422\u0435\u043C\u043D\u0430\u044F \u0431\u0430\u0448\u043D\u044F"
     m_Metadata:
       m_Items: []
   - m_Id: 2377113650
-    m_Localized: Выкована в тени. Выбор ветеранов.
+    m_Localized: "\u0412\u044B\u043A\u043E\u0432\u0430\u043D\u0430 \u0432 \u0442\u0435\u043D\u0438.
+      \u0412\u044B\u0431\u043E\u0440 \u0432\u0435\u0442\u0435\u0440\u0430\u043D\u043E\u0432."
     m_Metadata:
       m_Items: []
   - m_Id: 2377113651
-    m_Localized: Обычный снаряд
+    m_Localized: "\u041E\u0431\u044B\u0447\u043D\u044B\u0439 \u0441\u043D\u0430\u0440\u044F\u0434"
     m_Metadata:
       m_Items: []
   - m_Id: 2377113652
-    m_Localized: Стандартный боезапас башни.
+    m_Localized: "\u0421\u0442\u0430\u043D\u0434\u0430\u0440\u0442\u043D\u044B\u0439
+      \u0431\u043E\u0435\u0437\u0430\u043F\u0430\u0441 \u0431\u0430\u0448\u043D\u0438."
     m_Metadata:
       m_Items: []
   - m_Id: 2377113653
-    m_Localized: Огненный снаряд
+    m_Localized: "\u041E\u0433\u043D\u0435\u043D\u043D\u044B\u0439 \u0441\u043D\u0430\u0440\u044F\u0434"
     m_Metadata:
       m_Items: []
   - m_Id: 2377113654
-    m_Localized: Прожигает врагов насквозь. +18% урона.
+    m_Localized: "\u041F\u0440\u043E\u0436\u0438\u0433\u0430\u0435\u0442 \u0432\u0440\u0430\u0433\u043E\u0432
+      \u043D\u0430\u0441\u043A\u0432\u043E\u0437\u044C. +18% \u0443\u0440\u043E\u043D\u0430."
     m_Metadata:
       m_Items: []
   - m_Id: 2377113655
-    m_Localized: Ледяной снаряд
+    m_Localized: "\u041B\u0435\u0434\u044F\u043D\u043E\u0439 \u0441\u043D\u0430\u0440\u044F\u0434"
     m_Metadata:
       m_Items: []
   - m_Id: 2377113656
-    m_Localized: Замораживает и замедляет врагов.
+    m_Localized: "\u0417\u0430\u043C\u043E\u0440\u0430\u0436\u0438\u0432\u0430\u0435\u0442
+      \u0438 \u0437\u0430\u043C\u0435\u0434\u043B\u044F\u0435\u0442 \u0432\u0440\u0430\u0433\u043E\u0432."
     m_Metadata:
       m_Items: []
   - m_Id: 2377113657
-    m_Localized: Ядовитый снаряд
+    m_Localized: "\u042F\u0434\u043E\u0432\u0438\u0442\u044B\u0439 \u0441\u043D\u0430\u0440\u044F\u0434"
     m_Metadata:
       m_Items: []
   - m_Id: 2377113658
-    m_Localized: Отравляет врагов, нанося урон со временем.
+    m_Localized: "\u041E\u0442\u0440\u0430\u0432\u043B\u044F\u0435\u0442 \u0432\u0440\u0430\u0433\u043E\u0432,
+      \u043D\u0430\u043D\u043E\u0441\u044F \u0443\u0440\u043E\u043D \u0441\u043E
+      \u0432\u0440\u0435\u043C\u0435\u043D\u0435\u043C."
     m_Metadata:
       m_Items: []
   - m_Id: 2377113659
-    m_Localized: Урон +10%
+    m_Localized: "\u0423\u0440\u043E\u043D +10%"
     m_Metadata:
       m_Items: []
   - m_Id: 2377113660
-    m_Localized: Небольшая прибавка к урону башни.
+    m_Localized: "\u041D\u0435\u0431\u043E\u043B\u044C\u0448\u0430\u044F \u043F\u0440\u0438\u0431\u0430\u0432\u043A\u0430
+      \u043A \u0443\u0440\u043E\u043D\u0443 \u0431\u0430\u0448\u043D\u0438."
     m_Metadata:
       m_Items: []
   - m_Id: 2377113661
-    m_Localized: Радиус +20%
+    m_Localized: "\u0420\u0430\u0434\u0438\u0443\u0441 +20%"
     m_Metadata:
       m_Items: []
   - m_Id: 2377113662
-    m_Localized: Башня достает врагов заметно дальше.
+    m_Localized: "\u0411\u0430\u0448\u043D\u044F \u0434\u043E\u0441\u0442\u0430\u0435\u0442
+      \u0432\u0440\u0430\u0433\u043E\u0432 \u0437\u0430\u043C\u0435\u0442\u043D\u043E
+      \u0434\u0430\u043B\u044C\u0448\u0435."
     m_Metadata:
       m_Items: []
   - m_Id: 2377113663
-    m_Localized: Скорость +15%
+    m_Localized: "\u0421\u043A\u043E\u0440\u043E\u0441\u0442\u044C +15%"
     m_Metadata:
       m_Items: []
   - m_Id: 2377113664
-    m_Localized: Башня стреляет заметно чаще.
+    m_Localized: "\u0411\u0430\u0448\u043D\u044F \u0441\u0442\u0440\u0435\u043B\u044F\u0435\u0442
+      \u0437\u0430\u043C\u0435\u0442\u043D\u043E \u0447\u0430\u0449\u0435."
     m_Metadata:
       m_Items: []
   - m_Id: 2377113665
-    m_Localized: Щит +25%
+    m_Localized: "\u0429\u0438\u0442 +25%"
     m_Metadata:
       m_Items: []
   - m_Id: 2377113666
-    m_Localized: Прочный барьер, продлевающий оборону.
+    m_Localized: "\u041F\u0440\u043E\u0447\u043D\u044B\u0439 \u0431\u0430\u0440\u044C\u0435\u0440,
+      \u043F\u0440\u043E\u0434\u043B\u0435\u0432\u0430\u044E\u0449\u0438\u0439 \u043E\u0431\u043E\u0440\u043E\u043D\u0443."
     m_Metadata:
       m_Items: []
   - m_Id: 2377113667
-    m_Localized: Горсть эмеральдов
+    m_Localized: "\u0413\u043E\u0440\u0441\u0442\u044C \u044D\u043C\u0435\u0440\u0430\u043B\u044C\u0434\u043E\u0432"
     m_Metadata:
       m_Items: []
   - m_Id: 2377113668
-    m_Localized: Небольшой мешочек с эмеральдами.
+    m_Localized: "\u041D\u0435\u0431\u043E\u043B\u044C\u0448\u043E\u0439 \u043C\u0435\u0448\u043E\u0447\u0435\u043A
+      \u0441 \u044D\u043C\u0435\u0440\u0430\u043B\u044C\u0434\u0430\u043C\u0438."
     m_Metadata:
       m_Items: []
   - m_Id: 2377113669
-    m_Localized: Мешок эмеральдов
+    m_Localized: "\u041C\u0435\u0448\u043E\u043A \u044D\u043C\u0435\u0440\u0430\u043B\u044C\u0434\u043E\u0432"
     m_Metadata:
       m_Items: []
   - m_Id: 2377113670
-    m_Localized: Увесистый мешок с эмеральдами.
+    m_Localized: "\u0423\u0432\u0435\u0441\u0438\u0441\u0442\u044B\u0439 \u043C\u0435\u0448\u043E\u043A
+      \u0441 \u044D\u043C\u0435\u0440\u0430\u043B\u044C\u0434\u0430\u043C\u0438."
     m_Metadata:
       m_Items: []
   - m_Id: 2377113671
-    m_Localized: Сундук эмеральдов
+    m_Localized: "\u0421\u0443\u043D\u0434\u0443\u043A \u044D\u043C\u0435\u0440\u0430\u043B\u044C\u0434\u043E\u0432"
     m_Metadata:
       m_Items: []
   - m_Id: 2377113672
-    m_Localized: Тяжелый сундук, полный эмеральдов.
+    m_Localized: "\u0422\u044F\u0436\u0435\u043B\u044B\u0439 \u0441\u0443\u043D\u0434\u0443\u043A,
+      \u043F\u043E\u043B\u043D\u044B\u0439 \u044D\u043C\u0435\u0440\u0430\u043B\u044C\u0434\u043E\u0432."
     m_Metadata:
       m_Items: []
   - m_Id: 2377113673
-    m_Localized: Огромный сундук
+    m_Localized: "\u041E\u0433\u0440\u043E\u043C\u043D\u044B\u0439 \u0441\u0443\u043D\u0434\u0443\u043A"
     m_Metadata:
       m_Items: []
   - m_Id: 2377113674
-    m_Localized: Целое состояние в эмеральдах.
+    m_Localized: "\u0426\u0435\u043B\u043E\u0435 \u0441\u043E\u0441\u0442\u043E\u044F\u043D\u0438\u0435
+      \u0432 \u044D\u043C\u0435\u0440\u0430\u043B\u044C\u0434\u0430\u0445."
     m_Metadata:
       m_Items: []
   - m_Id: 2377113675
-    m_Localized: Урон +15%
+    m_Localized: "\u0423\u0440\u043E\u043D +15%"
     m_Metadata:
       m_Items: []
   - m_Id: 2377113676
-    m_Localized: Урон башни увеличен до конца забега.
+    m_Localized: "\u0423\u0440\u043E\u043D \u0431\u0430\u0448\u043D\u0438 \u0443\u0432\u0435\u043B\u0438\u0447\u0435\u043D
+      \u0434\u043E \u043A\u043E\u043D\u0446\u0430 \u0437\u0430\u0431\u0435\u0433\u0430."
     m_Metadata:
       m_Items: []
   - m_Id: 2377113677
-    m_Localized: Скорость атаки +12%
+    m_Localized: "\u0421\u043A\u043E\u0440\u043E\u0441\u0442\u044C \u0430\u0442\u0430\u043A\u0438
+      +12%"
     m_Metadata:
       m_Items: []
   - m_Id: 2377113678
-    m_Localized: Башня атакует быстрее до конца забега.
+    m_Localized: "\u0411\u0430\u0448\u043D\u044F \u0430\u0442\u0430\u043A\u0443\u0435\u0442
+      \u0431\u044B\u0441\u0442\u0440\u0435\u0435 \u0434\u043E \u043A\u043E\u043D\u0446\u0430
+      \u0437\u0430\u0431\u0435\u0433\u0430."
     m_Metadata:
       m_Items: []
   - m_Id: 2377113679
-    m_Localized: Дальность +10%
+    m_Localized: "\u0414\u0430\u043B\u044C\u043D\u043E\u0441\u0442\u044C +10%"
     m_Metadata:
       m_Items: []
   - m_Id: 2377113680
-    m_Localized: Дальность атаки башни увеличена до конца забега.
+    m_Localized: "\u0414\u0430\u043B\u044C\u043D\u043E\u0441\u0442\u044C \u0430\u0442\u0430\u043A\u0438
+      \u0431\u0430\u0448\u043D\u0438 \u0443\u0432\u0435\u043B\u0438\u0447\u0435\u043D\u0430
+      \u0434\u043E \u043A\u043E\u043D\u0446\u0430 \u0437\u0430\u0431\u0435\u0433\u0430."
     m_Metadata:
       m_Items: []
   - m_Id: 2377113681
-    m_Localized: Монеты +10%
+    m_Localized: "\u041C\u043E\u043D\u0435\u0442\u044B +10%"
     m_Metadata:
       m_Items: []
   - m_Id: 2377113682
-    m_Localized: Награды монетами за врагов увеличены до конца забега.
+    m_Localized: "\u041D\u0430\u0433\u0440\u0430\u0434\u044B \u043C\u043E\u043D\u0435\u0442\u0430\u043C\u0438
+      \u0437\u0430 \u0432\u0440\u0430\u0433\u043E\u0432 \u0443\u0432\u0435\u043B\u0438\u0447\u0435\u043D\u044B
+      \u0434\u043E \u043A\u043E\u043D\u0446\u0430 \u0437\u0430\u0431\u0435\u0433\u0430."
     m_Metadata:
       m_Items: []
   - m_Id: 2377113683
-    m_Localized: Ремонт +1 HP
+    m_Localized: "\u0420\u0435\u043C\u043E\u043D\u0442 +1 HP"
     m_Metadata:
       m_Items: []
   - m_Id: 2377113684
-    m_Localized: Мгновенно восстанавливает одно здоровье башни.
+    m_Localized: "\u041C\u0433\u043D\u043E\u0432\u0435\u043D\u043D\u043E \u0432\u043E\u0441\u0441\u0442\u0430\u043D\u0430\u0432\u043B\u0438\u0432\u0430\u0435\u0442
+      \u043E\u0434\u043D\u043E \u0437\u0434\u043E\u0440\u043E\u0432\u044C\u0435 \u0431\u0430\u0448\u043D\u0438."
     m_Metadata:
       m_Items: []
   - m_Id: 2377113685
-    m_Localized: Шанс крита +5%
+    m_Localized: "\u0428\u0430\u043D\u0441 \u043A\u0440\u0438\u0442\u0430 +5%"
     m_Metadata:
       m_Items: []
   - m_Id: 2377113686
-    m_Localized: Добавляет шанс нанести критический урон выстрелом.
+    m_Localized: "\u0414\u043E\u0431\u0430\u0432\u043B\u044F\u0435\u0442 \u0448\u0430\u043D\u0441
+      \u043D\u0430\u043D\u0435\u0441\u0442\u0438 \u043A\u0440\u0438\u0442\u0438\u0447\u0435\u0441\u043A\u0438\u0439
+      \u0443\u0440\u043E\u043D \u0432\u044B\u0441\u0442\u0440\u0435\u043B\u043E\u043C."
     m_Metadata:
       m_Items: []
   - m_Id: 2377113687
-    m_Localized: Урон крита +50%
+    m_Localized: "\u0423\u0440\u043E\u043D \u043A\u0440\u0438\u0442\u0430 +50%"
     m_Metadata:
       m_Items: []
   - m_Id: 2377113688
-    m_Localized: Критические попадания наносят больше урона до конца забега.
+    m_Localized: "\u041A\u0440\u0438\u0442\u0438\u0447\u0435\u0441\u043A\u0438\u0435
+      \u043F\u043E\u043F\u0430\u0434\u0430\u043D\u0438\u044F \u043D\u0430\u043D\u043E\u0441\u044F\u0442
+      \u0431\u043E\u043B\u044C\u0448\u0435 \u0443\u0440\u043E\u043D\u0430 \u0434\u043E
+      \u043A\u043E\u043D\u0446\u0430 \u0437\u0430\u0431\u0435\u0433\u0430."
     m_Metadata:
       m_Items: []
   - m_Id: 2377113689
-    m_Localized: Двойной выстрел
+    m_Localized: "\u0414\u0432\u043E\u0439\u043D\u043E\u0439 \u0432\u044B\u0441\u0442\u0440\u0435\u043B"
     m_Metadata:
       m_Items: []
   - m_Id: 2377113690
-    m_Localized: Выпускает дополнительный снаряд вперед по другой цели.
+    m_Localized: "\u0412\u044B\u043F\u0443\u0441\u043A\u0430\u0435\u0442 \u0434\u043E\u043F\u043E\u043B\u043D\u0438\u0442\u0435\u043B\u044C\u043D\u044B\u0439
+      \u0441\u043D\u0430\u0440\u044F\u0434 \u0432\u043F\u0435\u0440\u0435\u0434 \u043F\u043E
+      \u0434\u0440\u0443\u0433\u043E\u0439 \u0446\u0435\u043B\u0438."
     m_Metadata:
       m_Items: []
   - m_Id: 2377113691
-    m_Localized: Рикошет
+    m_Localized: "\u0420\u0438\u043A\u043E\u0448\u0435\u0442"
     m_Metadata:
       m_Items: []
   - m_Id: 2377113692
-    m_Localized: Снаряд после попадания прыгает к ближайшему врагу.
+    m_Localized: "\u0421\u043D\u0430\u0440\u044F\u0434 \u043F\u043E\u0441\u043B\u0435
+      \u043F\u043E\u043F\u0430\u0434\u0430\u043D\u0438\u044F \u043F\u0440\u044B\u0433\u0430\u0435\u0442
+      \u043A \u0431\u043B\u0438\u0436\u0430\u0439\u0448\u0435\u043C\u0443 \u0432\u0440\u0430\u0433\u0443."
     m_Metadata:
       m_Items: []
   - m_Id: 2377113693
-    m_Localized: Выстрел назад
+    m_Localized: "\u0412\u044B\u0441\u0442\u0440\u0435\u043B \u043D\u0430\u0437\u0430\u0434"
     m_Metadata:
       m_Items: []
   - m_Id: 2377113694
-    m_Localized: Выпускает дополнительный снаряд по врагу позади башни.
+    m_Localized: "\u0412\u044B\u043F\u0443\u0441\u043A\u0430\u0435\u0442 \u0434\u043E\u043F\u043E\u043B\u043D\u0438\u0442\u0435\u043B\u044C\u043D\u044B\u0439
+      \u0441\u043D\u0430\u0440\u044F\u0434 \u043F\u043E \u0432\u0440\u0430\u0433\u0443
+      \u043F\u043E\u0437\u0430\u0434\u0438 \u0431\u0430\u0448\u043D\u0438."
     m_Metadata:
       m_Items: []
   - m_Id: 2377113695
-    m_Localized: Пробивающий выстрел
+    m_Localized: "\u041F\u0440\u043E\u0431\u0438\u0432\u0430\u044E\u0449\u0438\u0439
+      \u0432\u044B\u0441\u0442\u0440\u0435\u043B"
     m_Metadata:
       m_Items: []
   - m_Id: 2377113696
-    m_Localized: Снаряд пробивает врагов, стоящих линией за первой целью.
+    m_Localized: "\u0421\u043D\u0430\u0440\u044F\u0434 \u043F\u0440\u043E\u0431\u0438\u0432\u0430\u0435\u0442
+      \u0432\u0440\u0430\u0433\u043E\u0432, \u0441\u0442\u043E\u044F\u0449\u0438\u0445
+      \u043B\u0438\u043D\u0438\u0435\u0439 \u0437\u0430 \u043F\u0435\u0440\u0432\u043E\u0439
+      \u0446\u0435\u043B\u044C\u044E."
     m_Metadata:
       m_Items: []
   - m_Id: 2377113697
-    m_Localized: Взрывной выстрел
+    m_Localized: "\u0412\u0437\u0440\u044B\u0432\u043D\u043E\u0439 \u0432\u044B\u0441\u0442\u0440\u0435\u043B"
     m_Metadata:
       m_Items: []
   - m_Id: 2377113698
-    m_Localized: Попадания создают небольшой взрыв и задевают врагов рядом.
+    m_Localized: "\u041F\u043E\u043F\u0430\u0434\u0430\u043D\u0438\u044F \u0441\u043E\u0437\u0434\u0430\u044E\u0442
+      \u043D\u0435\u0431\u043E\u043B\u044C\u0448\u043E\u0439 \u0432\u0437\u0440\u044B\u0432
+      \u0438 \u0437\u0430\u0434\u0435\u0432\u0430\u044E\u0442 \u0432\u0440\u0430\u0433\u043E\u0432
+      \u0440\u044F\u0434\u043E\u043C."
     m_Metadata:
       m_Items: []
   - m_Id: 2377113699
-    m_Localized: Перегрузка
+    m_Localized: "\u041F\u0435\u0440\u0435\u0433\u0440\u0443\u0437\u043A\u0430"
     m_Metadata:
       m_Items: []
   - m_Id: 2377113700
-    m_Localized: Убийство любого врага временно сильно ускоряет атаки башни.
+    m_Localized: "\u0423\u0431\u0438\u0439\u0441\u0442\u0432\u043E \u043B\u044E\u0431\u043E\u0433\u043E
+      \u0432\u0440\u0430\u0433\u0430 \u0432\u0440\u0435\u043C\u0435\u043D\u043D\u043E
+      \u0441\u0438\u043B\u044C\u043D\u043E \u0443\u0441\u043A\u043E\u0440\u044F\u0435\u0442
+      \u0430\u0442\u0430\u043A\u0438 \u0431\u0430\u0448\u043D\u0438."
     m_Metadata:
       m_Items: []
   - m_Id: 2377113701
-    m_Localized: Мультивыстрел
+    m_Localized: "\u041C\u0443\u043B\u044C\u0442\u0438\u0432\u044B\u0441\u0442\u0440\u0435\u043B"
     m_Metadata:
       m_Items: []
   - m_Id: 2377113702
-    m_Localized: Каждая атака сразу повторяет весь выпущенный залп.
+    m_Localized: "\u041A\u0430\u0436\u0434\u0430\u044F \u0430\u0442\u0430\u043A\u0430
+      \u0441\u0440\u0430\u0437\u0443 \u043F\u043E\u0432\u0442\u043E\u0440\u044F\u0435\u0442
+      \u0432\u0435\u0441\u044C \u0432\u044B\u043F\u0443\u0449\u0435\u043D\u043D\u044B\u0439
+      \u0437\u0430\u043B\u043F."
     m_Metadata:
       m_Items: []
   - m_Id: 2377113703
-    m_Localized: Тройной выстрел
+    m_Localized: "\u0422\u0440\u043E\u0439\u043D\u043E\u0439 \u0432\u044B\u0441\u0442\u0440\u0435\u043B"
     m_Metadata:
       m_Items: []
   - m_Id: 2377113704
-    m_Localized: Будущий особый баф. Выпускает три снаряда веером.
+    m_Localized: "\u0411\u0443\u0434\u0443\u0449\u0438\u0439 \u043E\u0441\u043E\u0431\u044B\u0439
+      \u0431\u0430\u0444. \u0412\u044B\u043F\u0443\u0441\u043A\u0430\u0435\u0442
+      \u0442\u0440\u0438 \u0441\u043D\u0430\u0440\u044F\u0434\u0430 \u0432\u0435\u0435\u0440\u043E\u043C."
     m_Metadata:
       m_Items: []
   - m_Id: 2377113705
-    m_Localized: Взрыв при смерти
+    m_Localized: "\u0412\u0437\u0440\u044B\u0432 \u043F\u0440\u0438 \u0441\u043C\u0435\u0440\u0442\u0438"
     m_Metadata:
       m_Items: []
   - m_Id: 2377113706
-    m_Localized: Будущий особый баф. Убитые враги взрываются и задевают врагов рядом.
+    m_Localized: "\u0411\u0443\u0434\u0443\u0449\u0438\u0439 \u043E\u0441\u043E\u0431\u044B\u0439
+      \u0431\u0430\u0444. \u0423\u0431\u0438\u0442\u044B\u0435 \u0432\u0440\u0430\u0433\u0438
+      \u0432\u0437\u0440\u044B\u0432\u0430\u044E\u0442\u0441\u044F \u0438 \u0437\u0430\u0434\u0435\u0432\u0430\u044E\u0442
+      \u0432\u0440\u0430\u0433\u043E\u0432 \u0440\u044F\u0434\u043E\u043C."
     m_Metadata:
       m_Items: []
   - m_Id: 2377113707
-    m_Localized: Лучевая
+    m_Localized: "\u041B\u0443\u0447\u0435\u0432\u0430\u044F"
     m_Metadata:
       m_Items: []
   - m_Id: 2377113708
-    m_Localized: Молния
+    m_Localized: "\u041C\u043E\u043B\u043D\u0438\u044F"
     m_Metadata:
       m_Items: []
   - m_Id: 2377113709
-    m_Localized: Снаряды
+    m_Localized: "\u0421\u043D\u0430\u0440\u044F\u0434\u044B"
     m_Metadata:
       m_Items: []
   - m_Id: 2377113710
-    m_Localized: Замедление
+    m_Localized: "\u0417\u0430\u043C\u0435\u0434\u043B\u0435\u043D\u0438\u0435"
     m_Metadata:
       m_Items: []
   - m_Id: 2377113711
-    m_Localized: Барраж
+    m_Localized: "\u0411\u0430\u0440\u0440\u0430\u0436"
     m_Metadata:
       m_Items: []
   - m_Id: 2377113712
-    m_Localized: Раскол
+    m_Localized: "\u0420\u0430\u0441\u043A\u043E\u043B"
     m_Metadata:
       m_Items: []
   - m_Id: 2377113713
-    m_Localized: Заморозка
+    m_Localized: "\u0417\u0430\u043C\u043E\u0440\u043E\u0437\u043A\u0430"
     m_Metadata:
       m_Items: []
   - m_Id: 2377113714
-    m_Localized: Перегрузка
+    m_Localized: "\u041F\u0435\u0440\u0435\u0433\u0440\u0443\u0437\u043A\u0430"
     m_Metadata:
       m_Items: []
   - m_Id: 2377113715
-    m_Localized: Новый уровень
+    m_Localized: "\u041D\u043E\u0432\u044B\u0439 \u0443\u0440\u043E\u0432\u0435\u043D\u044C"
     m_Metadata:
       m_Items: []
   - m_Id: 2377113716
-    m_Localized: Выберите новый навык
+    m_Localized: "\u0412\u044B\u0431\u0435\u0440\u0438\u0442\u0435 \u043D\u043E\u0432\u044B\u0439
+      \u043D\u0430\u0432\u044B\u043A"
     m_Metadata:
       m_Items: []
   - m_Id: 2377113717
-    m_Localized: Магазин
+    m_Localized: "\u041C\u0430\u0433\u0430\u0437\u0438\u043D"
     m_Metadata:
       m_Items: []
   - m_Id: 2377113718
-    m_Localized: Победа!
+    m_Localized: "\u041F\u043E\u0431\u0435\u0434\u0430!"
     m_Metadata:
       m_Items: []
   - m_Id: 2377113719
-    m_Localized: Далее
+    m_Localized: "\u0414\u0430\u043B\u0435\u0435"
     m_Metadata:
       m_Items: []
   - m_Id: 2377113720
-    m_Localized: Продолжить
+    m_Localized: "\u041F\u0440\u043E\u0434\u043E\u043B\u0436\u0438\u0442\u044C"
     m_Metadata:
       m_Items: []
   - m_Id: 1353737602850816
-    m_Localized: Улучшите урон
+    m_Localized: "\u0423\u043B\u0443\u0447\u0448\u0438\u0442\u0435 \u0443\u0440\u043E\u043D"
     m_Metadata:
       m_Items: []
   - m_Id: 1353737632210944
-    m_Localized: Потратьте монеты, чтобы усилить каждый выстрел.
+    m_Localized: "\u041F\u043E\u0442\u0440\u0430\u0442\u044C\u0442\u0435 \u043C\u043E\u043D\u0435\u0442\u044B,
+      \u0447\u0442\u043E\u0431\u044B \u0443\u0441\u0438\u043B\u0438\u0442\u044C \u043A\u0430\u0436\u0434\u044B\u0439
+      \u0432\u044B\u0441\u0442\u0440\u0435\u043B."
     m_Metadata:
       m_Items: []
   - m_Id: 1353737632210945
-    m_Localized: Опыт
+    m_Localized: "\u041E\u043F\u044B\u0442"
     m_Metadata:
       m_Items: []
   - m_Id: 1353737632210946
-    m_Localized: Побеждённые враги оставляют опыт для башни.
+    m_Localized: "\u041F\u043E\u0431\u0435\u0436\u0434\u0451\u043D\u043D\u044B\u0435
+      \u0432\u0440\u0430\u0433\u0438 \u043E\u0441\u0442\u0430\u0432\u043B\u044F\u044E\u0442
+      \u043E\u043F\u044B\u0442 \u0434\u043B\u044F \u0431\u0430\u0448\u043D\u0438."
     m_Metadata:
       m_Items: []
   - m_Id: 1353737632210947
-    m_Localized: Нажмите, чтобы продолжить
+    m_Localized: "\u041D\u0430\u0436\u043C\u0438\u0442\u0435, \u0447\u0442\u043E\u0431\u044B
+      \u043F\u0440\u043E\u0434\u043E\u043B\u0436\u0438\u0442\u044C"
     m_Metadata:
       m_Items: []
   - m_Id: 1353737632210948
-    m_Localized: Легендарное усиление
+    m_Localized: "\u041B\u0435\u0433\u0435\u043D\u0434\u0430\u0440\u043D\u043E\u0435
+      \u0443\u0441\u0438\u043B\u0435\u043D\u0438\u0435"
     m_Metadata:
       m_Items: []
   - m_Id: 1353737632210949
-    m_Localized: Мультивыстрел повторяет каждый залп. Заберите подарок!
+    m_Localized: "\u041C\u0443\u043B\u044C\u0442\u0438\u0432\u044B\u0441\u0442\u0440\u0435\u043B
+      \u043F\u043E\u0432\u0442\u043E\u0440\u044F\u0435\u0442 \u043A\u0430\u0436\u0434\u044B\u0439
+      \u0437\u0430\u043B\u043F. \u0417\u0430\u0431\u0435\u0440\u0438\u0442\u0435
+      \u043F\u043E\u0434\u0430\u0440\u043E\u043A!"
     m_Metadata:
       m_Items: []
   - m_Id: 1353737632210950
-    m_Localized: Ультимейт
+    m_Localized: "\u0423\u043B\u044C\u0442\u0438\u043C\u0435\u0439\u0442"
     m_Metadata:
       m_Items: []
   - m_Id: 1353737632210951
-    m_Localized: Используйте ультимейт, чтобы уничтожить всю волну.
+    m_Localized: "\u0418\u0441\u043F\u043E\u043B\u044C\u0437\u0443\u0439\u0442\u0435
+      \u0443\u043B\u044C\u0442\u0438\u043C\u0435\u0439\u0442, \u0447\u0442\u043E\u0431\u044B
+      \u0443\u043D\u0438\u0447\u0442\u043E\u0436\u0438\u0442\u044C \u0432\u0441\u044E
+      \u0432\u043E\u043B\u043D\u0443."
     m_Metadata:
       m_Items: []
   - m_Id: 1353737632210952
-    m_Localized: Дополнительная башня
+    m_Localized: "\u0414\u043E\u043F\u043E\u043B\u043D\u0438\u0442\u0435\u043B\u044C\u043D\u0430\u044F
+      \u0431\u0430\u0448\u043D\u044F"
     m_Metadata:
       m_Items: []
   - m_Id: 1353737632210953
-    m_Localized: Постройте дополнительную башню перед новой атакой.
+    m_Localized: "\u041F\u043E\u0441\u0442\u0440\u043E\u0439\u0442\u0435 \u0434\u043E\u043F\u043E\u043B\u043D\u0438\u0442\u0435\u043B\u044C\u043D\u0443\u044E
+      \u0431\u0430\u0448\u043D\u044E \u043F\u0435\u0440\u0435\u0434 \u043D\u043E\u0432\u043E\u0439
+      \u0430\u0442\u0430\u043A\u043E\u0439."
     m_Metadata:
       m_Items: []
   - m_Id: 1353737632210954
-    m_Localized: Башня со снарядами
+    m_Localized: "\u0411\u0430\u0448\u043D\u044F \u0441\u043E \u0441\u043D\u0430\u0440\u044F\u0434\u0430\u043C\u0438"
     m_Metadata:
       m_Items: []
   - m_Id: 1353737632210955
-    m_Localized: Выберите надёжную дополнительную башню.
+    m_Localized: "\u0412\u044B\u0431\u0435\u0440\u0438\u0442\u0435 \u043D\u0430\u0434\u0451\u0436\u043D\u0443\u044E
+      \u0434\u043E\u043F\u043E\u043B\u043D\u0438\u0442\u0435\u043B\u044C\u043D\u0443\u044E
+      \u0431\u0430\u0448\u043D\u044E."
     m_Metadata:
       m_Items: []
   - m_Id: 1353737632210956
-    m_Localized: Эмеральдов
+    m_Localized: "\u042D\u043C\u0435\u0440\u0430\u043B\u044C\u0434\u043E\u0432"
     m_Metadata:
       m_Items: []
   - m_Id: 1353737632210957
@@ -564,6 +644,10 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 1353737632210958
     m_Localized: "\u041F\u0420\u041E\u0422\u0418\u0412 \u0412\u0421\u0415\u0425"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2794689882218496
+    m_Localized: "\u041F\u0440\u043E\u0434\u043E\u043B\u0436\u0438\u0442\u044C?"
     m_Metadata:
       m_Items: []
   references:

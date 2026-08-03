@@ -13,8 +13,10 @@ namespace Db
         [SerializeField] private int levelId;
         [Tooltip("Стартовые монеты внутри боевой сессии. Позволяет балансировать темп апгрейдов отдельно для каждого уровня.")]
         [SerializeField, Min(0)] private int startCoins = 120;
-        [Header("Секции спавна: 1 = старт-star1, 2 = star1-star2, 3 = star2-star3")]
-        [SerializeField] private List<SpawnSectionDefinition> spawnSections = new();
+        [Tooltip("Враги уровня, сгруппированные по типу. Каждый враг настраивается отдельно на каждом из 3 этапов " +
+                 "(старт-star1, star1-star2, star2-star3) — см. LevelEnemyDefinition. Редактируется через " +
+                 "кастомный инспектор LevelDefinitionEditor.")]
+        [SerializeField] private List<LevelEnemyDefinition> levelEnemies = new();
 
         [Tooltip("Эмеральды за ОДНУ звезду уровня. Полная зачистка даёт 3 звезды, то есть тройную " +
                  "величину. Награда выдаётся только за прирост звёзд относительно лучшего результата " +
@@ -58,7 +60,7 @@ namespace Db
 
         public int LevelId => levelId;
         public int StartCoins => startCoins;
-        public IReadOnlyList<SpawnSectionDefinition> SpawnSections => spawnSections;
+        public IReadOnlyList<LevelEnemyDefinition> LevelEnemies => levelEnemies;
         public int RewardEmeraldsPerStar => rewardEmeraldsPerStar;
         public ShopItemDefinition UnlockRewardItem => unlockRewardItem;
 
@@ -136,15 +138,6 @@ namespace Db
             return Mathf.Max(rewardRoundTo, Mathf.RoundToInt((float) reward / rewardRoundTo) * rewardRoundTo);
         }
 
-        public SpawnSectionDefinition GetSpawnSection(float elapsedSeconds)
-        {
-            if (spawnSections == null || spawnSections.Count == 0)
-                return null;
-
-            var index = GetSpawnSectionIndex(elapsedSeconds);
-            return index >= 0 && index < spawnSections.Count ? spawnSections[index] : null;
-        }
-
         public int GetSpawnSectionIndex(float elapsedSeconds)
         {
             if (elapsedSeconds >= star3Seconds)
@@ -157,6 +150,38 @@ namespace Db
                 return 1;
 
             return 0;
+        }
+
+        /// <summary>
+        /// Собирает записи спавна для этапа sectionIndex (0/1/2) из списка врагов уровня,
+        /// пропуская врагов, у которых этот этап не включён (см. LevelEnemyDefinition.GetStage).
+        /// </summary>
+        public List<EnemySpawnEntryDefinition> GetSpawnEntries(int sectionIndex)
+        {
+            var result = new List<EnemySpawnEntryDefinition>();
+            if (levelEnemies == null)
+                return result;
+
+            for (var i = 0; i < levelEnemies.Count; i++)
+            {
+                var enemyDef = levelEnemies[i];
+                var stage = enemyDef?.GetStage(sectionIndex);
+                if (stage == null || !stage.enabled)
+                    continue;
+
+                result.Add(new EnemySpawnEntryDefinition
+                {
+                    enemyType = enemyDef.enemyType,
+                    spawnDelayMin = stage.spawnDelayMin,
+                    spawnDelayMax = stage.spawnDelayMax,
+                    extraHealth = stage.extraHealth,
+                    extraSpeed = stage.extraSpeed,
+                    endOfWaveHealthMultiplier = stage.endOfWaveHealthMultiplier,
+                    finalSpawnLeadSecondsOverride = stage.finalSpawnLeadSecondsOverride
+                });
+            }
+
+            return result;
         }
 
         /// <summary>
@@ -188,12 +213,50 @@ namespace Db
         }
     }
 
+    /// <summary>
+    /// Настройки одного типа врага на уровне. Враг может участвовать в любом подмножестве
+    /// из 3 этапов уровня (старт-star1, star1-star2, star2-star3) — для каждого этапа
+    /// настройки включаются/выключаются и хранятся отдельно.
+    /// </summary>
     [Serializable]
-    public class SpawnSectionDefinition
+    public class LevelEnemyDefinition
     {
-        [SerializeField] private List<EnemySpawnEntryDefinition> enemies = new();
+        public EEnemyType enemyType;
 
-        public IReadOnlyList<EnemySpawnEntryDefinition> Enemies => enemies;
+        [SerializeField] private EnemyStageSettings stage1 = new();
+        [SerializeField] private EnemyStageSettings stage2 = new();
+        [SerializeField] private EnemyStageSettings stage3 = new();
+
+        public EnemyStageSettings GetStage(int stageIndex)
+        {
+            return stageIndex switch
+            {
+                0 => stage1,
+                1 => stage2,
+                2 => stage3,
+                _ => null
+            };
+        }
+    }
+
+    /// <summary>
+    /// Настройки спавна врага в рамках одного этапа уровня. enabled == false означает,
+    /// что на этом этапе враг не спавнится вовсе.
+    /// </summary>
+    [Serializable]
+    public class EnemyStageSettings
+    {
+        public bool enabled;
+
+        [Min(0.05f)] public float spawnDelayMin = 1f;
+        [Min(0.05f)] public float spawnDelayMax = 1f;
+
+        public int extraHealth;
+        public float extraSpeed;
+
+        [Min(1f)] public float endOfWaveHealthMultiplier = 1f;
+
+        [Min(-1f)] public float finalSpawnLeadSecondsOverride = -1f;
     }
 
     [Serializable]
