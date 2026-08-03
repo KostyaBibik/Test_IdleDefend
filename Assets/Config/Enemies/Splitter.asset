@@ -32,3 +32,4 @@ MonoBehaviour:
   splitChildType: {fileID: 11400000, guid: b81b5e35d1de4564a81607fe8717cc5c, type: 2}
   splitChildCount: 2
   deathDelay: 0.6
+  poolPrewarmCount: 30

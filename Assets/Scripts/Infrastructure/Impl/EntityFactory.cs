@@ -17,6 +17,7 @@ namespace Infrastructure.Impl
         private readonly BulletConfigSettings _bulletConfigSettings;
         private readonly BulletService _bulletService;
         private readonly SideTowerService _sideTowerService;
+        private readonly IEntityPoolService _entityPoolService;
         [Inject] private SignalBus _signalBus;
 
         public EntityFactory(
@@ -24,7 +25,8 @@ namespace Infrastructure.Impl
             EnemyService enemyService,
             BulletConfigSettings bulletConfigSettings,
             BulletService bulletService,
-            SideTowerService sideTowerService
+            SideTowerService sideTowerService,
+            IEntityPoolService entityPoolService
         )
         {
             _enemyPrefabsConfig = enemyPrefabsConfig;
@@ -32,8 +34,9 @@ namespace Infrastructure.Impl
             _bulletConfigSettings = bulletConfigSettings;
             _bulletService = bulletService;
             _sideTowerService = sideTowerService;
+            _entityPoolService = entityPoolService;
         }
-        
+
         public EnemyView CreateEnemy(
             Vector3 posSpawn,
             EEnemyType type,
@@ -46,12 +49,14 @@ namespace Infrastructure.Impl
         )
         {
             var enemyDefinition = _enemyPrefabsConfig.GetPrefab(type);
-            var enemyView = DiContainerRef.Container.InstantiatePrefabForComponent<EnemyView>(enemyDefinition.ViewPrefab);
-            var enemyTransform = enemyView.transform;
-            enemyTransform.position = posSpawn;
-            enemyTransform.rotation = Quaternion.identity;
-            var healthComponent =
-                DiContainerRef.Container.InstantiateComponent<EnemyHealthComponent>(enemyView.gameObject);
+            var enemyView = _entityPoolService.Rent(enemyDefinition.ViewPrefab, posSpawn, Quaternion.identity);
+
+            // Компонент здоровья переиспользуется вместе с GameObject-ом (не AddComponent на
+            // каждый спавн) - иначе на переиспользованном враге копился бы новый HealthComponent
+            // поверх старого при каждом Rent.
+            var healthComponent = enemyView.GetComponent<EnemyHealthComponent>();
+            if (healthComponent == null)
+                healthComponent = DiContainerRef.Container.InstantiateComponent<EnemyHealthComponent>(enemyView.gameObject);
 
             var hp = Mathf.RoundToInt((enemyDefinition.Health + additiveHealth) * healthMultiplier);
             var speed = enemyDefinition.Speed + additiveSpeed;
@@ -97,14 +102,10 @@ namespace Infrastructure.Impl
         public IEntityView CreateBullet(Vector3 posSpawn, BulletView prefabOverride = null)
         {
             var prefab = prefabOverride != null ? prefabOverride : _bulletConfigSettings.PrefabViewBullet;
-            var bulletView = DiContainerRef.Container.InstantiatePrefabForComponent<BulletView>(prefab);
-            var bulletTransform = bulletView.transform;
-            
-            bulletTransform.position = posSpawn;
-            bulletTransform.rotation = Quaternion.identity;
-            
+            var bulletView = _entityPoolService.Rent(prefab, posSpawn, Quaternion.identity);
+
             _bulletService.AddEntityOnService(bulletView);
-            
+
             return bulletView;
         }
     }

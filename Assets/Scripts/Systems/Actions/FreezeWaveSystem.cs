@@ -28,7 +28,11 @@ namespace Systems.Actions
         private readonly CameraZoomSystem _cameraZoomSystem;
         private readonly IGameTimeProvider _gameTimeProvider;
 
-        private readonly HashSet<EnemyView> _hitEnemies = new HashSet<EnemyView>();
+        // Значение - poolVersion врага на момент заморозки (см. IEntityView.poolVersion): волна
+        // растягивается на несколько кадров, а за это время враг может умереть и его EnemyView
+        // - переиспользоваться под нового. Без версии новый враг ошибочно считался бы уже
+        // замороженным этой же волной и пропускался.
+        private readonly Dictionary<EnemyView, int> _hitEnemies = new Dictionary<EnemyView, int>();
         private LineRenderer _ringVisual;
 
         private bool _active;
@@ -73,14 +77,14 @@ namespace Systems.Actions
             var origin = _towerView.transform.position;
             foreach (var enemy in _enemyService.Enemies)
             {
-                if (_hitEnemies.Contains(enemy))
+                if (_hitEnemies.TryGetValue(enemy, out var hitVersion) && hitVersion == enemy.poolVersion)
                     continue;
 
                 if (Vector3.Distance(origin, enemy.transform.position) > _radius)
                     continue;
 
                 enemy.ApplyFrost(0f, _towerView.freezeDuration);
-                _hitEnemies.Add(enemy);
+                _hitEnemies[enemy] = enemy.poolVersion;
             }
 
             if (_radius < _maxRadius)

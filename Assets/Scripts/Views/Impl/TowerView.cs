@@ -68,5 +68,6 @@ namespace Views.Impl
 
         public Transform Sphere => sphere;
         public bool isDestroyed { get; set; }
+        public int poolVersion { get; set; } // башня не пулится, поле не используется
     }
 }

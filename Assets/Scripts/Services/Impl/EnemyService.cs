@@ -33,6 +33,7 @@ namespace Services.Impl
         private float _elapsedSeconds;
 
         [Inject] private EntityFactory _entityFactory;
+        [Inject] private IEntityPoolService _entityPoolService;
         [Inject] private TowerView _towerView;
 
         public EnemyService(
@@ -103,7 +104,7 @@ namespace Services.Impl
                 }
                 else
                 {
-                    Object.Destroy(view.gameObject);
+                    _entityPoolService.Return(view);
                 }
             }
         }
@@ -122,7 +123,7 @@ namespace Services.Impl
                     enemyDefinition.SplitChildType.Type, 0, 0);
             }
 
-            Object.Destroy(view.gameObject);
+            _entityPoolService.Return(view);
         }
 
         /// <summary>
@@ -169,11 +170,11 @@ namespace Services.Impl
         {
             foreach (var enemyView in Enemies)
             {
-                if(enemyView.gameObject != null)
-                    Object.Destroy(enemyView.gameObject);
+                if (enemyView != null)
+                    _entityPoolService.Return(enemyView);
             }
-            
-            Enemies.Clear(); 
+
+            Enemies.Clear();
         }
         
         public void Initialize()

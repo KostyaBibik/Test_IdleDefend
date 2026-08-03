@@ -153,6 +153,7 @@ namespace Systems.RunTime.Tower
             var damageRoll = CalculateDamage();
 
             bullet.target = target;
+            bullet.targetPoolVersion = target != null ? target.poolVersion : 0;
             bullet.damage = damageRoll.Damage;
             bullet.isCritical = damageRoll.IsCritical;
             bullet.attackType = _towerView.attackType;
@@ -177,7 +178,7 @@ namespace Systems.RunTime.Tower
             bullet.explosiveShotFalloff = stats.ExplosiveShotFalloff;
             bullet.hitEnemies.Clear();
             if (target != null)
-                bullet.hitEnemies.Add(target);
+                bullet.hitEnemies.Add(new BulletView.HitRecord(target, target.poolVersion));
 
             bullet.projectileAppliesFrost = _towerView.projectileAppliesFrost;
             bullet.projectileFrostSlowPercent = _towerView.projectileFrostSlowPercent;

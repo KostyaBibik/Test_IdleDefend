@@ -36,7 +36,8 @@ namespace Systems.RunTime.Bullets
         {
             foreach (var bullet in _bulletService.Bullets)
             {
-                if (bullet.target == null || bullet.target.isDestroyed)
+                if (bullet.target == null || bullet.target.isDestroyed
+                    || bullet.target.poolVersion != bullet.targetPoolVersion)
                 {
                     if (TryHandleFreeFlightHit(bullet))
                         return;
@@ -62,7 +63,8 @@ namespace Systems.RunTime.Bullets
                 return false;
 
             bullet.target = target;
-            bullet.hitEnemies.Add(target);
+            bullet.targetPoolVersion = target.poolVersion;
+            bullet.hitEnemies.Add(new BulletView.HitRecord(target, target.poolVersion));
             target.healthComponent.ReduceAssumedHealth(bullet.damage);
             HandleHit(bullet);
             return true;
@@ -226,6 +228,7 @@ namespace Systems.RunTime.Bullets
 
             bullet.piercingLineRemaining--;
             bullet.target = null;
+            bullet.targetPoolVersion = 0;
             bullet.continueOnTargetLost = true;
             bullet.freeFlightDirection = direction;
             bullet.freeFlightRemainingDistance = maxDistance;
@@ -265,7 +268,7 @@ namespace Systems.RunTime.Bullets
             var nextTarget = AttackTargeting.FindNearestUnhit(
                 previousTarget.transform.position,
                 _enemyService.GetAssumedActiveEnemies(),
-                bullet.hitEnemies,
+                GetStillValidHitViews(bullet),
                 bullet.ricochetRadius);
 
             if (nextTarget == null)
@@ -274,7 +277,8 @@ namespace Systems.RunTime.Bullets
             bullet.ricochetRemaining--;
             bullet.damage = Mathf.Max(1, Mathf.RoundToInt(bullet.damage * bullet.ricochetFalloff));
             bullet.target = nextTarget;
-            bullet.hitEnemies.Add(nextTarget);
+            bullet.targetPoolVersion = nextTarget.poolVersion;
+            bullet.hitEnemies.Add(new BulletView.HitRecord(nextTarget, nextTarget.poolVersion));
             nextTarget.healthComponent.ReduceAssumedHealth(bullet.damage);
             return true;
         }
@@ -303,15 +307,39 @@ namespace Systems.RunTime.Bullets
                 bullet.splashImpactEffectReferenceRadius);
         }
 
+        /// <summary>
+        /// Сравнивает и ссылку, и poolVersion (см. IEntityView.poolVersion): если запись в
+        /// hitEnemies осталась от врага, чей GameObject уже вернулся в пул и переиспользован под
+        /// другого (нового) врага, она больше не должна засчитываться как "уже подбит этим снарядом" -
+        /// иначе новый враг ошибочно считался бы неуязвимым/пропущенным для этого снаряда.
+        /// </summary>
         private static bool ContainsHit(BulletView bullet, EnemyView enemy)
         {
             for (var i = 0; i < bullet.hitEnemies.Count; i++)
             {
-                if (bullet.hitEnemies[i] == enemy)
+                var record = bullet.hitEnemies[i];
+                if (record.View == enemy && record.Version == enemy.poolVersion)
                     return true;
             }
 
             return false;
+        }
+
+        /// <summary>
+        /// Тот же принцип, что и в ContainsHit, но в форме списка - нужен там, где общий
+        /// AttackTargeting.FindNearestUnhit ожидает ICollection&lt;EnemyView&gt; (эту сигнатуру
+        /// он ещё делит с SideTowerAttackSystem, поэтому подгонять её под HitRecord не стоит).
+        /// </summary>
+        private static List<EnemyView> GetStillValidHitViews(BulletView bullet)
+        {
+            var result = new List<EnemyView>(bullet.hitEnemies.Count);
+            foreach (var record in bullet.hitEnemies)
+            {
+                if (record.View != null && record.View.poolVersion == record.Version)
+                    result.Add(record.View);
+            }
+
+            return result;
         }
 
         private void ApplyDamage(BulletView bullet, EnemyView target, int rawDamage, bool isPrimaryHit)

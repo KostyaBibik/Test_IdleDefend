@@ -17,6 +17,7 @@ namespace Db
         public float MinSpawnDelay => minSpawnDelay;
         public float MaxSpawnDelay => maxSpawnDelay;
         public int CountPrefabs => definitions.Count;
+        public IReadOnlyList<EnemyDefinition> Definitions => definitions;
 
         public EnemyDefinition GetPrefab(EEnemyType type)
         {

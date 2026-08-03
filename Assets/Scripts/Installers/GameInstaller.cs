@@ -48,7 +48,9 @@ namespace Installers
 
             BindAndCreateTowerView();
 
+            Container.BindInterfacesAndSelfTo<EntityPoolService>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<EntityFactory>().AsSingle().NonLazy();
+            Container.BindInterfacesAndSelfTo<EntityPoolPrewarmSystem>().AsSingle().NonLazy();
 
             BindEnemyComponents();
 

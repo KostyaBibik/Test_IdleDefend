@@ -7,6 +7,10 @@ namespace Views.Impl
     public class BulletView : MonoBehaviour, IEntityView
     {
         [HideInInspector] public EnemyView target;
+        [Tooltip("poolVersion цели на момент назначения target - см. IEntityView.poolVersion. " +
+                 "Без этого снаряд, летящий дольше кадра, может решить, что переиспользованный " +
+                 "под нового врага GameObject - всё ещё его исходная цель.")]
+        [HideInInspector] public int targetPoolVersion;
         [HideInInspector] public int damage;
         [HideInInspector] public bool isCritical;
 
@@ -55,8 +59,24 @@ namespace Views.Impl
         [HideInInspector] public float piercingLineRange;
         [HideInInspector] public float explosiveShotRadius;
         [HideInInspector] public float explosiveShotFalloff;
-        [HideInInspector] public List<EnemyView> hitEnemies = new();
+        [Tooltip("Пары (враг, poolVersion на момент попадания) - версия нужна по той же причине, " +
+                 "что и targetPoolVersion: без неё переиспользованный под нового врага объект " +
+                 "ошибочно считался бы 'уже подбитым этим снарядом'.")]
+        [HideInInspector] public List<HitRecord> hitEnemies = new();
 
         public bool isDestroyed { get; set; }
+        public int poolVersion { get; set; }
+
+        public readonly struct HitRecord
+        {
+            public readonly EnemyView View;
+            public readonly int Version;
+
+            public HitRecord(EnemyView view, int version)
+            {
+                View = view;
+                Version = version;
+            }
+        }
     }
 }

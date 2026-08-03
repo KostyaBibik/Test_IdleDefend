@@ -40,9 +40,13 @@ namespace Systems.RunTime.SideTower
             var towerPos = tower.transform.position;
 
             if (tower.beamCurrentTarget == null || tower.beamCurrentTarget.isDestroyed ||
+                tower.beamCurrentTarget.poolVersion != tower.beamCurrentTargetPoolVersion ||
                 Vector3.Distance(towerPos, tower.beamCurrentTarget.transform.position) > tower.attackDistance)
             {
                 tower.beamCurrentTarget = FindNewTarget(towerPos, tower.attackDistance);
+                tower.beamCurrentTargetPoolVersion = tower.beamCurrentTarget != null
+                    ? tower.beamCurrentTarget.poolVersion
+                    : 0;
                 tower.beamDamageAccumulator = 0f;
             }
 

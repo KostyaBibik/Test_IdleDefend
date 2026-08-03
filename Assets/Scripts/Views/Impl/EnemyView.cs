@@ -95,6 +95,7 @@ namespace Views.Impl
         public Transform Mesh => mesh;
         public Slider HealthSlider => healthSlider;
         public bool isDestroyed { get; set; }
+        public int poolVersion { get; set; }
 
         private void Awake()
         {
@@ -111,6 +112,39 @@ namespace Views.Impl
                 animator.SetTrigger("Death");
             else
                 mesh.gameObject.SetActive(false);
+        }
+
+        /// <summary>
+        /// Вызывается EntityPoolService.Return перед тем, как объект уйдёт в пул - сбрасывает
+        /// всё временное боевое состояние, чтобы следующий Rent (уже под другого врага) не
+        /// унаследовал фрост/яд/анимацию смерти от предыдущей жизни этого GameObject-а.
+        /// </summary>
+        public void ResetForPool()
+        {
+            SetPoisonVisual(false);
+            poisonTimeRemaining = 0f;
+            poisonTickRemaining = 0f;
+            poisonDamagePerTick = 0f;
+            poisonTickInterval = 0f;
+            poisonVfxPrefab = null;
+
+            SetFrostVisual(false, 1f);
+            frostSpeedMultiplier = 1f;
+            frostTimeRemaining = 0f;
+
+            orbitAngleDeg = float.NaN;
+            orbitRadius = -1f;
+            speedMultiplier = 1f;
+
+            experienceRewardOverride = -1;
+            grantCoinReward = true;
+            grantExperienceReward = true;
+            tutorialDamageTakenMultiplier = 1f;
+
+            if (animator != null)
+                animator.Rebind();
+            if (mesh != null)
+                mesh.gameObject.SetActive(true);
         }
 
         /// <summary>

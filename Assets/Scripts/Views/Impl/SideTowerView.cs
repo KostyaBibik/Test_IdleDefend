@@ -15,6 +15,7 @@ namespace Views.Impl
         [HideInInspector] public float beamPercentMaxHealthPerSecond;
         [HideInInspector] public float beamDamageAccumulator;
         [HideInInspector] public EnemyView beamCurrentTarget;
+        [HideInInspector] public int beamCurrentTargetPoolVersion;
         [SerializeField] private LineRenderer beamLine;
         public LineRenderer BeamLine => beamLine;
 
@@ -32,5 +33,6 @@ namespace Views.Impl
         [HideInInspector] public float slowPercent;
 
         public bool isDestroyed { get; set; }
+        public int poolVersion { get; set; } // доп-башня не пулится, поле не используется
     }
 }

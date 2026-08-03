@@ -29,7 +29,8 @@ namespace Systems.RunTime.Bullets
             for (var i = _bulletService.Bullets.Count - 1; i >= 0; i--)
             {
                 var bulletView = _bulletService.Bullets[i];
-                if (bulletView.target == null || bulletView.target.isDestroyed)
+                if (bulletView.target == null || bulletView.target.isDestroyed
+                    || bulletView.target.poolVersion != bulletView.targetPoolVersion)
                 {
                     if (!MoveFreeFlight(bulletView))
                         _bulletService.RemoveEntityFromService(bulletView);

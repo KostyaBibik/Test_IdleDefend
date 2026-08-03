@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using Infrastructure.Impl;
 using Signals;
 using Views;
 using Views.Impl;
-using Object = UnityEngine.Object;
+using Zenject;
 
 namespace Services.Impl
 {
@@ -11,8 +12,10 @@ namespace Services.Impl
     {
         private readonly List<BulletView> _bullets = new List<BulletView>();
 
+        [Inject] private IEntityPoolService _entityPoolService;
+
         public List<BulletView> Bullets => _bullets;
-        
+
         public void AddEntityOnService(IEntityView entityView)
         {
             var view = (BulletView) entityView;
@@ -27,20 +30,20 @@ namespace Services.Impl
             if (_bullets.Contains(view))
             {
                 _bullets.Remove(view);
-                Object.Destroy(view.gameObject);
+                _entityPoolService.Return(view);
             }
         }
-        
+
         private void RemoveAllEnemies()
         {
             foreach (var bulletView in _bullets)
             {
-                Object.Destroy(bulletView.gameObject);
+                _entityPoolService.Return(bulletView);
             }
-            
-            _bullets.Clear(); 
+
+            _bullets.Clear();
         }
-        
+
         public void Dispose()
         {
             RemoveAllEnemies();

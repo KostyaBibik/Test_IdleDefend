@@ -29,6 +29,10 @@ namespace Tutorial
         private readonly CameraZoomSystem _cameraZoomSystem;
         private readonly SideTowerSlotService _sideTowerSlotService;
         private readonly List<EnemyView> _showcaseEnemies = new();
+        // poolVersion (см. IEntityView.poolVersion) на момент спавна каждого showcase-врага:
+        // фаза может длиться несколько секунд, и без версии умерший враг, чей EnemyView
+        // переиспользован под нового, ошибочно считался бы всё ещё "показательным".
+        private readonly Dictionary<EnemyView, int> _showcaseEnemyVersions = new();
 
         private float _phaseTimer;
         private bool _celebrationStarted;
@@ -251,12 +255,16 @@ namespace Tutorial
         private void SpawnShowcaseWave()
         {
             _showcaseEnemies.Clear();
+            _showcaseEnemyVersions.Clear();
             SpawnRing(
                 _config.ShowcaseEnemyType,
                 _config.ShowcaseEnemyCount,
                 _config.ShowcaseEnemyExtraHealth,
                 _config.ShowcaseEnemyExtraSpeed,
                 _showcaseEnemies);
+
+            foreach (var enemy in _showcaseEnemies)
+                _showcaseEnemyVersions[enemy] = enemy.poolVersion;
         }
 
         private void OnUltimateActivated(TowerUltimateActivatedSignal signal)
@@ -268,7 +276,7 @@ namespace Tutorial
 
             foreach (var enemy in _showcaseEnemies)
             {
-                if (enemy != null)
+                if (enemy != null && IsStillShowcaseEnemy(enemy))
                     enemy.tutorialDamageTakenMultiplier = _config.UltimateDamageMultiplier;
             }
 
@@ -374,9 +382,18 @@ namespace Tutorial
             for (var i = _showcaseEnemies.Count - 1; i >= 0; i--)
             {
                 var enemy = _showcaseEnemies[i];
-                if (enemy == null || enemy.isDestroyed)
+                if (enemy == null || enemy.isDestroyed || !IsStillShowcaseEnemy(enemy))
+                {
+                    if (enemy != null)
+                        _showcaseEnemyVersions.Remove(enemy);
                     _showcaseEnemies.RemoveAt(i);
+                }
             }
+        }
+
+        private bool IsStillShowcaseEnemy(EnemyView enemy)
+        {
+            return _showcaseEnemyVersions.TryGetValue(enemy, out var version) && version == enemy.poolVersion;
         }
 
         public void Dispose()

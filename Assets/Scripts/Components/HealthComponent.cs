@@ -25,6 +25,15 @@ namespace Components
             _healthSlider = healthSlider;
             _entityView = entityView;
             _reservedIncomingDamage = 0;
+            // Явно проставляем полную полоску: при переиспользовании из пула Slider иначе остался
+            // бы в состоянии предыдущей смерти (пустым) до первого урона по новому спавну.
+            if (_healthSlider != null)
+                _healthSlider.value = 1f;
+            // Компонент может переиспользоваться при пулинге (см. EntityPoolService) - без сброса
+            // враг, унаследовавший этот компонент от того, кто раньше дошёл до башни
+            // (DestroyOnAttackTower ставит _hasReward=false), молча остался бы без награды за
+            // свою собственную, честную смерть.
+            _hasReward = true;
         }
         
         public void AddHealth(int amount)

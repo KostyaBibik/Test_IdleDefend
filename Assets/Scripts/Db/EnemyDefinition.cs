@@ -39,6 +39,11 @@ namespace Db
         [SerializeField] private int splitChildCount = 3;
         [SerializeField] private float deathDelay = 0.6f;
 
+        [Header("Пулинг")]
+        [Tooltip("Сколько экземпляров этого врага заранее создать и положить в пул при старте уровня " +
+                 "(см. EntityPoolPrewarmSystem) - чтобы первая волна не грузила Instantiate прямо во время геймплея.")]
+        [SerializeField, Min(0)] private int poolPrewarmCount;
+
         public EEnemyType Type => type;
         public EnemyView ViewPrefab => viewPrefab;
 
@@ -58,6 +63,7 @@ namespace Db
         public EnemyDefinition SplitChildType => splitChildType;
         public int SplitChildCount => splitChildCount;
         public float DeathDelay => deathDelay;
+        public int PoolPrewarmCount => poolPrewarmCount;
 
         public ParticleSystem GetRandomParticle()
         {
