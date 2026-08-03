@@ -18,8 +18,19 @@ namespace UI.Views.Upgradable
         [SerializeField] private EUpgradeType upgradeType;
         [SerializeField] private UpgradeProgressBarView progressBar;
 
+        private int _currentCost;
+        private bool _isMaxed;
+
         public Button UpgradeBtn => upgradeBtn;
         public EUpgradeType UpgradeType => upgradeType;
+
+        private void Awake()
+        {
+            // Heal — разовое расходуемое действие, а не постоянный стат с уровнями,
+            // поэтому у него нет смысла показывать прогресс-бар цикла апгрейда.
+            if (upgradeType == EUpgradeType.UpHealth && progressBar != null)
+                progressBar.gameObject.SetActive(false);
+        }
 
         private void OnEnable()
         {
@@ -34,14 +45,40 @@ namespace UI.Views.Upgradable
 
         public void SetCost(int newCost)
         {
+            _currentCost = newCost;
             RefreshStaticLabels();
-            costTxt.text = newCost.ToString();
+            RenderCost();
         }
 
         public void SetLevel(int current, int max, bool animate = true)
         {
             RefreshStaticLabels();
-            progressBar?.SetCycledProgress(current, max, animate);
+
+            if (upgradeType != EUpgradeType.UpHealth)
+                progressBar?.SetCycledProgress(current, max, animate);
+        }
+
+        /// <summary>
+        /// isMaxed — стат/здоровье уже на потолке, canAfford — хватает ли монет на покупку.
+        /// Разделены, чтобы UI мог по-разному показывать "уже макс" и "коплю монеты".
+        /// </summary>
+        public void RefreshState(bool isMaxed, bool canAfford)
+        {
+            _isMaxed = isMaxed;
+            RenderCost();
+
+            if (upgradeBtn != null)
+                upgradeBtn.interactable = !isMaxed && canAfford;
+        }
+
+        private void RenderCost()
+        {
+            if (costTxt == null)
+                return;
+
+            costTxt.text = _isMaxed
+                ? GameLocalization.Text(LocalizationKey.max_level, "MAX")
+                : _currentCost.ToString();
         }
 
         private void RefreshStaticLabels()
@@ -95,6 +132,7 @@ namespace UI.Views.Upgradable
         private void OnSelectedLocaleChanged(Locale locale)
         {
             RefreshStaticLabels();
+            RenderCost();
         }
     }
 }

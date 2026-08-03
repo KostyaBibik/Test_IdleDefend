@@ -19,11 +19,16 @@ namespace Db
         [Header("Выбор")]
         [SerializeField, Min(1)] private int choicesCount = 3;
 
+        [Header("Гарантированная редкость на старте")]
+        [SerializeField, Min(0), Tooltip("До этого уровня включительно могут выпадать только Common-бафы. 0 - отключено.")]
+        private int guaranteedCommonUntilLevel = 4;
+
         public IReadOnlyList<TowerBuffDefinition> Buffs => buffs;
         public float CommonChance => commonChance;
         public float RareChance => rareChance;
         public float LegendaryChance => legendaryChance;
         public int ChoicesCount => choicesCount;
+        public int GuaranteedCommonUntilLevel => guaranteedCommonUntilLevel;
 
         public IEnumerable<TowerBuffDefinition> GetEnabledBuffs()
         {

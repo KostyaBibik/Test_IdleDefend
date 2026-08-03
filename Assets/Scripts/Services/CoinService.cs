@@ -20,6 +20,8 @@ namespace Services
 
         private int countCoins;
 
+        public int CurrentCoins => countCoins;
+
         public Action<int> onUpdateCountCoins;
 
         public void AddCoins(int count)

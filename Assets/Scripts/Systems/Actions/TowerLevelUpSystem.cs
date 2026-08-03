@@ -48,7 +48,7 @@ namespace Systems.Actions
                 return;
             }
 
-            _selectionService.BeginSelection(level, _rollService.RollChoices());
+            _selectionService.BeginSelection(level, _rollService.RollChoices(level));
         }
     }
 }

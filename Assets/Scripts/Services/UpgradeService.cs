@@ -13,7 +13,7 @@ using Zenject;
 
 namespace Services
 {
-    public class UpgradeService : IInitializable
+    public class UpgradeService : IInitializable, IDisposable, ITickable
     {
         private readonly TowerChangeRadiusSystem _towerChangeRadiusSystem;
         private readonly UpgradeViewsHandler _upgradeViewsHandler;
@@ -25,6 +25,7 @@ namespace Services
         private readonly TowerChangeAttackDamageSystem _changeAttackDamageSystem;
         
         private List<DateContainer> _dateContainers = new List<DateContainer>();
+        private bool _initialStateApplied;
         
         public UpgradeService(
             TowerChangeRadiusSystem towerChangeRadiusSystem,
@@ -82,6 +83,7 @@ namespace Services
                     var rangeView = _upgradeViewsHandler.GetViewByType(date.upgradeContainer.upgradeType);
                     rangeView.SetCost(date.currentCostUp);
                     rangeView.SetLevel(date.currentLevel, date.upgradeContainer.CycleLength);
+                    RefreshState(date);
                     FirePurchased(upgradeType, date.currentLevel, paidCost);
 
                     break;
@@ -102,6 +104,7 @@ namespace Services
                     var speedView = _upgradeViewsHandler.GetViewByType(date.upgradeContainer.upgradeType);
                     speedView.SetCost(date.currentCostUp);
                     speedView.SetLevel(date.currentLevel, date.upgradeContainer.CycleLength);
+                    RefreshState(date);
                     FirePurchased(upgradeType, date.currentLevel, paidCost);
                     break;
                 }
@@ -121,6 +124,7 @@ namespace Services
                     var damageView = _upgradeViewsHandler.GetViewByType(date.upgradeContainer.upgradeType);
                     damageView.SetCost(date.currentCostUp);
                     damageView.SetLevel(date.currentLevel, date.upgradeContainer.CycleLength);
+                    RefreshState(date);
                     FirePurchased(upgradeType, date.currentLevel, paidCost);
                     break;
                 }
@@ -146,6 +150,7 @@ namespace Services
                     var healthView = _upgradeViewsHandler.GetViewByType(date.upgradeContainer.upgradeType);
                     healthView.SetCost(date.currentCostUp);
                     healthView.SetLevel(date.currentLevel, date.upgradeContainer.CycleLength);
+                    RefreshState(date);
                     FirePurchased(upgradeType, date.currentLevel, paidCost);
                     break;
                 }
@@ -168,7 +173,7 @@ namespace Services
             {
                 if(enumType == EUpgradeType.None)
                     continue;
-                
+
                 var container = _upgradeTowerConfigSettings.GetContainer(enumType);
                 var dateContainer = new DateContainer
                 {
@@ -182,6 +187,82 @@ namespace Services
                 view.SetCost(container.startCost);
                 view.SetLevel(0, container.CycleLength, false);
             }
+
+            _coinService.onUpdateCountCoins += OnCoinsChanged;
+            _signalBus.Subscribe<TowerAddHealthSignal>(OnTowerHealthChanged);
+            _signalBus.Subscribe<TowerLostHealthSignal>(OnTowerHealthChanged);
+        }
+
+        public void Dispose()
+        {
+            _coinService.onUpdateCountCoins -= OnCoinsChanged;
+            _signalBus.Unsubscribe<TowerAddHealthSignal>(OnTowerHealthChanged);
+            _signalBus.Unsubscribe<TowerLostHealthSignal>(OnTowerHealthChanged);
+        }
+
+        /// <summary>
+        /// Initialize() у разных сервисов (монеты, здоровье, статы) выполняется в порядке
+        /// биндингов в GameInstaller — полагаться на этот порядок хрупко. К первому Tick()
+        /// все Initialize() уже гарантированно отработали, поэтому финальный пересчёт статуса
+        /// кнопок делаем именно здесь, один раз.
+        /// </summary>
+        public void Tick()
+        {
+            if (_initialStateApplied)
+                return;
+
+            _initialStateApplied = true;
+
+            foreach (var date in _dateContainers)
+                RefreshState(date);
+        }
+
+        private void OnCoinsChanged(int _)
+        {
+            foreach (var date in _dateContainers)
+                RefreshState(date);
+        }
+
+        private void OnTowerHealthChanged(TowerAddHealthSignal _) => RefreshHealthState();
+        private void OnTowerHealthChanged(TowerLostHealthSignal _) => RefreshHealthState();
+
+        private void RefreshHealthState()
+        {
+            foreach (var date in _dateContainers)
+            {
+                if (date.upgradeContainer.upgradeType == EUpgradeType.UpHealth)
+                {
+                    RefreshState(date);
+                    break;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Приводит кнопку апгрейда в актуальное состояние: "MAX" + disabled, если стат уже
+        /// на потолке, иначе просто disabled, если не хватает монет.
+        /// </summary>
+        private void RefreshState(DateContainer date)
+        {
+            var view = _upgradeViewsHandler.GetViewByType(date.upgradeContainer.upgradeType);
+            if (view == null)
+                return;
+
+            var isMaxed = !CanUpgrade(date.upgradeContainer.upgradeType);
+            var canAfford = _coinService.CurrentCoins >= date.currentCostUp;
+            view.RefreshState(isMaxed, canAfford);
+        }
+
+        private bool CanUpgrade(EUpgradeType upgradeType)
+        {
+            return upgradeType switch
+            {
+                EUpgradeType.RangeAttack => _towerChangeRadiusSystem.CanUpRange(),
+                EUpgradeType.AttackSpeed => _changeAttackSpeedSystem.CanUpAttackSpeed(),
+                EUpgradeType.AttackDamage => _changeAttackDamageSystem.CanUpAttackDamage(),
+                EUpgradeType.UpHealth => _towerHealthHandler.CanUpHealth(),
+                _ => false
+            };
         }
 
         private int GetUpgradeCost(DateContainer date)

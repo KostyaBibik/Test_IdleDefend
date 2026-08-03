@@ -29,7 +29,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: d0010000000000000000000000000106, type: 2}
   - {fileID: 11400000, guid: d0010000000000000000000000000110, type: 2}
   - {fileID: 11400000, guid: d0010000000000000000000000000111, type: 2}
-  commonChance: 70
-  rareChance: 25
+  commonChance: 80
+  rareChance: 15
   legendaryChance: 5
   choicesCount: 3
+  guaranteedCommonUntilLevel: 4

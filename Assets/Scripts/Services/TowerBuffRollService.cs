@@ -24,7 +24,7 @@ namespace Services
             _runtime.RegisterCatalog(catalog);
         }
 
-        public IReadOnlyList<TowerBuffDefinition> RollChoices()
+        public IReadOnlyList<TowerBuffDefinition> RollChoices(int level)
         {
             if (_catalog == null)
                 return new List<TowerBuffDefinition>();
@@ -32,7 +32,7 @@ namespace Services
             // Редкость роллится один раз на весь выбор, чтобы все 3 карточки были одной
             // редкости (либо все Common, либо все Rare, либо все Legendary) - вероятности
             // редкости при этом не меняются, меняется только то, что она общая для сета.
-            var rarity = RollRarity();
+            var rarity = RollRarity(level);
             var result = new List<TowerBuffDefinition>(_catalog.ChoicesCount);
             var excluded = new HashSet<string>();
 
@@ -84,8 +84,11 @@ namespace Services
             return true;
         }
 
-        private ETowerBuffRarity RollRarity()
+        private ETowerBuffRarity RollRarity(int level)
         {
+            if (level <= _catalog.GuaranteedCommonUntilLevel)
+                return ETowerBuffRarity.Common;
+
             var total = _catalog.CommonChance + _catalog.RareChance + _catalog.LegendaryChance;
             if (total <= 0f)
                 return ETowerBuffRarity.Common;
