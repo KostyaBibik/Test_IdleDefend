@@ -165,6 +165,43 @@ public class SaveSystem : Singleton<SaveSystem>
             saveData.SelectedBoostItemIds = new System.Collections.Generic.List<string>();
     }
 
+    /// <summary>
+    /// Полный сброс прогресса — для тестирования (см. <see cref="SaveResetCheat"/>).
+    /// Чистит локальную копию, облако И кэш в памяти. Сброс кэша обязателен: без него
+    /// ближайший автосейв через SavingPeriod секунд просто зальёт старые данные обратно —
+    /// ровно поэтому ручная очистка облака в консоли Яндекса выглядит как «ничего не произошло».
+    /// </summary>
+    public static void ResetAllData()
+    {
+        cachedSaveData = CreateDefaultSave();
+        EnsureRuntimeCollections(ref cachedSaveData);
+        IsDataLoaded = true;
+
+        string json = JsonConvert.SerializeObject(cachedSaveData);
+
+        UnityEngine.PlayerPrefs.DeleteKey(LocalSaveKey);
+        UnityEngine.PlayerPrefs.Save();
+        lastSavedLocalJson = null;
+        lastSavedCloudJson = null;
+
+        if (!Cloud.Initialized)
+        {
+            UnityEngine.Debug.LogWarning("[SaveSystem] Cloud is not initialized — only local data was reset.");
+            return;
+        }
+
+        try
+        {
+            Cloud.SetValue(CloudSaveKey, json, true,
+                () => UnityEngine.Debug.Log("[SaveSystem] Local and cloud data were reset."),
+                error => UnityEngine.Debug.LogWarning($"[SaveSystem] Cloud reset failed: {error}"));
+        }
+        catch (Exception exception)
+        {
+            UnityEngine.Debug.LogWarning($"[SaveSystem] Cloud reset failed: {exception.Message}");
+        }
+    }
+
     public void SaveToStorage()
     {
         SavePlayerData();

@@ -30,10 +30,16 @@ public class NoAdButton : MonoBehaviour
 
     private void BuyNoAd()
     {
-        Billing.PurchaseProduct(Boot.PurchaseIndexes.NoAD.ToString(), (purchaseProductResponse) =>
+        var productId = Boot.PurchaseIndexes.NoAD.ToString();
+
+        Billing.PurchaseProduct(productId, (purchaseProductResponse) =>
         {
             Billing.ConsumeProduct(purchaseProductResponse.purchaseData.purchaseToken);
             SaveSystem.SaveData.NoAds = true;
+
+            // NoAds покупается мимо магазина игры, поэтому событие шлём отсюда — иначе
+            // эта покупка не попадёт в аналитику вообще.
+            GaEventProvider.PurchaseById(productId, itemType: "NoAds");
         });
     }
 

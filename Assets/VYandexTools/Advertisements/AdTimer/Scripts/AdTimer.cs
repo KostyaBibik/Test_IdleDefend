@@ -12,6 +12,7 @@ namespace Yandex
         [SerializeField] private TMP_Text timerText;
 
         private const float WaitTime = 2f;
+        private const string AdPlacement = "timer";
 
         private IEnumerator Start()
         {
@@ -39,11 +40,13 @@ namespace Yandex
                     yield return null;
                 }
 
+                // placement обязателен: без него ad-событие уходит в GA с пустой строкой и
+                // периодические показы неразличимы от всех остальных в отчётах.
                 Advertisement.ShowInterstitial(onCloseCallback: () =>
                 {
                     isClosed = true;
                     Hide();
-                });
+                }, placement: AdPlacement);
 #if UNITY_EDITOR
                 Time.timeScale = 1;
 #endif

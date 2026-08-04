@@ -61,6 +61,11 @@ namespace Services
             {
                 ShopInventoryService.GrantIapItem(item);
                 Billing.ConsumeProduct(response.purchaseData.purchaseToken);
+
+                // Именно здесь, а не в GrantIapItem: выдача повторяется при восстановлении
+                // отложенных покупок в Boot, и выручка в аналитике задвоилась бы.
+                GaEventProvider.PurchaseById(item.IapProductId, itemType: item.Tab.ToString());
+
                 onComplete?.Invoke(ShopPurchaseResult.Ok());
             }, error => onComplete?.Invoke(ShopPurchaseResult.Failed(error)));
 

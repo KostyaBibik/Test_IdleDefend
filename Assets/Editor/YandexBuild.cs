@@ -34,6 +34,7 @@ public static class YandexBuild
         ApplyPlayerSettings();
         ReplaceEventSystems();
         PatchKimicuJslib();
+        WarnIfGameAnalyticsNotConfigured();
 
         var scenes = EditorBuildSettings.scenes.Where(s => s.enabled).Select(s => s.path).ToArray();
 
@@ -64,6 +65,31 @@ public static class YandexBuild
 
         if (Application.isBatchMode)
             EditorApplication.Exit(s.result == BuildResult.Succeeded ? 0 : 1);
+    }
+
+    /// <summary>
+    /// GameAnalytics с незаполненными ключами работает вхолостую и МОЛЧА: GetPlatformIndex() отдаёт -1,
+    /// GA_Wrapper.Initialize не вызывается, ни одно событие никуда не уходит — при этом в консоли ни одной
+    /// ошибки. Игру легко залить с мёртвой аналитикой. Предупреждаем на сборке, но не блокируем её:
+    /// тестовый билд должен собираться и без ключей. Settings.asset читаем текстом, чтобы этот файл
+    /// компилировался и в проектах, где GameAnalytics отсутствует.
+    /// </summary>
+    private static void WarnIfGameAnalyticsNotConfigured()
+    {
+        var settingsPath = Path.Combine(Application.dataPath, "Resources/GameAnalytics/Settings.asset");
+
+        if (!File.Exists(settingsPath))
+        {
+            Debug.LogWarning("[YandexBuild] WARNING: GameAnalytics Settings.asset not found — " +
+                             "analytics will not be sent. См. Шаг 6.1 в YANDEX_PORT_PLAYBOOK.md.");
+            return;
+        }
+
+        // Пустой список Unity сериализует как `gameKey: []`; заполненный — как YAML-список со следующей строки.
+        if (System.Text.RegularExpressions.Regex.IsMatch(File.ReadAllText(settingsPath), @"(?m)^\s*gameKey:\s*\[\]\s*$"))
+            Debug.LogWarning("[YandexBuild] WARNING: GameAnalytics keys not configured — " +
+                             "analytics will not be sent. Заполни Game Key / Secret Key и добавь платформу WebGL " +
+                             "(Window → GameAnalytics → Select Settings). См. Шаг 6.1 в YANDEX_PORT_PLAYBOOK.md.");
     }
 
     /// <summary>

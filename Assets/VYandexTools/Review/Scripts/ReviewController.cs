@@ -1,6 +1,6 @@
 using System;
 using System.Collections;
-using Agava.YandexGames;
+using Kimicu.YandexGames;
 using UnityEngine;
 
 namespace VYandexTools.Review.Scripts
@@ -38,8 +38,10 @@ namespace VYandexTools.Review.Scripts
 
         public void TryShowReviewPopup()
         {
-            
-            ReviewPopup.CanOpen((b, s) =>
+#if UNITY_EDITOR
+            reviewCanvas.Show();
+#else
+            Agava.YandexGames.ReviewPopup.CanOpen((b, s) =>
             {
                 Debug.Log($"Review CanOpen: {b}, reason: {s}");
                 if (b == false)
@@ -50,11 +52,16 @@ namespace VYandexTools.Review.Scripts
 
                 reviewCanvas.Show();
             });
+#endif
         }
 
         private void ShowYandexReviewPopup()
         {
-            ReviewPopup.Open(result =>
+#if UNITY_EDITOR
+            if (_timer != null) StopCoroutine(_timer);
+            reviewCanvas.Hide();
+#else
+            Agava.YandexGames.ReviewPopup.Open(result =>
             {
                 if (result)
                 {
@@ -66,6 +73,7 @@ namespace VYandexTools.Review.Scripts
                 reviewCanvas.Hide();
                 GaEventProvider.DesignEvent("Review", $"Result {result}".ToString);
             });
+#endif
         }
 
         private IEnumerator Timer(Action callback)

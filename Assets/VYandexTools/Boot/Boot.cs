@@ -22,6 +22,8 @@ namespace DefaultNamespace.Yandex
         private const float CloudInitializationTimeoutSeconds = 5f;
         private const float BillingInitializationTimeoutSeconds = 8f;
         private const float PurchasedProductsTimeoutSeconds = 5f;
+        private const string MenuSceneName = "Menu";
+        private const string GameSceneName = "GameScene";
         [SerializeField] private ShopCatalogConfig shopCatalogConfig;
 
 #if UNITY_EDITOR
@@ -29,22 +31,37 @@ namespace DefaultNamespace.Yandex
 
 #endif
         private bool _purchasedProductsRequestFinished;
+        private BootLoadingScreen _loadingScreen;
 
         private IEnumerator Start()
         {
+            _loadingScreen = BootLoadingScreen.Show();
+
             yield return YandexGamesSdk.Initialize();
+            _loadingScreen?.SetProgress(0.15f);
+
             yield return InitializeCloud();
+            _loadingScreen?.SetProgress(0.35f);
+
             Advertisement.Initialize();
             WebApplication.Initialize(OnStopGame);
+            _loadingScreen?.SetProgress(0.4f);
+
             yield return InitializeGameAnalytics();
+            _loadingScreen?.SetProgress(0.5f);
+
             yield return InitializeBilling();
+            _loadingScreen?.SetProgress(0.7f);
 
             if (Billing.Initialized)
                 yield return Consume();
+            _loadingScreen?.SetProgress(0.8f);
 
             SaveSystem.Instance.Init();
             yield return LocalizationSettings.InitializationOperation;
             SetLanguage();
+            _loadingScreen?.SetProgress(0.85f);
+
             LoadScene();
         }
 
@@ -179,16 +196,23 @@ namespace DefaultNamespace.Yandex
                               && saveData.UnlockedLevelIndex <= 0
                               && saveData.LevelStars.Count == 0;
 
+            string targetScene;
             if (!isFirstGame)
             {
-                SceneManager.LoadScene(sceneBuildIndex: 1);
-                return;
+                targetScene = MenuSceneName;
+            }
+            else
+            {
+                saveData.HasStartedFirstGame = true;
+                SaveSystem.Instance.SaveToStorage();
+                SelectedLevelHolder.SelectedLevelIndex = 0;
+                targetScene = GameSceneName;
             }
 
-            saveData.HasStartedFirstGame = true;
-            SaveSystem.Instance.SaveToStorage();
-            SelectedLevelHolder.SelectedLevelIndex = 0;
-            SceneManager.LoadScene("GameScene");
+            if (_loadingScreen != null)
+                StartCoroutine(_loadingScreen.LoadTargetScene(targetScene, progressFrom: 0.85f));
+            else
+                SceneManager.LoadScene(targetScene);
         }
 
 

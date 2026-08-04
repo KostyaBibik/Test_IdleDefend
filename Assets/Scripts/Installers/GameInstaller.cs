@@ -7,6 +7,7 @@ using Systems.RunTime.Enemies;
 using Systems.RunTime.SideTower;
 using Systems.RunTime.Tower;
 using Systems.RunTime.UI;
+using Analytics;
 using Components.Tower;
 using Db;
 using Enums;
@@ -43,6 +44,10 @@ namespace Installers
             Container.Bind<ActiveBoostService>().AsSingle().NonLazy();
 
             Container.BindInterfacesAndSelfTo<LevelService>().AsSingle().NonLazy();
+
+            // Строго после LevelService: листенер репортит старт уровня в своём Initialize(),
+            // а Zenject вызывает IInitializable в порядке биндинга.
+            Container.BindInterfacesAndSelfTo<GameAnalyticsListener>().AsSingle().NonLazy();
 
             InstallGameSystems();
 
