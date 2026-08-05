@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using Game.Localization;
 using Kimicu.YandexGames;
 using TMPro;
 using UnityEngine;
@@ -36,7 +37,7 @@ namespace Yandex
                 while (elapsedTime > 0)
                 {
                     elapsedTime -= Time.unscaledDeltaTime;
-                    timerText.text = $"Реклама через {elapsedTime:F1}";
+                    timerText.text = GameLocalization.Format(LocalizationKey.ad_timer_format, "Реклама через {0:F1}", elapsedTime);
                     yield return null;
                 }
 

@@ -571,6 +571,14 @@ MonoBehaviour:
     m_Localized: Continue?
     m_Metadata:
       m_Items: []
+  - m_Id: 3514178428985344
+    m_Localized: Ad in {0:F1}
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3528953787572224
+    m_Localized: Continue
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

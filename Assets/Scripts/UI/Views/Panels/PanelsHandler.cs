@@ -3,6 +3,7 @@ using Services;
 using Signals;
 using UnityEngine;
 using UnityEngine.UI;
+using VYandexTools.Review.Scripts;
 using Zenject;
 
 namespace UI.Views.Panels
@@ -43,6 +44,8 @@ namespace UI.Views.Panels
             gamePanel.SetActive(false);
             winPanel.SetActive(false);
             losePanel.SetActive(true);
+
+            ReviewTriggerEvents.RaiseGameSessionEnded();
         }
 
         private void ActivateWinPanel()
@@ -51,6 +54,8 @@ namespace UI.Views.Panels
             gamePanel.SetActive(false);
             losePanel.SetActive(false);
             winPanel.SetActive(true);
+
+            ReviewTriggerEvents.RaiseGameSessionEnded();
         }
 
         private void OnLoseGame(GameLoseSignal signal)

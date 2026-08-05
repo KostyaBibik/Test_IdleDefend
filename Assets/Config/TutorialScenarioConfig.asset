@@ -37,4 +37,4 @@ MonoBehaviour:
   tutorialSideTower: {fileID: 11400000, guid: dfd84428628406d48bdec4bdad3c1c3a, type: 2}
   sideTowerWaveEnemyType: 3
   sideTowerWaveEnemyCount: 6
-  sideTowerWaveExtraHealth: 40
+  sideTowerWaveExtraHealth: 0

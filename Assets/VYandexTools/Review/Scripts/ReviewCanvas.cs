@@ -1,4 +1,6 @@
 using System;
+using Installers;
+using Services;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -21,9 +23,17 @@ namespace VYandexTools.Review.Scripts
             reviewButton.onClick.AddListener(ReviewButton);
         }
 
-        public void Show() => root.SetActive(true);
+        public void Show()
+        {
+            root.SetActive(true);
+            DiContainerRef.Container?.TryResolve<IGameTimeProvider>()?.Pause();
+        }
 
-        public void Hide() => root.SetActive(false);
+        public void Hide()
+        {
+            root.SetActive(false);
+            DiContainerRef.Container?.TryResolve<IGameTimeProvider>()?.Resume();
+        }
 
         private void ReviewButton()
         {

@@ -567,6 +567,14 @@ MonoBehaviour:
     m_Key: lose_continue_ask
     m_Metadata:
       m_Items: []
+  - m_Id: 3514178428985344
+    m_Key: ad_timer_format
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3528953787572224
+    m_Key: pause_panel_continue
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

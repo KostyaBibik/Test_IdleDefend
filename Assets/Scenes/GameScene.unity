@@ -11828,7 +11828,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   textComponent: {fileID: 1401230981}
   useEnumKey: 1
-  key: 16
+  key: 15
   localizedString:
     m_TableReference:
       m_TableCollectionName: GUID:5fcab3783c5614146b3d458ba42420da
@@ -14252,7 +14252,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   textComponent: {fileID: 1890984695}
   useEnumKey: 1
-  key: 15
+  key: 14
   localizedString:
     m_TableReference:
       m_TableCollectionName: GUID:5fcab3783c5614146b3d458ba42420da
@@ -16575,11 +16575,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1828637247694069972, guid: 01b7ceba97899e04aa1b7a716a26cabb, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -5.3334
+      value: -5.3334007
       objectReference: {fileID: 0}
     - target: {fileID: 1828637247694069972, guid: 01b7ceba97899e04aa1b7a716a26cabb, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -0.16080093
+      value: -0.16079712
       objectReference: {fileID: 0}
     - target: {fileID: 2853478187697877240, guid: 01b7ceba97899e04aa1b7a716a26cabb, type: 3}
       propertyPath: m_AnchoredPosition.y
