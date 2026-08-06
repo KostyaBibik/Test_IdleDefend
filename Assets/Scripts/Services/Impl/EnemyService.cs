@@ -72,7 +72,8 @@ namespace Services.Impl
             if (Enemies.Contains(view))
             {
                 var enemyDefinition = _enemyPrefabsConfig.GetPrefab(view.type);
-                var rewardCount = CalculateReward(enemyDefinition);
+                var rawHealthScale = GetRawHealthScale(enemyDefinition, view);
+                var rewardCount = CalculateReward(enemyDefinition, rawHealthScale);
 
                 Enemies.Remove(view);
                 var particlePrefab = enemyDefinition.GetRandomParticle();
@@ -85,9 +86,12 @@ namespace Services.Impl
 
                     if (view.grantExperienceReward)
                     {
+                        var experienceScale = Mathf.Pow(
+                            rawHealthScale, Mathf.Clamp01(_enemyPrefabsConfig.ExperienceHealthScaleExponent));
                         var experience = view.experienceRewardOverride > 0
                             ? view.experienceRewardOverride
-                            : _towerExperienceConfig.GetEnemyExperience(enemyDefinition);
+                            : Mathf.Max(1,
+                                Mathf.CeilToInt(_towerExperienceConfig.GetEnemyExperience(enemyDefinition) * experienceScale));
                         _towerExperienceService.AddExperience(experience, view.transform.position);
                     }
 
@@ -193,13 +197,52 @@ namespace Services.Impl
             _elapsedSeconds += _gameTimeProvider.DeltaTime;
         }
 
-        private int CalculateReward(EnemyDefinition enemyDefinition)
+        /// <summary>
+        /// Во сколько раз этот конкретный экземпляр врага толще базового из EnemyDefinition.
+        /// Уровень раздувает HP через extraHealth (LevelDefinition) и endOfWaveHealthMultiplier
+        /// (EnemySpawnInitializeSystem), а награда раньше бралась от базового значения — из-за
+        /// этого к 50-му уровню один и тот же грант стоил игроку в 50 раз больше работы за те же
+        /// 14 монет, и экономика поздних уровней физически не окупала апгрейды.
+        /// Теперь награда идёт пропорционально фактическому HP, то есть "цена" убийства
+        /// в монетах остаётся постоянной по всей игре.
+        ///
+        /// Возвращается СЫРОЙ множитель: монеты и опыт сглаживают его своими экспонентами
+        /// (RewardHealthScaleExponent / ExperienceHealthScaleExponent), и эти экспоненты
+        /// сильно разные — почему именно, см. комментарий у второй из них.
+        /// </summary>
+        private static float GetRawHealthScale(EnemyDefinition enemyDefinition, EnemyView view)
+        {
+            if (enemyDefinition == null || enemyDefinition.Health <= 0)
+                return 1f;
+
+            if (view == null || view.healthComponent == null)
+                return 1f;
+
+            var actualMaxHealth = view.healthComponent.GetMaxHealth();
+            if (actualMaxHealth <= 0)
+                return 1f;
+
+            return Mathf.Max(1f, (float) actualMaxHealth / enemyDefinition.Health);
+        }
+
+        private int CalculateReward(EnemyDefinition enemyDefinition, float rawHealthScale)
         {
             _activeBoostService.EnsureLoaded();
 
+            // Сглаживание — см. EnemyPrefabsConfig.RewardHealthScaleExponent. Строго
+            // пропорциональная награда (экспонента 1) разгоняет экономику вразнос: HP внутри
+            // уровня растёт экспоненциально, доход растёт вместе с ним, и к середине боя башня
+            // выкупает всё подряд.
+            var healthScale = Mathf.Pow(
+                rawHealthScale, Mathf.Clamp01(_enemyPrefabsConfig.RewardHealthScaleExponent));
+
+            // Масштаб по HP заходит ДО CalculateEnemyReward, чтобы округление до красивого шага
+            // (LevelDefinition.rewardRoundTo) применилось к итоговому числу, а не к базовому.
+            var scaledBase = Mathf.Max(1, Mathf.CeilToInt(enemyDefinition.RewardCoins * healthScale));
+
             var baseReward = _currentLevel != null
-                ? _currentLevel.CalculateEnemyReward(enemyDefinition.RewardCoins, _elapsedSeconds)
-                : enemyDefinition.RewardCoins;
+                ? _currentLevel.CalculateEnemyReward(scaledBase, _elapsedSeconds)
+                : scaledBase;
 
             return Mathf.CeilToInt(baseReward
                                    * _activeBoostService.CoinRewardMultiplier

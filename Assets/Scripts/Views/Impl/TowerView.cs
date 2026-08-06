@@ -59,6 +59,14 @@ namespace Views.Impl
 
         [HideInInspector] public float barrageAttackSpeedMultiplier;
         [HideInInspector] public float barrageDuration;
+
+        /// <summary>
+        /// Временный множитель скорости атаки от ультимейта "Барраж". Раньше ульта умножала
+        /// attackSpeed напрямую и делила обратно по таймеру — покупка апгрейда скорости во время
+        /// ульты попадала под это деление и съедала часть прироста навсегда. Множитель отдельным
+        /// полем читается в TowerAttackSystem и не трогает сам стат.
+        /// </summary>
+        [HideInInspector] public float ultimateAttackSpeedMultiplier = 1f;
         [HideInInspector] public float shatterDamagePercentOfMaxHealth;
         [HideInInspector] public float freezeDuration;
         [HideInInspector] public float freezeWaveSpeed;

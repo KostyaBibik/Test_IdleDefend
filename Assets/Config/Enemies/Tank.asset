@@ -22,7 +22,7 @@ MonoBehaviour:
   speed: 0.16
   rewardCoins: 54
   experienceReward: 48
-  damageToTower: 2
+  damageToTower: 1
   damageReduction: 0
   finalSpawnLeadSeconds: 11
   movementType: 0

@@ -22,6 +22,7 @@ namespace Systems.RunTime.Tower
         private readonly TowerView _towerView;
         private readonly IGameTimeProvider _gameTimeProvider;
         private readonly TowerBuffRuntimeService _towerBuffRuntimeService;
+        private readonly ActiveBoostService _activeBoostService;
         private readonly SignalBus _signalBus;
 
         private float _reloadRemaining;
@@ -33,6 +34,7 @@ namespace Systems.RunTime.Tower
             EntityFactory entityFactory,
             IGameTimeProvider gameTimeProvider,
             TowerBuffRuntimeService towerBuffRuntimeService,
+            ActiveBoostService activeBoostService,
             SignalBus signalBus
         )
         {
@@ -41,11 +43,15 @@ namespace Systems.RunTime.Tower
             _entityFactory = entityFactory;
             _gameTimeProvider = gameTimeProvider;
             _towerBuffRuntimeService = towerBuffRuntimeService;
+            _activeBoostService = activeBoostService;
             _signalBus = signalBus;
         }
 
         public void Initialize()
         {
+            // Множители бустов теперь читаются каждый выстрел, а не вшиваются в статы один раз,
+            // поэтому сервис должен быть прогружен независимо от порядка биндингов в GameInstaller.
+            _activeBoostService.EnsureLoaded();
             _signalBus.Subscribe<DestroyEntitySignal>(OnEnemyDestroyed);
         }
 
@@ -96,13 +102,16 @@ namespace Systems.RunTime.Tower
         {
             return _towerView.attackDistance
                    * _towerView.ratioRange
-                   * _towerBuffRuntimeService.Stats.RangeMultiplier;
+                   * _towerBuffRuntimeService.Stats.RangeMultiplier
+                   * _activeBoostService.RangeMultiplier;
         }
 
         private float GetAttackSpeedMultiplier()
         {
             var stats = _towerBuffRuntimeService.Stats;
-            var multiplier = stats.AttackSpeedMultiplier;
+            var multiplier = stats.AttackSpeedMultiplier
+                             * _activeBoostService.AttackSpeedMultiplier
+                             * Mathf.Max(1f, _towerView.ultimateAttackSpeedMultiplier);
 
             if (_overloadRemaining > 0f)
                 multiplier *= Mathf.Max(1f, stats.OverloadAttackSpeedMultiplier);
@@ -113,7 +122,7 @@ namespace Systems.RunTime.Tower
         private DamageRoll CalculateDamage()
         {
             var stats = _towerBuffRuntimeService.Stats;
-            var damage = _towerView.attackDamage * stats.DamageMultiplier;
+            var damage = _towerView.attackDamage * stats.DamageMultiplier * _activeBoostService.DamageMultiplier;
             var isCritical = false;
 
             if (stats.CritChance > 0f && Random.value < Mathf.Clamp01(stats.CritChance))

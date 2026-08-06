@@ -27,11 +27,11 @@ MonoBehaviour:
   splashImpactEffectReferenceRadius: 1.5
   ultimateName: "\u0417\u0430\u043C\u043E\u0440\u043E\u0437\u043A\u0430"
   ultimateIcon: {fileID: 21300000, guid: bee99074e3aaa4f10b57618376e3c07a, type: 3}
-  ultimateCooldown: 22
+  ultimateCooldown: 32
   barrageAttackSpeedMultiplier: 3
   barrageDuration: 5
   shatterDamagePercentOfMaxHealth: 0.5
-  freezeDuration: 3
+  freezeDuration: 4.5
   freezeWaveSpeed: 20
   freezeWaveBurstEffectPrefab: {fileID: 196790, guid: c4687addc3c65b24aab69e2c9efa22c5, type: 3}
   overloadSplashRadiusMultiplier: 2

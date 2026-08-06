@@ -27,7 +27,7 @@ MonoBehaviour:
   splashImpactEffectReferenceRadius: 1
   ultimateName: "\u041F\u0435\u0440\u0435\u0433\u0440\u0443\u0437\u043A\u0430"
   ultimateIcon: {fileID: 21300000, guid: ea73c8c20afcd4bf4b8a82f0bedfe2ff, type: 3}
-  ultimateCooldown: 24
+  ultimateCooldown: 34
   ultimateAuraPrefab: {fileID: 173060, guid: d02101df497c74a43a80cd5097338022, type: 3}
   ultimateBurstPrefab: {fileID: 0}
   ultimateVfxScale: 0.65
@@ -37,5 +37,5 @@ MonoBehaviour:
   freezeDuration: 3
   freezeWaveSpeed: 20
   freezeWaveBurstEffectPrefab: {fileID: 0}
-  overloadSplashRadiusMultiplier: 2
-  overloadDuration: 5
+  overloadSplashRadiusMultiplier: 3
+  overloadDuration: 6

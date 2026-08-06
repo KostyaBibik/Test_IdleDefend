@@ -14,6 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minSpawnDelay: 2
   maxSpawnDelay: 4
+  maxEnemySpeed: 0.9
+  rewardHealthScaleExponent: 0.5
+  experienceHealthScaleExponent: 0.15
   definitions:
   - {fileID: 11400000, guid: 4ec069d88ca95624088a92cbc68ac495, type: 2}
   - {fileID: 11400000, guid: d7868889f0eb95b44ae0499a6d5bac97, type: 2}

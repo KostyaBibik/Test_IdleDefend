@@ -15,10 +15,10 @@ MonoBehaviour:
   containers:
   - upgradeType: 1
     upgradeValue: 0.14
-    startCost: 70
-    costUpgrade: 55
+    startCost: 55
+    costUpgrade: 40
     maxLevel: 8
-    costRankMultiplier: 1.7
+    costRankMultiplier: 1.35
     upgradeValueRankMultiplier: 0.85
   - upgradeType: 2
     upgradeValue: 0.14
@@ -33,7 +33,7 @@ MonoBehaviour:
     costUpgrade: 24
     maxLevel: 10
     costRankMultiplier: 1.45
-    upgradeValueRankMultiplier: 1.5
+    upgradeValueRankMultiplier: 1.22
   - upgradeType: 4
     upgradeValue: 1
     startCost: 200

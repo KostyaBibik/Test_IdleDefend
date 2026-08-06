@@ -98,12 +98,12 @@ namespace Systems.Actions
 
         private void ActivateBarrage()
         {
-            var multiplier = _towerView.barrageAttackSpeedMultiplier;
-            _towerView.attackSpeed *= multiplier;
+            var multiplier = Mathf.Max(1f, _towerView.barrageAttackSpeedMultiplier);
+            _towerView.ultimateAttackSpeedMultiplier = multiplier;
 
             Observable.FromCoroutine(() => RevertAfter(
                 _towerView.barrageDuration,
-                () => _towerView.attackSpeed /= multiplier)).Subscribe();
+                () => _towerView.ultimateAttackSpeedMultiplier = 1f)).Subscribe();
         }
 
         private IReadOnlyList<Vector3> ActivateShatter()

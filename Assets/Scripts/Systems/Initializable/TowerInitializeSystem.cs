@@ -46,20 +46,17 @@ namespace Systems.Initializable
             ApplyActiveBoosts();
         }
 
+        /// <summary>
+        /// Бусты больше не вшиваются разово в базовые статы башни. Раньше "+10% урона" применялись
+        /// к стартовым 30 единицам и давали +3 на весь бой: апгрейды за монеты аддитивные, поэтому
+        /// вклад буста не рос вместе с башней и к концу уровня стремился к нулю. Теперь множители
+        /// живут в рантайме и применяются в точке использования (TowerAttackSystem,
+        /// TowerChangeRadiusSystem, CameraZoomSystem) — там же, где множители баффов, — и потому
+        /// действуют на итоговый, уже прокачанный стат.
+        /// </summary>
         private void ApplyActiveBoosts()
         {
             _activeBoostService.EnsureLoaded();
-
-            _towerView.attackDamage = Mathf.CeilToInt(_towerView.attackDamage * _activeBoostService.DamageMultiplier);
-            _towerView.attackSpeed *= _activeBoostService.AttackSpeedMultiplier;
-            _towerView.attackDistance *= _activeBoostService.RangeMultiplier;
-
-            if (_towerView.Sphere != null)
-                _towerView.Sphere.localScale = new Vector3(
-                    _towerView.attackDistance,
-                    _towerView.attackDistance,
-                    _towerView.attackDistance
-                );
         }
 
         private void ApplyTowerBody(TowerBodyDefinition body)

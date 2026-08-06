@@ -59,7 +59,11 @@ namespace Infrastructure.Impl
                 healthComponent = DiContainerRef.Container.InstantiateComponent<EnemyHealthComponent>(enemyView.gameObject);
 
             var hp = Mathf.RoundToInt((enemyDefinition.Health + additiveHealth) * healthMultiplier);
-            var speed = enemyDefinition.Speed + additiveSpeed;
+            // Потолок скорости — см. EnemyPrefabsConfig.MaxEnemySpeed. Уровни задают extraSpeed
+            // линейным ростом по номеру уровня, и без клампа к 50-му Runner разгонялся до 2.3
+            // (в 4 раза быстрее базы): он пересекал всю зону поражения за 1.7 секунды, что для
+            // неподвижной башни означает отсутствие какого-либо контрдействия.
+            var speed = Mathf.Min(enemyDefinition.Speed + additiveSpeed, _enemyPrefabsConfig.MaxEnemySpeed);
 
             healthComponent.Initialize(hp, enemyView.HealthSlider, enemyView);
             healthComponent.signalBus = _signalBus;

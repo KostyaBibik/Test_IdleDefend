@@ -15,7 +15,7 @@ MonoBehaviour:
   displayName: "\u041B\u0443\u0447\u0435\u0432\u0430\u044F"
   icon: {fileID: 21300000, guid: f05ffdff22a41408e9d58882eb432c43, type: 3}
   viewPrefab: {fileID: 6595653152933575252, guid: 5b33221f2df384741a876e13fa08784a, type: 3}
-  cost: 150
+  cost: 800
   attackDamage: 20
   attackSpeed: 1
   attackDistance: 3

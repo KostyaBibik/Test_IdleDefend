@@ -15,6 +15,12 @@ namespace Systems.Initializable
 {
     public class EnemySpawnInitializeSystem : IInitializable, ITickable, IDisposable
     {
+        /// <summary>Сколько секунд с начала боя действует разгон спавна (см. GetOpeningRampMultiplier).</summary>
+        private const float openingRampSeconds = 10f;
+
+        /// <summary>Во сколько раз растянуты задержки спавна в самую первую секунду боя.</summary>
+        private const float openingRampStartMultiplier = 2.5f;
+
         private readonly EntityFactory _entityFactory;
         private readonly LevelService _levelService;
         private readonly SceneHandler _sceneHandler;
@@ -202,11 +208,27 @@ namespace Systems.Initializable
             }
         }
 
-        private static float RollDelay(EnemySpawnEntryDefinition entry)
+        private float RollDelay(EnemySpawnEntryDefinition entry)
         {
             var min = Mathf.Max(0.05f, Mathf.Min(entry.spawnDelayMin, entry.spawnDelayMax));
             var max = Mathf.Max(min, Mathf.Max(entry.spawnDelayMin, entry.spawnDelayMax));
-            return Random.Range(min, max);
+            return Random.Range(min, max) * GetOpeningRampMultiplier();
+        }
+
+        /// <summary>
+        /// Растягивает задержки спавна в первые секунды боя и плавно возвращает их к 1.0.
+        /// Каждый уровень игрок начинает с базовыми статами (30 урона / 1.2 скорости) — прокачки
+        /// между уровнями нет, — а волны первого этапа уже настроены под номер уровня. Без разгона
+        /// самый тяжёлый для игрока момент всей игры приходится на первые 10 секунд уровня, когда
+        /// у него ещё нет ни апгрейдов, ни баффов: давление превышало его DPS в 2-9 раз.
+        /// </summary>
+        private float GetOpeningRampMultiplier()
+        {
+            if (_elapsedSeconds >= openingRampSeconds)
+                return 1f;
+
+            var progress = Mathf.Clamp01(_elapsedSeconds / openingRampSeconds);
+            return Mathf.Lerp(openingRampStartMultiplier, 1f, progress);
         }
 
         private bool ShouldStopForLevelEnd(EnemySpawnEntryDefinition entry)

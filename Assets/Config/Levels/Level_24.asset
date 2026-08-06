@@ -13,158 +13,158 @@ MonoBehaviour:
   m_Name: Level_24
   m_EditorClassIdentifier: 
   levelId: 24
-  startCoins: 325
+  startCoins: 470
   levelEnemies:
   - enemyType: 0
     stage1:
       enabled: 1
-      spawnDelayMin: 0.18
-      spawnDelayMax: 0.7
-      extraHealth: 20
-      extraSpeed: 0.29
-      endOfWaveHealthMultiplier: 2
+      spawnDelayMin: 0.83
+      spawnDelayMax: 1.29
+      extraHealth: 59
+      extraSpeed: 0.15
+      endOfWaveHealthMultiplier: 1.35
       finalSpawnLeadSecondsOverride: -1
     stage2:
       enabled: 1
-      spawnDelayMin: 0.18
-      spawnDelayMax: 0.7
-      extraHealth: 70
-      extraSpeed: 0.29
-      endOfWaveHealthMultiplier: 2
+      spawnDelayMin: 0.62
+      spawnDelayMax: 0.97
+      extraHealth: 566
+      extraSpeed: 0.15
+      endOfWaveHealthMultiplier: 1.35
       finalSpawnLeadSecondsOverride: -1
     stage3:
       enabled: 1
-      spawnDelayMin: 0.61
-      spawnDelayMax: 1.05
-      extraHealth: 110
-      extraSpeed: 0
-      endOfWaveHealthMultiplier: 2
-      finalSpawnLeadSecondsOverride: 4
+      spawnDelayMin: 0.5
+      spawnDelayMax: 0.78
+      extraHealth: 3558
+      extraSpeed: 0.15
+      endOfWaveHealthMultiplier: 1.35
+      finalSpawnLeadSecondsOverride: -1
   - enemyType: 2
     stage1:
       enabled: 1
-      spawnDelayMin: 2.09
-      spawnDelayMax: 3.34
-      extraHealth: 0
-      extraSpeed: 0.99
-      endOfWaveHealthMultiplier: 1
+      spawnDelayMin: 1.94
+      spawnDelayMax: 3.03
+      extraHealth: 13
+      extraSpeed: 0.09
+      endOfWaveHealthMultiplier: 1.35
       finalSpawnLeadSecondsOverride: -1
     stage2:
       enabled: 1
-      spawnDelayMin: 1.67
-      spawnDelayMax: 2.5
-      extraHealth: 50
-      extraSpeed: 0.71
-      endOfWaveHealthMultiplier: 2
+      spawnDelayMin: 1.43
+      spawnDelayMax: 2.23
+      extraHealth: 126
+      extraSpeed: 0.09
+      endOfWaveHealthMultiplier: 1.35
       finalSpawnLeadSecondsOverride: -1
     stage3:
       enabled: 1
-      spawnDelayMin: 12.52
-      spawnDelayMax: 25.03
-      extraHealth: 605
-      extraSpeed: 0.43
-      endOfWaveHealthMultiplier: 3
-      finalSpawnLeadSecondsOverride: 2
-  - enemyType: 3
-    stage1:
-      enabled: 1
-      spawnDelayMin: 5.5
-      spawnDelayMax: 7.86
-      extraHealth: 115
-      extraSpeed: 0.2
-      endOfWaveHealthMultiplier: 2
+      spawnDelayMin: 1.13
+      spawnDelayMax: 1.76
+      extraHealth: 791
+      extraSpeed: 0.09
+      endOfWaveHealthMultiplier: 1.35
       finalSpawnLeadSecondsOverride: -1
-    stage2:
-      enabled: 1
-      spawnDelayMin: 4.72
-      spawnDelayMax: 7.08
-      extraHealth: 195
-      extraSpeed: 0.2
-      endOfWaveHealthMultiplier: 1
-      finalSpawnLeadSecondsOverride: -1
-    stage3:
-      enabled: 1
-      spawnDelayMin: 3.15
-      spawnDelayMax: 4.72
-      extraHealth: 165
-      extraSpeed: 0
-      endOfWaveHealthMultiplier: 2
-      finalSpawnLeadSecondsOverride: 6
   - enemyType: 1
     stage1:
       enabled: 1
-      spawnDelayMin: 5.21
-      spawnDelayMax: 8.68
-      extraHealth: 395
-      extraSpeed: 0.22
-      endOfWaveHealthMultiplier: 3
+      spawnDelayMin: 5.64
+      spawnDelayMax: 8.82
+      extraHealth: 195
+      extraSpeed: 0.18
+      endOfWaveHealthMultiplier: 1.35
       finalSpawnLeadSecondsOverride: -1
     stage2:
       enabled: 1
-      spawnDelayMin: 2.61
-      spawnDelayMax: 5.21
-      extraHealth: 895
-      extraSpeed: 0
-      endOfWaveHealthMultiplier: 3
+      spawnDelayMin: 4
+      spawnDelayMax: 6.26
+      extraHealth: 1887
+      extraSpeed: 0.18
+      endOfWaveHealthMultiplier: 1.35
       finalSpawnLeadSecondsOverride: -1
     stage3:
       enabled: 1
-      spawnDelayMin: 2.61
-      spawnDelayMax: 5.21
-      extraHealth: 200
-      extraSpeed: 0
-      endOfWaveHealthMultiplier: 2.2
-      finalSpawnLeadSecondsOverride: 11
+      spawnDelayMin: 3.1
+      spawnDelayMax: 4.85
+      extraHealth: 11861
+      extraSpeed: 0.18
+      endOfWaveHealthMultiplier: 1.35
+      finalSpawnLeadSecondsOverride: -1
+  - enemyType: 3
+    stage1:
+      enabled: 1
+      spawnDelayMin: 3.65
+      spawnDelayMax: 5.7
+      extraHealth: 78
+      extraSpeed: 0.16
+      endOfWaveHealthMultiplier: 1.35
+      finalSpawnLeadSecondsOverride: -1
+    stage2:
+      enabled: 1
+      spawnDelayMin: 2.76
+      spawnDelayMax: 4.31
+      extraHealth: 755
+      extraSpeed: 0.16
+      endOfWaveHealthMultiplier: 1.35
+      finalSpawnLeadSecondsOverride: -1
+    stage3:
+      enabled: 1
+      spawnDelayMin: 2.21
+      spawnDelayMax: 3.46
+      extraHealth: 4744
+      extraSpeed: 0.16
+      endOfWaveHealthMultiplier: 1.35
+      finalSpawnLeadSecondsOverride: -1
   - enemyType: 4
     stage1:
-      enabled: 0
-      spawnDelayMin: 0
-      spawnDelayMax: 0
-      extraHealth: 0
-      extraSpeed: 0
-      endOfWaveHealthMultiplier: 0
-      finalSpawnLeadSecondsOverride: 0
+      enabled: 1
+      spawnDelayMin: 6.89
+      spawnDelayMax: 10.77
+      extraHealth: 85
+      extraSpeed: 0.17
+      endOfWaveHealthMultiplier: 1.35
+      finalSpawnLeadSecondsOverride: -1
     stage2:
       enabled: 1
-      spawnDelayMin: 13.3
-      spawnDelayMax: 18.35
-      extraHealth: 79
-      extraSpeed: 0
-      endOfWaveHealthMultiplier: 1
+      spawnDelayMin: 4.96
+      spawnDelayMax: 7.76
+      extraHealth: 817
+      extraSpeed: 0.17
+      endOfWaveHealthMultiplier: 1.35
       finalSpawnLeadSecondsOverride: -1
     stage3:
       enabled: 1
-      spawnDelayMin: 7.68
-      spawnDelayMax: 10.6
-      extraHealth: 110
-      extraSpeed: 0
-      endOfWaveHealthMultiplier: 1
-      finalSpawnLeadSecondsOverride: 10
+      spawnDelayMin: 3.87
+      spawnDelayMax: 6.06
+      extraHealth: 5140
+      extraSpeed: 0.17
+      endOfWaveHealthMultiplier: 1.35
+      finalSpawnLeadSecondsOverride: -1
   - enemyType: 5
     stage1:
-      enabled: 0
-      spawnDelayMin: 3.47
-      spawnDelayMax: 10.42
-      extraHealth: 15
-      extraSpeed: 0.02
-      endOfWaveHealthMultiplier: 2
+      enabled: 1
+      spawnDelayMin: 6.89
+      spawnDelayMax: 10.77
+      extraHealth: 156
+      extraSpeed: 0.2
+      endOfWaveHealthMultiplier: 1.35
       finalSpawnLeadSecondsOverride: -1
     stage2:
-      enabled: 0
-      spawnDelayMin: 2.78
-      spawnDelayMax: 13.89
-      extraHealth: 85
-      extraSpeed: 0.24
-      endOfWaveHealthMultiplier: 3
+      enabled: 1
+      spawnDelayMin: 5.17
+      spawnDelayMax: 8.08
+      extraHealth: 1509
+      extraSpeed: 0.2
+      endOfWaveHealthMultiplier: 1.35
       finalSpawnLeadSecondsOverride: -1
     stage3:
       enabled: 1
-      spawnDelayMin: 4.86
-      spawnDelayMax: 6.95
-      extraHealth: 115
-      extraSpeed: 0.12
-      endOfWaveHealthMultiplier: 3
-      finalSpawnLeadSecondsOverride: 6
+      spawnDelayMin: 4.13
+      spawnDelayMax: 6.46
+      extraHealth: 9489
+      extraSpeed: 0.2
+      endOfWaveHealthMultiplier: 1.35
+      finalSpawnLeadSecondsOverride: -1
   rewardEmeraldsPerStar: 65
   unlockRewardItem: {fileID: 0}
   unlockedSideTowerSlotIndices: 000000000100000002000000

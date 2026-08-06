@@ -11,6 +11,7 @@ namespace Systems.Actions
     {
         private readonly TowerView _towerView;
         private readonly TowerBuffRuntimeService _towerBuffRuntimeService;
+        private readonly ActiveBoostService _activeBoostService;
         private readonly int _maxRange;
 
         private float _currentRange;
@@ -18,11 +19,13 @@ namespace Systems.Actions
         public TowerChangeRadiusSystem(
             TowerView towerView,
             TowerConfigSettings towerConfigSettings,
-            TowerBuffRuntimeService towerBuffRuntimeService
+            TowerBuffRuntimeService towerBuffRuntimeService,
+            ActiveBoostService activeBoostService
         )
         {
             _towerView = towerView;
             _towerBuffRuntimeService = towerBuffRuntimeService;
+            _activeBoostService = activeBoostService;
             _maxRange = towerConfigSettings.MaxRangeAttack;
         }
 
@@ -50,6 +53,7 @@ namespace Systems.Actions
 
         public void Initialize()
         {
+            _activeBoostService.EnsureLoaded();
             _currentRange = _towerView.attackDistance;
             _towerBuffRuntimeService.OnChanged += UpdateRangeVisual;
             ChangeRadius(_towerView.attackDistance);
@@ -65,7 +69,9 @@ namespace Systems.Actions
             if (_towerView.Sphere == null)
                 return;
 
-            var visualRange = _towerView.attackDistance * _towerBuffRuntimeService.Stats.RangeMultiplier;
+            var visualRange = _towerView.attackDistance
+                              * _towerBuffRuntimeService.Stats.RangeMultiplier
+                              * _activeBoostService.RangeMultiplier;
             _towerView.Sphere.localScale = new Vector3(visualRange, visualRange, visualRange);
         }
     }

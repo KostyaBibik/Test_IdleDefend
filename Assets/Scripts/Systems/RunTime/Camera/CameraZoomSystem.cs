@@ -24,6 +24,7 @@ namespace Systems.RunTime.Camera
         private readonly TowerConfigSettings _towerConfigSettings;
         private readonly IGameTimeProvider _gameTimeProvider;
         private readonly TowerBuffRuntimeService _towerBuffRuntimeService;
+        private readonly ActiveBoostService _activeBoostService;
 
         private float _minOrthographicSize;
         private float _currentVerticalOffset;
@@ -40,7 +41,8 @@ namespace Systems.RunTime.Camera
             CameraZoomSettings settings,
             TowerConfigSettings towerConfigSettings,
             IGameTimeProvider gameTimeProvider,
-            TowerBuffRuntimeService towerBuffRuntimeService
+            TowerBuffRuntimeService towerBuffRuntimeService,
+            ActiveBoostService activeBoostService
         )
         {
             _camera = camera;
@@ -52,10 +54,12 @@ namespace Systems.RunTime.Camera
             _towerConfigSettings = towerConfigSettings;
             _gameTimeProvider = gameTimeProvider;
             _towerBuffRuntimeService = towerBuffRuntimeService;
+            _activeBoostService = activeBoostService;
         }
 
         public void Initialize()
         {
+            _activeBoostService.EnsureLoaded();
             _minOrthographicSize = _camera.orthographicSize;
         }
 
@@ -116,7 +120,9 @@ namespace Systems.RunTime.Camera
 
         private float GetEffectiveMainTowerRange()
         {
-            return _towerView.attackDistance * _towerBuffRuntimeService.Stats.RangeMultiplier;
+            return _towerView.attackDistance
+                   * _towerBuffRuntimeService.Stats.RangeMultiplier
+                   * _activeBoostService.RangeMultiplier;
         }
 
         /// <summary>
