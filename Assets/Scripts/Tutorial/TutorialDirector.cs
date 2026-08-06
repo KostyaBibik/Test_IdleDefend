@@ -28,6 +28,7 @@ namespace Tutorial
         private readonly SignalBus _signalBus;
         private readonly CameraZoomSystem _cameraZoomSystem;
         private readonly SideTowerSlotService _sideTowerSlotService;
+        private readonly CoinService _coinService;
         private readonly List<EnemyView> _showcaseEnemies = new();
         // poolVersion (см. IEntityView.poolVersion) на момент спавна каждого showcase-врага:
         // фаза может длиться несколько секунд, и без версии умерший враг, чей EnemyView
@@ -54,7 +55,8 @@ namespace Tutorial
             TowerView towerView,
             SignalBus signalBus,
             CameraZoomSystem cameraZoomSystem,
-            SideTowerSlotService sideTowerSlotService)
+            SideTowerSlotService sideTowerSlotService,
+            CoinService coinService)
         {
             _config = config;
             _runtime = runtime;
@@ -65,6 +67,7 @@ namespace Tutorial
             _signalBus = signalBus;
             _cameraZoomSystem = cameraZoomSystem;
             _sideTowerSlotService = sideTowerSlotService;
+            _coinService = coinService;
         }
 
         public void Initialize()
@@ -313,9 +316,29 @@ namespace Tutorial
                 0f,
                 null);
 
+            EnsureTutorialSideTowerAffordable();
+
             TutorialSideTowerMarker = _sideTowerSlotService.SpawnTutorialMarker(0);
             _runtime.SetPhase(ETutorialPhase.SideTowerSlot);
             _gameTimeProvider.Pause();
+        }
+
+        /// <summary>
+        /// Туториал упирается в покупку доп-башни: пока игрок её не купит, сценарий не идёт
+        /// дальше. Сколько монет он успеет накопить к этому моменту — производная от баланса
+        /// первого уровня и цен, то есть от вещей, которые правятся отдельно от туториала.
+        /// Поэтому недостающую сумму просто доначисляем здесь: обучение не должно ломаться
+        /// каждый раз, когда экономику подкрутили.
+        /// </summary>
+        private void EnsureTutorialSideTowerAffordable()
+        {
+            var tower = _config.TutorialSideTower;
+            if (tower == null)
+                return;
+
+            var missing = tower.Cost - _coinService.CurrentCoins;
+            if (missing > 0)
+                _coinService.AddCoins(missing);
         }
 
         private void OnSideTowerPickerOpened(SideTowerPickerOpenedSignal signal)

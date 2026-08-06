@@ -116,7 +116,7 @@ MonoBehaviour:
       endOfWaveHealthMultiplier: 1.35
       finalSpawnLeadSecondsOverride: -1
   rewardEmeraldsPerStar: 40
-  unlockRewardItem: {fileID: 0}
+  unlockRewardItem: {fileID: 11400000, guid: a5b71e6a183ef124b82d8344197606ca, type: 2}
   unlockedSideTowerSlotIndices: 000000000100000002000000
   star1Seconds: 41
   star2Seconds: 82

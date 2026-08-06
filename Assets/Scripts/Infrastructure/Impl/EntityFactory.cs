@@ -108,6 +108,12 @@ namespace Infrastructure.Impl
             var prefab = prefabOverride != null ? prefabOverride : _bulletConfigSettings.PrefabViewBullet;
             var bulletView = _entityPoolService.Rent(prefab, posSpawn, Quaternion.identity);
 
+            // Снаряды переиспользуются из пула, поэтому чистим состояние здесь, а не полагаемся
+            // на то, что каждый стрелок заполнит все поля. Доп-башня заполняла только target и
+            // damage и получала в наследство от предыдущего снаряда главной башни направление
+            // свободного полёта, сплэш, рикошет и список задетых врагов.
+            bulletView.ResetRuntimeState();
+
             _bulletService.AddEntityOnService(bulletView);
 
             return bulletView;

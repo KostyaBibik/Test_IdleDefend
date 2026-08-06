@@ -217,8 +217,7 @@ namespace Systems.RunTime.Tower
                     break;
             }
 
-            if (target != null)
-                target.healthComponent.ReduceAssumedHealth(bullet.damage);
+            bullet.ReserveDamageOnTarget();
         }
 
         private static float GetBackShotLateralOffset(int index, int count)

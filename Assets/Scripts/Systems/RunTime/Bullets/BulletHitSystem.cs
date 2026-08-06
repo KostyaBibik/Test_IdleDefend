@@ -34,14 +34,26 @@ namespace Systems.RunTime.Bullets
 
         public void Tick()
         {
-            foreach (var bullet in _bulletService.Bullets)
+            // Обход с конца по индексу, а не foreach: попадание может удалить снаряд из списка
+            // (BulletService.RemoveEntityFromService), а это ломает foreach. Раньше от этого
+            // спасались выходом из метода после первого же попадания — то есть за кадр
+            // засчитывался ровно один удар на всю сцену. При двух-трёх стволах и мультишоте
+            // снаряды копились быстрее, чем разрешались, попадания уезжали на секунды, и враги
+            // успевали дойти до башни сквозь висящие в них снаряды.
+            var bullets = _bulletService.Bullets;
+            for (var i = bullets.Count - 1; i >= 0; i--)
             {
+                if (i >= bullets.Count)
+                    continue;
+
+                var bullet = bullets[i];
+                if (bullet == null)
+                    continue;
+
                 if (bullet.target == null || bullet.target.isDestroyed
                     || bullet.target.poolVersion != bullet.targetPoolVersion)
                 {
-                    if (TryHandleFreeFlightHit(bullet))
-                        return;
-
+                    TryHandleFreeFlightHit(bullet);
                     continue;
                 }
 
@@ -49,7 +61,6 @@ namespace Systems.RunTime.Bullets
                     continue;
 
                 HandleHit(bullet);
-                return;
             }
         }
 
@@ -65,7 +76,7 @@ namespace Systems.RunTime.Bullets
             bullet.target = target;
             bullet.targetPoolVersion = target.poolVersion;
             bullet.hitEnemies.Add(new BulletView.HitRecord(target, target.poolVersion));
-            target.healthComponent.ReduceAssumedHealth(bullet.damage);
+            bullet.ReserveDamageOnTarget();
             HandleHit(bullet);
             return true;
         }
@@ -124,6 +135,11 @@ namespace Systems.RunTime.Bullets
             var primaryTarget = bullet.target;
 
             ApplyDamage(bullet, primaryTarget, bullet.damage, true);
+
+            // Резерв по основной цели отработан: ApplyDamage уже снял его внутри ReduceHealth.
+            // Обнуляем счётчик на снаряде, иначе рикошет/продолжение полёта зарезервируют поверх,
+            // а BulletService при удалении вернул бы врагу урон, который тот уже получил.
+            bullet.reservedDamage = 0;
 
             switch (bullet.attackType)
             {
@@ -279,7 +295,7 @@ namespace Systems.RunTime.Bullets
             bullet.target = nextTarget;
             bullet.targetPoolVersion = nextTarget.poolVersion;
             bullet.hitEnemies.Add(new BulletView.HitRecord(nextTarget, nextTarget.poolVersion));
-            nextTarget.healthComponent.ReduceAssumedHealth(bullet.damage);
+            bullet.ReserveDamageOnTarget();
             return true;
         }
 

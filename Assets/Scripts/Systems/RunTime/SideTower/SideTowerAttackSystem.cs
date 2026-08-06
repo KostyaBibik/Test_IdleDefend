@@ -69,8 +69,13 @@ namespace Systems.RunTime.SideTower
 
             var bullet = (BulletView) _entityFactory.CreateBullet(towerPos);
             bullet.target = nearestEnemy;
+            // Без targetPoolVersion снаряд доп-башни на первом же кадре считался потерявшим цель
+            // (BulletMovingSystem / BulletHitSystem сравнивают версию цели с этим полем), улетал
+            // в никуда и никогда не попадал — а зарезервированный им урон навсегда оставался
+            // висеть на живом враге, из-за чего главная башня переставала его видеть.
+            bullet.targetPoolVersion = nearestEnemy.poolVersion;
             bullet.damage = tower.attackDamage;
-            nearestEnemy.healthComponent.ReduceAssumedHealth(bullet.damage);
+            bullet.ReserveDamageOnTarget();
 
             tower.reloadRemaining = 1f / tower.attackSpeed;
         }

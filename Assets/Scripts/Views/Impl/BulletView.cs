@@ -67,6 +67,86 @@ namespace Views.Impl
         public bool isDestroyed { get; set; }
         public int poolVersion { get; set; }
 
+        /// <summary>
+        /// Сколько урона этот снаряд зарезервировал на цели через
+        /// EnemyHealthComponent.ReduceAssumedHealth и ещё не отдал. Резерв нужен, чтобы башни не
+        /// расстреливали врага, который уже гарантированно убит летящими в него снарядами
+        /// (см. EnemyService.GetAssumedActiveEnemies). Но если снаряд исчез, не попав, резерв
+        /// обязан вернуться: иначе живой враг навсегда считается мёртвым и по нему никто не
+        /// стреляет — он спокойно доходит до башни.
+        /// </summary>
+        [HideInInspector] public int reservedDamage;
+
+        /// <summary>
+        /// Полный сброс рантайм-состояния. Снаряды берутся из пула (EntityPoolService), поэтому
+        /// без сброса новый выстрел наследует поля предыдущего: тип атаки, сплэш, рикошет,
+        /// направление свободного полёта, список уже задетых врагов. Вызывается из фабрики —
+        /// стрелку остаётся заполнить только то, что относится к его выстрелу.
+        /// </summary>
+        public void ResetRuntimeState()
+        {
+            target = null;
+            targetPoolVersion = 0;
+            damage = 0;
+            reservedDamage = 0;
+            isCritical = false;
+            attackType = EMainTowerAttackType.Default;
+
+            splashRadius = 0f;
+            splashFalloff = 0f;
+            splashImpactEffectPrefab = null;
+            splashImpactEffectReferenceRadius = 1f;
+
+            frostSlowPercent = 0f;
+            frostSlowDuration = 0f;
+
+            pierceCount = 0;
+            pierceJumpRadius = 0f;
+            pierceFalloff = 0f;
+
+            speedMultiplier = 1f;
+
+            projectileAppliesFrost = false;
+            projectileFrostSlowPercent = 0f;
+            projectileFrostSlowDuration = 0f;
+            projectileAppliesPoison = false;
+            projectilePoisonDamagePercentPerTick = 0f;
+            projectilePoisonTickInterval = 0f;
+            projectilePoisonDuration = 0f;
+            projectilePoisonVfxPrefab = null;
+
+            launchPosition = Vector3.zero;
+            launchDirection = Vector3.zero;
+            previousPosition = transform.position;
+            freeFlightDirection = Vector3.zero;
+            freeFlightRemainingDistance = 0f;
+            freeFlightRemainingSeconds = 0f;
+            freeFlightCollisionRadius = 0.18f;
+            continueOnTargetLost = false;
+
+            ricochetRemaining = 0;
+            ricochetRadius = 0f;
+            ricochetFalloff = 0f;
+            piercingLineRemaining = 0;
+            piercingLineWidth = 0f;
+            piercingLineFalloff = 0f;
+            piercingLineRange = 0f;
+            explosiveShotRadius = 0f;
+            explosiveShotFalloff = 0f;
+
+            hitEnemies.Clear();
+        }
+
+        /// <summary>Зарезервировать урон на цели, запомнив это на снаряде (см. reservedDamage).</summary>
+        public void ReserveDamageOnTarget()
+        {
+            if (target == null)
+                return;
+
+            reservedDamage += damage;
+            target.healthComponent.ReduceAssumedHealth(damage);
+        }
+
         public readonly struct HitRecord
         {
             public readonly EnemyView View;

@@ -68,6 +68,16 @@ namespace Components
                 _healthValue);
         }
 
+        /// <summary>
+        /// Вернуть ранее зарезервированный урон, который так и не будет нанесён (снаряд исчез,
+        /// не попав). Без этого враг с резервом больше собственного HP навсегда выпадает из
+        /// CheckAssumedStatus и перестаёт быть целью для всех башен, оставаясь при этом живым.
+        /// </summary>
+        public void ReleaseAssumedHealth(int amount)
+        {
+            _reservedIncomingDamage = Mathf.Max(0, _reservedIncomingDamage - GetEffectiveDamage(amount));
+        }
+
         public bool CheckAssumedStatus()
         {
             return _healthValue - _reservedIncomingDamage > 0;

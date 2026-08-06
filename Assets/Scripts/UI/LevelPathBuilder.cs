@@ -100,6 +100,12 @@ namespace UI
 
                 node.Setup(i + 1, unlocked, isNext, stars, lockedReasonText);
 
+                var reward = level.UnlockRewardItem;
+                node.SetupReward(
+                    reward != null ? reward.Icon : null,
+                    reward != null && ShopInventoryService.IsOwned(reward),
+                    unlocked);
+
                 var levelIndex = i;
                 node.Button.onClick.AddListener(delegate { onLevelSelected(levelIndex); });
 

@@ -18,6 +18,13 @@ namespace UI.Views
         [SerializeField] private Color unlockedColor = Color.white;
         [SerializeField] private TMP_Text lockedReasonLabel;
 
+        [Header("Подарок за первое прохождение (LevelDefinition.unlockRewardItem)")]
+        [Tooltip("Контейнер значка. Прячется целиком, если на уровне подарка нет или он уже получен.")]
+        [SerializeField] private GameObject rewardBadge;
+        [SerializeField] private Image rewardIcon;
+        [Tooltip("Затемнение значка на ещё закрытом уровне — подарок видно, но понятно, что он не получен.")]
+        [SerializeField] private Color rewardLockedTint = new Color(1f, 1f, 1f, 0.55f);
+
         public Button Button => button;
 
         /// <summary>Узел уровня, на котором сейчас стоит игрок. Аниматор подсвечивает именно его.</summary>
@@ -55,6 +62,29 @@ namespace UI.Views
                 lockedReasonLabel.gameObject.SetActive(!unlocked);
                 lockedReasonLabel.text = lockedReasonText;
             }
+        }
+
+        /// <summary>
+        /// Значок подарка, который уровень выдаёт за первое прохождение. Скрыт, если подарка на
+        /// уровне нет или игрок уже владеет предметом: LevelRewardService.GrantUnlockItem в этом
+        /// случае ничего не выдаст (предмет мог быть куплен в магазине), и обещать его нельзя.
+        /// </summary>
+        public void SetupReward(Sprite rewardSprite, bool alreadyOwned, bool unlocked)
+        {
+            var show = rewardSprite != null && !alreadyOwned;
+
+            if (rewardBadge != null)
+                rewardBadge.SetActive(show);
+
+            if (rewardIcon == null)
+                return;
+
+            rewardIcon.enabled = show;
+            if (!show)
+                return;
+
+            rewardIcon.sprite = rewardSprite;
+            rewardIcon.color = unlocked ? Color.white : rewardLockedTint;
         }
     }
 }
