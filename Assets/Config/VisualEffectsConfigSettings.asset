@@ -15,17 +15,16 @@ MonoBehaviour:
   rewardEffect: {fileID: 1217902680826962628, guid: bdd99329e796e4b48ba7d23f0e38d2bd, type: 3}
   timeShowReward: 2.2
   speedAnimating: 60
-  damageNumberEffect: {fileID: 1217902680826962628, guid: bdd99329e796e4b48ba7d23f0e38d2bd,
-    type: 3}
+  damageNumberEffect: {fileID: 1217902680826962628, guid: bdd99329e796e4b48ba7d23f0e38d2bd, type: 3}
   damageNumberLifetime: 0.7
   damageNumberRiseSpeed: 190
   damageNumberSpread: 46
   damageNumberMaxConcurrent: 24
-  damageNumberFontSize: 52
+  damageNumberFontSize: 40
   damageNumberColor: {r: 1, g: 0.96, b: 0.86, a: 1}
-  criticalFontSize: 82
+  criticalFontSize: 60
   criticalColor: {r: 1, g: 0.58, b: 0.13, a: 1}
-  criticalSuffix: "!"
+  criticalSuffix: '!'
   secondaryHitScale: 0.68
   secondaryHitAlpha: 0.8
   shakeDuration: 0.2

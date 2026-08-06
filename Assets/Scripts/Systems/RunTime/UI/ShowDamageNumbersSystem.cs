@@ -154,6 +154,13 @@ namespace Systems.RunTime.UI
             text.text = signal.isCritical
                 ? signal.damage.ToString() + _visualEffects.CriticalSuffix
                 : signal.damage.ToString();
+            // На префабе (он общий с всплывающей наградой — VisualEffectsSettings.RewardEffect)
+            // включён TMP Auto Size. Пока он включён, присвоение fontSize ниже не делает ничего:
+            // TMP сам подбирает кегль под размер прямоугольника, а тот растянут на весь родитель,
+            // поэтому любое число выводилось максимальным размером из Auto Size Options.
+            // Награде авто-размер нужен, ей кегль никто не задаёт, — гасим его только здесь,
+            // на своих экземплярах.
+            text.enableAutoSizing = false;
             text.fontSize = fontSize;
             text.color = color;
             text.alignment = TextAlignmentOptions.Center;
