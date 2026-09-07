@@ -44,6 +44,12 @@ namespace Infrastructure.Impl
             instance.isDestroyed = false;
             instance.poolVersion++;
 
+            // Именно здесь, а не в Return: объект уже перемещён в новую точку и включён, поэтому
+            // хвост (TrailRenderer) стартует с чистого листа. Если чистить при возврате в пул,
+            // он всё равно дорисует отрезок из старой позиции в новую на первом же кадре.
+            if (instance is Views.Impl.BulletView bulletView)
+                bulletView.ResetVisualsOnRent();
+
             return instance;
         }
 

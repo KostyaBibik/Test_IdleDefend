@@ -118,12 +118,26 @@ namespace Game.Localization
                 if (IsEmptyLocale)
                     return string.Empty;
 
-                return LocalizationSettings.StringDatabase.GetLocalizedString(TableName, key);
+                var value = LocalizationSettings.StringDatabase.GetLocalizedString(TableName, key);
+
+                // Если записи в таблице нет (или она пустая), Unity возвращает служебный плейсхолдер
+                // вида "No translation found for '<key>' in <table>". Игрок такого видеть не должен —
+                // подменяем на fallback (для намеренно пустых строк fallback тоже пустой).
+                if (IsMissingTranslationPlaceholder(value))
+                    return fallback;
+
+                return value;
             }
             catch
             {
                 return fallback;
             }
+        }
+
+        private static bool IsMissingTranslationPlaceholder(string value)
+        {
+            return !string.IsNullOrEmpty(value)
+                   && value.StartsWith("No translation found for", StringComparison.Ordinal);
         }
 
         public static string Format(LocalizationKey key, string fallback, params object[] values)

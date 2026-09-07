@@ -20,7 +20,7 @@ MonoBehaviour:
       enabled: 1
       spawnDelayMin: 0.78
       spawnDelayMax: 1.22
-      extraHealth: 32
+      extraHealth: 23
       extraSpeed: 0.2
       endOfWaveHealthMultiplier: 1.35
       finalSpawnLeadSecondsOverride: -1
@@ -28,7 +28,7 @@ MonoBehaviour:
       enabled: 1
       spawnDelayMin: 0.58
       spawnDelayMax: 0.91
-      extraHealth: 494
+      extraHealth: 349
       extraSpeed: 0.2
       endOfWaveHealthMultiplier: 1.35
       finalSpawnLeadSecondsOverride: -1
@@ -36,7 +36,7 @@ MonoBehaviour:
       enabled: 1
       spawnDelayMin: 0.47
       spawnDelayMax: 0.73
-      extraHealth: 3724
+      extraHealth: 2240
       extraSpeed: 0.2
       endOfWaveHealthMultiplier: 1.35
       finalSpawnLeadSecondsOverride: -1
@@ -45,7 +45,7 @@ MonoBehaviour:
       enabled: 1
       spawnDelayMin: 1.82
       spawnDelayMax: 2.85
-      extraHealth: 7
+      extraHealth: 5
       extraSpeed: 0.11
       endOfWaveHealthMultiplier: 1.35
       finalSpawnLeadSecondsOverride: -1
@@ -53,7 +53,7 @@ MonoBehaviour:
       enabled: 1
       spawnDelayMin: 1.34
       spawnDelayMax: 2.1
-      extraHealth: 110
+      extraHealth: 78
       extraSpeed: 0.11
       endOfWaveHealthMultiplier: 1.35
       finalSpawnLeadSecondsOverride: -1
@@ -61,7 +61,7 @@ MonoBehaviour:
       enabled: 1
       spawnDelayMin: 1.06
       spawnDelayMax: 1.66
-      extraHealth: 828
+      extraHealth: 498
       extraSpeed: 0.11
       endOfWaveHealthMultiplier: 1.35
       finalSpawnLeadSecondsOverride: -1
@@ -70,7 +70,7 @@ MonoBehaviour:
       enabled: 1
       spawnDelayMin: 5.3
       spawnDelayMax: 8.3
-      extraHealth: 107
+      extraHealth: 77
       extraSpeed: 0.24
       endOfWaveHealthMultiplier: 1.35
       finalSpawnLeadSecondsOverride: -1
@@ -78,7 +78,7 @@ MonoBehaviour:
       enabled: 1
       spawnDelayMin: 3.76
       spawnDelayMax: 5.89
-      extraHealth: 1648
+      extraHealth: 1164
       extraSpeed: 0.24
       endOfWaveHealthMultiplier: 1.35
       finalSpawnLeadSecondsOverride: -1
@@ -86,7 +86,7 @@ MonoBehaviour:
       enabled: 1
       spawnDelayMin: 2.92
       spawnDelayMax: 4.56
-      extraHealth: 12413
+      extraHealth: 7466
       extraSpeed: 0.24
       endOfWaveHealthMultiplier: 1.35
       finalSpawnLeadSecondsOverride: -1
@@ -95,7 +95,7 @@ MonoBehaviour:
       enabled: 1
       spawnDelayMin: 3.43
       spawnDelayMax: 5.37
-      extraHealth: 43
+      extraHealth: 31
       extraSpeed: 0.21
       endOfWaveHealthMultiplier: 1.35
       finalSpawnLeadSecondsOverride: -1
@@ -103,7 +103,7 @@ MonoBehaviour:
       enabled: 1
       spawnDelayMin: 2.59
       spawnDelayMax: 4.06
-      extraHealth: 659
+      extraHealth: 466
       extraSpeed: 0.21
       endOfWaveHealthMultiplier: 1.35
       finalSpawnLeadSecondsOverride: -1
@@ -111,7 +111,7 @@ MonoBehaviour:
       enabled: 1
       spawnDelayMin: 2.08
       spawnDelayMax: 3.26
-      extraHealth: 4965
+      extraHealth: 2986
       extraSpeed: 0.21
       endOfWaveHealthMultiplier: 1.35
       finalSpawnLeadSecondsOverride: -1
@@ -120,7 +120,7 @@ MonoBehaviour:
       enabled: 1
       spawnDelayMin: 6.48
       spawnDelayMax: 10.14
-      extraHealth: 46
+      extraHealth: 33
       extraSpeed: 0.23
       endOfWaveHealthMultiplier: 1.35
       finalSpawnLeadSecondsOverride: -1
@@ -128,7 +128,7 @@ MonoBehaviour:
       enabled: 1
       spawnDelayMin: 4.67
       spawnDelayMax: 7.3
-      extraHealth: 714
+      extraHealth: 505
       extraSpeed: 0.23
       endOfWaveHealthMultiplier: 1.35
       finalSpawnLeadSecondsOverride: -1
@@ -136,7 +136,7 @@ MonoBehaviour:
       enabled: 1
       spawnDelayMin: 3.65
       spawnDelayMax: 5.7
-      extraHealth: 5379
+      extraHealth: 3235
       extraSpeed: 0.23
       endOfWaveHealthMultiplier: 1.35
       finalSpawnLeadSecondsOverride: -1
@@ -145,7 +145,7 @@ MonoBehaviour:
       enabled: 1
       spawnDelayMin: 6.48
       spawnDelayMax: 10.14
-      extraHealth: 86
+      extraHealth: 61
       extraSpeed: 0.26
       endOfWaveHealthMultiplier: 1.35
       finalSpawnLeadSecondsOverride: -1
@@ -153,7 +153,7 @@ MonoBehaviour:
       enabled: 1
       spawnDelayMin: 4.86
       spawnDelayMax: 7.61
-      extraHealth: 1318
+      extraHealth: 931
       extraSpeed: 0.26
       endOfWaveHealthMultiplier: 1.35
       finalSpawnLeadSecondsOverride: -1
@@ -161,7 +161,7 @@ MonoBehaviour:
       enabled: 1
       spawnDelayMin: 3.89
       spawnDelayMax: 6.08
-      extraHealth: 9930
+      extraHealth: 5973
       extraSpeed: 0.26
       endOfWaveHealthMultiplier: 1.35
       finalSpawnLeadSecondsOverride: -1

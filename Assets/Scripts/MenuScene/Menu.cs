@@ -67,10 +67,10 @@ namespace MenuScene
         private void RefreshStaticLabels()
         {
             if (titleLine1 != null)
-                titleLine1.text = GameLocalization.Text(LocalizationKey.menu_title_line_1, "TOWER");
+                titleLine1.text = GameLocalization.Text(LocalizationKey.menu_title_line_1, "Spacechpok");
 
             if (titleLine2 != null)
-                titleLine2.text = GameLocalization.Text(LocalizationKey.menu_title_line_2, "VS EVERYONE");
+                titleLine2.text = GameLocalization.Text(LocalizationKey.menu_title_line_2, string.Empty);
 
             GameLocalization.SetButtonLabel(shopButton, LocalizationKey.menu_shop, "Shop");
             GameLocalization.SetButtonLabel(stageButton, LocalizationKey.menu_play, "Play");
@@ -97,7 +97,14 @@ namespace MenuScene
                 return;
             }
 
-            boostSelectWindow.Open(levelIndex, PlayLevel);
+            // Определение уровня передаём сюда, а не даём окну свою ссылку на LevelsConfig:
+            // окно и так открывается только отсюда, а лишняя привязка в префабе — лишний способ
+            // забыть её проставить.
+            var level = levelIndex >= 0 && levelIndex < levelsConfig.Count
+                ? levelsConfig.GetByIndex(levelIndex)
+                : null;
+
+            boostSelectWindow.Open(levelIndex, level, PlayLevel);
         }
 
         /// <summary>

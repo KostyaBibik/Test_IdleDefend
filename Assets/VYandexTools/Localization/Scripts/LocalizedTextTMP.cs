@@ -103,7 +103,17 @@ namespace VYandexTools.Localization.Scripts
                 return;
 
             if (operation.Status == AsyncOperationStatus.Succeeded)
-                textComponent.text = operation.Result;
+            {
+                var result = operation.Result;
+
+                // Unity отдаёт плейсхолдер "No translation found for '<key>' in <table>", если запись
+                // отсутствует или пустая. Не показываем его игроку — оставляем текст, заданный в префабе.
+                if (!string.IsNullOrEmpty(result) &&
+                    result.StartsWith("No translation found for", System.StringComparison.Ordinal))
+                    return;
+
+                textComponent.text = result;
+            }
             else
                 Debug.LogError("Failed to load localized string.", this);
         }

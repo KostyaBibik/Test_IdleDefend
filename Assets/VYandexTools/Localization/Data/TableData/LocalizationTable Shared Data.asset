@@ -575,6 +575,10 @@ MonoBehaviour:
     m_Key: pause_panel_continue
     m_Metadata:
       m_Items: []
+  - m_Id: 3528953787572225
+    m_Key: boost_select_reward_format
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

@@ -560,11 +560,11 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 1353737632210957
-    m_Localized: TOWER
+    m_Localized: Spacechpok
     m_Metadata:
       m_Items: []
   - m_Id: 1353737632210958
-    m_Localized: VS EVERYONE
+    m_Localized: ""
     m_Metadata:
       m_Items: []
   - m_Id: 2794689882218496
@@ -577,6 +577,10 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 3528953787572224
     m_Localized: Continue
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3528953787572225
+    m_Localized: 'Completion reward: {0}'
     m_Metadata:
       m_Items: []
   references:

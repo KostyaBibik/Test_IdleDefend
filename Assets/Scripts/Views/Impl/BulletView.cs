@@ -137,6 +137,45 @@ namespace Views.Impl
             hitEnemies.Clear();
         }
 
+        private TrailRenderer[] _trails;
+        private ParticleSystem[] _particles;
+
+        private void Awake()
+        {
+            // true - включая выключенные: у части вариантов снаряда хвост живёт на неактивном
+            // дочернем объекте и включается по ходу.
+            _trails = GetComponentsInChildren<TrailRenderer>(true);
+            _particles = GetComponentsInChildren<ParticleSystem>(true);
+        }
+
+        /// <summary>
+        /// Сброс визуала при выдаче из пула. TrailRenderer хранит записанные точки и переживает
+        /// деактивацию объекта: снаряд возвращается в пул там, где убил врага, а выдаётся заново
+        /// уже у башни — и старый хвост остаётся висеть в прежней позиции, поверх нового.
+        /// Вызывать нужно ПОСЛЕ того, как объект перемещён и включён (см. EntityPoolService.Rent),
+        /// иначе хвост дорисует отрезок из старой точки в новую.
+        /// </summary>
+        public void ResetVisualsOnRent()
+        {
+            if (_trails != null)
+            {
+                foreach (var trail in _trails)
+                {
+                    if (trail != null)
+                        trail.Clear();
+                }
+            }
+
+            if (_particles != null)
+            {
+                foreach (var particle in _particles)
+                {
+                    if (particle != null)
+                        particle.Clear(true);
+                }
+            }
+        }
+
         /// <summary>Зарезервировать урон на цели, запомнив это на снаряде (см. reservedDamage).</summary>
         public void ReserveDamageOnTarget()
         {
