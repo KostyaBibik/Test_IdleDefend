@@ -26,12 +26,15 @@ namespace UI.Views.Shop
         private void OnEnable()
         {
             LocalizationSettings.SelectedLocaleChanged += OnSelectedLocaleChanged;
+            GameLocalization.LocalizationReady += RefreshLabel;
+            GameLocalization.EnsureWarmedUp();
             RefreshLabel();
         }
 
         private void OnDisable()
         {
             LocalizationSettings.SelectedLocaleChanged -= OnSelectedLocaleChanged;
+            GameLocalization.LocalizationReady -= RefreshLabel;
         }
 
         public void Setup(Action<EShopTab> onSelected)

@@ -13,6 +13,85 @@ namespace Game.Localization
         private const string TableName = "LocalizationTable";
         public const string EmptyLocaleCode = "em";
 
+        /// <summary>
+        /// В WebGL синхронный GetLocalizedString не может дождаться загрузки таблицы строк:
+        /// пока она не подгружена, все вызовы Text(...) возвращают английский fallback.
+        /// UI, который рисует статические подписи один раз на старте (кнопки апгрейда, вкладки
+        /// магазина), обязан переподписаться на это событие и перечитать тексты, когда таблица готова.
+        /// </summary>
+        public static event Action LocalizationReady;
+
+        public static bool IsReady { get; private set; }
+
+        private static bool _warmupStarted;
+
+        /// <summary>
+        /// Прогревает таблицу локализации в фоне и по завершении поднимает LocalizationReady.
+        /// Безопасно вызывать многократно и из любой сцены (не зависит от прохода через меню).
+        /// </summary>
+        public static void EnsureWarmedUp()
+        {
+            if (IsReady || _warmupStarted)
+                return;
+
+            _warmupStarted = true;
+
+            try
+            {
+                if (!LocalizationSettings.HasSettings)
+                {
+                    MarkReady();
+                    return;
+                }
+
+                var init = LocalizationSettings.InitializationOperation;
+                if (init.IsDone)
+                    OnInitialized();
+                else
+                    init.Completed += _ => OnInitialized();
+            }
+            catch
+            {
+                MarkReady();
+            }
+        }
+
+        private static void OnInitialized()
+        {
+            try
+            {
+                if (IsEmptyLocale)
+                {
+                    MarkReady();
+                    return;
+                }
+
+                var table = LocalizationSettings.StringDatabase.GetTableAsync(TableName);
+                if (table.IsDone)
+                    MarkReady();
+                else
+                    table.Completed += _ => MarkReady();
+            }
+            catch
+            {
+                MarkReady();
+            }
+        }
+
+        private static void MarkReady()
+        {
+            IsReady = true;
+
+            try
+            {
+                LocalizationReady?.Invoke();
+            }
+            catch
+            {
+                // подписчик не должен ронять прогрев остальных
+            }
+        }
+
         public static bool IsEmptyLocale =>
             LocalizationSettings.HasSettings &&
             LocalizationSettings.SelectedLocale != null &&

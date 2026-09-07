@@ -35,12 +35,18 @@ namespace UI.Views.Upgradable
         private void OnEnable()
         {
             LocalizationSettings.SelectedLocaleChanged += OnSelectedLocaleChanged;
+            GameLocalization.LocalizationReady += OnLocalizationReady;
+            // На первой загрузке (особенно в WebGL / при заходе по deep-link мимо меню) таблица строк
+            // ещё не готова — RefreshStaticLabels ниже отрисует английский fallback, а OnLocalizationReady
+            // перечитает подписи, как только таблица подгрузится.
+            GameLocalization.EnsureWarmedUp();
             RefreshStaticLabels();
         }
 
         private void OnDisable()
         {
             LocalizationSettings.SelectedLocaleChanged -= OnSelectedLocaleChanged;
+            GameLocalization.LocalizationReady -= OnLocalizationReady;
         }
 
         public void SetCost(int newCost)
@@ -130,6 +136,12 @@ namespace UI.Views.Upgradable
         }
 
         private void OnSelectedLocaleChanged(Locale locale)
+        {
+            RefreshStaticLabels();
+            RenderCost();
+        }
+
+        private void OnLocalizationReady()
         {
             RefreshStaticLabels();
             RenderCost();

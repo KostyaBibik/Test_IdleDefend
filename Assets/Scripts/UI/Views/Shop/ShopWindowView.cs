@@ -55,6 +55,8 @@ namespace UI.Views.Shop
             ShopInventoryService.OnChanged += RefreshCurrentTab;
             BoostInventoryService.OnChanged += RefreshCurrentTab;
             LocalizationSettings.SelectedLocaleChanged += OnSelectedLocaleChanged;
+            GameLocalization.LocalizationReady += RefreshStaticLabels;
+            GameLocalization.EnsureWarmedUp();
             RefreshStaticLabels();
             _itemsLayoutDirty = true;
             // Строго до ShowTab: вступление глушит прошлые корутины аниматора, а выкладку карточек
@@ -69,6 +71,7 @@ namespace UI.Views.Shop
             ShopInventoryService.OnChanged -= RefreshCurrentTab;
             BoostInventoryService.OnChanged -= RefreshCurrentTab;
             LocalizationSettings.SelectedLocaleChanged -= OnSelectedLocaleChanged;
+            GameLocalization.LocalizationReady -= RefreshStaticLabels;
         }
 
         public void Show()
